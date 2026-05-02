@@ -3,6 +3,9 @@ symbols:
     market: CN
     name: 华安黄金ETF
     role: gold_etf
+    data_source: external_required
+    contract_status_expected: no_ibkr_contract_match
+    source_status: needs_external_data_source
     ibkr:
       secType: STK
       exchange: SHSE
@@ -15,25 +18,29 @@ symbols:
     market: JP
     name: Japan Physical Gold ETF
     role: gold_etf
+    data_source: ibkr
     ibkr:
+      conId: 117595037
       secType: STK
-      exchange: TSEJ
+      exchange: SMART
       currency: JPY
       primaryExchange: TSEJ
-      localSymbol: "1540"
-      tradingClass: ""
+      localSymbol: "1540.T"
+      tradingClass: "1540"
 
   - symbol: 1542.T
     market: JP
     name: Japan Physical Silver ETF
     role: silver_etf
+    data_source: ibkr
     ibkr:
+      conId: 121557296
       secType: STK
-      exchange: TSEJ
+      exchange: SMART
       currency: JPY
       primaryExchange: TSEJ
-      localSymbol: "1542"
-      tradingClass: ""
+      localSymbol: "1542.T"
+      tradingClass: "1542"
 
   - symbol: GLD
     market: US
