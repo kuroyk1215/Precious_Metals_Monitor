@@ -1,0 +1,204 @@
+symbols:
+  - symbol: 518880.SH
+    market: CN
+    name: 华安黄金ETF
+    role: gold_etf
+    ibkr:
+      secType: STK
+      exchange: SEHKNTL
+      currency: CNY
+      primaryExchange: ""
+      localSymbol: ""
+      tradingClass: ""
+
+  - symbol: 1540.T
+    market: JP
+    name: Japan Physical Gold ETF
+    role: gold_etf
+    ibkr:
+      secType: STK
+      exchange: TSEJ
+      currency: JPY
+      primaryExchange: TSEJ
+      localSymbol: "1540"
+      tradingClass: ""
+
+  - symbol: 1542.T
+    market: JP
+    name: Japan Physical Silver ETF
+    role: silver_etf
+    ibkr:
+      secType: STK
+      exchange: TSEJ
+      currency: JPY
+      primaryExchange: TSEJ
+      localSymbol: "1542"
+      tradingClass: ""
+
+  - symbol: GLD
+    market: US
+    name: SPDR Gold Shares
+    role: gold_etf
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: GLD
+      tradingClass: GLD
+
+  - symbol: IAU
+    market: US
+    name: iShares Gold Trust
+    role: gold_etf
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: IAU
+      tradingClass: IAU
+
+  - symbol: SLV
+    market: US
+    name: iShares Silver Trust
+    role: silver_etf
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: SLV
+      tradingClass: SLV
+
+  - symbol: GDX
+    market: US
+    name: VanEck Gold Miners ETF
+    role: miners_etf
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: GDX
+      tradingClass: GDX
+
+  - symbol: GDXJ
+    market: US
+    name: VanEck Junior Gold Miners ETF
+    role: miners_etf
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: GDXJ
+      tradingClass: GDXJ
+
+  - symbol: NEM
+    market: US
+    name: Newmont
+    role: miner_stock
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: NYSE
+      localSymbol: NEM
+      tradingClass: NEM
+
+  - symbol: GOLD
+    market: US
+    name: Barrick Gold
+    role: miner_stock
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: NYSE
+      localSymbol: GOLD
+      tradingClass: GOLD
+
+  - symbol: AEM
+    market: US
+    name: Agnico Eagle Mines
+    role: miner_stock
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: NYSE
+      localSymbol: AEM
+      tradingClass: AEM
+
+  - symbol: SPY
+    market: US
+    name: SPDR S&P 500 ETF
+    role: macro_proxy
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: SPY
+      tradingClass: SPY
+
+  - symbol: QQQ
+    market: US
+    name: Invesco QQQ
+    role: macro_proxy
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: NASDAQ
+      localSymbol: QQQ
+      tradingClass: QQQ
+
+  - symbol: TLT
+    market: US
+    name: iShares 20+ Year Treasury Bond ETF
+    role: macro_proxy
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: NASDAQ
+      localSymbol: TLT
+      tradingClass: TLT
+
+  - symbol: UUP
+    market: US
+    name: Invesco DB US Dollar Index Bullish Fund
+    role: usd_proxy
+    ibkr:
+      secType: STK
+      exchange: SMART
+      currency: USD
+      primaryExchange: ARCA
+      localSymbol: UUP
+      tradingClass: UUP
+
+  - symbol: DXY_PROXY
+    market: US
+    name: DXY Proxy
+    role: usd_proxy
+    ibkr:
+      secType: ""
+      exchange: ""
+      currency: ""
+      primaryExchange: ""
+      localSymbol: ""
+      tradingClass: ""
+
+  - symbol: VIX_PROXY
+    market: US
+    name: VIX Proxy
+    role: vol_proxy
+    ibkr:
+      secType: ""
+      exchange: ""
+      currency: ""
+      primaryExchange: ""
+      localSymbol: ""
+      tradingClass: ""

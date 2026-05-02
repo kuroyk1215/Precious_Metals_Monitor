@@ -1,0 +1,32 @@
+ibkr:
+  host: "127.0.0.1"
+  port: 7496
+  client_id: 1
+  timeout_sec: 5
+  readonly: true
+  account_mode: "live"
+  read_only_required: true
+
+runtime:
+  csv_log: precious_metals_signal_log.csv
+  markdown_report: reports/latest_report.md
+  ibkr_smoke_csv: ibkr_smoke_log.csv
+  ibkr_smoke_report: reports/ibkr_smoke_report.md
+  timezone:
+    jst: Asia/Tokyo
+    cst: Asia/Shanghai
+    et: America/New_York
+
+market_data:
+  require_real_time_for_trade_candidate: true
+  delayed_data_trade_threshold_deviation_pct: 1.5
+
+model:
+  shanghai_gold_premium_pct: 0.8
+  historical_premium_discount_pct:
+    518880.SH: 0.2
+    1540.T: 0.1
+    1542.T: 0.1
+  etf_conversion_factor:
+    1540.T: 0.1
+    1542.T: 0.1
