@@ -8,7 +8,7 @@ from typing import Any
 
 import csv
 
-from src.ibkr_data_client import IBKRDataClient, SmokeQuote
+from src.ibkr_data_client import ContractSearchRow, IBKRDataClient, SmokeQuote
 
 
 def _default_config() -> dict[str, Any]:
@@ -172,6 +172,19 @@ class PreciousMetalsMonitor:
         self._write_ibkr_smoke_report(md_path, quotes, times, conn_status if connected else (conn_status or "fallback_no_ibkr_connection"), account_mode)
         return quotes, str(csv_path), str(md_path), (conn_status if connected else (conn_status or "fallback_no_ibkr_connection"))
 
+    def run_contract_search(self, query: str) -> tuple[list[ContractSearchRow], str, str, str]:
+        client = IBKRDataClient(self.config["ibkr"])
+        connected, conn_status = client.connect()
+        rows, search_status = client.search_contracts(query)
+        client.disconnect()
+        times = self.now_triplet()
+        csv_path = Path("contract_search_results.csv")
+        md_path = Path(f"reports/contract_search_{query}.md")
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        self._write_contract_search_csv(csv_path, rows, times)
+        self._write_contract_search_report(md_path, rows, times, conn_status if connected else conn_status, search_status)
+        return rows, str(csv_path), str(md_path), (conn_status if connected else conn_status)
+
     def _write_csv(self, path: Path, rows: list[SignalRow]) -> None:
         fields = ["timestamp_jst", "timestamp_et", "symbol", "market", "data_status", "actual_price", "theoretical_price", "deviation_pct", "premium_discount", "fx_used", "gold_price", "silver_price", "signal", "reason", "risk_flag", "source_status"]
         with path.open("w", newline="", encoding="utf-8") as f:
@@ -240,4 +253,34 @@ class PreciousMetalsMonitor:
             "",
             "本报告仅用于行情接入测试，不构成交易建议，不执行自动交易。",
         ]
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+    def _write_contract_search_csv(self, path: Path, rows: list[ContractSearchRow], times: dict[str, str]) -> None:
+        fields = ["timestamp_jst", "timestamp_et", "query", "conId", "symbol", "localSymbol", "tradingClass", "secType", "exchange", "primaryExchange", "currency", "longName", "validExchanges", "marketRuleIds", "status"]
+        with path.open("a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            if f.tell() == 0:
+                writer.writeheader()
+            for r in rows:
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **r.__dict__})
+
+    def _write_contract_search_report(self, path: Path, rows: list[ContractSearchRow], times: dict[str, str], conn_status: str, search_status: str) -> None:
+        lines = [
+            "# IBKR Contract Search Report",
+            "",
+            "## 当前时间",
+            f"- JST: {times['jst']}",
+            f"- CST: {times['cst']}",
+            f"- ET: {times['et']}",
+            "",
+            "## 状态",
+            f"- ibkr_connection: {conn_status}",
+            f"- search_status: {search_status}",
+            "",
+            "## 候选合约",
+            "| query | conId | symbol | localSymbol | tradingClass | secType | exchange | primaryExchange | currency | longName | validExchanges | marketRuleIds | status |",
+            "|---|---:|---|---|---|---|---|---|---|---|---|---|---|",
+        ]
+        for r in rows:
+            lines.append(f"| {r.query} | {r.conId} | {r.symbol} | {r.localSymbol} | {r.tradingClass} | {r.secType} | {r.exchange} | {r.primaryExchange} | {r.currency} | {r.longName} | {r.validExchanges} | {r.marketRuleIds} | {r.status} |")
         path.write_text("\n".join(lines), encoding="utf-8")

@@ -30,6 +30,23 @@ class SmokeQuote:
     has_valid_price: bool
 
 
+@dataclass
+class ContractSearchRow:
+    query: str
+    conId: int | None
+    symbol: str
+    localSymbol: str
+    tradingClass: str
+    secType: str
+    exchange: str
+    primaryExchange: str
+    currency: str
+    longName: str
+    validExchanges: str
+    marketRuleIds: str
+    status: str
+
+
 class IBKRDataClient:
     def __init__(self, ibkr_config: dict[str, Any]):
         self.ibkr_config = ibkr_config
@@ -268,3 +285,50 @@ class IBKRDataClient:
             return close, "ok"
         except Exception as exc:  # pragma: no cover
             return None, str(exc)
+
+    def search_contracts(self, query: str) -> tuple[list[ContractSearchRow], str]:
+        if self.ib is None or not self.ib.isConnected():
+            return [ContractSearchRow(query, None, "", "", "", "", "", "", "", "", "", "", "no_ibkr_contract_match")], "not_connected"
+        try:
+            candidates = self.ib.reqMatchingSymbols(query)
+        except Exception as exc:  # pragma: no cover
+            return [ContractSearchRow(query, None, "", "", "", "", "", "", "", "", "", "", f"no_ibkr_contract_match:{exc}")], "failed"
+
+        if not candidates:
+            return [ContractSearchRow(query, None, "", "", "", "", "", "", "", "", "", "", "no_ibkr_contract_match")], "ok"
+
+        rows: list[ContractSearchRow] = []
+        for candidate in candidates:
+            contract = getattr(candidate, "contract", None)
+            if contract is None:
+                continue
+            try:
+                details = self.ib.reqContractDetails(contract)
+            except Exception as exc:  # pragma: no cover
+                rows.append(ContractSearchRow(query, getattr(contract, "conId", None), getattr(contract, "symbol", ""), getattr(contract, "localSymbol", ""), getattr(contract, "tradingClass", ""), getattr(contract, "secType", ""), getattr(contract, "exchange", ""), getattr(contract, "primaryExchange", ""), getattr(contract, "currency", ""), "", "", "", f"contract_details_failed:{exc}"))
+                continue
+
+            if not details:
+                rows.append(ContractSearchRow(query, getattr(contract, "conId", None), getattr(contract, "symbol", ""), getattr(contract, "localSymbol", ""), getattr(contract, "tradingClass", ""), getattr(contract, "secType", ""), getattr(contract, "exchange", ""), getattr(contract, "primaryExchange", ""), getattr(contract, "currency", ""), "", "", "", "no_ibkr_contract_match"))
+                continue
+
+            for d in details:
+                resolved = getattr(d, "contract", contract)
+                rows.append(ContractSearchRow(
+                    query=query,
+                    conId=getattr(resolved, "conId", None),
+                    symbol=getattr(resolved, "symbol", ""),
+                    localSymbol=getattr(resolved, "localSymbol", ""),
+                    tradingClass=getattr(resolved, "tradingClass", ""),
+                    secType=getattr(resolved, "secType", ""),
+                    exchange=getattr(resolved, "exchange", ""),
+                    primaryExchange=getattr(resolved, "primaryExchange", ""),
+                    currency=getattr(resolved, "currency", ""),
+                    longName=getattr(d, "longName", ""),
+                    validExchanges=getattr(d, "validExchanges", ""),
+                    marketRuleIds=getattr(d, "marketRuleIds", ""),
+                    status="ok",
+                ))
+        if not rows:
+            rows.append(ContractSearchRow(query, None, "", "", "", "", "", "", "", "", "", "", "no_ibkr_contract_match"))
+        return rows, "ok"

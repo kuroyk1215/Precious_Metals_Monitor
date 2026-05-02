@@ -1,0 +1,4 @@
+timestamp_jst,timestamp_et,query,conId,symbol,localSymbol,tradingClass,secType,exchange,primaryExchange,currency,longName,validExchanges,marketRuleIds,status
+2026-05-02T21:28:58.422853+09:00,2026-05-02T08:28:58.422853-04:00,1540,,,,,,,,,,,,no_ibkr_contract_match
+2026-05-02T21:28:59.238495+09:00,2026-05-02T08:28:59.238495-04:00,1542,,,,,,,,,,,,no_ibkr_contract_match
+2026-05-02T21:29:00.129960+09:00,2026-05-02T08:29:00.129960-04:00,518880,,,,,,,,,,,,no_ibkr_contract_match
