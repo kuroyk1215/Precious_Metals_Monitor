@@ -208,14 +208,14 @@ class PreciousMetalsMonitor:
                 writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], "symbol": r.symbol, "market": r.market, "contract_status": r.contract_status, "data_status": r.data_status, "market_data_type": r.market_data_type, "bid": r.bid, "ask": r.ask, "last": r.last, "close": r.close, "volume": r.volume, "conId": r.conId, "selected_exchange": r.selected_exchange, "selected_primary_exchange": r.selected_primary_exchange, "selected_local_symbol": r.selected_local_symbol, "candidate_index": r.candidate_index, "fallback_price": r.fallback_price, "fallback_method": r.fallback_method, "has_valid_price": str(r.has_valid_price).lower(), "source_status": r.source_status, "error_message": r.error_message})
 
     def _write_ibkr_smoke_report(self, path: Path, rows: list[SmokeQuote], times: dict[str, str], conn_status: str, account_mode: str) -> None:
-        unresolved = [r.symbol for r in rows if r.contract_status in {"unqualified", "invalid_config"}]
+        unresolved = [r.symbol for r in rows if r.contract_status in {"unqualified", "invalid_config"} and r.source_status != "needs_external_data_source"]
         unavailable = [r.symbol for r in rows if r.data_status == "unavailable"]
         delayed_only = [r.symbol for r in rows if r.data_status in {"delayed", "delayed_frozen"}]
         manual_cfg = [r.symbol for r in rows if r.contract_status == "needs_manual_contract_config"]
         hist_only = [r.symbol for r in rows if r.source_status == "historical_daily_close_fallback"]
         invalid_price = [r.symbol for r in rows if not r.has_valid_price]
-        need_external = [r.symbol for r in rows if r.source_status == "needs_external_data_source_or_manual_contract_config"]
-        all_candidates_failed = [r.symbol for r in rows if r.source_status in {"all_contract_candidates_failed", "needs_external_data_source_or_manual_contract_config"}]
+        need_external = [r.symbol for r in rows if r.source_status == "needs_external_data_source"]
+        all_candidates_failed = [r.symbol for r in rows if r.source_status == "all_contract_candidates_failed"]
         lines = [
             "# IBKR Smoke Report",
             "",

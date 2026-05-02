@@ -80,6 +80,11 @@ class IBKRDataClient:
             self.ib.disconnect()
 
     def _contract_candidates(self, symbol_config: dict[str, Any]) -> list[dict[str, str]]:
+        if symbol_config.get("data_source") == "external_required":
+            return []
+        ibkr_cfg = symbol_config.get("ibkr", {})
+        if ibkr_cfg.get("conId"):
+            return [ibkr_cfg]
         symbol = symbol_config.get("symbol", "")
         if symbol == "1540.T":
             return [
@@ -105,6 +110,8 @@ class IBKRDataClient:
 
     def build_contract(self, symbol_config: dict[str, Any], candidate: dict[str, str] | None = None) -> tuple[Any | None, str, str]:
         ibkr = candidate or symbol_config.get("ibkr", {})
+        if symbol_config.get("data_source") == "external_required":
+            return None, "unqualified", "external_required"
         required = ["secType", "exchange", "currency"]
         if any(not ibkr.get(k) for k in required):
             return None, "invalid_config", "missing_required_ibkr_fields"
@@ -116,17 +123,27 @@ class IBKRDataClient:
         except ImportError:
             return None, "needs_manual_contract_config", "ib_insync_not_installed"
 
-        contract = Contract(
-            symbol=(ibkr.get("localSymbol") or symbol_config.get("symbol").split(".")[0]),
-            secType=ibkr.get("secType"),
-            exchange=ibkr.get("exchange"),
-            currency=ibkr.get("currency"),
-            primaryExchange=ibkr.get("primaryExchange") or "",
-            localSymbol=ibkr.get("localSymbol") or "",
-            tradingClass=ibkr.get("tradingClass") or "",
-        )
+        contract_kwargs = {
+            "secType": ibkr.get("secType"),
+            "exchange": ibkr.get("exchange"),
+            "currency": ibkr.get("currency"),
+            "primaryExchange": ibkr.get("primaryExchange") or "",
+            "localSymbol": ibkr.get("localSymbol") or "",
+            "tradingClass": ibkr.get("tradingClass") or "",
+        }
+        if ibkr.get("conId"):
+            contract = Contract(
+                conId=int(ibkr.get("conId")),
+                **contract_kwargs,
+            )
+        else:
+            contract = Contract(
+                symbol=(ibkr.get("localSymbol") or symbol_config.get("symbol").split(".")[0]),
+                **contract_kwargs,
+            )
         if not contract.symbol:
-            return None, "needs_manual_contract_config", "empty_contract_symbol"
+            if not ibkr.get("conId"):
+                return None, "needs_manual_contract_config", "empty_contract_symbol"
         return contract, "built", "ok"
 
     def qualify_contract(self, contract: Any) -> tuple[Any | None, str, str]:
@@ -164,6 +181,8 @@ class IBKRDataClient:
         symbol = symbol_config.get("symbol", "UNKNOWN")
         market = symbol_config.get("market", "UNKNOWN")
         timestamp = datetime.now(timezone.utc).isoformat()
+        if symbol_config.get("data_source") == "external_required":
+            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", "unqualified", "needs_external_data_source", "external_required_symbol", None, None, None, None, None, None, "unavailable", False)
 
         selected_contract = None
         selected_candidate = None
@@ -187,9 +206,6 @@ class IBKRDataClient:
         if selected_contract is None:
             src = "all_contract_candidates_failed"
             err = "qualify_returned_empty_after_all_candidates"
-            if symbol == "518880.SH":
-                src = "needs_external_data_source_or_manual_contract_config"
-                err = "all_contract_candidates_failed"
             return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", "unqualified", src, err, None, None, None, None, None, None, "unavailable", False)
 
         if self.ib is None or not self.ib.isConnected():
