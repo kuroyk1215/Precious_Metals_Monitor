@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
+import math
 from typing import Any
 
 
@@ -19,6 +20,14 @@ class SmokeQuote:
     contract_status: str
     source_status: str
     error_message: str
+    conId: int | None
+    selected_exchange: str | None
+    selected_primary_exchange: str | None
+    selected_local_symbol: str | None
+    candidate_index: int | None
+    fallback_price: float | None
+    fallback_method: str
+    has_valid_price: bool
 
 
 class IBKRDataClient:
@@ -53,8 +62,32 @@ class IBKRDataClient:
         if self.ib is not None and self.ib.isConnected():
             self.ib.disconnect()
 
-    def build_contract(self, symbol_config: dict[str, Any]) -> tuple[Any | None, str, str]:
-        ibkr = symbol_config.get("ibkr", {})
+    def _contract_candidates(self, symbol_config: dict[str, Any]) -> list[dict[str, str]]:
+        symbol = symbol_config.get("symbol", "")
+        if symbol == "1540.T":
+            return [
+                {"symbol": "1540", "secType": "STK", "exchange": "TSEJ", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1540"},
+                {"symbol": "1540", "secType": "STK", "exchange": "SMART", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1540"},
+                {"symbol": "1540", "secType": "STK", "exchange": "TSE.JPN", "currency": "JPY", "localSymbol": "1540"},
+                {"symbol": "1540", "secType": "STK", "exchange": "TSE", "currency": "JPY", "localSymbol": "1540"},
+            ]
+        if symbol == "1542.T":
+            return [
+                {"symbol": "1542", "secType": "STK", "exchange": "TSEJ", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1542"},
+                {"symbol": "1542", "secType": "STK", "exchange": "SMART", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1542"},
+                {"symbol": "1542", "secType": "STK", "exchange": "TSE.JPN", "currency": "JPY", "localSymbol": "1542"},
+                {"symbol": "1542", "secType": "STK", "exchange": "TSE", "currency": "JPY", "localSymbol": "1542"},
+            ]
+        if symbol == "518880.SH":
+            return [
+                {"symbol": "518880", "secType": "STK", "exchange": "SHSE", "currency": "CNY", "localSymbol": "518880"},
+                {"symbol": "518880", "secType": "STK", "exchange": "SMART", "currency": "CNY", "primaryExchange": "SHSE", "localSymbol": "518880"},
+                {"symbol": "518880", "secType": "STK", "exchange": "SEHKNTL", "currency": "CNY", "localSymbol": "518880"},
+            ]
+        return [symbol_config.get("ibkr", {})]
+
+    def build_contract(self, symbol_config: dict[str, Any], candidate: dict[str, str] | None = None) -> tuple[Any | None, str, str]:
+        ibkr = candidate or symbol_config.get("ibkr", {})
         required = ["secType", "exchange", "currency"]
         if any(not ibkr.get(k) for k in required):
             return None, "invalid_config", "missing_required_ibkr_fields"
@@ -115,25 +148,123 @@ class IBKRDataClient:
         market = symbol_config.get("market", "UNKNOWN")
         timestamp = datetime.now(timezone.utc).isoformat()
 
-        contract, contract_status, err = self.build_contract(symbol_config)
-        if contract_status in {"invalid_config", "needs_manual_contract_config"}:
-            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", contract_status, "contract_build_failed", err)
+        selected_contract = None
+        selected_candidate = None
+        selected_index = None
+        last_err = ""
+        for idx, candidate in enumerate(self._contract_candidates(symbol_config), start=1):
+            contract, contract_status, err = self.build_contract(symbol_config, candidate)
+            if contract_status in {"invalid_config", "needs_manual_contract_config"}:
+                last_err = err
+                continue
+            selected_contract = contract
+            selected_candidate = candidate
+            selected_index = idx
+            qualified, q_status, q_err = self.qualify_contract(contract)
+            if q_status == "qualified":
+                selected_contract = qualified
+                break
+            last_err = q_err
+            selected_contract = None
+
+        if selected_contract is None:
+            src = "all_contract_candidates_failed"
+            err = "qualify_returned_empty_after_all_candidates"
+            if symbol == "518880.SH":
+                src = "needs_external_data_source_or_manual_contract_config"
+                err = "all_contract_candidates_failed"
+            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", "unqualified", src, err, None, None, None, None, None, None, "unavailable", False)
 
         if self.ib is None or not self.ib.isConnected():
-            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", "unqualified", "fallback_no_ibkr_connection", f"{self.connection_status}@{timestamp}")
+            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", "unqualified", "fallback_no_ibkr_connection", f"{self.connection_status}@{timestamp}", None, None, None, None, None, None, "unavailable", False)
 
-        qualified, q_status, q_err = self.qualify_contract(contract)
-        if q_status != "qualified":
-            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", "unavailable", q_status, "qualify_failed", q_err)
-
-        ticker, md_type, md_err = self.request_market_data(qualified, preferred_data_type)
+        ticker, md_type, md_err = self.request_market_data(selected_contract, preferred_data_type)
         if ticker is None:
-            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", md_type, "qualified", "market_data_failed", md_err)
+            return SmokeQuote(symbol, market, None, None, None, None, None, "unavailable", md_type, "qualified", "market_data_failed", md_err, getattr(selected_contract, "conId", None), selected_candidate.get("exchange") if selected_candidate else None, selected_candidate.get("primaryExchange") if selected_candidate else None, selected_candidate.get("localSymbol") if selected_candidate else None, selected_index, None, "unavailable", False)
 
-        bid = getattr(ticker, "bid", None)
-        ask = getattr(ticker, "ask", None)
-        last = getattr(ticker, "last", None)
-        close = getattr(ticker, "close", None)
+        bid = self._normalize_price(getattr(ticker, "bid", None))
+        ask = self._normalize_price(getattr(ticker, "ask", None))
+        last = self._normalize_price(getattr(ticker, "last", None))
+        close = self._normalize_price(getattr(ticker, "close", None))
         volume = getattr(ticker, "volume", None)
-        data_status = self.detect_data_status(md_type, bid, ask, last, close)
-        return SmokeQuote(symbol, market, bid, ask, last, close, volume, data_status, md_type, "qualified", "ibkr_market_data", "")
+
+        source_status = "ibkr_market_data"
+        error_message = ""
+        current_md_type = md_type
+
+        if self._all_quotes_empty(bid, ask, last, close):
+            retry_ticker, retry_md_type, retry_err = self.request_market_data(selected_contract, "delayed_frozen")
+            if retry_ticker is not None:
+                retry_bid = self._normalize_price(getattr(retry_ticker, "bid", None))
+                retry_ask = self._normalize_price(getattr(retry_ticker, "ask", None))
+                retry_last = self._normalize_price(getattr(retry_ticker, "last", None))
+                retry_close = self._normalize_price(getattr(retry_ticker, "close", None))
+                if not self._all_quotes_empty(retry_bid, retry_ask, retry_last, retry_close):
+                    bid, ask, last, close = retry_bid, retry_ask, retry_last, retry_close
+                    current_md_type = retry_md_type
+                    source_status = "ibkr_market_data_delayed_frozen_fallback"
+            else:
+                error_message = f"delayed_frozen_failed:{retry_err}"
+
+        if self._all_quotes_empty(bid, ask, last, close):
+            hist_close, hist_err = self.request_historical_daily_close(selected_contract)
+            if hist_close is not None:
+                close = hist_close
+                source_status = "historical_daily_close_fallback"
+                error_message = "historical_daily_close_used"
+            else:
+                if error_message:
+                    error_message = f"{error_message}; historical_close_failed:{hist_err}"
+                else:
+                    error_message = f"historical_close_failed:{hist_err}"
+
+        data_status = self.detect_data_status(current_md_type, bid, ask, last, close)
+        fallback_price = last if last is not None else (close if source_status == "historical_daily_close_fallback" else None)
+        if source_status == "historical_daily_close_fallback":
+            fallback_method = "historical_daily_close"
+        elif current_md_type == "1":
+            fallback_method = "market_data_live"
+        elif current_md_type == "3":
+            fallback_method = "market_data_delayed"
+        elif current_md_type == "4":
+            fallback_method = "market_data_delayed_frozen"
+        else:
+            fallback_method = "unavailable"
+        has_valid_price = any(v is not None for v in [bid, ask, last, close, fallback_price])
+        return SmokeQuote(symbol, market, bid, ask, last, close, volume, data_status, current_md_type, "qualified", source_status, error_message, getattr(selected_contract, "conId", None), selected_candidate.get("exchange") if selected_candidate else None, selected_candidate.get("primaryExchange") if selected_candidate else None, selected_candidate.get("localSymbol") if selected_candidate else None, selected_index, fallback_price, fallback_method, has_valid_price)
+    @staticmethod
+    def _normalize_price(value: Any) -> float | None:
+        if value is None:
+            return None
+        try:
+            v = float(value)
+        except (TypeError, ValueError):
+            return None
+        if math.isnan(v) or math.isinf(v):
+            return None
+        return v
+
+    def _all_quotes_empty(self, bid: float | None, ask: float | None, last: float | None, close: float | None) -> bool:
+        return bid is None and ask is None and last is None and close is None
+
+    def request_historical_daily_close(self, contract: Any) -> tuple[float | None, str]:
+        if self.ib is None or not self.ib.isConnected():
+            return None, "not_connected"
+        try:
+            bars = self.ib.reqHistoricalData(
+                contract,
+                endDateTime="",
+                durationStr="3 D",
+                barSizeSetting="1 day",
+                whatToShow="TRADES",
+                useRTH=True,
+                formatDate=1,
+            )
+            if not bars:
+                return None, "empty_historical_data"
+            close = self._normalize_price(getattr(bars[-1], "close", None))
+            if close is None:
+                return None, "invalid_historical_close"
+            return close, "ok"
+        except Exception as exc:  # pragma: no cover
+            return None, str(exc)

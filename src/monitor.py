@@ -34,7 +34,7 @@ def _default_config() -> dict[str, Any]:
 
 def _default_watchlist() -> dict[str, Any]:
     return {"symbols": [
-        {"symbol": "518880.SH", "market": "CN", "name": "华安黄金ETF", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "SEHKNTL", "currency": "CNY", "primaryExchange": "", "localSymbol": "", "tradingClass": ""}},
+        {"symbol": "518880.SH", "market": "CN", "name": "华安黄金ETF", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "SEHKSZSE", "currency": "CNY", "primaryExchange": "SEHKSZSE", "localSymbol": "518880", "tradingClass": ""}},
         {"symbol": "1540.T", "market": "JP", "name": "Japan Physical Gold ETF", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "TSEJ", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1540", "tradingClass": ""}},
         {"symbol": "1542.T", "market": "JP", "name": "Japan Physical Silver ETF", "role": "silver_etf", "ibkr": {"secType": "STK", "exchange": "TSEJ", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1542", "tradingClass": ""}},
         {"symbol": "GLD", "market": "US", "name": "SPDR Gold Shares", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "SMART", "currency": "USD", "primaryExchange": "ARCA", "localSymbol": "GLD", "tradingClass": "GLD"}}
@@ -187,18 +187,22 @@ class PreciousMetalsMonitor:
         path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_ibkr_smoke_csv(self, path: Path, rows: list[SmokeQuote], times: dict[str, str]) -> None:
-        fields = ["timestamp_jst", "timestamp_et", "symbol", "market", "contract_status", "data_status", "market_data_type", "bid", "ask", "last", "close", "volume", "source_status", "error_message"]
+        fields = ["timestamp_jst", "timestamp_et", "symbol", "market", "contract_status", "data_status", "market_data_type", "bid", "ask", "last", "close", "volume", "conId", "selected_exchange", "selected_primary_exchange", "selected_local_symbol", "candidate_index", "fallback_price", "fallback_method", "has_valid_price", "source_status", "error_message"]
         with path.open("w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=fields)
             writer.writeheader()
             for r in rows:
-                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], "symbol": r.symbol, "market": r.market, "contract_status": r.contract_status, "data_status": r.data_status, "market_data_type": r.market_data_type, "bid": r.bid, "ask": r.ask, "last": r.last, "close": r.close, "volume": r.volume, "source_status": r.source_status, "error_message": r.error_message})
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], "symbol": r.symbol, "market": r.market, "contract_status": r.contract_status, "data_status": r.data_status, "market_data_type": r.market_data_type, "bid": r.bid, "ask": r.ask, "last": r.last, "close": r.close, "volume": r.volume, "conId": r.conId, "selected_exchange": r.selected_exchange, "selected_primary_exchange": r.selected_primary_exchange, "selected_local_symbol": r.selected_local_symbol, "candidate_index": r.candidate_index, "fallback_price": r.fallback_price, "fallback_method": r.fallback_method, "has_valid_price": str(r.has_valid_price).lower(), "source_status": r.source_status, "error_message": r.error_message})
 
     def _write_ibkr_smoke_report(self, path: Path, rows: list[SmokeQuote], times: dict[str, str], conn_status: str, account_mode: str) -> None:
         unresolved = [r.symbol for r in rows if r.contract_status in {"unqualified", "invalid_config"}]
         unavailable = [r.symbol for r in rows if r.data_status == "unavailable"]
         delayed_only = [r.symbol for r in rows if r.data_status in {"delayed", "delayed_frozen"}]
         manual_cfg = [r.symbol for r in rows if r.contract_status == "needs_manual_contract_config"]
+        hist_only = [r.symbol for r in rows if r.source_status == "historical_daily_close_fallback"]
+        invalid_price = [r.symbol for r in rows if not r.has_valid_price]
+        need_external = [r.symbol for r in rows if r.source_status == "needs_external_data_source_or_manual_contract_config"]
+        all_candidates_failed = [r.symbol for r in rows if r.source_status in {"all_contract_candidates_failed", "needs_external_data_source_or_manual_contract_config"}]
         lines = [
             "# IBKR Smoke Report",
             "",
@@ -217,11 +221,11 @@ class PreciousMetalsMonitor:
             "- trade_execution_enabled: false",
             "",
             "## 标的明细",
-            "| symbol | market | contract_status | data_status | market_data_type | bid | ask | last | close | source_status | error_message |",
-            "|---|---|---|---|---|---:|---:|---:|---:|---|---|",
+            "| symbol | market | contract_status | data_status | market_data_type | bid | ask | last | close | volume | conId | selected_exchange | selected_primary_exchange | selected_local_symbol | candidate_index | fallback_price | fallback_method | has_valid_price | source_status | error_message |",
+            "|---|---|---|---|---|---:|---:|---:|---:|---:|---:|---|---|---|---:|---:|---|---|---|---|",
         ]
         for r in rows:
-            lines.append(f"| {r.symbol} | {r.market} | {r.contract_status} | {r.data_status} | {r.market_data_type} | {r.bid} | {r.ask} | {r.last} | {r.close} | {r.source_status} | {r.error_message} |")
+            lines.append(f"| {r.symbol} | {r.market} | {r.contract_status} | {r.data_status} | {r.market_data_type} | {r.bid} | {r.ask} | {r.last} | {r.close} | {r.volume} | {r.conId} | {r.selected_exchange} | {r.selected_primary_exchange} | {r.selected_local_symbol} | {r.candidate_index} | {r.fallback_price} | {r.fallback_method} | {str(r.has_valid_price).lower()} | {r.source_status} | {r.error_message} |")
         lines += [
             "",
             "## 问题清单",
@@ -229,6 +233,10 @@ class PreciousMetalsMonitor:
             f"- 行情不可用的标的: {', '.join(unavailable) if unavailable else '无'}",
             f"- 仅有延迟行情的标的: {', '.join(delayed_only) if delayed_only else '无'}",
             f"- 需要手动补充 IBKR 合约参数的标的: {', '.join(manual_cfg) if manual_cfg else '无'}",
+            f"- 合约已识别但仅能使用 historical_daily_close fallback 的标的: {', '.join(hist_only) if hist_only else '无'}",
+            f"- has_valid_price=false 的标的: {', '.join(invalid_price) if invalid_price else '无'}",
+            f"- 需要外部数据源替代 IBKR 的标的: {', '.join(need_external) if need_external else '无'}",
+            f"- 所有候选合约均失败的标的: {', '.join(all_candidates_failed) if all_candidates_failed else '无'}",
             "",
             "本报告仅用于行情接入测试，不构成交易建议，不执行自动交易。",
         ]

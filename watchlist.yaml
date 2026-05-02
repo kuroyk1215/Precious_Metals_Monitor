@@ -5,10 +5,10 @@ symbols:
     role: gold_etf
     ibkr:
       secType: STK
-      exchange: SEHKNTL
+      exchange: SHSE
       currency: CNY
-      primaryExchange: ""
-      localSymbol: ""
+      primaryExchange: SHSE
+      localSymbol: "518880"
       tradingClass: ""
 
   - symbol: 1540.T
@@ -187,8 +187,8 @@ symbols:
       secType: ""
       exchange: ""
       currency: ""
-      primaryExchange: ""
-      localSymbol: ""
+      primaryExchange: SEHKSZSE
+      localSymbol: "518880"
       tradingClass: ""
 
   - symbol: VIX_PROXY
@@ -199,6 +199,6 @@ symbols:
       secType: ""
       exchange: ""
       currency: ""
-      primaryExchange: ""
-      localSymbol: ""
+      primaryExchange: SEHKSZSE
+      localSymbol: "518880"
       tradingClass: ""
