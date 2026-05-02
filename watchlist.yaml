@@ -5,9 +5,9 @@ symbols:
     role: gold_etf
     ibkr:
       secType: STK
-      exchange: SEHKSZSE
+      exchange: SHSE
       currency: CNY
-      primaryExchange: SEHKSZSE
+      primaryExchange: SHSE
       localSymbol: "518880"
       tradingClass: ""
 
