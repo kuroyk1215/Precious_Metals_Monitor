@@ -1,0 +1,6 @@
+ibkr:
+  host: "127.0.0.1"
+  port: 7496
+  client_id: 1
+  account_mode: "live"
+  read_only_required: true
