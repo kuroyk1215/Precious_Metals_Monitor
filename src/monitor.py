@@ -34,7 +34,7 @@ def _default_config() -> dict[str, Any]:
 
 def _default_watchlist() -> dict[str, Any]:
     return {"symbols": [
-        {"symbol": "518880.SH", "market": "CN", "name": "华安黄金ETF", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "SEHKNTL", "currency": "CNY", "primaryExchange": "", "localSymbol": "", "tradingClass": ""}},
+        {"symbol": "518880.SH", "market": "CN", "name": "华安黄金ETF", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "SEHKSZSE", "currency": "CNY", "primaryExchange": "SEHKSZSE", "localSymbol": "518880", "tradingClass": ""}},
         {"symbol": "1540.T", "market": "JP", "name": "Japan Physical Gold ETF", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "TSEJ", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1540", "tradingClass": ""}},
         {"symbol": "1542.T", "market": "JP", "name": "Japan Physical Silver ETF", "role": "silver_etf", "ibkr": {"secType": "STK", "exchange": "TSEJ", "currency": "JPY", "primaryExchange": "TSEJ", "localSymbol": "1542", "tradingClass": ""}},
         {"symbol": "GLD", "market": "US", "name": "SPDR Gold Shares", "role": "gold_etf", "ibkr": {"secType": "STK", "exchange": "SMART", "currency": "USD", "primaryExchange": "ARCA", "localSymbol": "GLD", "tradingClass": "GLD"}}
@@ -217,11 +217,11 @@ class PreciousMetalsMonitor:
             "- trade_execution_enabled: false",
             "",
             "## 标的明细",
-            "| symbol | market | contract_status | data_status | market_data_type | bid | ask | last | close | source_status | error_message |",
-            "|---|---|---|---|---|---:|---:|---:|---:|---|---|",
+            "| symbol | market | contract_status | data_status | market_data_type | bid | ask | last | close | volume | source_status | error_message |",
+            "|---|---|---|---|---|---:|---:|---:|---:|---:|---|---|",
         ]
         for r in rows:
-            lines.append(f"| {r.symbol} | {r.market} | {r.contract_status} | {r.data_status} | {r.market_data_type} | {r.bid} | {r.ask} | {r.last} | {r.close} | {r.source_status} | {r.error_message} |")
+            lines.append(f"| {r.symbol} | {r.market} | {r.contract_status} | {r.data_status} | {r.market_data_type} | {r.bid} | {r.ask} | {r.last} | {r.close} | {r.volume} | {r.source_status} | {r.error_message} |")
         lines += [
             "",
             "## 问题清单",
