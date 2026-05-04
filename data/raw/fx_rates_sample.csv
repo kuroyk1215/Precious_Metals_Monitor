@@ -1,0 +1,7 @@
+date,pair,rate,source,notes
+2026-01-02,USDJPY,155.0,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,USDJPY,155.4,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,USDJPY,155.1,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-02,USDCNH,7.20,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,USDCNH,7.19,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,USDCNH,7.21,raw_template_sample,"synthetic raw template row, not real market data"

@@ -1,0 +1,4 @@
+date,symbol,close,currency,source,notes
+2026-01-02,518880.SH,5.12,CNY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,518880.SH,5.16,CNY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,518880.SH,5.19,CNY,raw_template_sample,"synthetic raw template row, not real market data"

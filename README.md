@@ -109,3 +109,31 @@ python3 main.py --config config.yaml --watchlist watchlist.yaml --calibrate-mode
 - Socket Port：Live TWS 使用 7496，Live Gateway 使用 4001
 - Read-Only API：保持开启
 - Allow connections from localhost only：建议开启
+
+## Phase 4A: Raw History Builder (Research-only)
+
+推荐流程：
+
+1. 构建 raw candidate：
+
+```bash
+python main.py --config config.yaml --build-history data/source_manifest_template.yaml
+```
+
+2. 校验 candidate：
+
+```bash
+python main.py --config config.yaml --validate-history data/real_historical_candidate.csv
+```
+
+3. 若 validation_status=ok，再校准：
+
+```bash
+python main.py --config config.yaml --calibration-csv data/validated_historical_data.csv
+```
+
+说明：
+- `data/raw/*_sample.csv` 是 synthetic sample，不是真实市场数据。
+- Phase 4A 不联网、不抓取、不调用交易 API。
+- Phase 4A 只做 raw CSV 合并为标准历史 CSV。
+- 真实 API / 授权数据源接入放在 Phase 4B。

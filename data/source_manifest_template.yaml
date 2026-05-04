@@ -1,0 +1,27 @@
+symbols:
+  - symbol: 1540.T
+    actual_price_source: data/raw/jp_etf_prices_sample.csv
+    metal: XAU
+    metal_price_source: data/raw/metal_spot_sample.csv
+    fx_pair: USDJPY
+    fx_source: data/raw/fx_rates_sample.csv
+    premium_discount_pct: 0.0
+    data_source: raw_template_sample
+
+  - symbol: 1542.T
+    actual_price_source: data/raw/jp_etf_prices_sample.csv
+    metal: XAG
+    metal_price_source: data/raw/metal_spot_sample.csv
+    fx_pair: USDJPY
+    fx_source: data/raw/fx_rates_sample.csv
+    premium_discount_pct: 0.0
+    data_source: raw_template_sample
+
+  - symbol: 518880.SH
+    actual_price_source: data/raw/cn_etf_prices_sample.csv
+    metal: XAU
+    metal_price_source: data/raw/metal_spot_sample.csv
+    fx_pair: USDCNH
+    fx_source: data/raw/fx_rates_sample.csv
+    premium_discount_pct: 0.0
+    data_source: raw_template_sample

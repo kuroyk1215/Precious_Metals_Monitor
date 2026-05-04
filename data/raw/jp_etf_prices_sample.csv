@@ -1,0 +1,7 @@
+date,symbol,close,currency,source,notes
+2026-01-02,1540.T,2910.0,JPY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,1540.T,2925.0,JPY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,1540.T,2933.0,JPY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-02,1542.T,438.0,JPY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,1542.T,441.5,JPY,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,1542.T,445.0,JPY,raw_template_sample,"synthetic raw template row, not real market data"

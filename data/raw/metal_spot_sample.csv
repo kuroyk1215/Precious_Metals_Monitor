@@ -1,0 +1,7 @@
+date,metal,price_usd,unit,source,notes
+2026-01-02,XAU,2350.0,oz,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,XAU,2360.0,oz,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,XAU,2368.0,oz,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-02,XAG,28.5,oz,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-03,XAG,28.7,oz,raw_template_sample,"synthetic raw template row, not real market data"
+2026-01-04,XAG,29.0,oz,raw_template_sample,"synthetic raw template row, not real market data"

@@ -14,6 +14,7 @@ from src.ibkr_data_client import ContractSearchRow, IBKRDataClient, SmokeQuote
 from src.pricing_model import calculate_1540_theoretical_price, calculate_1542_theoretical_price, calculate_518880_theoretical_price
 from src.calibration_model import calculate_conversion_factor, summarize_conversion_factors
 from src.historical_data_validator import validate_historical_csv, normalize_historical_rows, summarize_data_quality
+from src.historical_data_builder import load_source_manifest, build_standard_historical_rows, write_standard_historical_csv, summarize_build
 
 
 def _default_config() -> dict[str, Any]:
@@ -268,6 +269,22 @@ class PreciousMetalsMonitor:
         self._write_history_validation_report(report_md, quality, result["invalid_rows"], times)
         return quality, str(validated_csv), str(report_md), str(log_csv)
 
+    def run_build_history(self, manifest_path: str) -> tuple[list[dict[str, Any]], str, str, str]:
+        times = self.now_triplet()
+        manifest = load_source_manifest(manifest_path)
+        candidate_rows = build_standard_historical_rows(manifest)
+        summary_rows = summarize_build(candidate_rows)
+
+        candidate_csv = Path("data/real_historical_candidate.csv")
+        report_md = Path("reports/historical_data_build_report.md")
+        log_csv = Path("historical_data_build_log.csv")
+        report_md.parent.mkdir(parents=True, exist_ok=True)
+
+        write_standard_historical_csv(candidate_rows, str(candidate_csv))
+        self._write_history_build_log_csv(log_csv, summary_rows, times)
+        self._write_history_build_report(report_md, summary_rows, times)
+        return summary_rows, str(candidate_csv), str(report_md), str(log_csv)
+
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
         times = self.now_triplet()
         input_rows: list[dict[str, Any]] = []
@@ -468,6 +485,41 @@ class PreciousMetalsMonitor:
             writer.writeheader()
             for row in rows:
                 writer.writerow(row)
+
+    def _write_history_build_log_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        fields = ["timestamp_jst", "timestamp_et", "symbol", "total_rows", "missing_metal_price_count", "missing_fx_count", "date_start", "date_end", "build_status", "warning_flags"]
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **row})
+
+    def _write_history_build_report(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        lines = [
+            "# Historical Data Build Report",
+            "",
+            "## 当前时间",
+            f"- JST: {times['jst']}",
+            f"- CST: {times['cst']}",
+            f"- ET: {times['et']}",
+            "",
+            "## 模型状态",
+            "- historical_data_build",
+            "- research_only",
+            "- no_auto_trade",
+            "",
+            "## 数据源说明",
+            "- 当前 raw sample 不是最终真实市场数据。",
+            "- Phase 4A 只负责 raw CSV 合并。",
+            "- 真实 API / 授权数据源接入放在 Phase 4B。",
+            "",
+            "## Build Summary",
+            "| symbol | total_rows | missing_metal_price_count | missing_fx_count | date_start | date_end | build_status | warning_flags |",
+            "|---|---:|---:|---:|---|---|---|---|",
+        ]
+        for r in rows:
+            lines.append(f"| {r['symbol']} | {r['total_rows']} | {r['missing_metal_price_count']} | {r['missing_fx_count']} | {r['date_start']} | {r['date_end']} | {r['build_status']} | {r['warning_flags']} |")
+        path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_history_validation_log_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
         fields = ["timestamp_jst", "timestamp_et", "symbol", "total_rows", "valid_rows", "invalid_rows", "date_start", "date_end", "missing_actual_price_count", "missing_metal_price_count", "missing_fx_count", "duplicate_date_count", "data_quality_score", "validation_status", "warning_flags"]
