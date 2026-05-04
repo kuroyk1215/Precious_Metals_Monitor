@@ -166,13 +166,22 @@ def convert_ibkr_bars_to_raw_rows(symbol: str, currency: str, bars: list[dict[st
         return []
     rows: list[dict[str, Any]] = []
     for bar in bars:
+        if isinstance(bar, dict):
+            date_value = bar.get("date", "")
+            close_value = bar.get("close", "")
+        else:
+            date_value = getattr(bar, "date", "")
+            close_value = getattr(bar, "close", "")
+        date_text = str(date_value)
+        if len(date_text) == 8 and date_text.isdigit():
+            date_text = f"{date_text[0:4]}-{date_text[4:6]}-{date_text[6:8]}"
         rows.append({
-            "date": bar.get("date", ""),
+            "date": date_text,
             "symbol": symbol,
-            "close": bar.get("close", ""),
+            "close": close_value,
             "currency": currency,
             "source": "ibkr_historical_bars",
-            "notes": "read_only|not_calibrated|user_must_validate",
+            "notes": "read_only|not_calibrated|user_must_validate|ibkr_historical_bars",
         })
     return rows
 
