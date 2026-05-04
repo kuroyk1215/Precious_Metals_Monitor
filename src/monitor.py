@@ -16,6 +16,7 @@ from src.calibration_model import calculate_conversion_factor, summarize_convers
 from src.historical_data_validator import validate_historical_csv, normalize_historical_rows, summarize_data_quality
 from src.historical_data_builder import load_source_manifest, build_standard_historical_rows, write_standard_historical_csv, summarize_build
 from src.source_adapters import load_source_provider_manifest, summarize_source_providers, write_source_audit_log_csv, build_source_audit_report
+from src.ibkr_historical_adapter import build_ibkr_historical_request_plan, validate_ibkr_historical_plan, write_ibkr_historical_plan_csv, write_ibkr_raw_prices_csv, summarize_ibkr_historical_adapter
 
 
 def _default_config() -> dict[str, Any]:
@@ -297,6 +298,24 @@ class PreciousMetalsMonitor:
         write_source_audit_log_csv(summary_rows, str(log_csv), times)
         build_source_audit_report(summary_rows, str(report_md), times)
         return summary_rows, str(report_md), str(log_csv)
+
+
+    def run_ibkr_historical_plan(self) -> tuple[list[dict[str, Any]], str, str, str]:
+        times = self.now_triplet()
+        symbols = ["1540.T", "1542.T"]
+        plans = build_ibkr_historical_request_plan(symbols=symbols)
+        validated_plans = [validate_ibkr_historical_plan(plan) for plan in plans]
+        summary_rows = summarize_ibkr_historical_adapter(validated_plans)
+
+        plan_csv = Path("reports/ibkr_historical_request_plan.csv")
+        report_md = Path("reports/ibkr_historical_adapter_report.md")
+        raw_csv = Path("data/raw/ibkr_jp_etf_prices_candidate.csv")
+        report_md.parent.mkdir(parents=True, exist_ok=True)
+
+        write_ibkr_historical_plan_csv(validated_plans, str(plan_csv))
+        write_ibkr_raw_prices_csv([], str(raw_csv))
+        self._write_ibkr_historical_adapter_report(report_md, summary_rows, times)
+        return summary_rows, str(plan_csv), str(report_md), str(raw_csv)
 
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
         times = self.now_triplet()
@@ -636,6 +655,38 @@ class PreciousMetalsMonitor:
             "- 不执行自动交易；",
             "- conversion_factor 当前为 mock 示例，后续需要用历史 NAV / 实际 ETF 价格 / 金银价格 / 汇率数据校准。",
         ]
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+
+    def _write_ibkr_historical_adapter_report(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        lines = [
+            "# IBKR Historical Adapter Report",
+            "",
+            "## 当前时间",
+            f"- JST: {times['jst']}",
+            f"- CST: {times['cst']}",
+            f"- ET: {times['et']}",
+            "",
+            "## 模型状态",
+            "- ibkr_historical_adapter_plan",
+            "- research_only",
+            "- no_auto_trade",
+            "- no_reqHistoricalData_call",
+            "",
+            "## 边界声明",
+            "- Phase 4B-1 只生成 request plan；",
+            "- 不连接 TWS；",
+            "- 不调用 reqHistoricalData；",
+            "- 不修改 existing smoke fallback；",
+            "- 不输出买卖点；",
+            "- 不写入 calibration 参数。",
+            "",
+            "## Request Plan Summary",
+            "| symbol | adapter_status | validation_status | warning_flags |",
+            "|---|---|---|---|",
+        ]
+        for r in rows:
+            lines.append(f"| {r['symbol']} | {r['adapter_status']} | {r['validation_status']} | {r['warning_flags']} |")
         path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_contract_search_report(self, path: Path, rows: list[ContractSearchRow], times: dict[str, str], conn_status: str, search_status: str) -> None:
