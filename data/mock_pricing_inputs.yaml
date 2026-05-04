@@ -1,0 +1,24 @@
+gold_price_usd_per_oz: 4000.0
+silver_price_usd_per_oz: 48.0
+usd_jpy: 155.0
+usd_cnh: 7.20
+
+symbols:
+  1540.T:
+    actual_price: 21893.0
+    conversion_factor: 0.035
+    premium_discount_pct: 0.0
+    data_confidence_score: 0.7
+
+  1542.T:
+    actual_price: 34935.0
+    conversion_factor: 470.0
+    premium_discount_pct: 0.0
+    data_confidence_score: 0.7
+
+  518880.SH:
+    actual_price: null
+    conversion_factor: 0.00025
+    premium_discount_pct: 0.0
+    data_confidence_score: 0.4
+    external_price_status: missing_actual_price
