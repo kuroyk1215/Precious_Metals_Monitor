@@ -214,3 +214,24 @@ python main.py --config config.yaml --validate-history data/raw/ibkr_jp_etf_pric
 
 - 不自动 calibration；
 - 不下单、不撤单、不调仓。
+
+## Phase 4B-2B: IBKR historical bars read-only execute
+
+- 只有在 `--execute-ibkr-historical-fetch` 显式开关下，才允许通过 TWS `reqHistoricalData` 尝试读取历史日线 bars；
+- 默认 dry-run 仍不连接 TWS；
+- execute 前提：
+  1. TWS 或 IB Gateway 正在运行；
+  2. API 已开启；
+  3. Read-Only API 开启；
+  4. localhost 连接允许；
+  5. 对目标市场数据有权限；
+- historical data 可用性受 IBKR/TWS 权限及历史数据限制影响；
+- 仅请求 1540.T / 1542.T，顺序请求，不并发；
+- 输出 raw CSV 后，用户必须手动运行：
+
+```bash
+python main.py --config config.yaml --validate-history data/raw/ibkr_jp_etf_prices_candidate.csv
+```
+
+- 不自动 calibration；
+- 不交易。

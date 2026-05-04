@@ -41,8 +41,19 @@ def fetch_ibkr_historical_bars_readonly(config: dict[str, Any], ibkr_client: Any
         return results
 
     for symbol in symbols:
-        bars = fetch_method(symbol=symbol, duration=config.get("duration", "1 Y"), bar_size=config.get("bar_size", "1 day"), what_to_show=config.get("what_to_show", "TRADES"), use_rth=config.get("use_rth", 1))
-        if bars is None:
-            bars = []
-        results.append(IBKRHistoricalFetchResult(symbol=symbol, rows=bars, fetch_status="executed_readonly", warning_flags="none", notes="read_only|no_auto_trade"))
+        try:
+            bars = fetch_method(
+                symbol=symbol,
+                duration=config.get("duration", "1 Y"),
+                bar_size=config.get("bar_size", "1 day"),
+                what_to_show=config.get("what_to_show", "TRADES"),
+                use_rth=config.get("use_rth", 1),
+                timeout_sec=int(config.get("timeout_sec", 30)),
+            )
+            if bars is None:
+                bars = []
+            status = "executed_readonly" if bars else "executed_readonly_empty"
+            results.append(IBKRHistoricalFetchResult(symbol=symbol, rows=bars, fetch_status=status, warning_flags="none", notes="read_only|no_auto_trade|endDateTime_empty"))
+        except Exception as exc:
+            results.append(IBKRHistoricalFetchResult(symbol=symbol, rows=[], fetch_status="error", warning_flags=f"fetch_error:{exc}", notes="read_only|no_auto_trade"))
     return results

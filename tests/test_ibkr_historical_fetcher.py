@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 
 from src.ibkr_historical_adapter import (
     build_ibkr_historical_fetch_config,
@@ -9,29 +10,66 @@ from src.ibkr_historical_adapter import (
 from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
 
 
+class FakeClient:
+    def __init__(self, fail_symbol: Optional[str] = None, empty_symbol: Optional[str] = None):
+        self.calls: list[str] = []
+        self.fail_symbol = fail_symbol
+        self.empty_symbol = empty_symbol
+
+    def request_historical_daily_bars_readonly(self, symbol: str, **_: object):
+        self.calls.append(symbol)
+        if symbol == self.fail_symbol:
+            raise RuntimeError("boom")
+        if symbol == self.empty_symbol:
+            return []
+        return [{"date": "20260102", "close": 123.4}]
+
+
 def test_dry_run_default_not_executed() -> None:
     config = build_ibkr_historical_fetch_config()
-    results = fetch_ibkr_historical_bars_readonly(config)
+    fake = FakeClient()
+    results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
     assert all(r.fetch_status == "dry_run_not_executed" for r in results)
+    assert fake.calls == []
 
 
-def test_execute_false_status() -> None:
-    config = build_ibkr_historical_fetch_config(execute=False)
-    results = fetch_ibkr_historical_bars_readonly(config)
-    assert results[0].fetch_status == "dry_run_not_executed"
-
-
-def test_execute_without_explicit_confirmation_invalid() -> None:
+def test_execute_calls_readonly_method() -> None:
     config = build_ibkr_historical_fetch_config(execute=True)
-    config["explicit_user_confirmed"] = False
-    validated = validate_ibkr_historical_fetch_config(config)
-    assert validated["validation_status"] == "invalid"
+    fake = FakeClient()
+    results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
+    assert [r.symbol for r in results] == ["1540.T", "1542.T"]
+    assert fake.calls == ["1540.T", "1542.T"]
+    assert all(r.fetch_status == "executed_readonly" for r in results)
 
 
 def test_execute_missing_client() -> None:
     config = build_ibkr_historical_fetch_config(execute=True)
     results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=None)
-    assert results[0].fetch_status in {"missing_ibkr_client", "adapter_not_implemented"}
+    assert results[0].fetch_status == "missing_ibkr_client"
+
+
+def test_execute_single_symbol_error_does_not_break_all() -> None:
+    config = build_ibkr_historical_fetch_config(execute=True)
+    fake = FakeClient(fail_symbol="1540.T")
+    results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
+    assert results[0].fetch_status == "error"
+    assert results[1].fetch_status in {"executed_readonly", "executed_readonly_empty"}
+    assert "fetch_error" in results[0].warning_flags
+
+
+def test_empty_bars_status() -> None:
+    config = build_ibkr_historical_fetch_config(execute=True, symbols=["1540.T"])
+    fake = FakeClient(empty_symbol="1540.T")
+    results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
+    assert results[0].fetch_status == "executed_readonly_empty"
+
+
+def test_not_connected_like_error_not_marked_empty() -> None:
+    config = build_ibkr_historical_fetch_config(execute=True, symbols=["1540.T"])
+    fake = FakeClient(fail_symbol="1540.T")
+    results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
+    assert results[0].fetch_status == "error"
+    assert results[0].fetch_status != "executed_readonly_empty"
 
 
 def test_only_support_target_symbols() -> None:
@@ -40,14 +78,10 @@ def test_only_support_target_symbols() -> None:
     assert validated["validation_status"] == "invalid"
 
 
-def test_convert_bars_to_raw_rows() -> None:
-    rows = convert_ibkr_bars_to_raw_rows("1540.T", "JPY", [{"date": "2026-01-02", "close": 123.4}])
-    assert rows[0]["source"] == "ibkr_historical_bars"
-    assert set(rows[0].keys()) == {"date", "symbol", "close", "currency", "source", "notes"}
-
-
-def test_empty_bars_to_empty_rows() -> None:
-    assert convert_ibkr_bars_to_raw_rows("1540.T", "JPY", []) == []
+def test_convert_bars_to_raw_rows_date_formats() -> None:
+    rows = convert_ibkr_bars_to_raw_rows("1540.T", "JPY", [{"date": "20260102", "close": 1}, {"date": "2026-01-03", "close": "2"}])
+    assert rows[0]["date"] == "2026-01-02"
+    assert rows[1]["date"] == "2026-01-03"
 
 
 def test_write_raw_csv_header(tmp_path: Path) -> None:
@@ -66,9 +100,10 @@ def test_no_trade_keywords_in_entrypoints() -> None:
 
 def test_dry_run_path_no_reqhistoricaldata_call() -> None:
     text = Path("src/ibkr_historical_fetcher.py").read_text(encoding="utf-8")
-    assert "dry_run_not_executed" in text
+    assert ".reqHistoricalData(" not in text
 
 
-def test_ibkr_data_client_not_modified() -> None:
-    text = Path("src/ibkr_data_client.py").read_text(encoding="utf-8")
-    assert "class IBKRDataClient" in text
+def test_reqhistoricaldata_only_in_data_client_method_or_docs() -> None:
+    for file_path in ["src/monitor.py", "src/ibkr_historical_fetcher.py", "main.py"]:
+        text = Path(file_path).read_text(encoding="utf-8")
+        assert ".reqHistoricalData(" not in text

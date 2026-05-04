@@ -302,6 +302,59 @@ class IBKRDataClient:
         except Exception as exc:  # pragma: no cover
             return None, str(exc)
 
+    def request_historical_daily_bars_readonly(
+        self,
+        symbol: str,
+        duration: str = "1 Y",
+        bar_size: str = "1 day",
+        what_to_show: str = "TRADES",
+        use_rth: int = 1,
+        timeout_sec: int = 30,
+    ) -> list[dict[str, Any]]:
+        if symbol not in {"1540.T", "1542.T"}:
+            raise ValueError(f"unsupported_symbol:{symbol}")
+        if self.ib is None or not self.ib.isConnected():
+            raise RuntimeError("ibkr_not_connected")
+        symbol_num = symbol.split(".", 1)[0]
+        contract_config = {
+            "symbol": symbol_num,
+            "secType": "STK",
+            "exchange": "TSEJ",
+            "currency": "JPY",
+            "primaryExchange": "TSEJ",
+            "localSymbol": symbol_num,
+        }
+        contract, status, _ = self.build_contract({"symbol": symbol, "ibkr": contract_config}, contract_config)
+        if contract is None or status != "qualified":
+            raise RuntimeError(f"contract_not_qualified:{status}")
+        try:
+            bars = self.ib.reqHistoricalData(
+                contract,
+                endDateTime="",
+                durationStr=duration,
+                barSizeSetting=bar_size,
+                whatToShow=what_to_show,
+                useRTH=bool(use_rth),
+                formatDate=1,
+                keepUpToDate=False,
+                timeout=float(timeout_sec),
+            )
+        except Exception as exc:  # pragma: no cover
+            raise RuntimeError(f"reqHistoricalData_error:{exc}") from exc
+        out: list[dict[str, Any]] = []
+        for bar in bars or []:
+            out.append(
+                {
+                    "date": str(getattr(bar, "date", "")),
+                    "close": getattr(bar, "close", None),
+                    "open": getattr(bar, "open", None),
+                    "high": getattr(bar, "high", None),
+                    "low": getattr(bar, "low", None),
+                    "volume": getattr(bar, "volume", None),
+                }
+            )
+        return out
+
     def search_contracts(self, query: str) -> tuple[list[ContractSearchRow], str]:
         if self.ib is None or not self.ib.isConnected():
             return [ContractSearchRow(query, None, "", "", "", "", "", "", "", "", "", "", "no_ibkr_contract_match")], "not_connected"
