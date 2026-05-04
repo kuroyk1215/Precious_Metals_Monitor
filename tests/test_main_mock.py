@@ -24,3 +24,9 @@ def test_no_trading_api_strings_present():
     banned = ["placeOrder", "cancelOrder", "reqOpenOrders", "bracketOrder", "whatIfOrder"]
     for token in banned:
         assert token not in content
+
+
+def test_calibration_csv_generates_outputs():
+    subprocess.run(["python3", "main.py", "--config", "config.yaml", "--calibration-csv", "data/historical_calibration_sample.csv"], check=True)
+    assert Path("conversion_factor_calibration_log.csv").exists()
+    assert Path("reports/conversion_factor_calibration_report.md").exists()
