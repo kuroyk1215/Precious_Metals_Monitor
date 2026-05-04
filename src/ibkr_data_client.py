@@ -314,7 +314,7 @@ class IBKRDataClient:
         if symbol not in {"1540.T", "1542.T"}:
             raise ValueError(f"unsupported_symbol:{symbol}")
         if self.ib is None or not self.ib.isConnected():
-            return []
+            raise RuntimeError("ibkr_not_connected")
         symbol_num = symbol.split(".", 1)[0]
         contract_config = {
             "symbol": symbol_num,
@@ -326,7 +326,7 @@ class IBKRDataClient:
         }
         contract, status, _ = self.build_contract({"symbol": symbol, "ibkr": contract_config}, contract_config)
         if contract is None or status != "qualified":
-            return []
+            raise RuntimeError(f"contract_not_qualified:{status}")
         try:
             bars = self.ib.reqHistoricalData(
                 contract,
@@ -339,8 +339,8 @@ class IBKRDataClient:
                 keepUpToDate=False,
                 timeout=float(timeout_sec),
             )
-        except Exception:  # pragma: no cover
-            return []
+        except Exception as exc:  # pragma: no cover
+            raise RuntimeError(f"reqHistoricalData_error:{exc}") from exc
         out: list[dict[str, Any]] = []
         for bar in bars or []:
             out.append(

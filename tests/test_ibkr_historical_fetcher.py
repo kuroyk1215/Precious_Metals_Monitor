@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 
 from src.ibkr_historical_adapter import (
     build_ibkr_historical_fetch_config,
@@ -10,7 +11,7 @@ from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
 
 
 class FakeClient:
-    def __init__(self, fail_symbol: str | None = None, empty_symbol: str | None = None):
+    def __init__(self, fail_symbol: Optional[str] = None, empty_symbol: Optional[str] = None):
         self.calls: list[str] = []
         self.fail_symbol = fail_symbol
         self.empty_symbol = empty_symbol
@@ -53,6 +54,7 @@ def test_execute_single_symbol_error_does_not_break_all() -> None:
     results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
     assert results[0].fetch_status == "error"
     assert results[1].fetch_status in {"executed_readonly", "executed_readonly_empty"}
+    assert "fetch_error" in results[0].warning_flags
 
 
 def test_empty_bars_status() -> None:
@@ -60,6 +62,14 @@ def test_empty_bars_status() -> None:
     fake = FakeClient(empty_symbol="1540.T")
     results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
     assert results[0].fetch_status == "executed_readonly_empty"
+
+
+def test_not_connected_like_error_not_marked_empty() -> None:
+    config = build_ibkr_historical_fetch_config(execute=True, symbols=["1540.T"])
+    fake = FakeClient(fail_symbol="1540.T")
+    results = fetch_ibkr_historical_bars_readonly(config, ibkr_client=fake)
+    assert results[0].fetch_status == "error"
+    assert results[0].fetch_status != "executed_readonly_empty"
 
 
 def test_only_support_target_symbols() -> None:
