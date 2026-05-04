@@ -16,7 +16,8 @@ from src.calibration_model import calculate_conversion_factor, summarize_convers
 from src.historical_data_validator import validate_historical_csv, normalize_historical_rows, summarize_data_quality
 from src.historical_data_builder import load_source_manifest, build_standard_historical_rows, write_standard_historical_csv, summarize_build
 from src.source_adapters import load_source_provider_manifest, summarize_source_providers, write_source_audit_log_csv, build_source_audit_report
-from src.ibkr_historical_adapter import build_ibkr_historical_request_plan, validate_ibkr_historical_plan, write_ibkr_historical_plan_csv, write_ibkr_raw_prices_csv, summarize_ibkr_historical_adapter
+from src.ibkr_historical_adapter import build_ibkr_historical_request_plan, validate_ibkr_historical_plan, write_ibkr_historical_plan_csv, write_ibkr_raw_prices_csv, summarize_ibkr_historical_adapter, build_ibkr_historical_fetch_config, validate_ibkr_historical_fetch_config, convert_ibkr_bars_to_raw_rows, write_ibkr_historical_fetch_report
+from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
 
 
 def _default_config() -> dict[str, Any]:
@@ -316,6 +317,38 @@ class PreciousMetalsMonitor:
         write_ibkr_raw_prices_csv([], str(raw_csv))
         self._write_ibkr_historical_adapter_report(report_md, summary_rows, times)
         return summary_rows, str(plan_csv), str(report_md), str(raw_csv)
+
+
+    def run_ibkr_historical_fetch(self, execute: bool = False) -> tuple[list[dict[str, Any]], str, str, str]:
+        times = self.now_triplet()
+        config = build_ibkr_historical_fetch_config(execute=execute)
+        config["explicit_user_confirmed"] = bool(execute)
+        validated = validate_ibkr_historical_fetch_config(config)
+
+        client = None
+        if execute and validated.get("validation_status") == "valid":
+            client = IBKRDataClient(self.config["ibkr"])
+
+        results = fetch_ibkr_historical_bars_readonly(validated, ibkr_client=client)
+        raw_rows: list[dict[str, Any]] = []
+        summary_rows: list[dict[str, Any]] = []
+        for result in results:
+            converted = convert_ibkr_bars_to_raw_rows(result.symbol, "JPY", result.rows)
+            raw_rows.extend(converted)
+            summary_rows.append({
+                "symbol": result.symbol,
+                "row_count": len(converted),
+                "fetch_status": result.fetch_status,
+                "warning_flags": result.warning_flags,
+            })
+
+        raw_csv = Path("data/raw/ibkr_jp_etf_prices_candidate.csv")
+        report_md = Path("reports/ibkr_historical_fetch_report.md")
+        log_csv = Path("ibkr_historical_fetch_log.csv")
+        write_ibkr_raw_prices_csv(raw_rows, str(raw_csv))
+        write_ibkr_historical_fetch_report(str(report_md), summary_rows, validated, times)
+        self._write_ibkr_historical_fetch_log_csv(log_csv, summary_rows, times, validated.get("mode", "dry_run"))
+        return summary_rows, str(raw_csv), str(report_md), str(log_csv)
 
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
         times = self.now_triplet()
@@ -688,6 +721,14 @@ class PreciousMetalsMonitor:
         for r in rows:
             lines.append(f"| {r['symbol']} | {r['adapter_status']} | {r['validation_status']} | {r['warning_flags']} |")
         path.write_text("\n".join(lines), encoding="utf-8")
+
+    def _write_ibkr_historical_fetch_log_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str], mode: str) -> None:
+        fields = ["timestamp_jst", "timestamp_et", "mode", "symbol", "row_count", "fetch_status", "warning_flags"]
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], "mode": mode, **row})
 
     def _write_contract_search_report(self, path: Path, rows: list[ContractSearchRow], times: dict[str, str], conn_status: str, search_status: str) -> None:
         lines = [

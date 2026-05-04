@@ -18,12 +18,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--build-history", help="run phase-4A raw history builder from source manifest")
     parser.add_argument("--source-audit", help="run phase-4B-0 source adapter audit from provider manifest")
     parser.add_argument("--ibkr-historical-plan", action="store_true", help="run phase-4B-1 IBKR historical adapter plan-only workflow")
+    parser.add_argument("--ibkr-historical-fetch", action="store_true", help="run phase-4B-2A IBKR historical fetch workflow (dry-run default)")
+    parser.add_argument("--execute-ibkr-historical-fetch", action="store_true", help="explicitly execute read-only IBKR historical fetch")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch))
 
     if args.pricing_mock:
         rows, csv_path, md_path = monitor.run_pricing_mock("data/mock_pricing_inputs.yaml")
@@ -65,6 +67,19 @@ def main() -> int:
         print(f"report={report_md}")
         print(f"raw_csv={raw_csv}")
         print("NOTICE: IBKR historical adapter is plan-only in Phase 4B-1. No reqHistoricalData call / no auto order / no auto sell / no cancel.")
+        return 0
+
+
+    if args.ibkr_historical_fetch:
+        rows, raw_csv, report_md, log_csv = monitor.run_ibkr_historical_fetch(execute=args.execute_ibkr_historical_fetch)
+        print(f"[IBKR_HISTORICAL_FETCH] mode={'execute' if args.execute_ibkr_historical_fetch else 'dry_run'} symbols={len(rows)}")
+        print(f"raw_csv={raw_csv}")
+        print(f"report={report_md}")
+        print(f"log_csv={log_csv}")
+        if args.execute_ibkr_historical_fetch:
+            print("NOTICE: Read-only historical fetch requested by explicit user switch. No auto order / no auto sell / no cancel.")
+        else:
+            print("NOTICE: Dry-run only. No TWS connection / no reqHistoricalData call / no auto order / no auto sell / no cancel.")
         return 0
 
     if args.build_history:

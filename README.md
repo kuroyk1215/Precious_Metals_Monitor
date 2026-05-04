@@ -185,3 +185,32 @@ python main.py --config config.yaml --ibkr-historical-plan
 - 输出 raw CSV candidate 表头（`data/raw/ibkr_jp_etf_prices_candidate.csv`）；
 - 后续 Phase 4B-2 才允许在显式开关下调用 reqHistoricalData；
 - 不修改既有 smoke / fallback 行为。
+
+## Phase 4B-2A: IBKR historical fetch explicit switch + dry-run default
+
+Dry-run（默认，不连接 TWS，不调用 reqHistoricalData）：
+
+```bash
+python main.py --config config.yaml --ibkr-historical-fetch
+```
+
+Execute（仅显式开关触发，只读 historical fetch）：
+
+```bash
+python main.py --config config.yaml --ibkr-historical-fetch --execute-ibkr-historical-fetch
+```
+
+说明：
+- 默认 dry-run；
+- 不连接 TWS；
+- 不调用 reqHistoricalData；
+- execute 需要显式开关；
+- 本阶段允许返回 `adapter_not_implemented`；
+- 输出 raw CSV 后仍需用户运行：
+
+```bash
+python main.py --config config.yaml --validate-history data/raw/ibkr_jp_etf_prices_candidate.csv
+```
+
+- 不自动 calibration；
+- 不下单、不撤单、不调仓。
