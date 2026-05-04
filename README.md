@@ -169,3 +169,19 @@ python main.py --config config.yaml --calibration-csv data/validated_historical_
 - 不抓取 LBMA/SGE/BOJ/FRED；
 - 真实 adapter 实现在 Phase 4B-1 之后；
 - licensed metals price 必须用授权或人工 CSV。
+
+## Phase 4B-1: IBKR historical bars adapter skeleton（plan-only）
+
+命令：
+
+```bash
+python main.py --config config.yaml --ibkr-historical-plan
+```
+
+说明：
+- 本阶段只生成 IBKR historical request plan；
+- 默认不连接 TWS；
+- 默认不调用 reqHistoricalData；
+- 输出 raw CSV candidate 表头（`data/raw/ibkr_jp_etf_prices_candidate.csv`）；
+- 后续 Phase 4B-2 才允许在显式开关下调用 reqHistoricalData；
+- 不修改既有 smoke / fallback 行为。
