@@ -31,6 +31,26 @@ python3 main.py --config config.yaml --watchlist watchlist.yaml --ibkr-smoke
 5. 无市场数据订阅时返回 delayed/unavailable 属正常现象。
 6. 本项目不会下单，不会卖出，不会撤单。
 
+## 第三阶段：理论价格模型框架验证（只读，当前主入口）
+运行：
+```bash
+python3 main.py --config config.yaml --pricing-mock
+```
+
+预期输出：
+- `pricing_model_log.csv`
+- `reports/pricing_model_report.md`
+
+说明：
+- 该流程用于理论价格模型框架验证，不是正式历史校准。
+- 不新增自动交易逻辑，不执行下单/卖出/撤单。
+- conversion_factor 当前仅为 mock 示例，不是最终交易参数。
+
+## 后续实验入口：历史校准（非第三阶段主入口）
+```bash
+python3 main.py --config config.yaml --watchlist watchlist.yaml --calibrate-model
+```
+
 ## 依赖说明
 - `ib_insync` 为可选依赖，仅真实连接 IBKR 时需要。
 - `PyYAML` 缺失时会提示：`请先 pip install -r requirements.txt`。
