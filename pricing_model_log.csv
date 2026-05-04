@@ -1,0 +1,4 @@
+timestamp_jst,timestamp_et,symbol,model_type,actual_price,theoretical_price,deviation_pct,metal_price_used,fx_used,conversion_factor,premium_discount_pct,data_confidence_score,pricing_status,warning_flags
+2026-05-04T15:25:40.926627+09:00,2026-05-04T02:25:40.926627-04:00,1540.T,gold_etf_jp,21893.0,21700.000000000004,0.8894009216589692,4000.0,155.0,0.035,0.0,0.7,ok,none
+2026-05-04T15:25:40.926627+09:00,2026-05-04T02:25:40.926627-04:00,1542.T,silver_etf_jp,34935.0,34968.0,-0.0943719972546328,48.0,155.0,4.7,0.0,0.7,ok,none
+2026-05-04T15:25:40.926627+09:00,2026-05-04T02:25:40.926627-04:00,518880.SH,gold_etf_cn,,7.2,,4000.0,7.2,0.00025,0.0,0.4,ok,missing_actual_price

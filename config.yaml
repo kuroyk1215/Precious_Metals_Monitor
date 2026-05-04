@@ -12,6 +12,8 @@ runtime:
   markdown_report: reports/latest_report.md
   ibkr_smoke_csv: ibkr_smoke_log.csv
   ibkr_smoke_report: reports/ibkr_smoke_report.md
+  model_calibration_json: reports/model_calibration.json
+  model_calibration_report: reports/model_calibration.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai

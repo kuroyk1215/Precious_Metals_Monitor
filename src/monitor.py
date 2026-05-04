@@ -7,20 +7,24 @@ from pathlib import Path
 from typing import Any
 
 import csv
+import json
 
 from src.ibkr_data_client import ContractSearchRow, IBKRDataClient, SmokeQuote
+from src.pricing_model import calculate_1540_theoretical_price, calculate_1542_theoretical_price, calculate_518880_theoretical_price
 
 
 def _default_config() -> dict[str, Any]:
     return {
         "ibkr": {"host": "127.0.0.1", "port": 7496, "client_id": 1, "timeout_sec": 5, "readonly": True, "account_mode": "live", "read_only_required": True},
-        "runtime": {
-            "csv_log": "precious_metals_signal_log.csv",
-            "markdown_report": "reports/latest_report.md",
-            "ibkr_smoke_csv": "ibkr_smoke_log.csv",
-            "ibkr_smoke_report": "reports/ibkr_smoke_report.md",
-            "timezone": {"jst": "Asia/Tokyo", "cst": "Asia/Shanghai", "et": "America/New_York"},
-        },
+            "runtime": {
+                "csv_log": "precious_metals_signal_log.csv",
+                "markdown_report": "reports/latest_report.md",
+                "ibkr_smoke_csv": "ibkr_smoke_log.csv",
+                "ibkr_smoke_report": "reports/ibkr_smoke_report.md",
+                "model_calibration_json": "reports/model_calibration.json",
+                "model_calibration_report": "reports/model_calibration.md",
+                "timezone": {"jst": "Asia/Tokyo", "cst": "Asia/Shanghai", "et": "America/New_York"},
+            },
         "market_data": {"delayed_data_trade_threshold_deviation_pct": 1.5},
         "model": {
             "shanghai_gold_premium_pct": 0.8,
@@ -147,6 +151,70 @@ class PreciousMetalsMonitor:
         self._write_markdown(md_path, rows, times)
         return rows, str(csv_path), str(md_path)
 
+    def run_model_calibration(self, force_mock: bool = True) -> tuple[list[dict[str, Any]], str, str]:
+        anchors = {"XAUUSD": 2350.0, "XAGUSD": 28.5, "USDJPY": 155.0, "USDCNH": 7.2}
+        quotes = self._build_quotes(use_mock=force_mock, ibkr_connected=False)
+        historical_cfg = self.config.get("model", {}).get("historical_premium_discount_pct", {})
+        conversion_cfg = self.config.get("model", {}).get("etf_conversion_factor", {})
+        sh_premium_pct = float(self.config.get("model", {}).get("shanghai_gold_premium_pct", 0.0))
+        calibrated_rows: list[dict[str, Any]] = []
+
+        for q in quotes:
+            theo_base = None
+            if q.symbol == "518880.SH":
+                theo_base = anchors["XAUUSD"] * anchors["USDCNH"] * 0.001
+                theo_base *= (1 + sh_premium_pct / 100)
+            elif q.symbol == "1540.T":
+                theo_base = anchors["XAUUSD"] * anchors["USDJPY"] * float(conversion_cfg.get(q.symbol, 0.1))
+            elif q.symbol == "1542.T":
+                theo_base = anchors["XAGUSD"] * anchors["USDJPY"] * float(conversion_cfg.get(q.symbol, 0.1))
+
+            old_premium_pct = float(historical_cfg.get(q.symbol, 0.0))
+            calibrated_premium_pct = None
+            if theo_base and q.actual_price:
+                calibrated_premium_pct = ((q.actual_price / theo_base) - 1) * 100
+            calibrated_rows.append(
+                {
+                    "symbol": q.symbol,
+                    "market": q.market,
+                    "data_status": q.data_status,
+                    "actual_price": q.actual_price,
+                    "theoretical_base_price": round(theo_base, 6) if theo_base else None,
+                    "old_historical_premium_pct": old_premium_pct,
+                    "calibrated_historical_premium_pct": round(calibrated_premium_pct, 6) if calibrated_premium_pct is not None else None,
+                    "premium_shift_pct": round(calibrated_premium_pct - old_premium_pct, 6) if calibrated_premium_pct is not None else None,
+                }
+            )
+
+        json_path = Path(self.config["runtime"].get("model_calibration_json", "reports/model_calibration.json"))
+        md_path = Path(self.config["runtime"].get("model_calibration_report", "reports/model_calibration.md"))
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps({"anchors": anchors, "rows": calibrated_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
+        self._write_model_calibration_report(md_path, calibrated_rows, anchors)
+        return calibrated_rows, str(json_path), str(md_path)
+
+    def run_pricing_mock(self, pricing_input_path: str = "data/mock_pricing_inputs.yaml") -> tuple[list[dict[str, Any]], str, str]:
+        inputs = self._load_yaml(pricing_input_path, kind="config")
+        symbols = inputs.get("symbols", {})
+        xau = float(inputs.get("gold_price_usd_per_oz", 0.0))
+        xag = float(inputs.get("silver_price_usd_per_oz", 0.0))
+        usd_jpy = float(inputs.get("usd_jpy", 0.0))
+        usd_cnh = float(inputs.get("usd_cnh", 0.0))
+        rows = [
+            calculate_1540_theoretical_price(**symbols.get("1540.T", {}), xau_usd=xau, usd_jpy=usd_jpy),
+            calculate_1542_theoretical_price(**symbols.get("1542.T", {}), xag_usd=xag, usd_jpy=usd_jpy),
+            calculate_518880_theoretical_price(**symbols.get("518880.SH", {}), xau_usd=xau, usd_cnh=usd_cnh),
+        ]
+        times = self.now_triplet()
+        csv_path = Path("pricing_model_log.csv")
+        md_path = Path("reports/pricing_model_report.md")
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        self._write_pricing_mock_csv(csv_path, rows, times)
+        self._write_pricing_mock_report(md_path, rows, times)
+        return rows, str(csv_path), str(md_path)
+
     def run_ibkr_smoke(self, preferred_data_type: str = "delayed") -> tuple[list[SmokeQuote], str, str, str]:
         times = self.now_triplet()
         client = IBKRDataClient(self.config["ibkr"])
@@ -263,6 +331,67 @@ class PreciousMetalsMonitor:
                 writer.writeheader()
             for r in rows:
                 writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **r.__dict__})
+
+    def _write_model_calibration_report(self, path: Path, rows: list[dict[str, Any]], anchors: dict[str, float]) -> None:
+        lines = [
+            "# Phase-3 理论价格模型校准报告",
+            "",
+            "## 锚点价格（示例）",
+            f"- XAUUSD: {anchors['XAUUSD']}",
+            f"- XAGUSD: {anchors['XAGUSD']}",
+            f"- USDJPY: {anchors['USDJPY']}",
+            f"- USDCNH: {anchors['USDCNH']}",
+            "",
+            "## 校准结果",
+            "| symbol | market | data_status | actual_price | theoretical_base_price | old_historical_premium_pct | calibrated_historical_premium_pct | premium_shift_pct |",
+            "|---|---|---|---:|---:|---:|---:|---:|",
+        ]
+        for row in rows:
+            lines.append(
+                f"| {row['symbol']} | {row['market']} | {row['data_status']} | {row['actual_price']} | {row['theoretical_base_price']} | {row['old_historical_premium_pct']} | {row['calibrated_historical_premium_pct']} | {row['premium_shift_pct']} |"
+            )
+        lines += [
+            "",
+            "说明：该阶段仅输出模型参数建议值，不触发任何交易动作。",
+        ]
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+    def _write_pricing_mock_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        fields = ["timestamp_jst", "timestamp_et", "symbol", "model_type", "actual_price", "theoretical_price", "deviation_pct", "metal_price_used", "fx_used", "conversion_factor", "premium_discount_pct", "data_confidence_score", "pricing_status", "warning_flags"]
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **row})
+
+    def _write_pricing_mock_report(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        lines = [
+            "# Pricing Model Framework Verification Report",
+            "",
+            "## 当前时间",
+            f"- JST: {times['jst']}",
+            f"- CST: {times['cst']}",
+            f"- ET: {times['et']}",
+            "",
+            "## 模型状态",
+            "- pricing_mock",
+            "- no_auto_trade",
+            "- research_only",
+            "",
+            "## 定价结果",
+            "| symbol | model_type | actual_price | theoretical_price | deviation_pct | metal_price_used | fx_used | conversion_factor | premium_discount_pct | data_confidence_score | pricing_status | warning_flags |",
+            "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---|",
+        ]
+        for r in rows:
+            lines.append(f"| {r['symbol']} | {r['model_type']} | {r['actual_price']} | {r['theoretical_price']} | {r['deviation_pct']} | {r['metal_price_used']} | {r['fx_used']} | {r['conversion_factor']} | {r['premium_discount_pct']} | {r['data_confidence_score']} | {r['pricing_status']} | {r['warning_flags']} |")
+        lines += [
+            "",
+            "- 本报告仅用于理论价格模型框架验证；",
+            "- 不构成投资建议；",
+            "- 不执行自动交易；",
+            "- conversion_factor 当前为 mock 示例，后续需要用历史 NAV / 实际 ETF 价格 / 金银价格 / 汇率数据校准。",
+        ]
+        path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_contract_search_report(self, path: Path, rows: list[ContractSearchRow], times: dict[str, str], conn_status: str, search_status: str) -> None:
         lines = [
