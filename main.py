@@ -16,12 +16,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--calibration-csv", help="run phase-3B conversion_factor calibration using historical sample csv")
     parser.add_argument("--validate-history", help="run phase-3C historical import validator")
     parser.add_argument("--build-history", help="run phase-4A raw history builder from source manifest")
+    parser.add_argument("--source-audit", help="run phase-4B-0 source adapter audit from provider manifest")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history)))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit)))
 
     if args.pricing_mock:
         rows, csv_path, md_path = monitor.run_pricing_mock("data/mock_pricing_inputs.yaml")
@@ -47,6 +48,13 @@ def main() -> int:
         print("NOTICE: Read-only contract discovery only. No auto order / no auto sell / no cancel.")
         return 0
 
+    if args.source_audit:
+        rows, report_md, log_csv = monitor.run_source_audit(args.source_audit)
+        print(f"[SOURCE_ADAPTER_AUDIT] providers={len(rows)}")
+        print(f"report={report_md}")
+        print(f"log_csv={log_csv}")
+        print("NOTICE: Source audit is research-only workflow. No auto order / no auto sell / no cancel.")
+        return 0
 
     if args.build_history:
         rows, candidate_csv, report_md, log_csv = monitor.run_build_history(args.build_history)
