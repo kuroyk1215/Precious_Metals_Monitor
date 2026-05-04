@@ -1,0 +1,32 @@
+outlier_mad_threshold: 3.5
+symbols:
+  1540.T:
+    premium_discount_pct: 0.1
+    records:
+      - date: 2026-04-10
+        actual_price: 2912.0
+        metal_price: 2351.0
+        fx_rate: 155.0
+      - date: 2026-04-11
+        actual_price: 2898.0
+        metal_price: 2340.0
+        fx_rate: 154.8
+      - date: 2026-04-12
+        actual_price: 2921.0
+        metal_price: 2358.0
+        fx_rate: 155.2
+  1542.T:
+    premium_discount_pct: 0.1
+    records:
+      - date: 2026-04-10
+        actual_price: 442.0
+        metal_price: 28.6
+        fx_rate: 155.0
+      - date: 2026-04-11
+        actual_price: 438.0
+        metal_price: 28.3
+        fx_rate: 154.8
+      - date: 2026-04-12
+        actual_price: 441.0
+        metal_price: 28.5
+        fx_rate: 155.2

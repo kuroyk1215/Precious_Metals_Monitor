@@ -8,9 +8,11 @@ from typing import Any
 
 import csv
 import json
+import statistics
 
 from src.ibkr_data_client import ContractSearchRow, IBKRDataClient, SmokeQuote
 from src.pricing_model import calculate_1540_theoretical_price, calculate_1542_theoretical_price, calculate_518880_theoretical_price
+from src.calibration_model import calculate_conversion_factor, summarize_conversion_factors
 
 
 def _default_config() -> dict[str, Any]:
@@ -151,7 +153,7 @@ class PreciousMetalsMonitor:
         self._write_markdown(md_path, rows, times)
         return rows, str(csv_path), str(md_path)
 
-    def run_model_calibration(self, force_mock: bool = True) -> tuple[list[dict[str, Any]], str, str]:
+    def run_model_calibration(self, force_mock: bool = True, conversion_input_path: str = "data/conversion_factor_samples.yaml") -> tuple[list[dict[str, Any]], str, str]:
         anchors = {"XAUUSD": 2350.0, "XAGUSD": 28.5, "USDJPY": 155.0, "USDCNH": 7.2}
         quotes = self._build_quotes(use_mock=force_mock, ibkr_connected=False)
         historical_cfg = self.config.get("model", {}).get("historical_premium_discount_pct", {})
@@ -186,13 +188,85 @@ class PreciousMetalsMonitor:
                 }
             )
 
+        conversion_rows, conversion_summary = self._calibrate_conversion_factors(conversion_input_path)
+
         json_path = Path(self.config["runtime"].get("model_calibration_json", "reports/model_calibration.json"))
         md_path = Path(self.config["runtime"].get("model_calibration_report", "reports/model_calibration.md"))
         json_path.parent.mkdir(parents=True, exist_ok=True)
         md_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps({"anchors": anchors, "rows": calibrated_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
-        self._write_model_calibration_report(md_path, calibrated_rows, anchors)
+        json_path.write_text(json.dumps({"anchors": anchors, "rows": calibrated_rows, "conversion_factor_calibration": {"samples": conversion_rows, "summary": conversion_summary}}, ensure_ascii=False, indent=2), encoding="utf-8")
+        self._write_model_calibration_report(md_path, calibrated_rows, anchors, conversion_summary)
         return calibrated_rows, str(json_path), str(md_path)
+
+    def _calibrate_conversion_factors(self, conversion_input_path: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+        data = self._load_yaml(conversion_input_path, kind="config")
+        symbols = data.get("symbols", {}) if isinstance(data, dict) else {}
+        mad_threshold = float(data.get("outlier_mad_threshold", 3.5)) if isinstance(data, dict) else 3.5
+        sample_rows: list[dict[str, Any]] = []
+        summary_rows: list[dict[str, Any]] = []
+
+        for symbol, payload in symbols.items():
+            premium_pct = float(payload.get("premium_discount_pct", 0.0))
+            records = payload.get("records", [])
+            factors: list[float] = []
+            for idx, record in enumerate(records):
+                actual_price = record.get("actual_price")
+                metal_price = record.get("metal_price")
+                fx_rate = record.get("fx_rate")
+                if actual_price is None or metal_price is None or fx_rate in (None, 0) or metal_price == 0:
+                    sample_rows.append({"symbol": symbol, "index": idx, "status": "invalid_sample", "raw_conversion_factor": None})
+                    continue
+                denominator = float(metal_price) * float(fx_rate) * (1 + premium_pct / 100)
+                if denominator == 0:
+                    sample_rows.append({"symbol": symbol, "index": idx, "status": "invalid_denominator", "raw_conversion_factor": None})
+                    continue
+                cf = float(actual_price) / denominator
+                factors.append(cf)
+                sample_rows.append({"symbol": symbol, "index": idx, "status": "ok", "raw_conversion_factor": round(cf, 10)})
+
+            if not factors:
+                summary_rows.append({"symbol": symbol, "sample_count": 0, "inlier_count": 0, "recommended_conversion_factor": None, "median_conversion_factor": None, "stdev_conversion_factor": None, "status": "insufficient_samples"})
+                continue
+
+            median_cf = statistics.median(factors)
+            deviations = [abs(x - median_cf) for x in factors]
+            mad = statistics.median(deviations) if deviations else 0.0
+            if mad == 0:
+                inliers = factors
+            else:
+                inliers = [x for x in factors if abs(x - median_cf) / mad <= mad_threshold]
+            recommended = statistics.median(inliers) if inliers else median_cf
+            stdev = statistics.pstdev(inliers) if len(inliers) > 1 else 0.0
+            summary_rows.append({
+                "symbol": symbol,
+                "sample_count": len(factors),
+                "inlier_count": len(inliers),
+                "recommended_conversion_factor": round(recommended, 10),
+                "median_conversion_factor": round(median_cf, 10),
+                "stdev_conversion_factor": round(stdev, 10),
+                "status": "ok" if inliers else "all_outliers",
+            })
+        return sample_rows, summary_rows
+
+
+    def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
+        times = self.now_triplet()
+        input_rows: list[dict[str, Any]] = []
+        with open(calibration_csv_path, "r", encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                input_rows.append(row)
+
+        implied_rows = [calculate_conversion_factor(row) for row in input_rows]
+        summary_rows = summarize_conversion_factors(implied_rows)
+
+        csv_path = Path("conversion_factor_calibration_log.csv")
+        md_path = Path("reports/conversion_factor_calibration_report.md")
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        self._write_conversion_factor_calibration_csv(csv_path, summary_rows, times)
+        self._write_conversion_factor_calibration_report(md_path, summary_rows, times)
+        return summary_rows, str(csv_path), str(md_path)
 
     def run_pricing_mock(self, pricing_input_path: str = "data/mock_pricing_inputs.yaml") -> tuple[list[dict[str, Any]], str, str]:
         inputs = self._load_yaml(pricing_input_path, kind="config")
@@ -332,7 +406,7 @@ class PreciousMetalsMonitor:
             for r in rows:
                 writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **r.__dict__})
 
-    def _write_model_calibration_report(self, path: Path, rows: list[dict[str, Any]], anchors: dict[str, float]) -> None:
+    def _write_model_calibration_report(self, path: Path, rows: list[dict[str, Any]], anchors: dict[str, float], conversion_summary: list[dict[str, Any]]) -> None:
         lines = [
             "# Phase-3 理论价格模型校准报告",
             "",
@@ -352,8 +426,50 @@ class PreciousMetalsMonitor:
             )
         lines += [
             "",
+            "## conversion_factor 校准建议（Phase-3B）",
+            "| symbol | sample_count | inlier_count | recommended_conversion_factor | median_conversion_factor | stdev_conversion_factor | status |",
+            "|---|---:|---:|---:|---:|---:|---|",
+        ]
+        for row in conversion_summary:
+            lines.append(
+                f"| {row['symbol']} | {row['sample_count']} | {row['inlier_count']} | {row['recommended_conversion_factor']} | {row['median_conversion_factor']} | {row['stdev_conversion_factor']} | {row['status']} |"
+            )
+        lines += [
+            "",
             "说明：该阶段仅输出模型参数建议值，不触发任何交易动作。",
         ]
+        path.write_text("\n".join(lines), encoding="utf-8")
+
+
+    def _write_conversion_factor_calibration_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        fields = ["timestamp_jst", "timestamp_et", "symbol", "observation_count", "mean_conversion_factor", "median_conversion_factor", "std_conversion_factor", "min_conversion_factor", "max_conversion_factor", "p10_conversion_factor", "p90_conversion_factor", "latest_conversion_factor", "recommended_conversion_factor", "stability_score", "calibration_status", "warning_flags"]
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **row})
+
+    def _write_conversion_factor_calibration_report(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        lines = [
+            "# Conversion Factor Calibration Report",
+            "",
+            "## 当前时间",
+            f"- JST: {times['jst']}",
+            f"- CST: {times['cst']}",
+            f"- ET: {times['et']}",
+            "",
+            "## 模型状态",
+            "- conversion_factor_calibration",
+            "- research_only",
+            "- no_auto_trade",
+            "",
+            "## 汇总结果",
+            "| symbol | observation_count | mean_conversion_factor | median_conversion_factor | std_conversion_factor | min_conversion_factor | max_conversion_factor | p10_conversion_factor | p90_conversion_factor | latest_conversion_factor | recommended_conversion_factor | stability_score | calibration_status | warning_flags |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|",
+        ]
+        for r in rows:
+            lines.append(f"| {r['symbol']} | {r['observation_count']} | {r['mean_conversion_factor']} | {r['median_conversion_factor']} | {r['std_conversion_factor']} | {r['min_conversion_factor']} | {r['max_conversion_factor']} | {r['p10_conversion_factor']} | {r['p90_conversion_factor']} | {r['latest_conversion_factor']} | {r['recommended_conversion_factor']} | {r['stability_score']} | {r['calibration_status']} | {r['warning_flags']} |")
+        lines += ["", "本报告仅用于研究，不构成投资建议，不执行自动交易。"]
         path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_pricing_mock_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:

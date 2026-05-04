@@ -46,7 +46,22 @@ python3 main.py --config config.yaml --pricing-mock
 - 不新增自动交易逻辑，不执行下单/卖出/撤单。
 - conversion_factor 当前仅为 mock 示例，不是最终交易参数。
 
-## 后续实验入口：历史校准（非第三阶段主入口）
+## 第三阶段 B：conversion_factor 校准框架（验收入口）
+```bash
+python main.py --config config.yaml --calibration-csv data/historical_calibration_sample.csv
+```
+
+输出：
+- `conversion_factor_calibration_log.csv`
+- `reports/conversion_factor_calibration_report.md`
+
+说明：
+- `data/historical_calibration_sample.csv` 当前是 **synthetic/sample** 数据，不是真实市场历史行情；
+- 真实校准需要接入历史 ETF 价格、金银价格、汇率与折溢价序列；
+- `recommended_conversion_factor` 仅用于研究，不是交易参数；
+- 本项目不自动交易。
+
+## 后续实验入口：历史校准（扩展，非第三阶段 B 验收入口）
 ```bash
 python3 main.py --config config.yaml --watchlist watchlist.yaml --calibrate-model
 ```
