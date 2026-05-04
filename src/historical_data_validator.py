@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+"""Phase-3C historical CSV validation utilities."""
+
 from datetime import datetime
 from typing import Any
 from collections import defaultdict

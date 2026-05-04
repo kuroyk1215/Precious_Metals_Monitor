@@ -498,8 +498,11 @@ class PreciousMetalsMonitor:
         for r in quality_rows:
             lines.append(f"| {r['symbol']} | {r['total_rows']} | {r['valid_rows']} | {r['invalid_rows']} | {r['date_start']} | {r['date_end']} | {r['missing_actual_price_count']} | {r['missing_metal_price_count']} | {r['missing_fx_count']} | {r['duplicate_date_count']} | {r['data_quality_score']} | {r['validation_status']} | {r['warning_flags']} |")
         lines += ["", "## 无效行明细", "| line | symbol | date | errors |", "|---:|---|---|---|"]
-        for r in invalid_rows:
-            lines.append(f"| {r.get('line')} | {r.get('symbol')} | {r.get('date')} | {r.get('errors')} |")
+        if not invalid_rows:
+            lines.append("| - | - | - | none |")
+        else:
+            for r in invalid_rows:
+                lines.append(f"| {r.get('line')} | {r.get('symbol')} | {r.get('date')} | {r.get('errors')} |")
         path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_conversion_factor_calibration_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
