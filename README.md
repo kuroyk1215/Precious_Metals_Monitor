@@ -61,6 +61,25 @@ python main.py --config config.yaml --calibration-csv data/historical_calibratio
 - `recommended_conversion_factor` 仅用于研究，不是交易参数；
 - 本项目不自动交易。
 
+## 第三阶段 C：真实历史数据导入与校验器（验收入口）
+```bash
+python main.py --config config.yaml --validate-history data/historical_import_template.csv
+```
+
+输出：
+- `data/validated_historical_data.csv`
+- `reports/historical_data_validation_report.md`
+- `historical_data_validation_log.csv`
+
+说明：
+- `--validate-history` 是第三阶段 C 导入与校验入口；
+- `--calibration-csv` 是第三阶段 B 的 conversion_factor 校准入口；
+- 推荐流程：
+  1. 先运行 `--validate-history`；
+  2. 检查 `reports/historical_data_validation_report.md`；
+  3. 若 `validation_status=ok`，再将 `data/validated_historical_data.csv` 输入 `--calibration-csv`；
+  4. 命令：`python main.py --config config.yaml --calibration-csv data/validated_historical_data.csv`。
+
 ## 后续实验入口：历史校准（扩展，非第三阶段 B 验收入口）
 ```bash
 python3 main.py --config config.yaml --watchlist watchlist.yaml --calibrate-model

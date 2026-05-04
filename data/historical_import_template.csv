@@ -1,0 +1,10 @@
+date,symbol,actual_price,metal_price_used,fx_used,premium_discount_pct,data_source,notes
+2026-01-01,1540.T,2900,2350,155,0.001,template_sample,"synthetic template row, not real market data"
+2026-01-02,1540.T,2902,2351,155.1,0.001,template_sample,"synthetic template row, not real market data"
+2026-01-03,1540.T,2898,2349,154.9,,template_sample,"synthetic template row, not real market data"
+2026-01-01,1542.T,440,28.5,155,0.001,template_sample,"synthetic template row, not real market data"
+2026-01-02,1542.T,441,28.6,155.1,0.001,template_sample,"synthetic template row, not real market data"
+2026-01-03,1542.T,439,28.4,154.9,,template_sample,"synthetic template row, not real market data"
+2026-01-01,518880.SH,5.1,2350,7.2,0.002,template_sample,"synthetic template row, not real market data"
+2026-01-02,518880.SH,5.11,2351,7.19,0.002,template_sample,"synthetic template row, not real market data"
+2026-01-03,518880.SH,5.09,2349,7.21,,template_sample,"synthetic template row, not real market data"
