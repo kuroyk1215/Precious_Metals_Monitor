@@ -12,7 +12,7 @@ symbols:
 
   1542.T:
     actual_price: 34935.0
-    conversion_factor: 470.0
+    conversion_factor: 4.7
     premium_discount_pct: 0.0
     data_confidence_score: 0.7
 

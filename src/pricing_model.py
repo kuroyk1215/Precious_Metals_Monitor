@@ -17,8 +17,11 @@ def _build_result(
     warning_flags: list[str],
 ) -> dict[str, Any]:
     deviation_pct = None
+    computed_flags = list(warning_flags)
     if actual_price is not None and theoretical_price is not None and theoretical_price != 0:
         deviation_pct = ((actual_price - theoretical_price) / theoretical_price) * 100
+        if abs(deviation_pct) > 20:
+            computed_flags.append("large_model_deviation")
     return {
         "symbol": symbol,
         "model_type": model_type,
@@ -31,7 +34,7 @@ def _build_result(
         "premium_discount_pct": premium_discount_pct,
         "data_confidence_score": data_confidence_score,
         "pricing_status": pricing_status,
-        "warning_flags": ",".join(warning_flags) if warning_flags else "none",
+        "warning_flags": ",".join(computed_flags) if computed_flags else "none",
     }
 
 
