@@ -137,3 +137,35 @@ python main.py --config config.yaml --calibration-csv data/validated_historical_
 - Phase 4A 不联网、不抓取、不调用交易 API。
 - Phase 4A 只做 raw CSV 合并为标准历史 CSV。
 - 真实 API / 授权数据源接入放在 Phase 4B。
+
+## Phase 4B-0: Source Adapter Framework (Research-only)
+
+推荐流程：
+
+1. source audit：
+```bash
+python main.py --config config.yaml --source-audit data/source_provider_manifest_template.yaml
+```
+
+2. raw build：
+```bash
+python main.py --config config.yaml --build-history data/source_manifest_template.yaml
+```
+
+3. validate：
+```bash
+python main.py --config config.yaml --validate-history data/real_historical_candidate.csv
+```
+
+4. calibration：
+```bash
+python main.py --config config.yaml --calibration-csv data/validated_historical_data.csv
+```
+
+明确：
+- Phase 4B-0 只是数据源审计框架；
+- 不联网；
+- 不调用 reqHistoricalData；
+- 不抓取 LBMA/SGE/BOJ/FRED；
+- 真实 adapter 实现在 Phase 4B-1 之后；
+- licensed metals price 必须用授权或人工 CSV。

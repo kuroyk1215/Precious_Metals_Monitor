@@ -15,6 +15,7 @@ from src.pricing_model import calculate_1540_theoretical_price, calculate_1542_t
 from src.calibration_model import calculate_conversion_factor, summarize_conversion_factors
 from src.historical_data_validator import validate_historical_csv, normalize_historical_rows, summarize_data_quality
 from src.historical_data_builder import load_source_manifest, build_standard_historical_rows, write_standard_historical_csv, summarize_build
+from src.source_adapters import load_source_provider_manifest, summarize_source_providers, write_source_audit_log_csv, build_source_audit_report
 
 
 def _default_config() -> dict[str, Any]:
@@ -284,6 +285,18 @@ class PreciousMetalsMonitor:
         self._write_history_build_log_csv(log_csv, summary_rows, times)
         self._write_history_build_report(report_md, summary_rows, times)
         return summary_rows, str(candidate_csv), str(report_md), str(log_csv)
+
+    def run_source_audit(self, manifest_path: str) -> tuple[list[dict[str, Any]], str, str]:
+        times = self.now_triplet()
+        providers = load_source_provider_manifest(manifest_path)
+        summary_rows = summarize_source_providers(providers)
+
+        report_md = Path("reports/source_audit_report.md")
+        log_csv = Path("source_audit_log.csv")
+        report_md.parent.mkdir(parents=True, exist_ok=True)
+        write_source_audit_log_csv(summary_rows, str(log_csv), times)
+        build_source_audit_report(summary_rows, str(report_md), times)
+        return summary_rows, str(report_md), str(log_csv)
 
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
         times = self.now_triplet()

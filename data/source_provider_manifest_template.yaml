@@ -1,0 +1,87 @@
+providers:
+  - provider_id: file_raw_sample
+    provider_type: file
+    status: available
+    online_required: false
+    license_required: false
+    intended_use: raw_csv_ingestion
+    symbols:
+      - 1540.T
+      - 1542.T
+      - 518880.SH
+    fields:
+      - date
+      - close
+      - currency
+    notes: synthetic sample only, not real market data
+
+  - provider_id: ibkr_historical_bars
+    provider_type: ibkr_tws_api
+    status: planned
+    online_required: true
+    license_required: depends_on_market_data_subscription
+    intended_use: jp_etf_actual_close
+    symbols:
+      - 1540.T
+      - 1542.T
+    fields:
+      - date
+      - close
+      - volume
+    notes: planned read-only historical data adapter, not implemented in Phase 4B-0
+
+  - provider_id: boj_fx_daily
+    provider_type: official_fx
+    status: planned
+    online_required: true
+    license_required: false_or_public_terms_to_confirm
+    intended_use: USDJPY official daily FX
+    symbols:
+      - USDJPY
+    fields:
+      - date
+      - rate
+    notes: planned source; daily recent data and long-term BOJ Time-Series route to confirm
+
+  - provider_id: fed_h10_fx
+    provider_type: official_fx
+    status: planned
+    online_required: true
+    license_required: false_or_public_terms_to_confirm
+    intended_use: USDCNY reference FX, not USDCNH
+    symbols:
+      - USDCNY
+    fields:
+      - date
+      - rate
+    notes: planned source; CNH still requires separate source decision
+
+  - provider_id: licensed_metals_manual
+    provider_type: licensed_or_manual
+    status: manual_required
+    online_required: false
+    license_required: true
+    intended_use: XAU/XAG benchmark or licensed metals price
+    symbols:
+      - XAU
+      - XAG
+    fields:
+      - date
+      - price_usd
+      - unit
+    notes: do not scrape LBMA; licensed/manual input required
+
+  - provider_id: sge_precious_metals_candidate
+    provider_type: official_candidate
+    status: needs_review
+    online_required: true
+    license_required: terms_to_confirm
+    intended_use: SGE Au99.99 or Ag reference candidate
+    symbols:
+      - Au99.99
+      - Ag99.99
+    fields:
+      - date
+      - close
+      - unit
+    notes: candidate only; do not implement scraper in Phase 4B-0
