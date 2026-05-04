@@ -14,12 +14,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--calibrate-model", action="store_true", help="run phase-3 theoretical pricing model calibration (read-only)")
     parser.add_argument("--pricing-mock", action="store_true", help="run phase-3 pricing model framework verification with mock inputs")
     parser.add_argument("--calibration-csv", help="run phase-3B conversion_factor calibration using historical sample csv")
+    parser.add_argument("--validate-history", help="run phase-3C historical import validator")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv)))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history)))
 
     if args.pricing_mock:
         rows, csv_path, md_path = monitor.run_pricing_mock("data/mock_pricing_inputs.yaml")
@@ -45,6 +46,16 @@ def main() -> int:
         print("NOTICE: Read-only contract discovery only. No auto order / no auto sell / no cancel.")
         return 0
 
+
+
+    if args.validate_history:
+        rows, validated_csv, report_md, log_csv = monitor.run_validate_history(args.validate_history)
+        print(f"[HISTORICAL_DATA_VALIDATION] symbols={len(rows)}")
+        print(f"validated_csv={validated_csv}")
+        print(f"report={report_md}")
+        print(f"log_csv={log_csv}")
+        print("NOTICE: Historical validation is research-only workflow. No auto order / no auto sell / no cancel.")
+        return 0
 
     if args.calibration_csv:
         rows, csv_path, md_path = monitor.run_conversion_factor_calibration_csv(args.calibration_csv)

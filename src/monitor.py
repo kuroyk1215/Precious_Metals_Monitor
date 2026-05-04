@@ -13,6 +13,7 @@ import statistics
 from src.ibkr_data_client import ContractSearchRow, IBKRDataClient, SmokeQuote
 from src.pricing_model import calculate_1540_theoretical_price, calculate_1542_theoretical_price, calculate_518880_theoretical_price
 from src.calibration_model import calculate_conversion_factor, summarize_conversion_factors
+from src.historical_data_validator import validate_historical_csv, normalize_historical_rows, summarize_data_quality
 
 
 def _default_config() -> dict[str, Any]:
@@ -249,6 +250,24 @@ class PreciousMetalsMonitor:
         return sample_rows, summary_rows
 
 
+
+    def run_validate_history(self, csv_path: str) -> tuple[list[dict[str, Any]], str, str, str]:
+        times = self.now_triplet()
+        result = validate_historical_csv(csv_path)
+        normalized = normalize_historical_rows(result["valid_rows"])
+        quality = summarize_data_quality(normalized, result["invalid_rows"])
+
+        validated_csv = Path("data/validated_historical_data.csv")
+        report_md = Path("reports/historical_data_validation_report.md")
+        log_csv = Path("historical_data_validation_log.csv")
+        validated_csv.parent.mkdir(parents=True, exist_ok=True)
+        report_md.parent.mkdir(parents=True, exist_ok=True)
+
+        self._write_validated_history_csv(validated_csv, normalized)
+        self._write_history_validation_log_csv(log_csv, quality, times)
+        self._write_history_validation_report(report_md, quality, result["invalid_rows"], times)
+        return quality, str(validated_csv), str(report_md), str(log_csv)
+
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
         times = self.now_triplet()
         input_rows: list[dict[str, Any]] = []
@@ -440,6 +459,51 @@ class PreciousMetalsMonitor:
         ]
         path.write_text("\n".join(lines), encoding="utf-8")
 
+
+
+    def _write_validated_history_csv(self, path: Path, rows: list[dict[str, Any]]) -> None:
+        fields = ["date", "symbol", "actual_price", "metal_price_used", "fx_used", "premium_discount_pct", "data_source", "notes"]
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow(row)
+
+    def _write_history_validation_log_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        fields = ["timestamp_jst", "timestamp_et", "symbol", "total_rows", "valid_rows", "invalid_rows", "date_start", "date_end", "missing_actual_price_count", "missing_metal_price_count", "missing_fx_count", "duplicate_date_count", "data_quality_score", "validation_status", "warning_flags"]
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({"timestamp_jst": times["jst"], "timestamp_et": times["et"], **row})
+
+    def _write_history_validation_report(self, path: Path, quality_rows: list[dict[str, Any]], invalid_rows: list[dict[str, Any]], times: dict[str, str]) -> None:
+        lines = [
+            "# Historical Data Validation Report",
+            "",
+            "## 当前时间",
+            f"- JST: {times['jst']}",
+            f"- CST: {times['cst']}",
+            f"- ET: {times['et']}",
+            "",
+            "## 模型状态",
+            "- historical_data_validation",
+            "- research_only",
+            "- no_auto_trade",
+            "",
+            "## 数据质量汇总",
+            "| symbol | total_rows | valid_rows | invalid_rows | date_start | date_end | missing_actual_price_count | missing_metal_price_count | missing_fx_count | duplicate_date_count | data_quality_score | validation_status | warning_flags |",
+            "|---|---:|---:|---:|---|---|---:|---:|---:|---:|---:|---|---|",
+        ]
+        for r in quality_rows:
+            lines.append(f"| {r['symbol']} | {r['total_rows']} | {r['valid_rows']} | {r['invalid_rows']} | {r['date_start']} | {r['date_end']} | {r['missing_actual_price_count']} | {r['missing_metal_price_count']} | {r['missing_fx_count']} | {r['duplicate_date_count']} | {r['data_quality_score']} | {r['validation_status']} | {r['warning_flags']} |")
+        lines += ["", "## 无效行明细", "| line | symbol | date | errors |", "|---:|---|---|---|"]
+        if not invalid_rows:
+            lines.append("| - | - | - | none |")
+        else:
+            for r in invalid_rows:
+                lines.append(f"| {r.get('line')} | {r.get('symbol')} | {r.get('date')} | {r.get('errors')} |")
+        path.write_text("\n".join(lines), encoding="utf-8")
 
     def _write_conversion_factor_calibration_csv(self, path: Path, rows: list[dict[str, Any]], times: dict[str, str]) -> None:
         fields = ["timestamp_jst", "timestamp_et", "symbol", "observation_count", "mean_conversion_factor", "median_conversion_factor", "std_conversion_factor", "min_conversion_factor", "max_conversion_factor", "p10_conversion_factor", "p90_conversion_factor", "latest_conversion_factor", "recommended_conversion_factor", "stability_score", "calibration_status", "warning_flags"]
