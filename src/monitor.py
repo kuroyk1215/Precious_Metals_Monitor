@@ -19,6 +19,7 @@ from src.source_adapters import load_source_provider_manifest, summarize_source_
 from src.ibkr_historical_adapter import build_ibkr_historical_request_plan, validate_ibkr_historical_plan, write_ibkr_historical_plan_csv, write_ibkr_raw_prices_csv, summarize_ibkr_historical_adapter, build_ibkr_historical_fetch_config, validate_ibkr_historical_fetch_config, convert_ibkr_bars_to_raw_rows, write_ibkr_historical_fetch_report
 from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
 from src.historical_quality_gate import run_quality_gate, write_quality_gate_report, append_quality_gate_log
+from src.historical_pipeline_check import run_historical_pipeline_check, write_historical_pipeline_check_report, append_historical_pipeline_check_log
 
 
 def _default_config() -> dict[str, Any]:
@@ -367,6 +368,20 @@ class PreciousMetalsMonitor:
             "end_date": result.end_date,
             "warning_flags": result.warning_flags,
             "fail_reasons": result.fail_reasons,
+        }, str(report_md), str(log_csv)
+
+
+    def run_historical_pipeline_check(self) -> tuple[dict[str, Any], str, str]:
+        result = run_historical_pipeline_check()
+        report_md = Path("reports/historical_pipeline_check_report.md")
+        log_csv = Path("historical_pipeline_check_log.csv")
+        write_historical_pipeline_check_report(str(report_md), result)
+        append_historical_pipeline_check_log(str(log_csv), result)
+        return {
+            "status": result.status,
+            "current_blocking_step": result.current_blocking_step,
+            "warning_flags": result.warning_flags,
+            "notes": result.notes,
         }, str(report_md), str(log_csv)
 
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:

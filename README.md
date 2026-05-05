@@ -250,3 +250,24 @@ Outputs:
 
 Safety boundary: research-only, no IBKR connection, no reqHistoricalData, no trading/order/cancel, no auto validate-history, no auto calibration-csv.
 
+
+## Phase 4D: Manual Historical Pipeline Integration Check (manual-only)
+
+命令：
+
+```bash
+python main.py --config config.yaml --historical-pipeline-check
+```
+
+用途：
+- 只检查手动链路状态（文件存在性、阻断步骤、人工确认提示）；
+- 生成 `reports/historical_pipeline_check_report.md` 与 `historical_pipeline_check_log.csv`；
+- 不自动执行 `--ibkr-historical-fetch` / `--quality-gate` / `--validate-history` / `--calibration-csv`。
+
+手动链路（必须人工逐步执行）：
+1. `python main.py --config config.yaml --ibkr-historical-fetch`
+2. `python main.py --config config.yaml --quality-gate data/raw/ibkr_jp_etf_prices_candidate.csv`
+3. `python main.py --config config.yaml --validate-history data/raw/ibkr_jp_etf_prices_candidate.csv`
+4. `python main.py --config config.yaml --calibration-csv data/validated_historical_data.csv`
+
+声明：research-only / manual-only / no auto chain / no auto calibration / no auto trade。
