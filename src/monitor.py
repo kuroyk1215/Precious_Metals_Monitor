@@ -22,6 +22,17 @@ from src.historical_quality_gate import run_quality_gate, write_quality_gate_rep
 from src.historical_pipeline_check import run_historical_pipeline_check, write_historical_pipeline_check_report, append_historical_pipeline_check_log
 from src.upstream_factors import ManualUpstreamFactorProvider, FactorSnapshotRow, build_upstream_factor_snapshot
 from src.theoretical_pricing_engine import load_upstream_snapshot, build_theoretical_price_rows, write_theoretical_price_csv, write_theoretical_price_report, TheoreticalPriceRow
+from src.deviation_engine import (
+    ActualEtfPriceRow,
+    DeviationRow,
+    build_manual_actual_price_rows,
+    load_snapshot_by_symbol,
+    build_deviation_rows,
+    write_actual_price_csv,
+    write_actual_price_report,
+    write_deviation_csv,
+    write_deviation_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -195,6 +206,33 @@ class PreciousMetalsMonitor:
         write_theoretical_price_csv(csv_path, rows)
         cst_time = datetime.now(timezone.utc).astimezone(ZoneInfo(self.config["runtime"]["timezone"]["cst"])).isoformat()
         write_theoretical_price_report(md_path, rows, snapshot_path, cst_time)
+        return rows, str(csv_path), str(md_path)
+
+
+    def run_actual_etf_prices(self) -> tuple[list[ActualEtfPriceRow], str, str]:
+        rows = build_manual_actual_price_rows(self.config["runtime"]["timezone"])
+        csv_path = Path(self.config["runtime"].get("actual_etf_price_snapshot_csv", "actual_etf_price_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("actual_etf_price_report", "reports/actual_etf_price_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_actual_price_csv(csv_path, rows)
+        write_actual_price_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
+
+    def run_deviation_check(self, theoretical_path: Optional[str] = None, actual_path: Optional[str] = None) -> tuple[list[DeviationRow], str, str]:
+        theoretical_input = theoretical_path or self.config["runtime"].get("theoretical_price_snapshot_csv", "theoretical_price_snapshot.csv")
+        actual_input = actual_path or self.config["runtime"].get("actual_etf_price_snapshot_csv", "actual_etf_price_snapshot.csv")
+
+        theoretical = load_snapshot_by_symbol(theoretical_input, "etf_symbol")
+        actual = load_snapshot_by_symbol(actual_input, "etf_symbol")
+        rows = build_deviation_rows(theoretical, actual, self.config["runtime"]["timezone"])
+
+        csv_path = Path(self.config["runtime"].get("deviation_snapshot_csv", "deviation_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("deviation_report", "reports/deviation_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_deviation_csv(csv_path, rows)
+        write_deviation_report(md_path, rows, theoretical_input, actual_input)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
