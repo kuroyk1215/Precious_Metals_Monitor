@@ -3,29 +3,29 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import math
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
 class SmokeQuote:
     symbol: str
     market: str
-    bid: float | None
-    ask: float | None
-    last: float | None
-    close: float | None
-    volume: float | None
+    bid: Optional[float]
+    ask: Optional[float]
+    last: Optional[float]
+    close: Optional[float]
+    volume: Optional[float]
     data_status: str
     market_data_type: str
     contract_status: str
     source_status: str
     error_message: str
-    conId: int | None
-    selected_exchange: str | None
-    selected_primary_exchange: str | None
-    selected_local_symbol: str | None
-    candidate_index: int | None
-    fallback_price: float | None
+    conId: Optional[int]
+    selected_exchange: Optional[str]
+    selected_primary_exchange: Optional[str]
+    selected_local_symbol: Optional[str]
+    candidate_index: Optional[int]
+    fallback_price: Optional[float]
     fallback_method: str
     has_valid_price: bool
 
@@ -33,7 +33,7 @@ class SmokeQuote:
 @dataclass
 class ContractSearchRow:
     query: str
-    conId: int | None
+    conId: Optional[int]
     symbol: str
     localSymbol: str
     tradingClass: str
@@ -108,7 +108,7 @@ class IBKRDataClient:
             ]
         return [symbol_config.get("ibkr", {})]
 
-    def build_contract(self, symbol_config: dict[str, Any], candidate: dict[str, str] | None = None) -> tuple[Any | None, str, str]:
+    def build_contract(self, symbol_config: dict[str, Any], candidate: Optional[dict[str, str]] = None) -> tuple[Optional[Any], str, str]:
         ibkr = candidate or symbol_config.get("ibkr", {})
         if symbol_config.get("data_source") == "external_required":
             return None, "unqualified", "external_required"
@@ -146,7 +146,7 @@ class IBKRDataClient:
                 return None, "needs_manual_contract_config", "empty_contract_symbol"
         return contract, "built", "ok"
 
-    def qualify_contract(self, contract: Any) -> tuple[Any | None, str, str]:
+    def qualify_contract(self, contract: Any) -> tuple[Optional[Any], str, str]:
         if self.ib is None or not self.ib.isConnected():
             return None, "unqualified", "not_connected"
         try:
@@ -157,7 +157,7 @@ class IBKRDataClient:
         except Exception as exc:  # pragma: no cover
             return None, "unqualified", str(exc)
 
-    def request_market_data(self, contract: Any, preferred_data_type: str) -> tuple[Any | None, str, str]:
+    def request_market_data(self, contract: Any, preferred_data_type: str) -> tuple[Optional[Any], str, str]:
         if self.ib is None or not self.ib.isConnected():
             return None, "unavailable", "not_connected"
         mapping = {"live": 1, "frozen": 2, "delayed": 3, "delayed_frozen": 4}
@@ -171,7 +171,7 @@ class IBKRDataClient:
             return None, "unavailable", str(exc)
 
     @staticmethod
-    def detect_data_status(market_data_type: str, bid: float | None, ask: float | None, last: float | None, close: float | None) -> str:
+    def detect_data_status(market_data_type: str, bid: Optional[float], ask: Optional[float], last: Optional[float], close: Optional[float]) -> str:
         if bid is None and ask is None and last is None and close is None:
             return "unavailable"
         mapping = {"1": "real_time", "2": "frozen", "3": "delayed", "4": "delayed_frozen"}
@@ -266,7 +266,7 @@ class IBKRDataClient:
         has_valid_price = any(v is not None for v in [bid, ask, last, close, fallback_price])
         return SmokeQuote(symbol, market, bid, ask, last, close, volume, data_status, current_md_type, "qualified", source_status, error_message, getattr(selected_contract, "conId", None), selected_candidate.get("exchange") if selected_candidate else None, selected_candidate.get("primaryExchange") if selected_candidate else None, selected_candidate.get("localSymbol") if selected_candidate else None, selected_index, fallback_price, fallback_method, has_valid_price)
     @staticmethod
-    def _normalize_price(value: Any) -> float | None:
+    def _normalize_price(value: Any) ->Optional[float]:
         if value is None:
             return None
         try:
@@ -277,10 +277,10 @@ class IBKRDataClient:
             return None
         return v
 
-    def _all_quotes_empty(self, bid: float | None, ask: float | None, last: float | None, close: float | None) -> bool:
+    def _all_quotes_empty(self, bid: Optional[float], ask: Optional[float], last: Optional[float], close: Optional[float]) -> bool:
         return bid is None and ask is None and last is None and close is None
 
-    def request_historical_daily_close(self, contract: Any) -> tuple[float | None, str]:
+    def request_historical_daily_close(self, contract: Any) -> tuple[Optional[float], str]:
         if self.ib is None or not self.ib.isConnected():
             return None, "not_connected"
         try:

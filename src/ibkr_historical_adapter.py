@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 import csv
 
 SUPPORTED_SYMBOLS = {"1540.T", "1542.T"}
@@ -105,7 +105,7 @@ def summarize_ibkr_historical_adapter(plans: list[dict[str, Any]]) -> list[dict[
 
 def build_ibkr_historical_fetch_config(
     execute: bool = False,
-    symbols: list[str] | None = None,
+    symbols: Optional[list[str]] = None,
     duration: str = "1 Y",
     bar_size: str = "1 day",
     what_to_show: str = "TRADES",
