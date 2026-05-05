@@ -271,3 +271,22 @@ python main.py --config config.yaml --historical-pipeline-check
 4. `python main.py --config config.yaml --calibration-csv data/validated_historical_data.csv`
 
 声明：research-only / manual-only / no auto chain / no auto calibration / no auto trade。
+
+
+## Phase 5B: Upstream Precious Metals Factor Monitor (Research-only)
+
+运行：
+
+```bash
+python main.py --config config.yaml --upstream-factors
+```
+
+输出：
+- `upstream_factor_snapshot.csv`
+- `reports/upstream_factor_report.md`
+
+说明：
+- 当前使用 source abstraction + manual/mock provider 打通结构；
+- 覆盖因子：`XAUUSD / XAGUSD / USDJPY / USDCNY / SGE_AU99_99`；
+- 无真实源的因子会标记 `source_status=unavailable`，不会伪造实时行情；
+- 仅研究用途：no trading / no order / no auto calibration / no auto pipeline chaining。
