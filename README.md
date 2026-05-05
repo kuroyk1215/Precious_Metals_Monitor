@@ -315,3 +315,43 @@ python main.py --config config.yaml --theoretical-pricing
 - `518880.SH` 优先使用 `SGE_AU99_99`，若 unavailable 则允许 `XAUUSD + USDCNY` external proxy，并明确 warning flag；
 - 会继承 upstream warning flags（例如 manual/mock 标记）；
 - 仅研究用途：no trading / no order / no IBKR connection / no reqHistoricalData / no auto calibration / no auto pipeline chaining。
+
+
+## Phase 5D: ETF Actual vs Theoretical Deviation Engine (Research-only)
+
+1) upstream factors:
+```bash
+python main.py --config config.yaml --upstream-factors
+```
+
+2) theoretical pricing:
+```bash
+python main.py --config config.yaml --theoretical-pricing upstream_factor_snapshot.csv
+```
+
+3) actual ETF prices (manual/mock only):
+```bash
+python main.py --config config.yaml --actual-etf-prices
+```
+
+4) deviation check (explicit files):
+```bash
+python main.py --config config.yaml --deviation-check theoretical_price_snapshot.csv actual_etf_price_snapshot.csv
+```
+
+5) deviation check (default paths):
+```bash
+python main.py --config config.yaml --deviation-check
+```
+
+输出：
+- `actual_etf_price_snapshot.csv`
+- `deviation_snapshot.csv`
+- `reports/actual_etf_price_report.md`
+- `reports/deviation_report.md`
+
+说明：
+- Phase 5D 仅计算偏离率 `actual/theoretical - 1`；
+- 不输出买卖动作；
+- manual/mock 数据会明确标注 `manual_mock_data` 和 `not real-time market data`；
+- 不连接 IBKR，不调用 reqMktData，不调用 reqHistoricalData，不自动校准，不自动 pipeline chaining。

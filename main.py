@@ -24,12 +24,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--historical-pipeline-check", action="store_true", help="run phase-4D manual historical pipeline integration check")
     parser.add_argument("--upstream-factors", action="store_true", help="run phase-5B upstream precious metals factor monitor")
     parser.add_argument("--theoretical-pricing", nargs="?", const="", help="run phase-5C ETF theoretical pricing from upstream snapshot csv")
+    parser.add_argument("--actual-etf-prices", action="store_true", help="run phase-5D manual/mock ETF actual price snapshot")
+    parser.add_argument("--deviation-check", nargs="*", help="run phase-5D deviation check: optional [theoretical_csv actual_csv]")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None))
 
 
     if args.upstream_factors:
@@ -50,6 +52,31 @@ def main() -> int:
         print(f"snapshot_csv={csv_path}")
         print(f"report={md_path}")
         print("NOTICE: Research-only theoretical pricing input layer. No trading / no order / no IBKR connection / no reqHistoricalData / no auto calibration / no auto pipeline chaining.")
+        return 0
+
+
+    if args.actual_etf_prices:
+        rows, csv_path, md_path = monitor.run_actual_etf_prices()
+        print(f"[ACTUAL_ETF_PRICES] etfs={len(rows)} status=manual_mock_only")
+        print(f"snapshot_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: Manual/mock only. Not real-time market data. No IBKR connection / no reqMktData / no reqHistoricalData / no trading.")
+        return 0
+
+    if args.deviation_check is not None:
+        paths = args.deviation_check
+        if len(paths) > 2:
+            print("--deviation-check accepts at most 2 paths: [theoretical_csv actual_csv]", file=sys.stderr)
+            return 2
+        theoretical_path = paths[0] if len(paths) >= 1 else None
+        actual_path = paths[1] if len(paths) >= 2 else None
+        rows, csv_path, md_path = monitor.run_deviation_check(theoretical_path, actual_path)
+        statuses = sorted({r.deviation_status for r in rows})
+        overall = "ok" if statuses == ["ok"] else ("unavailable" if statuses == ["unavailable"] else "partial")
+        print(f"[DEVIATION_CHECK] etfs={len(rows)} status={overall}")
+        print(f"snapshot_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: Deviation-only phase. No buy/sell/trade output / no IBKR connection / no reqMktData / no reqHistoricalData / no auto calibration / no auto pipeline chaining.")
         return 0
 
     if args.pricing_mock:
