@@ -235,3 +235,18 @@ python main.py --config config.yaml --validate-history data/raw/ibkr_jp_etf_pric
 
 - 不自动 calibration；
 - 不交易。
+
+## Phase 4C Historical Quality Gate
+
+Run research-only gate:
+
+```bash
+python main.py --config config.yaml --quality-gate data/raw/ibkr_jp_etf_prices_candidate.csv
+```
+
+Outputs:
+- reports/historical_quality_gate_report.md
+- historical_quality_gate_log.csv
+
+Safety boundary: research-only, no IBKR connection, no reqHistoricalData, no trading/order/cancel, no auto validate-history, no auto calibration-csv.
+
