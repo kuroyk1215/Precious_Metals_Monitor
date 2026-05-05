@@ -22,12 +22,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--execute-ibkr-historical-fetch", action="store_true", help="explicitly execute read-only IBKR historical fetch")
     parser.add_argument("--quality-gate", help="run phase-4C historical data quality gate for candidate csv")
     parser.add_argument("--historical-pipeline-check", action="store_true", help="run phase-4D manual historical pipeline integration check")
+    parser.add_argument("--upstream-factors", action="store_true", help="run phase-5B upstream precious metals factor monitor")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors))
+
+
+    if args.upstream_factors:
+        rows, csv_path, md_path = monitor.run_upstream_factors()
+        statuses = sorted({r.source_status for r in rows})
+        overall = "ok" if statuses == ["ok"] else ("unavailable" if statuses == ["unavailable"] else "partial")
+        print(f"[UPSTREAM_FACTORS] factors={len(rows)} status={overall}")
+        print(f"snapshot_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: Research-only upstream factor monitor. No trading / no order / no auto calibration.")
+        return 0
 
     if args.pricing_mock:
         rows, csv_path, md_path = monitor.run_pricing_mock("data/mock_pricing_inputs.yaml")

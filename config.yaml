@@ -14,6 +14,8 @@ runtime:
   ibkr_smoke_report: reports/ibkr_smoke_report.md
   model_calibration_json: reports/model_calibration.json
   model_calibration_report: reports/model_calibration.md
+  upstream_factor_snapshot_csv: upstream_factor_snapshot.csv
+  upstream_factor_report: reports/upstream_factor_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai

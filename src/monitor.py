@@ -20,6 +20,7 @@ from src.ibkr_historical_adapter import build_ibkr_historical_request_plan, vali
 from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
 from src.historical_quality_gate import run_quality_gate, write_quality_gate_report, append_quality_gate_log
 from src.historical_pipeline_check import run_historical_pipeline_check, write_historical_pipeline_check_report, append_historical_pipeline_check_log
+from src.upstream_factors import ManualUpstreamFactorProvider, FactorSnapshotRow, build_upstream_factor_snapshot
 
 
 def _default_config() -> dict[str, Any]:
@@ -32,6 +33,8 @@ def _default_config() -> dict[str, Any]:
                 "ibkr_smoke_report": "reports/ibkr_smoke_report.md",
                 "model_calibration_json": "reports/model_calibration.json",
                 "model_calibration_report": "reports/model_calibration.md",
+                "upstream_factor_snapshot_csv": "upstream_factor_snapshot.csv",
+                "upstream_factor_report": "reports/upstream_factor_report.md",
                 "timezone": {"jst": "Asia/Tokyo", "cst": "Asia/Shanghai", "et": "America/New_York"},
             },
         "market_data": {"delayed_data_trade_threshold_deviation_pct": 1.5},
@@ -159,6 +162,82 @@ class PreciousMetalsMonitor:
         self._write_csv(csv_path, rows)
         self._write_markdown(md_path, rows, times)
         return rows, str(csv_path), str(md_path)
+
+
+    def run_upstream_factors(self) -> tuple[list[FactorSnapshotRow], str, str]:
+        rows = build_upstream_factor_snapshot(
+            tz_cfg=self.config["runtime"]["timezone"],
+            provider=ManualUpstreamFactorProvider(),
+        )
+
+        csv_path = Path(self.config["runtime"].get("upstream_factor_snapshot_csv", "upstream_factor_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("upstream_factor_report", "reports/upstream_factor_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+
+        self._write_upstream_factors_csv(csv_path, rows)
+        self._write_upstream_factors_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
+
+    def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(["factor", "value", "currency", "unit", "source", "source_status", "timestamp_jst", "timestamp_et", "warning_flags", "notes"])
+            for r in rows:
+                writer.writerow([r.factor, r.value, r.currency, r.unit, r.source, r.source_status, r.timestamp_jst, r.timestamp_et, r.warning_flags, r.notes])
+
+    def _write_upstream_factors_report(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
+        unavailable = [r.factor for r in rows if r.source_status == "unavailable"]
+        warning_flags = sorted({r.warning_flags for r in rows if r.warning_flags and r.warning_flags != "none"})
+        status = "ok"
+        if unavailable and len(unavailable) < len(rows):
+            status = "partial"
+        elif len(unavailable) == len(rows):
+            status = "unavailable"
+
+        current_jst = rows[0].timestamp_jst if rows else "n/a"
+        current_et = rows[0].timestamp_et if rows else "n/a"
+        current_cst = datetime.now(timezone.utc).astimezone(ZoneInfo(self.config["runtime"]["timezone"]["cst"])).isoformat()
+
+        lines = [
+            "# Upstream Factor Monitor Report",
+            "",
+            f"- overall_status: {status}",
+            f"- current_time_jst: {current_jst}",
+            f"- current_time_cst: {current_cst}",
+            f"- current_time_et: {current_et}",
+            "",
+            "## Factors",
+            "",
+            "| factor | value | currency | unit | source | source_status | warning_flags | notes |",
+            "|---|---:|---|---|---|---|---|---|",
+        ]
+        for r in rows:
+            lines.append(f"| {r.factor} | {r.value} | {r.currency} | {r.unit} | {r.source} | {r.source_status} | {r.warning_flags} | {r.notes} |")
+
+        lines.extend([
+            "",
+            "## Unavailable Factors",
+            "",
+            (", ".join(unavailable) if unavailable else "none"),
+            "",
+            "## Warning Flags",
+            "",
+            ("; ".join(warning_flags) if warning_flags else "none"),
+            "",
+            "## Next Step Note",
+            "",
+            "These upstream factors are intended for future theoretical pricing inputs only in a later phase.",
+            "",
+            "## Safety Statement",
+            "",
+            "- research-only",
+            "- no trading",
+            "- no order",
+            "- no auto calibration",
+            "- no auto pipeline chaining",
+        ])
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     def run_model_calibration(self, force_mock: bool = True, conversion_input_path: str = "data/conversion_factor_samples.yaml") -> tuple[list[dict[str, Any]], str, str]:
         anchors = {"XAUUSD": 2350.0, "XAGUSD": 28.5, "USDJPY": 155.0, "USDCNH": 7.2}
