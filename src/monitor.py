@@ -21,6 +21,7 @@ from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
 from src.historical_quality_gate import run_quality_gate, write_quality_gate_report, append_quality_gate_log
 from src.historical_pipeline_check import run_historical_pipeline_check, write_historical_pipeline_check_report, append_historical_pipeline_check_log
 from src.upstream_factors import ManualUpstreamFactorProvider, FactorSnapshotRow, build_upstream_factor_snapshot
+from src.theoretical_pricing_engine import load_upstream_snapshot, build_theoretical_price_rows, write_theoretical_price_csv, write_theoretical_price_report, TheoreticalPriceRow
 
 
 def _default_config() -> dict[str, Any]:
@@ -177,6 +178,23 @@ class PreciousMetalsMonitor:
 
         self._write_upstream_factors_csv(csv_path, rows)
         self._write_upstream_factors_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
+
+    def run_theoretical_pricing(self, upstream_snapshot_path: Optional[str] = None) -> tuple[list[TheoreticalPriceRow], str, str]:
+        snapshot_path = upstream_snapshot_path or self.config["runtime"].get("upstream_factor_snapshot_csv", "upstream_factor_snapshot.csv")
+        snapshot = load_upstream_snapshot(snapshot_path)
+        conversion_factors = self.config.get("model", {}).get("etf_conversion_factor", {})
+        if "518880.SH" not in conversion_factors:
+            conversion_factors["518880.SH"] = 0.001
+        rows = build_theoretical_price_rows(snapshot, self.config["runtime"]["timezone"], conversion_factors)
+
+        csv_path = Path(self.config["runtime"].get("theoretical_price_snapshot_csv", "theoretical_price_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("theoretical_price_report", "reports/theoretical_price_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_theoretical_price_csv(csv_path, rows)
+        cst_time = datetime.now(timezone.utc).astimezone(ZoneInfo(self.config["runtime"]["timezone"]["cst"])).isoformat()
+        write_theoretical_price_report(md_path, rows, snapshot_path, cst_time)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:

@@ -23,12 +23,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--quality-gate", help="run phase-4C historical data quality gate for candidate csv")
     parser.add_argument("--historical-pipeline-check", action="store_true", help="run phase-4D manual historical pipeline integration check")
     parser.add_argument("--upstream-factors", action="store_true", help="run phase-5B upstream precious metals factor monitor")
+    parser.add_argument("--theoretical-pricing", nargs="?", const="", help="run phase-5C ETF theoretical pricing from upstream snapshot csv")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None))
 
 
     if args.upstream_factors:
@@ -39,6 +40,16 @@ def main() -> int:
         print(f"snapshot_csv={csv_path}")
         print(f"report={md_path}")
         print("NOTICE: Research-only upstream factor monitor. No trading / no order / no auto calibration.")
+        return 0
+    if args.theoretical_pricing is not None:
+        input_path = args.theoretical_pricing if args.theoretical_pricing else None
+        rows, csv_path, md_path = monitor.run_theoretical_pricing(input_path)
+        statuses = sorted({r.pricing_status for r in rows})
+        overall = "ok" if statuses == ["ok"] else ("unavailable" if statuses == ["unavailable"] else "partial")
+        print(f"[THEORETICAL_PRICING] etfs={len(rows)} status={overall}")
+        print(f"snapshot_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: Research-only theoretical pricing input layer. No trading / no order / no IBKR connection / no reqHistoricalData / no auto calibration / no auto pipeline chaining.")
         return 0
 
     if args.pricing_mock:

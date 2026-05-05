@@ -16,6 +16,8 @@ runtime:
   model_calibration_report: reports/model_calibration.md
   upstream_factor_snapshot_csv: upstream_factor_snapshot.csv
   upstream_factor_report: reports/upstream_factor_report.md
+  theoretical_price_snapshot_csv: theoretical_price_snapshot.csv
+  theoretical_price_report: reports/theoretical_price_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai

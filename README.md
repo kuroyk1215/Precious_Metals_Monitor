@@ -290,3 +290,28 @@ python main.py --config config.yaml --upstream-factors
 - 覆盖因子：`XAUUSD / XAGUSD / USDJPY / USDCNY / SGE_AU99_99`；
 - 无真实源的因子会标记 `source_status=unavailable`，不会伪造实时行情；
 - 仅研究用途：no trading / no order / no auto calibration / no auto pipeline chaining。
+
+## Phase 5C: ETF Theoretical Pricing Engine (Research-only)
+
+运行（指定输入快照）：
+
+```bash
+python main.py --config config.yaml --theoretical-pricing upstream_factor_snapshot.csv
+```
+
+运行（默认输入路径 `upstream_factor_snapshot.csv`）：
+
+```bash
+python main.py --config config.yaml --theoretical-pricing
+```
+
+输出：
+- `theoretical_price_snapshot.csv`
+- `reports/theoretical_price_report.md`
+
+说明：
+- 计算 `1540.T / 1542.T / 518880.SH` 理论价输入层；
+- 若关键因子缺失，输出 `pricing_status=unavailable`；
+- `518880.SH` 优先使用 `SGE_AU99_99`，若 unavailable 则允许 `XAUUSD + USDCNY` external proxy，并明确 warning flag；
+- 会继承 upstream warning flags（例如 manual/mock 标记）；
+- 仅研究用途：no trading / no order / no IBKR connection / no reqHistoricalData / no auto calibration / no auto pipeline chaining。
