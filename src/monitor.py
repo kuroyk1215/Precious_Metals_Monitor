@@ -328,20 +328,44 @@ class PreciousMetalsMonitor:
         validated = validate_ibkr_historical_fetch_config(config)
 
         client = None
+        results = []
         if execute and validated.get("validation_status") == "valid":
             client = IBKRDataClient(self.config["ibkr"])
-
-        results = fetch_ibkr_historical_bars_readonly(validated, ibkr_client=client)
+            connected = False
+            conn_status = "ibkr_not_connected"
+            try:
+                connected, conn_status = client.connect()
+                if connected:
+                    results = fetch_ibkr_historical_bars_readonly(validated, ibkr_client=client)
+                else:
+                    results = [
+                        {
+                            "symbol": symbol,
+                            "rows": [],
+                            "fetch_status": "error",
+                            "warning_flags": f"fetch_error:{conn_status}",
+                        }
+                        for symbol in validated.get("symbols", [])
+                    ]
+            finally:
+                client.disconnect()
+        else:
+            results = fetch_ibkr_historical_bars_readonly(validated, ibkr_client=client)
         raw_rows: list[dict[str, Any]] = []
         summary_rows: list[dict[str, Any]] = []
         for result in results:
-            converted = convert_ibkr_bars_to_raw_rows(result.symbol, "JPY", result.rows)
+            symbol = result.symbol if hasattr(result, "symbol") else result.get("symbol", "")
+            rows = result.rows if hasattr(result, "rows") else result.get("rows", [])
+            fetch_status = result.fetch_status if hasattr(result, "fetch_status") else result.get("fetch_status", "error")
+            warning_flags = result.warning_flags if hasattr(result, "warning_flags") else result.get("warning_flags", "")
+
+            converted = convert_ibkr_bars_to_raw_rows(symbol, "JPY", rows)
             raw_rows.extend(converted)
             summary_rows.append({
-                "symbol": result.symbol,
+                "symbol": symbol,
                 "row_count": len(converted),
-                "fetch_status": result.fetch_status,
-                "warning_flags": result.warning_flags,
+                "fetch_status": fetch_status,
+                "warning_flags": warning_flags,
             })
 
         raw_csv = Path("data/raw/ibkr_jp_etf_prices_candidate.csv")
