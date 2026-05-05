@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import csv
 import json
@@ -57,8 +57,8 @@ def _default_watchlist() -> dict[str, Any]:
 class Quote:
     symbol: str
     market: str
-    actual_price: float | None
-    volume: float | None
+    actual_price: Optional[float]
+    volume: Optional[float]
     data_status: str
     source_status: str
 
@@ -70,13 +70,13 @@ class SignalRow:
     symbol: str
     market: str
     data_status: str
-    actual_price: float | None
-    theoretical_price: float | None
-    deviation_pct: float | None
-    premium_discount: float | None
+    actual_price: Optional[float]
+    theoretical_price: Optional[float]
+    deviation_pct: Optional[float]
+    premium_discount: Optional[float]
     fx_used: str
-    gold_price: float | None
-    silver_price: float | None
+    gold_price: Optional[float]
+    silver_price: Optional[float]
     signal: str
     reason: str
     risk_flag: str

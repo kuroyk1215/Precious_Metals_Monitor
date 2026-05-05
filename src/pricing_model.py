@@ -1,18 +1,18 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 
 def _build_result(
     symbol: str,
     model_type: str,
-    actual_price: float | None,
-    theoretical_price: float | None,
-    metal_price_used: float | None,
-    fx_used: float | None,
-    conversion_factor: float | None,
+    actual_price: Optional[float],
+    theoretical_price: Optional[float],
+    metal_price_used: Optional[float],
+    fx_used: Optional[float],
+    conversion_factor: Optional[float],
     premium_discount_pct: float,
-    data_confidence_score: float | None,
+    data_confidence_score: Optional[float],
     pricing_status: str,
     warning_flags: list[str],
 ) -> dict[str, Any]:
@@ -39,12 +39,12 @@ def _build_result(
 
 
 def calculate_1540_theoretical_price(
-    actual_price: float | None,
+    actual_price: Optional[float],
     xau_usd: float,
     usd_jpy: float,
-    conversion_factor: float | None,
+    conversion_factor: Optional[float],
     premium_discount_pct: float,
-    data_confidence_score: float | None,
+    data_confidence_score: Optional[float],
 ) -> dict[str, Any]:
     if conversion_factor is None:
         return _build_result("1540.T", "gold_etf_jp", actual_price, None, xau_usd, usd_jpy, None, premium_discount_pct, data_confidence_score, "missing_conversion_factor", ["missing_conversion_factor"])
@@ -53,12 +53,12 @@ def calculate_1540_theoretical_price(
 
 
 def calculate_1542_theoretical_price(
-    actual_price: float | None,
+    actual_price: Optional[float],
     xag_usd: float,
     usd_jpy: float,
-    conversion_factor: float | None,
+    conversion_factor: Optional[float],
     premium_discount_pct: float,
-    data_confidence_score: float | None,
+    data_confidence_score: Optional[float],
 ) -> dict[str, Any]:
     if conversion_factor is None:
         return _build_result("1542.T", "silver_etf_jp", actual_price, None, xag_usd, usd_jpy, None, premium_discount_pct, data_confidence_score, "missing_conversion_factor", ["missing_conversion_factor"])
@@ -67,13 +67,13 @@ def calculate_1542_theoretical_price(
 
 
 def calculate_518880_theoretical_price(
-    actual_price: float | None,
+    actual_price: Optional[float],
     xau_usd: float,
     usd_cnh: float,
-    conversion_factor: float | None,
+    conversion_factor: Optional[float],
     premium_discount_pct: float,
-    data_confidence_score: float | None,
-    external_price_status: str | None = None,
+    data_confidence_score: Optional[float],
+    external_price_status: Optional[str] = None,
 ) -> dict[str, Any]:
     if conversion_factor is None:
         return _build_result("518880.SH", "gold_etf_cn", actual_price, None, xau_usd, usd_cnh, None, premium_discount_pct, data_confidence_score, "missing_conversion_factor", ["missing_conversion_factor"])

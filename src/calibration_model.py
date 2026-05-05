@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 import statistics
 
 
-def _to_float(v: Any) -> float | None:
+def _to_float(v: Any) ->Optional[float]:
     if v is None or v == "":
         return None
     return float(v)
