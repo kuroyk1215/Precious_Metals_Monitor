@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 import csv
+from typing import Optional
 
 
 @dataclass
@@ -20,7 +21,7 @@ class HistoricalPipelineCheckResult:
     notes: str
 
 
-def _latest_quality_gate_status(log_path: Path) -> str | None:
+def _latest_quality_gate_status(log_path: Path) -> Optional[str]:
     if not log_path.exists():
         return None
     with log_path.open("r", encoding="utf-8", newline="") as f:
