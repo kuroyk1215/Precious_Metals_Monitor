@@ -18,6 +18,7 @@ from src.historical_data_builder import load_source_manifest, build_standard_his
 from src.source_adapters import load_source_provider_manifest, summarize_source_providers, write_source_audit_log_csv, build_source_audit_report
 from src.ibkr_historical_adapter import build_ibkr_historical_request_plan, validate_ibkr_historical_plan, write_ibkr_historical_plan_csv, write_ibkr_raw_prices_csv, summarize_ibkr_historical_adapter, build_ibkr_historical_fetch_config, validate_ibkr_historical_fetch_config, convert_ibkr_bars_to_raw_rows, write_ibkr_historical_fetch_report
 from src.ibkr_historical_fetcher import fetch_ibkr_historical_bars_readonly
+from src.historical_quality_gate import run_quality_gate, write_quality_gate_report, append_quality_gate_log
 
 
 def _default_config() -> dict[str, Any]:
@@ -349,6 +350,24 @@ class PreciousMetalsMonitor:
         write_ibkr_historical_fetch_report(str(report_md), summary_rows, validated, times)
         self._write_ibkr_historical_fetch_log_csv(log_csv, summary_rows, times, validated.get("mode", "dry_run"))
         return summary_rows, str(raw_csv), str(report_md), str(log_csv)
+
+
+    def run_historical_quality_gate(self, csv_path: str) -> tuple[dict[str, Any], str, str]:
+        times = self.now_triplet()
+        result = run_quality_gate(csv_path)
+        report_md = Path("reports/historical_quality_gate_report.md")
+        log_csv = Path("historical_quality_gate_log.csv")
+        write_quality_gate_report(str(report_md), csv_path, result, times["jst"])
+        append_quality_gate_log(str(log_csv), csv_path, result, times["jst"])
+        return {
+            "status": result.status,
+            "total_rows": result.total_rows,
+            "symbols": result.symbols,
+            "start_date": result.start_date,
+            "end_date": result.end_date,
+            "warning_flags": result.warning_flags,
+            "fail_reasons": result.fail_reasons,
+        }, str(report_md), str(log_csv)
 
     def run_conversion_factor_calibration_csv(self, calibration_csv_path: str) -> tuple[list[dict[str, Any]], str, str]:
         times = self.now_triplet()
