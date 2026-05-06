@@ -51,6 +51,12 @@ from src.multi_horizon_strategy_engine import (
     write_multi_horizon_strategy_csv,
     write_multi_horizon_strategy_report,
 )
+from src.manual_research_pipeline import (
+    PipelineStepRow,
+    build_pipeline_step_row,
+    write_pipeline_summary_csv,
+    write_pipeline_summary_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -291,6 +297,45 @@ class PreciousMetalsMonitor:
         write_multi_horizon_strategy_csv(csv_path, rows)
         write_multi_horizon_strategy_report(md_path, rows, daily_plan_input)
         return rows, str(csv_path), str(md_path)
+
+    def run_manual_research_pipeline(self) -> tuple[list[PipelineStepRow], str, str]:
+        tz_cfg = self.config["runtime"]["timezone"]
+        summary_rows: list[PipelineStepRow] = []
+
+        upstream_rows, upstream_csv, upstream_report = self.run_upstream_factors()
+        upstream_statuses = sorted({r.source_status for r in upstream_rows})
+        upstream_status = "ok" if upstream_statuses == ["ok"] else ("unavailable" if upstream_statuses == ["unavailable"] else "partial")
+        summary_rows.append(build_pipeline_step_row(1, "Phase 5B", "upstream_factors", upstream_status, upstream_csv, upstream_report, len(upstream_rows), tz_cfg))
+
+        theoretical_rows, theoretical_csv, theoretical_report = self.run_theoretical_pricing(upstream_csv)
+        theoretical_statuses = sorted({r.pricing_status for r in theoretical_rows})
+        theoretical_status = "ok" if theoretical_statuses == ["ok"] else ("unavailable" if theoretical_statuses == ["unavailable"] else "partial")
+        summary_rows.append(build_pipeline_step_row(2, "Phase 5C", "theoretical_pricing", theoretical_status, theoretical_csv, theoretical_report, len(theoretical_rows), tz_cfg))
+
+        actual_rows, actual_csv, actual_report = self.run_actual_etf_prices()
+        summary_rows.append(build_pipeline_step_row(3, "Phase 5D", "actual_etf_prices", "manual_mock_only", actual_csv, actual_report, len(actual_rows), tz_cfg))
+
+        deviation_rows, deviation_csv, deviation_report = self.run_deviation_check(theoretical_csv, actual_csv)
+        deviation_statuses = sorted({r.deviation_status for r in deviation_rows})
+        deviation_status = "ok" if deviation_statuses == ["ok"] else ("unavailable" if deviation_statuses == ["unavailable"] else "partial")
+        summary_rows.append(build_pipeline_step_row(4, "Phase 5D", "deviation_check", deviation_status, deviation_csv, deviation_report, len(deviation_rows), tz_cfg))
+
+        reference_rows, reference_csv, reference_report = self.run_reference_signals(deviation_csv)
+        summary_rows.append(build_pipeline_step_row(5, "Phase 5E", "reference_signals", "ok", reference_csv, reference_report, len(reference_rows), tz_cfg))
+
+        daily_rows, daily_csv, daily_report = self.run_daily_trade_plan(reference_csv)
+        summary_rows.append(build_pipeline_step_row(6, "Phase 5F", "daily_trade_plan", "ok", daily_csv, daily_report, len(daily_rows), tz_cfg))
+
+        strategy_rows, strategy_csv, strategy_report = self.run_strategy_plan(daily_csv)
+        summary_rows.append(build_pipeline_step_row(7, "Phase 5G", "strategy_plan", "ok", strategy_csv, strategy_report, len(strategy_rows), tz_cfg))
+
+        csv_path = Path(self.config["runtime"].get("manual_research_pipeline_summary_csv", "manual_research_pipeline_summary.csv"))
+        md_path = Path(self.config["runtime"].get("manual_research_pipeline_report", "reports/manual_research_pipeline_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_pipeline_summary_csv(csv_path, summary_rows)
+        write_pipeline_summary_report(md_path, summary_rows)
+        return summary_rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
