@@ -160,4 +160,4 @@ def write_live_research_review_pack_report(
         ]
     )
 
-    path.write_text("\\n".join(lines) + "\\n", encoding="utf-8")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
