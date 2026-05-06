@@ -96,6 +96,13 @@ from src.filled_manual_scenario_validator import (
     write_filled_manual_scenario_validation_csv,
     write_filled_manual_scenario_validation_report,
 )
+from src.manual_market_data_review_pack import (
+    ManualMarketDataReviewPackRow,
+    build_manual_market_data_review_pack_rows,
+    load_csv_by_key,
+    write_manual_market_data_review_pack_csv,
+    write_manual_market_data_review_pack_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -499,6 +506,35 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_filled_manual_scenario_validation_csv(csv_path, rows)
         write_filled_manual_scenario_validation_report(md_path, rows, input_csv)
+        return rows, str(csv_path), str(md_path)
+
+    def run_manual_market_data_review_pack(self, input_path: Optional[str] = None) -> tuple[list[ManualMarketDataReviewPackRow], str, str]:
+        input_csv = input_path or self.config["runtime"].get("manual_market_data_sample_valid_csv", "data/manual_market_data_sample_valid.csv")
+        self.run_manual_market_data_pipeline(input_csv)
+
+        actual_path = self.config["runtime"].get("manual_actual_etf_price_snapshot_csv", "manual_actual_etf_price_snapshot.csv")
+        theoretical_path = self.config["runtime"].get("theoretical_price_snapshot_csv", "theoretical_price_snapshot.csv")
+        deviation_path = self.config["runtime"].get("deviation_snapshot_csv", "deviation_snapshot.csv")
+        reference_path = self.config["runtime"].get("reference_signal_snapshot_csv", "reference_signal_snapshot.csv")
+        daily_path = self.config["runtime"].get("daily_trade_plan_snapshot_csv", "daily_trade_plan_snapshot.csv")
+        strategy_path = self.config["runtime"].get("multi_horizon_strategy_snapshot_csv", "multi_horizon_strategy_snapshot.csv")
+
+        rows = build_manual_market_data_review_pack_rows(
+            load_csv_by_key(actual_path, "etf_symbol"),
+            load_csv_by_key(theoretical_path, "etf_symbol"),
+            load_csv_by_key(deviation_path, "etf_symbol"),
+            load_csv_by_key(reference_path, "etf_symbol"),
+            load_csv_by_key(daily_path, "etf_symbol"),
+            load_csv_by_key(strategy_path, "etf_symbol"),
+            self.config["runtime"]["timezone"],
+        )
+
+        csv_path = Path(self.config["runtime"].get("manual_market_data_review_pack_csv", "manual_market_data_review_pack.csv"))
+        md_path = Path(self.config["runtime"].get("manual_market_data_review_pack_report", "reports/manual_market_data_review_pack_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_manual_market_data_review_pack_csv(csv_path, rows)
+        write_manual_market_data_review_pack_report(md_path, rows, input_csv)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
