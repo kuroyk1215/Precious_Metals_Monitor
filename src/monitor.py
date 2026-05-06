@@ -57,6 +57,12 @@ from src.manual_research_pipeline import (
     write_pipeline_summary_csv,
     write_pipeline_summary_report,
 )
+from src.market_data_source_plan import (
+    MarketDataSourcePlanRow,
+    build_market_data_source_plan_rows,
+    write_market_data_source_plan_csv,
+    write_market_data_source_plan_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -336,6 +342,16 @@ class PreciousMetalsMonitor:
         write_pipeline_summary_csv(csv_path, summary_rows)
         write_pipeline_summary_report(md_path, summary_rows)
         return summary_rows, str(csv_path), str(md_path)
+
+    def run_market_data_source_plan(self) -> tuple[list[MarketDataSourcePlanRow], str, str]:
+        rows = build_market_data_source_plan_rows(self.config["runtime"]["timezone"])
+        csv_path = Path(self.config["runtime"].get("market_data_source_plan_csv", "market_data_source_plan.csv"))
+        md_path = Path(self.config["runtime"].get("market_data_source_plan_report", "reports/market_data_source_plan_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_market_data_source_plan_csv(csv_path, rows)
+        write_market_data_source_plan_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
