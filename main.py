@@ -295,11 +295,14 @@ def main() -> int:
         from pathlib import Path
         from src.market_data_provider_readiness import (
             build_market_data_provider_readiness_rows,
+            load_market_data_provider_readiness_config,
             write_market_data_provider_readiness_csv,
             write_market_data_provider_readiness_report,
         )
 
-        rows = build_market_data_provider_readiness_rows(monitor.config["runtime"]["timezone"])
+        config_path = monitor.config["runtime"].get("market_data_provider_config_yaml", "data/market_data_provider_config.yaml")
+        provider_config = load_market_data_provider_readiness_config(config_path)
+        rows = build_market_data_provider_readiness_rows(monitor.config["runtime"]["timezone"], provider_config)
 
         csv_path = Path(monitor.config["runtime"].get("market_data_provider_readiness_csv", "market_data_provider_readiness.csv"))
         md_path = Path(monitor.config["runtime"].get("market_data_provider_readiness_report", "reports/market_data_provider_readiness_report.md"))
