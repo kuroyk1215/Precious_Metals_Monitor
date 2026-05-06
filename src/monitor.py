@@ -103,6 +103,12 @@ from src.manual_market_data_review_pack import (
     write_manual_market_data_review_pack_csv,
     write_manual_market_data_review_pack_report,
 )
+from src.generated_output_guard import (
+    GeneratedOutputGuardRow,
+    scan_generated_outputs,
+    write_generated_output_guard_csv,
+    write_generated_output_guard_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -535,6 +541,16 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_manual_market_data_review_pack_csv(csv_path, rows)
         write_manual_market_data_review_pack_report(md_path, rows, input_csv)
+        return rows, str(csv_path), str(md_path)
+
+    def run_generated_output_guard(self) -> tuple[list[GeneratedOutputGuardRow], str, str]:
+        rows = scan_generated_outputs(Path('.'), self.config["runtime"]["timezone"])
+        csv_path = Path(self.config["runtime"].get("generated_output_guard_csv", "generated_output_guard.csv"))
+        md_path = Path(self.config["runtime"].get("generated_output_guard_report", "reports/generated_output_guard_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_generated_output_guard_csv(csv_path, rows)
+        write_generated_output_guard_report(md_path, rows)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
