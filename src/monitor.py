@@ -118,6 +118,12 @@ from src.manual_csv_smoke import (
     write_manual_csv_smoke_report,
     write_manual_csv_smoke_summary_csv,
 )
+from src.market_data_provider_registry import (
+    MarketDataProviderRegistryRow,
+    build_market_data_provider_registry_rows,
+    write_market_data_provider_registry_csv,
+    write_market_data_provider_registry_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -583,6 +589,16 @@ class PreciousMetalsMonitor:
         write_manual_csv_smoke_summary_csv(csv_path, summary_rows)
         write_manual_csv_smoke_report(md_path, summary_rows, input_csv)
         return summary_rows, str(csv_path), str(md_path)
+
+    def run_market_data_provider_registry(self) -> tuple[list[MarketDataProviderRegistryRow], str, str]:
+        rows = build_market_data_provider_registry_rows(self.config["runtime"]["timezone"])
+        csv_path = Path(self.config["runtime"].get("market_data_provider_registry_csv", "market_data_provider_registry.csv"))
+        md_path = Path(self.config["runtime"].get("market_data_provider_registry_report", "reports/market_data_provider_registry_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_market_data_provider_registry_csv(csv_path, rows)
+        write_market_data_provider_registry_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
