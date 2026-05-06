@@ -44,6 +44,8 @@ runtime:
   manual_market_data_sample_valid_csv: data/manual_market_data_sample_valid.csv
   filled_manual_scenario_validation_csv: filled_manual_scenario_validation.csv
   filled_manual_scenario_validation_report: reports/filled_manual_scenario_validation_report.md
+  manual_market_data_review_pack_csv: manual_market_data_review_pack.csv
+  manual_market_data_review_pack_report: reports/manual_market_data_review_pack_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai
