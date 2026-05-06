@@ -1,0 +1,9 @@
+target_id,target_type,market,data_role,value,currency,source,source_status,source_timestamp,notes
+XAUUSD,upstream_factor,GLOBAL,gold_spot_usd,2350.0,USD,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+XAGUSD,upstream_factor,GLOBAL,silver_spot_usd,28.5,USD,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+USDJPY,upstream_factor,FX,fx_rate,155.0,JPY,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+USDCNY,upstream_factor,FX,fx_rate,7.2,CNY,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+SGE_AU99_99,upstream_factor,CN,shanghai_gold_benchmark,5200.0,CNY,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+1540.T,etf_actual_price,JP,jp_gold_etf_actual_price,36425.0,JPY,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+1542.T,etf_actual_price,JP,jp_silver_etf_actual_price,441.75,JPY,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
+518880.SH,etf_actual_price,CN,cn_gold_etf_actual_price,5.2,CNY,manual_csv_sample,manual_csv,2026-05-06T00:00:00Z,filled scenario sample only
