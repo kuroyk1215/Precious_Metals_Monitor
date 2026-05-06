@@ -63,6 +63,14 @@ from src.market_data_source_plan import (
     write_market_data_source_plan_csv,
     write_market_data_source_plan_report,
 )
+from src.manual_market_data_adapter import (
+    ManualMarketDataRow,
+    build_manual_market_data_template_rows,
+    load_manual_market_data_csv,
+    normalize_manual_market_data_rows,
+    write_manual_market_data_adapter_report,
+    write_manual_market_data_snapshot_csv,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -351,6 +359,24 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_market_data_source_plan_csv(csv_path, rows)
         write_market_data_source_plan_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
+
+    def run_manual_market_data_adapter(self, input_path: Optional[str] = None) -> tuple[list[ManualMarketDataRow], str, str]:
+        default_input = self.config["runtime"].get("manual_market_data_template_csv", "data/manual_market_data_template.csv")
+        manual_input = input_path or default_input
+        input_file = Path(manual_input)
+        if input_file.exists():
+            raw_rows, missing_fields = load_manual_market_data_csv(str(input_file))
+            rows = normalize_manual_market_data_rows(raw_rows, missing_fields, self.config["runtime"]["timezone"])
+        else:
+            rows = build_manual_market_data_template_rows(self.config["runtime"]["timezone"])
+
+        csv_path = Path(self.config["runtime"].get("manual_market_data_snapshot_csv", "manual_market_data_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("manual_market_data_adapter_report", "reports/manual_market_data_adapter_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_manual_market_data_snapshot_csv(csv_path, rows)
+        write_manual_market_data_adapter_report(md_path, rows, str(input_file))
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
