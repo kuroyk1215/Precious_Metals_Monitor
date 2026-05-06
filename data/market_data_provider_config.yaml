@@ -1,0 +1,46 @@
+providers:
+  manual_csv:
+    provider_type: manual_csv_adapter
+    enabled: true
+    live_request_allowed: false
+    fallback_provider: sample_static
+    source_quality_floor: manual_or_sample
+    requires_explicit_enable_switch: false
+    notes: manual CSV remains the primary safe provider before live market data is explicitly enabled
+  live_provider_candidate:
+    provider_type: future_live_adapter
+    enabled: false
+    live_request_allowed: false
+    fallback_provider: manual_csv
+    source_quality_floor: unavailable_until_enabled
+    requires_explicit_enable_switch: true
+    notes: future live provider placeholder only; no API request or market data request is allowed
+targets:
+  - target_id: XAUUSD
+    target_type: upstream_factor
+    market: GLOBAL
+    data_role: gold_spot_usd
+  - target_id: XAGUSD
+    target_type: upstream_factor
+    market: GLOBAL
+    data_role: silver_spot_usd
+  - target_id: USDJPY
+    target_type: upstream_factor
+    market: FX
+    data_role: fx_rate
+  - target_id: USDCNH
+    target_type: upstream_factor
+    market: FX
+    data_role: fx_rate
+  - target_id: 1540.T
+    target_type: etf_actual_price
+    market: JP
+    data_role: jp_gold_etf_actual_price
+  - target_id: 1542.T
+    target_type: etf_actual_price
+    market: JP
+    data_role: jp_silver_etf_actual_price
+  - target_id: 518880.SH
+    target_type: etf_actual_price
+    market: CN
+    data_role: cn_gold_etf_actual_price
