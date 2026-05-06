@@ -171,4 +171,4 @@ def write_market_data_provider_readiness_report(path: Path, rows: list[MarketDat
         ]
     )
 
-    path.write_text("\\n".join(lines) + "\\n", encoding="utf-8")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
