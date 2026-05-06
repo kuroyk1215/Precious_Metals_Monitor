@@ -52,6 +52,8 @@ runtime:
   manual_csv_smoke_report: reports/manual_csv_smoke_report.md
   market_data_provider_registry_csv: market_data_provider_registry.csv
   market_data_provider_registry_report: reports/market_data_provider_registry_report.md
+  market_data_adapter_contract_csv: market_data_adapter_contract.csv
+  market_data_adapter_contract_report: reports/market_data_adapter_contract_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai
