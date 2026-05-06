@@ -109,6 +109,15 @@ from src.generated_output_guard import (
     write_generated_output_guard_csv,
     write_generated_output_guard_report,
 )
+from src.manual_csv_smoke import (
+    ManualCsvSmokeStepRow,
+    build_manual_csv_smoke_step_row,
+    summarize_guard_status,
+    summarize_review_pack_status,
+    summarize_validation_status,
+    write_manual_csv_smoke_report,
+    write_manual_csv_smoke_summary_csv,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -552,6 +561,28 @@ class PreciousMetalsMonitor:
         write_generated_output_guard_csv(csv_path, rows)
         write_generated_output_guard_report(md_path, rows)
         return rows, str(csv_path), str(md_path)
+
+    def run_manual_csv_smoke(self, input_path: Optional[str] = None) -> tuple[list[ManualCsvSmokeStepRow], str, str]:
+        tz_cfg = self.config["runtime"]["timezone"]
+        input_csv = input_path or self.config["runtime"].get("manual_market_data_sample_valid_csv", "data/manual_market_data_sample_valid.csv")
+        summary_rows: list[ManualCsvSmokeStepRow] = []
+
+        guard_rows, guard_csv, guard_report = self.run_generated_output_guard()
+        summary_rows.append(build_manual_csv_smoke_step_row(1, "generated_output_guard", summarize_guard_status(guard_rows), guard_csv, guard_report, len(guard_rows), tz_cfg))
+
+        validation_rows, validation_csv, validation_report = self.run_validate_filled_manual_scenario(input_csv)
+        summary_rows.append(build_manual_csv_smoke_step_row(2, "filled_manual_scenario_validation", summarize_validation_status(validation_rows), validation_csv, validation_report, len(validation_rows), tz_cfg))
+
+        review_rows, review_csv, review_report = self.run_manual_market_data_review_pack(input_csv)
+        summary_rows.append(build_manual_csv_smoke_step_row(3, "manual_market_data_review_pack", summarize_review_pack_status(review_rows), review_csv, review_report, len(review_rows), tz_cfg))
+
+        csv_path = Path(self.config["runtime"].get("manual_csv_smoke_summary_csv", "manual_csv_smoke_summary.csv"))
+        md_path = Path(self.config["runtime"].get("manual_csv_smoke_report", "reports/manual_csv_smoke_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_manual_csv_smoke_summary_csv(csv_path, summary_rows)
+        write_manual_csv_smoke_report(md_path, summary_rows, input_csv)
+        return summary_rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
