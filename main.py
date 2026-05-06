@@ -43,12 +43,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--manual-csv-adapter-interface", nargs="?", const="", help="run phase-7C manual CSV adapter through market data interface")
     parser.add_argument("--adapter-interface-bridge", nargs="?", const="", help="run phase-7D adapter interface to pipeline bridge")
     parser.add_argument("--research-trading-plan", nargs="?", const="", help="run phase-8A final manual research trading plan from review pack csv")
+    parser.add_argument("--manual-research-trading-pipeline", nargs="?", const="", help="run phase-8C one-command manual research trading pipeline")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None))
 
 
     if args.upstream_factors:
@@ -253,6 +254,67 @@ def main() -> int:
         print("NOTICE: Adapter bridge only. No connection / no API request / no IBKR connection / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
         return 0
 
+
+
+    if args.manual_research_trading_pipeline is not None:
+        from pathlib import Path
+        from src.research_trading_plan_generator import (
+            build_research_trading_plan_rows,
+            load_review_pack_by_symbol,
+            write_research_trading_plan_csv,
+            write_research_trading_plan_report,
+        )
+        from src.manual_research_trading_pipeline import (
+            build_manual_research_trading_pipeline_step_row,
+            summarize_step_status,
+            write_manual_research_trading_pipeline_report,
+            write_manual_research_trading_pipeline_summary_csv,
+        )
+
+        input_csv = args.manual_research_trading_pipeline if args.manual_research_trading_pipeline else monitor.config["runtime"].get("manual_market_data_sample_valid_csv", "data/manual_market_data_sample_valid.csv")
+        tz_cfg = monitor.config["runtime"]["timezone"]
+
+        pipeline_rows, pipeline_csv, pipeline_report = monitor.run_manual_market_data_pipeline(input_csv)
+        pipeline_status = summarize_step_status([getattr(r, "status", "") for r in pipeline_rows])
+
+        review_rows, review_csv, review_report = monitor.run_manual_market_data_review_pack(input_csv)
+        review_status = summarize_step_status([getattr(r, "strategy_label", "") for r in review_rows])
+
+        review_by_symbol = load_review_pack_by_symbol(review_csv)
+        trading_rows = build_research_trading_plan_rows(review_by_symbol, tz_cfg)
+
+        trading_csv = Path(monitor.config["runtime"].get("research_trading_plan_csv", "research_trading_plan.csv"))
+        trading_report = Path(monitor.config["runtime"].get("research_trading_plan_report", "reports/research_trading_plan_report.md"))
+        trading_csv.parent.mkdir(parents=True, exist_ok=True)
+        trading_report.parent.mkdir(parents=True, exist_ok=True)
+        write_research_trading_plan_csv(trading_csv, trading_rows)
+        write_research_trading_plan_report(trading_report, trading_rows, review_csv)
+
+        trading_status = summarize_step_status([r.plan_status for r in trading_rows])
+
+        summary_rows = [
+            build_manual_research_trading_pipeline_step_row(1, "Phase 6D", "manual_market_data_pipeline", pipeline_status, pipeline_csv, pipeline_report, len(pipeline_rows), tz_cfg, f"input_csv={input_csv}"),
+            build_manual_research_trading_pipeline_step_row(2, "Phase 6G", "manual_market_data_review_pack", review_status, review_csv, review_report, len(review_rows), tz_cfg, "review pack from manual pipeline"),
+            build_manual_research_trading_pipeline_step_row(3, "Phase 8A", "research_trading_plan", trading_status, str(trading_csv), str(trading_report), len(trading_rows), tz_cfg, "final research trading plan"),
+        ]
+
+        summary_csv = Path(monitor.config["runtime"].get("manual_research_trading_pipeline_summary_csv", "manual_research_trading_pipeline_summary.csv"))
+        summary_report = Path(monitor.config["runtime"].get("manual_research_trading_pipeline_report", "reports/manual_research_trading_pipeline_report.md"))
+        summary_csv.parent.mkdir(parents=True, exist_ok=True)
+        summary_report.parent.mkdir(parents=True, exist_ok=True)
+
+        write_manual_research_trading_pipeline_summary_csv(summary_csv, summary_rows)
+        write_manual_research_trading_pipeline_report(summary_report, summary_rows, input_csv)
+
+        statuses = sorted({r.status for r in summary_rows})
+        status_text = chr(44).join(statuses) if statuses else "none"
+        print(f"[MANUAL_RESEARCH_TRADING_PIPELINE] steps={len(summary_rows)} statuses={status_text} action_allowed=false")
+        print(f"summary_csv={summary_csv}")
+        print(f"report={summary_report}")
+        print(f"trading_plan_csv={trading_csv}")
+        print(f"trading_plan_report={trading_report}")
+        print("NOTICE: One-command manual research trading pipeline only. action_allowed=false / no IBKR connection / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
+        return 0
 
     if args.research_trading_plan is not None:
         from pathlib import Path
