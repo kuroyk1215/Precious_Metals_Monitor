@@ -38,12 +38,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--manual-market-data-review-pack", nargs="?", const="", help="run phase-6G manual CSV pipeline output review pack")
     parser.add_argument("--generated-output-guard", action="store_true", help="run phase-6H generated output cleanup guard")
     parser.add_argument("--manual-csv-smoke", nargs="?", const="", help="run phase-6I final manual CSV workflow smoke command")
+    parser.add_argument("--market-data-provider-registry", action="store_true", help="run phase-7A market data provider registry skeleton")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry))
 
 
     if args.upstream_factors:
@@ -207,6 +208,15 @@ def main() -> int:
         print(f"summary_csv={csv_path}")
         print(f"report={md_path}")
         print("NOTICE: Manual CSV smoke only. report_only=true / action_allowed=false / no IBKR connection / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
+        return 0
+
+    if args.market_data_provider_registry:
+        rows, csv_path, md_path = monitor.run_market_data_provider_registry()
+        statuses = sorted({r.provider_status for r in rows})
+        print(f"[MARKET_DATA_PROVIDER_REGISTRY] providers={len(rows)} statuses={','.join(statuses)} registry_only=true")
+        print(f"registry_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: Registry only. No connection / no API request / no IBKR connection / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
         return 0
 
     if args.pricing_mock:
