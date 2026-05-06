@@ -130,6 +130,12 @@ from src.market_data_adapter_interface import (
     write_market_data_adapter_contract_csv,
     write_market_data_adapter_contract_report,
 )
+from src.manual_csv_market_data_adapter import (
+    ManualCsvMarketDataAdapter,
+    build_manual_csv_adapter_requests,
+    write_manual_csv_adapter_interface_csv,
+    write_manual_csv_adapter_interface_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -614,6 +620,18 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_market_data_adapter_contract_csv(csv_path, rows)
         write_market_data_adapter_contract_report(md_path, rows)
+        return rows, str(csv_path), str(md_path)
+
+    def run_manual_csv_adapter_interface(self, input_path: Optional[str] = None):
+        input_csv = input_path or self.config["runtime"].get("manual_market_data_sample_valid_csv", "data/manual_market_data_sample_valid.csv")
+        adapter = ManualCsvMarketDataAdapter(input_csv, self.config["runtime"]["timezone"])
+        rows = [adapter.fetch_snapshot(request) for request in build_manual_csv_adapter_requests()]
+        csv_path = Path(self.config["runtime"].get("manual_csv_adapter_interface_snapshot_csv", "manual_csv_adapter_interface_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("manual_csv_adapter_interface_report", "reports/manual_csv_adapter_interface_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_manual_csv_adapter_interface_csv(csv_path, rows)
+        write_manual_csv_adapter_interface_report(md_path, rows, input_csv)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:

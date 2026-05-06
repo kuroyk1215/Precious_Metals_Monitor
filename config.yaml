@@ -54,6 +54,8 @@ runtime:
   market_data_provider_registry_report: reports/market_data_provider_registry_report.md
   market_data_adapter_contract_csv: market_data_adapter_contract.csv
   market_data_adapter_contract_report: reports/market_data_adapter_contract_report.md
+  manual_csv_adapter_interface_snapshot_csv: manual_csv_adapter_interface_snapshot.csv
+  manual_csv_adapter_interface_report: reports/manual_csv_adapter_interface_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai
