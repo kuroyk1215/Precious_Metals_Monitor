@@ -24,6 +24,8 @@ runtime:
   deviation_report: reports/deviation_report.md
   reference_signal_snapshot_csv: reference_signal_snapshot.csv
   reference_signal_report: reports/reference_signal_report.md
+  daily_trade_plan_snapshot_csv: daily_trade_plan_snapshot.csv
+  daily_trade_plan_report: reports/daily_trade_plan_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai

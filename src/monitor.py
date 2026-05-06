@@ -39,6 +39,12 @@ from src.reference_signal_engine import (
     write_reference_signal_csv,
     write_reference_signal_report,
 )
+from src.daily_trade_plan_engine import (
+    DailyTradePlanRow,
+    build_daily_trade_plan_rows,
+    write_daily_trade_plan_csv,
+    write_daily_trade_plan_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -252,6 +258,19 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_reference_signal_csv(csv_path, rows)
         write_reference_signal_report(md_path, rows, deviation_input)
+        return rows, str(csv_path), str(md_path)
+
+    def run_daily_trade_plan(self, reference_path: Optional[str] = None) -> tuple[list[DailyTradePlanRow], str, str]:
+        reference_input = reference_path or self.config["runtime"].get("reference_signal_snapshot_csv", "reference_signal_snapshot.csv")
+        reference = load_snapshot_by_symbol(reference_input, "etf_symbol")
+        rows = build_daily_trade_plan_rows(reference, self.config["runtime"]["timezone"])
+
+        csv_path = Path(self.config["runtime"].get("daily_trade_plan_snapshot_csv", "daily_trade_plan_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("daily_trade_plan_report", "reports/daily_trade_plan_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_daily_trade_plan_csv(csv_path, rows)
+        write_daily_trade_plan_report(md_path, rows, reference_input)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
