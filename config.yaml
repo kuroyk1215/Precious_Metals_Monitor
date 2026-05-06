@@ -22,6 +22,8 @@ runtime:
   actual_etf_price_report: reports/actual_etf_price_report.md
   deviation_snapshot_csv: deviation_snapshot.csv
   deviation_report: reports/deviation_report.md
+  reference_signal_snapshot_csv: reference_signal_snapshot.csv
+  reference_signal_report: reports/reference_signal_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai

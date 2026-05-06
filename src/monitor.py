@@ -33,6 +33,12 @@ from src.deviation_engine import (
     write_deviation_csv,
     write_deviation_report,
 )
+from src.reference_signal_engine import (
+    ReferenceSignalRow,
+    build_reference_signal_rows,
+    write_reference_signal_csv,
+    write_reference_signal_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -233,6 +239,19 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_deviation_csv(csv_path, rows)
         write_deviation_report(md_path, rows, theoretical_input, actual_input)
+        return rows, str(csv_path), str(md_path)
+
+    def run_reference_signals(self, deviation_path: Optional[str] = None) -> tuple[list[ReferenceSignalRow], str, str]:
+        deviation_input = deviation_path or self.config["runtime"].get("deviation_snapshot_csv", "deviation_snapshot.csv")
+        deviation = load_snapshot_by_symbol(deviation_input, "etf_symbol")
+        rows = build_reference_signal_rows(deviation, self.config["runtime"]["timezone"])
+
+        csv_path = Path(self.config["runtime"].get("reference_signal_snapshot_csv", "reference_signal_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("reference_signal_report", "reports/reference_signal_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_reference_signal_csv(csv_path, rows)
+        write_reference_signal_report(md_path, rows, deviation_input)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
