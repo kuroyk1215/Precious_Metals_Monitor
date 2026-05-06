@@ -136,6 +136,15 @@ from src.manual_csv_market_data_adapter import (
     write_manual_csv_adapter_interface_csv,
     write_manual_csv_adapter_interface_report,
 )
+from src.adapter_interface_pipeline_bridge import (
+    AdapterInterfaceBridgeRow,
+    AdapterInterfaceBridgeSummaryRow,
+    build_adapter_interface_bridge_rows,
+    load_adapter_interface_rows,
+    write_adapter_interface_bridge_report,
+    write_adapter_interface_bridge_snapshot_csv,
+    write_adapter_interface_bridge_summary_csv,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -633,6 +642,21 @@ class PreciousMetalsMonitor:
         write_manual_csv_adapter_interface_csv(csv_path, rows)
         write_manual_csv_adapter_interface_report(md_path, rows, input_csv)
         return rows, str(csv_path), str(md_path)
+
+    def run_adapter_interface_bridge(self, input_path: Optional[str] = None) -> tuple[list[AdapterInterfaceBridgeRow], list[AdapterInterfaceBridgeSummaryRow], str, str, str]:
+        input_csv = input_path or self.config["runtime"].get("manual_csv_adapter_interface_snapshot_csv", "manual_csv_adapter_interface_snapshot.csv")
+        adapter_rows = load_adapter_interface_rows(input_csv)
+        rows, summary_rows = build_adapter_interface_bridge_rows(adapter_rows, self.config["runtime"]["timezone"])
+        snapshot_csv = Path(self.config["runtime"].get("adapter_bridge_market_data_snapshot_csv", "adapter_bridge_market_data_snapshot.csv"))
+        summary_csv = Path(self.config["runtime"].get("adapter_bridge_summary_csv", "adapter_bridge_summary.csv"))
+        md_path = Path(self.config["runtime"].get("adapter_bridge_report", "reports/adapter_bridge_report.md"))
+        snapshot_csv.parent.mkdir(parents=True, exist_ok=True)
+        summary_csv.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_adapter_interface_bridge_snapshot_csv(snapshot_csv, rows)
+        write_adapter_interface_bridge_summary_csv(summary_csv, summary_rows)
+        write_adapter_interface_bridge_report(md_path, summary_rows, input_csv, str(snapshot_csv))
+        return rows, summary_rows, str(snapshot_csv), str(summary_csv), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:

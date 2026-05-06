@@ -56,6 +56,9 @@ runtime:
   market_data_adapter_contract_report: reports/market_data_adapter_contract_report.md
   manual_csv_adapter_interface_snapshot_csv: manual_csv_adapter_interface_snapshot.csv
   manual_csv_adapter_interface_report: reports/manual_csv_adapter_interface_report.md
+  adapter_bridge_market_data_snapshot_csv: adapter_bridge_market_data_snapshot.csv
+  adapter_bridge_summary_csv: adapter_bridge_summary.csv
+  adapter_bridge_report: reports/adapter_bridge_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai
