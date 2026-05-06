@@ -82,6 +82,13 @@ from src.manual_market_data_integration import (
     write_manual_market_data_integration_report,
     write_manual_market_data_integration_summary_csv,
 )
+from src.manual_market_data_pipeline import (
+    ManualMarketDataPipelineStepRow,
+    build_manual_market_data_pipeline_step_row,
+    summarize_status,
+    write_manual_market_data_pipeline_report,
+    write_manual_market_data_pipeline_summary_csv,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -413,6 +420,47 @@ class PreciousMetalsMonitor:
         write_manual_market_data_integration_summary_csv(summary_csv, summary_rows)
         write_manual_market_data_integration_report(report_md, summary_rows, str(input_file), str(upstream_csv), str(actual_csv))
         return upstream_rows, actual_rows, summary_rows, str(upstream_csv), str(actual_csv), str(summary_csv), str(report_md)
+
+    def run_manual_market_data_pipeline(self, input_path: Optional[str] = None) -> tuple[list[ManualMarketDataPipelineStepRow], str, str]:
+        tz_cfg = self.config["runtime"]["timezone"]
+        input_csv = input_path or self.config["runtime"].get("manual_market_data_template_csv", "data/manual_market_data_template.csv")
+        summary_rows: list[ManualMarketDataPipelineStepRow] = []
+
+        adapter_rows, adapter_csv, adapter_report = self.run_manual_market_data_adapter(input_csv)
+        adapter_status = summarize_status([r.normalized_status for r in adapter_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(1, "Phase 6B", "manual_market_data_adapter", adapter_status, adapter_csv, adapter_report, len(adapter_rows), tz_cfg))
+
+        upstream_rows, actual_rows, integration_rows, upstream_csv, actual_csv, integration_summary_csv, integration_report = self.run_integrate_manual_market_data(adapter_csv)
+        integration_status = summarize_status([r.output_status for r in integration_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(2, "Phase 6C", "manual_market_data_integration", integration_status, integration_summary_csv, integration_report, len(integration_rows), tz_cfg, notes=f"upstream_csv={upstream_csv}; actual_csv={actual_csv}"))
+
+        theoretical_rows, theoretical_csv, theoretical_report = self.run_theoretical_pricing(upstream_csv)
+        theoretical_status = summarize_status([r.pricing_status for r in theoretical_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(3, "Phase 5C", "theoretical_pricing", theoretical_status, theoretical_csv, theoretical_report, len(theoretical_rows), tz_cfg))
+
+        deviation_rows, deviation_csv, deviation_report = self.run_deviation_check(theoretical_csv, actual_csv)
+        deviation_status = summarize_status([r.deviation_status for r in deviation_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(4, "Phase 5D", "deviation_check", deviation_status, deviation_csv, deviation_report, len(deviation_rows), tz_cfg))
+
+        reference_rows, reference_csv, reference_report = self.run_reference_signals(deviation_csv)
+        reference_status = summarize_status([r.reference_label for r in reference_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(5, "Phase 5E", "reference_signals", reference_status, reference_csv, reference_report, len(reference_rows), tz_cfg))
+
+        daily_rows, daily_csv, daily_report = self.run_daily_trade_plan(reference_csv)
+        daily_status = summarize_status([r.plan_label for r in daily_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(6, "Phase 5F", "daily_trade_plan", daily_status, daily_csv, daily_report, len(daily_rows), tz_cfg))
+
+        strategy_rows, strategy_csv, strategy_report = self.run_strategy_plan(daily_csv)
+        strategy_status = summarize_status([r.strategy_label for r in strategy_rows])
+        summary_rows.append(build_manual_market_data_pipeline_step_row(7, "Phase 5G", "strategy_plan", strategy_status, strategy_csv, strategy_report, len(strategy_rows), tz_cfg))
+
+        csv_path = Path(self.config["runtime"].get("manual_market_data_pipeline_summary_csv", "manual_market_data_pipeline_summary.csv"))
+        md_path = Path(self.config["runtime"].get("manual_market_data_pipeline_report", "reports/manual_market_data_pipeline_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_manual_market_data_pipeline_summary_csv(csv_path, summary_rows)
+        write_manual_market_data_pipeline_report(md_path, summary_rows, input_csv)
+        return summary_rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
