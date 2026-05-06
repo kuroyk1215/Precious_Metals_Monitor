@@ -35,6 +35,10 @@ runtime:
   manual_market_data_template_csv: data/manual_market_data_template.csv
   manual_market_data_snapshot_csv: manual_market_data_snapshot.csv
   manual_market_data_adapter_report: reports/manual_market_data_adapter_report.md
+  manual_upstream_factor_snapshot_csv: manual_upstream_factor_snapshot.csv
+  manual_actual_etf_price_snapshot_csv: manual_actual_etf_price_snapshot.csv
+  manual_market_data_integration_summary_csv: manual_market_data_integration_summary.csv
+  manual_market_data_integration_report: reports/manual_market_data_integration_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai

@@ -71,6 +71,17 @@ from src.manual_market_data_adapter import (
     write_manual_market_data_adapter_report,
     write_manual_market_data_snapshot_csv,
 )
+from src.manual_market_data_integration import (
+    IntegratedActualEtfPriceRow,
+    IntegratedUpstreamFactorRow,
+    ManualMarketDataIntegrationSummaryRow,
+    build_integrated_market_data_rows,
+    load_manual_market_data_snapshot,
+    write_integrated_actual_etf_price_csv,
+    write_integrated_upstream_factor_csv,
+    write_manual_market_data_integration_report,
+    write_manual_market_data_integration_summary_csv,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -378,6 +389,30 @@ class PreciousMetalsMonitor:
         write_manual_market_data_snapshot_csv(csv_path, rows)
         write_manual_market_data_adapter_report(md_path, rows, str(input_file))
         return rows, str(csv_path), str(md_path)
+
+    def run_integrate_manual_market_data(self, input_path: Optional[str] = None) -> tuple[list[IntegratedUpstreamFactorRow], list[IntegratedActualEtfPriceRow], list[ManualMarketDataIntegrationSummaryRow], str, str, str, str]:
+        manual_input = input_path or self.config["runtime"].get("manual_market_data_snapshot_csv", "manual_market_data_snapshot.csv")
+        input_file = Path(manual_input)
+        if input_file.exists():
+            snapshot = load_manual_market_data_snapshot(str(input_file))
+        else:
+            snapshot = {}
+        upstream_rows, actual_rows, summary_rows = build_integrated_market_data_rows(snapshot, self.config["runtime"]["timezone"])
+
+        upstream_csv = Path(self.config["runtime"].get("manual_upstream_factor_snapshot_csv", "manual_upstream_factor_snapshot.csv"))
+        actual_csv = Path(self.config["runtime"].get("manual_actual_etf_price_snapshot_csv", "manual_actual_etf_price_snapshot.csv"))
+        summary_csv = Path(self.config["runtime"].get("manual_market_data_integration_summary_csv", "manual_market_data_integration_summary.csv"))
+        report_md = Path(self.config["runtime"].get("manual_market_data_integration_report", "reports/manual_market_data_integration_report.md"))
+        upstream_csv.parent.mkdir(parents=True, exist_ok=True)
+        actual_csv.parent.mkdir(parents=True, exist_ok=True)
+        summary_csv.parent.mkdir(parents=True, exist_ok=True)
+        report_md.parent.mkdir(parents=True, exist_ok=True)
+
+        write_integrated_upstream_factor_csv(upstream_csv, upstream_rows)
+        write_integrated_actual_etf_price_csv(actual_csv, actual_rows)
+        write_manual_market_data_integration_summary_csv(summary_csv, summary_rows)
+        write_manual_market_data_integration_report(report_md, summary_rows, str(input_file), str(upstream_csv), str(actual_csv))
+        return upstream_rows, actual_rows, summary_rows, str(upstream_csv), str(actual_csv), str(summary_csv), str(report_md)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
