@@ -26,6 +26,8 @@ runtime:
   reference_signal_report: reports/reference_signal_report.md
   daily_trade_plan_snapshot_csv: daily_trade_plan_snapshot.csv
   daily_trade_plan_report: reports/daily_trade_plan_report.md
+  multi_horizon_strategy_snapshot_csv: multi_horizon_strategy_snapshot.csv
+  multi_horizon_strategy_report: reports/multi_horizon_strategy_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai
