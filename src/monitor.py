@@ -89,6 +89,13 @@ from src.manual_market_data_pipeline import (
     write_manual_market_data_pipeline_report,
     write_manual_market_data_pipeline_summary_csv,
 )
+from src.filled_manual_scenario_validator import (
+    FilledManualScenarioValidationRow,
+    build_filled_manual_scenario_validation_rows,
+    load_csv_rows,
+    write_filled_manual_scenario_validation_csv,
+    write_filled_manual_scenario_validation_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -461,6 +468,38 @@ class PreciousMetalsMonitor:
         write_manual_market_data_pipeline_summary_csv(csv_path, summary_rows)
         write_manual_market_data_pipeline_report(md_path, summary_rows, input_csv)
         return summary_rows, str(csv_path), str(md_path)
+
+    def run_validate_filled_manual_scenario(self, input_path: Optional[str] = None) -> tuple[list[FilledManualScenarioValidationRow], str, str]:
+        input_csv = input_path or self.config["runtime"].get("manual_market_data_sample_valid_csv", "data/manual_market_data_sample_valid.csv")
+        pipeline_rows, _, _ = self.run_manual_market_data_pipeline(input_csv)
+
+        deviation_path = self.config["runtime"].get("deviation_snapshot_csv", "deviation_snapshot.csv")
+        reference_path = self.config["runtime"].get("reference_signal_snapshot_csv", "reference_signal_snapshot.csv")
+        daily_path = self.config["runtime"].get("daily_trade_plan_snapshot_csv", "daily_trade_plan_snapshot.csv")
+        strategy_path = self.config["runtime"].get("multi_horizon_strategy_snapshot_csv", "multi_horizon_strategy_snapshot.csv")
+
+        deviation_rows = load_csv_rows(deviation_path) if Path(deviation_path).exists() else []
+        reference_rows = load_csv_rows(reference_path) if Path(reference_path).exists() else []
+        daily_rows = load_csv_rows(daily_path) if Path(daily_path).exists() else []
+        strategy_rows = load_csv_rows(strategy_path) if Path(strategy_path).exists() else []
+
+        rows = build_filled_manual_scenario_validation_rows(
+            input_csv,
+            pipeline_rows,
+            deviation_rows,
+            reference_rows,
+            daily_rows,
+            strategy_rows,
+            self.config["runtime"]["timezone"],
+        )
+
+        csv_path = Path(self.config["runtime"].get("filled_manual_scenario_validation_csv", "filled_manual_scenario_validation.csv"))
+        md_path = Path(self.config["runtime"].get("filled_manual_scenario_validation_report", "reports/filled_manual_scenario_validation_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_filled_manual_scenario_validation_csv(csv_path, rows)
+        write_filled_manual_scenario_validation_report(md_path, rows, input_csv)
+        return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
         with open(path, "w", newline="", encoding="utf-8") as f:
