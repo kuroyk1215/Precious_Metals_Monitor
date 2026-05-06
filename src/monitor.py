@@ -45,6 +45,12 @@ from src.daily_trade_plan_engine import (
     write_daily_trade_plan_csv,
     write_daily_trade_plan_report,
 )
+from src.multi_horizon_strategy_engine import (
+    MultiHorizonStrategyRow,
+    build_multi_horizon_strategy_rows,
+    write_multi_horizon_strategy_csv,
+    write_multi_horizon_strategy_report,
+)
 
 
 def _default_config() -> dict[str, Any]:
@@ -271,6 +277,19 @@ class PreciousMetalsMonitor:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         write_daily_trade_plan_csv(csv_path, rows)
         write_daily_trade_plan_report(md_path, rows, reference_input)
+        return rows, str(csv_path), str(md_path)
+
+    def run_strategy_plan(self, daily_plan_path: Optional[str] = None) -> tuple[list[MultiHorizonStrategyRow], str, str]:
+        daily_plan_input = daily_plan_path or self.config["runtime"].get("daily_trade_plan_snapshot_csv", "daily_trade_plan_snapshot.csv")
+        daily_plan = load_snapshot_by_symbol(daily_plan_input, "etf_symbol")
+        rows = build_multi_horizon_strategy_rows(daily_plan, self.config["runtime"]["timezone"])
+
+        csv_path = Path(self.config["runtime"].get("multi_horizon_strategy_snapshot_csv", "multi_horizon_strategy_snapshot.csv"))
+        md_path = Path(self.config["runtime"].get("multi_horizon_strategy_report", "reports/multi_horizon_strategy_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        write_multi_horizon_strategy_csv(csv_path, rows)
+        write_multi_horizon_strategy_report(md_path, rows, daily_plan_input)
         return rows, str(csv_path), str(md_path)
 
     def _write_upstream_factors_csv(self, path: Path, rows: list[FactorSnapshotRow]) -> None:
