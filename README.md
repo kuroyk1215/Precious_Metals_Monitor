@@ -355,3 +355,105 @@ python main.py --config config.yaml --deviation-check
 - 不输出买卖动作；
 - manual/mock 数据会明确标注 `manual_mock_data` 和 `not real-time market data`；
 - 不连接 IBKR，不调用 reqMktData，不调用 reqHistoricalData，不自动校准，不自动 pipeline chaining。
+
+<!-- MANUAL_CSV_QUICKSTART_START -->
+## Manual CSV Research Quickstart
+
+This project includes a manual CSV research workflow for offline precious metals ETF analysis.
+
+Safety boundaries:
+
+- manual CSV only
+- explicit manual trigger only
+- action_allowed=false
+- no IBKR connection
+- no reqMktData
+- no reqHistoricalData
+- no order
+- no cancel
+- no rebalance
+- no auto trade
+- no automatic execution
+
+### 1. Run final smoke check
+
+Command:
+
+    python main.py --config config.yaml --manual-csv-smoke data/manual_market_data_sample_valid.csv
+
+Expected output includes:
+
+    [MANUAL_CSV_SMOKE] steps=3
+    action_allowed=false
+
+This command checks:
+
+- generated output guard
+- filled manual scenario validation
+- manual market data review pack
+
+### 2. Generate review pack
+
+Command:
+
+    python main.py --config config.yaml --manual-market-data-review-pack data/manual_market_data_sample_valid.csv
+
+Primary outputs:
+
+    manual_market_data_review_pack.csv
+    reports/manual_market_data_review_pack_report.md
+
+The review pack summarizes:
+
+- actual ETF price
+- theoretical ETF price
+- deviation_pct
+- reference_label
+- daily_plan_label
+- strategy_label
+- action_allowed=false
+
+### 3. Use your own manual CSV
+
+Copy template:
+
+    cp data/manual_market_data_template.csv my_manual_market_data.csv
+
+Fill required columns:
+
+    target_id,target_type,market,data_role,value,currency,source,source_status,source_timestamp,notes
+
+Then run:
+
+    python main.py --config config.yaml --manual-market-data-pipeline my_manual_market_data.csv
+    python main.py --config config.yaml --manual-market-data-review-pack my_manual_market_data.csv
+
+### 4. Check generated files before commit
+
+Command:
+
+    python main.py --config config.yaml --generated-output-guard
+
+Generated runtime outputs should usually not be committed, including:
+
+    *_snapshot.csv
+    *_summary.csv
+    *_validation.csv
+    *_review_pack.csv
+    reports/*_report.md
+
+Static files may be committed:
+
+    data/manual_market_data_template.csv
+    data/manual_market_data_sample_valid.csv
+    docs/manual_csv_operator_runbook.md
+
+### 5. Detailed runbook
+
+    docs/manual_csv_operator_runbook.md
+
+### Final guardrail
+
+The manual CSV workflow produces research artifacts only. It does not produce execution instructions.
+<!-- MANUAL_CSV_QUICKSTART_END -->
+
