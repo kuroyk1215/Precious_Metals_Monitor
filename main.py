@@ -52,12 +52,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--live-provider-request-gate", nargs="?", const="", help="run phase-10B live provider request gate safety check")
     parser.add_argument("--live-provider-mock-adapter", nargs="?", const="", help="run phase-10C live provider mock adapter")
     parser.add_argument("--live-data-quality-gate", nargs="?", const="", help="run phase-10D live/mock data quality gate")
+    parser.add_argument("--live-research-review-pack", nargs="?", const="", help="run phase-10E live/mock research review pack bridge")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None))
 
 
     if args.upstream_factors:
@@ -271,6 +272,43 @@ def main() -> int:
 
 
 
+
+
+    if args.live_research_review_pack is not None:
+        from pathlib import Path
+        from src.live_provider_mock_adapter import (
+            build_live_provider_mock_adapter_rows,
+            load_live_provider_mock_adapter_config,
+        )
+        from src.live_data_quality_gate import build_live_data_quality_gate_rows
+        from src.live_research_review_pack import (
+            build_live_research_review_pack_rows,
+            write_live_research_review_pack_csv,
+            write_live_research_review_pack_report,
+        )
+
+        input_path = args.live_research_review_pack if args.live_research_review_pack else monitor.config["runtime"].get("market_data_provider_config_yaml", "data/market_data_provider_config.yaml")
+        provider_config = load_live_provider_mock_adapter_config(input_path)
+        mock_rows = build_live_provider_mock_adapter_rows(provider_config, monitor.config["runtime"]["timezone"])
+        mock_rows_by_target = {row.target_id: row.__dict__ for row in mock_rows}
+        quality_rows = build_live_data_quality_gate_rows(mock_rows_by_target, monitor.config["runtime"]["timezone"])
+        rows = build_live_research_review_pack_rows(quality_rows, monitor.config["runtime"]["timezone"])
+
+        csv_path = Path(monitor.config["runtime"].get("live_research_review_pack_csv", "live_research_review_pack.csv"))
+        md_path = Path(monitor.config["runtime"].get("live_research_review_pack_report", "reports/live_research_review_pack_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+
+        write_live_research_review_pack_csv(csv_path, rows)
+        write_live_research_review_pack_report(md_path, rows, input_path)
+
+        statuses = sorted({r.research_pack_status for r in rows})
+        status_text = chr(44).join(statuses) if statuses else "none"
+        print(f"[LIVE_RESEARCH_REVIEW_PACK] rows={len(rows)} statuses={status_text} api_request_allowed=false action_allowed=false")
+        print(f"live_research_review_pack_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: Live/mock research review pack bridge only. No API request / no IBKR connection / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
+        return 0
 
     if args.live_data_quality_gate is not None:
         from pathlib import Path
