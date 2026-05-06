@@ -46,6 +46,8 @@ runtime:
   filled_manual_scenario_validation_report: reports/filled_manual_scenario_validation_report.md
   manual_market_data_review_pack_csv: manual_market_data_review_pack.csv
   manual_market_data_review_pack_report: reports/manual_market_data_review_pack_report.md
+  generated_output_guard_csv: generated_output_guard.csv
+  generated_output_guard_report: reports/generated_output_guard_report.md
   timezone:
     jst: Asia/Tokyo
     cst: Asia/Shanghai
