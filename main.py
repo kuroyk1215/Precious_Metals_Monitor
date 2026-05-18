@@ -69,12 +69,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ibkr-readonly-qualification-candidate-resolver", nargs="?", const="", help="run phase-12A IBKR read-only qualification candidate resolver")
     parser.add_argument("--ibkr-readonly-qualification-candidate-review-pack", nargs="?", const="", help="run phase-12B IBKR read-only qualification candidate review pack")
     parser.add_argument("--ibkr-readonly-qualification-candidate-final-gate", nargs="?", const="", help="run phase-12C IBKR read-only qualification candidate final gate")
+    parser.add_argument("--ibkr-readonly-qualification-candidate-safety-summary", nargs="?", const="", help="run phase-12D IBKR read-only qualification candidate safety summary")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None or args.live_final_research_review_pack is not None or args.ibkr_live_provider_adapter_check is not None or args.ibkr_contract_mapping_plan is not None or args.ibkr_contract_qualification_dry_run is not None or args.ibkr_contract_qualification_execution_guard is not None or args.ibkr_readonly_qualification_precheck is not None or args.ibkr_readonly_qualification_runbook is not None or args.ibkr_readonly_qualification_go_no_go is not None or args.ibkr_readonly_qualification_config_template is not None or args.ibkr_readonly_qualification_config_audit is not None or args.ibkr_readonly_qualification_config_apply_plan is not None or args.ibkr_readonly_qualification_config_final_gate is not None or args.ibkr_readonly_qualification_safety_summary is not None or args.ibkr_readonly_qualification_candidate_resolver is not None or args.ibkr_readonly_qualification_candidate_review_pack is not None or args.ibkr_readonly_qualification_candidate_final_gate is not None))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None or args.live_final_research_review_pack is not None or args.ibkr_live_provider_adapter_check is not None or args.ibkr_contract_mapping_plan is not None or args.ibkr_contract_qualification_dry_run is not None or args.ibkr_contract_qualification_execution_guard is not None or args.ibkr_readonly_qualification_precheck is not None or args.ibkr_readonly_qualification_runbook is not None or args.ibkr_readonly_qualification_go_no_go is not None or args.ibkr_readonly_qualification_config_template is not None or args.ibkr_readonly_qualification_config_audit is not None or args.ibkr_readonly_qualification_config_apply_plan is not None or args.ibkr_readonly_qualification_config_final_gate is not None or args.ibkr_readonly_qualification_safety_summary is not None or args.ibkr_readonly_qualification_candidate_resolver is not None or args.ibkr_readonly_qualification_candidate_review_pack is not None or args.ibkr_readonly_qualification_candidate_final_gate is not None or args.ibkr_readonly_qualification_candidate_safety_summary is not None))
 
 
     if args.upstream_factors:
@@ -305,6 +306,97 @@ def main() -> int:
 
 
 
+
+
+    if args.ibkr_readonly_qualification_candidate_safety_summary is not None:
+        from pathlib import Path
+        from src.ibkr_contract_mapping_plan import (
+            build_ibkr_contract_mapping_plan_rows,
+            load_ibkr_contract_mapping_config,
+        )
+        from src.ibkr_contract_qualification_dry_run import build_ibkr_contract_qualification_dry_run_rows
+        from src.ibkr_contract_qualification_execution_guard import build_ibkr_contract_qualification_execution_guard_rows
+        from src.ibkr_readonly_qualification_safety_summary import IBKRReadOnlyQualificationSafetySummaryRow
+        from src.ibkr_readonly_qualification_candidate_resolver import build_ibkr_readonly_qualification_candidate_resolver_rows
+        from src.ibkr_readonly_qualification_candidate_review_pack import build_ibkr_readonly_qualification_candidate_review_pack_rows
+        from src.ibkr_readonly_qualification_candidate_final_gate import build_ibkr_readonly_qualification_candidate_final_gate_rows
+        from src.ibkr_readonly_qualification_candidate_safety_summary import (
+            build_ibkr_readonly_qualification_candidate_safety_summary_rows,
+            write_ibkr_readonly_qualification_candidate_safety_summary_csv,
+            write_ibkr_readonly_qualification_candidate_safety_summary_report,
+        )
+
+        input_path = args.ibkr_readonly_qualification_candidate_safety_summary if args.ibkr_readonly_qualification_candidate_safety_summary else "data/market_data_provider_config.yaml"
+
+        mapping_config = load_ibkr_contract_mapping_config("data/market_data_provider_config.yaml")
+        mapping_rows = build_ibkr_contract_mapping_plan_rows(mapping_config, monitor.config["runtime"]["timezone"])
+        dry_rows = build_ibkr_contract_qualification_dry_run_rows(mapping_rows, monitor.config["runtime"]["timezone"])
+        guard_rows = build_ibkr_contract_qualification_execution_guard_rows(dry_rows, monitor.config["runtime"]["timezone"])
+
+        safety_rows = [
+            IBKRReadOnlyQualificationSafetySummaryRow(
+                section_id="FINAL",
+                section_name="Final IBKR read-only qualification full safety summary",
+                source_layer="Phase 10G-10M + Phase 11A-11D",
+                input_row_count="0",
+                blocked_or_closed_count="0",
+                pass_or_ready_count="0",
+                summary_status="BLOCKED",
+                overall_status="BLOCKED",
+                apply_allowed="false",
+                qualification_allowed="false",
+                tws_connection_allowed="false",
+                contract_qualification_allowed="false",
+                market_data_request_allowed="false",
+                historical_data_request_allowed="false",
+                api_request_allowed="false",
+                action_allowed="false",
+                blocking_summary="overall_status_blocked_until_explicit_future_phase_design_and_manual_operator_review",
+                warning_flags="overall_blocked_by_default",
+                notes="synthetic safety summary row for candidate safety summary",
+                timestamp_jst="",
+                timestamp_et="",
+            )
+        ]
+
+        resolver_rows = build_ibkr_readonly_qualification_candidate_resolver_rows(
+            mapping_rows,
+            dry_rows,
+            guard_rows,
+            safety_rows,
+            monitor.config["runtime"]["timezone"],
+        )
+        review_rows = build_ibkr_readonly_qualification_candidate_review_pack_rows(
+            resolver_rows,
+            monitor.config["runtime"]["timezone"],
+        )
+        gate_rows = build_ibkr_readonly_qualification_candidate_final_gate_rows(
+            resolver_rows,
+            review_rows,
+            monitor.config["runtime"]["timezone"],
+        )
+        rows = build_ibkr_readonly_qualification_candidate_safety_summary_rows(
+            resolver_rows,
+            review_rows,
+            gate_rows,
+            monitor.config["runtime"]["timezone"],
+        )
+
+        csv_path = Path(monitor.config["runtime"].get("ibkr_readonly_qualification_candidate_safety_summary_csv", "ibkr_readonly_qualification_candidate_safety_summary.csv"))
+        md_path = Path(monitor.config["runtime"].get("ibkr_readonly_qualification_candidate_safety_summary_report", "reports/ibkr_readonly_qualification_candidate_safety_summary_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+
+        write_ibkr_readonly_qualification_candidate_safety_summary_csv(csv_path, rows)
+        write_ibkr_readonly_qualification_candidate_safety_summary_report(md_path, rows, input_path)
+
+        statuses = sorted({r.candidate_safety_status for r in rows})
+        status_text = chr(44).join(statuses) if statuses else "none"
+        print(f"[IBKR_READONLY_QUALIFICATION_CANDIDATE_SAFETY_SUMMARY] rows={len(rows)} statuses={status_text} candidate_final_gate_status=CLOSED qualification_allowed=false tws_connection_allowed=false api_request_allowed=false action_allowed=false")
+        print(f"candidate_safety_summary_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: IBKR read-only qualification candidate safety summary only. Candidate safety status remains BLOCKED and candidate final gate remains CLOSED. No TWS connection / no IBKR connection / no real contract qualification / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
+        return 0
 
     if args.ibkr_readonly_qualification_candidate_final_gate is not None:
         from pathlib import Path
