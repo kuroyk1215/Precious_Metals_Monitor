@@ -57,12 +57,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ibkr-live-provider-adapter-check", nargs="?", const="", help="run phase-10G IBKR live provider adapter skeleton check")
     parser.add_argument("--ibkr-contract-mapping-plan", nargs="?", const="", help="run phase-10H IBKR contract mapping plan")
     parser.add_argument("--ibkr-contract-qualification-dry-run", nargs="?", const="", help="run phase-10I IBKR contract qualification dry-run plan")
+    parser.add_argument("--ibkr-contract-qualification-execution-guard", nargs="?", const="", help="run phase-10J IBKR contract qualification execution guard")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None or args.live_final_research_review_pack is not None or args.ibkr_live_provider_adapter_check is not None or args.ibkr_contract_mapping_plan is not None or args.ibkr_contract_qualification_dry_run is not None))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None or args.live_final_research_review_pack is not None or args.ibkr_live_provider_adapter_check is not None or args.ibkr_contract_mapping_plan is not None or args.ibkr_contract_qualification_dry_run is not None or args.ibkr_contract_qualification_execution_guard is not None))
 
 
     if args.upstream_factors:
@@ -281,6 +282,42 @@ def main() -> int:
 
 
 
+
+
+    if args.ibkr_contract_qualification_execution_guard is not None:
+        from pathlib import Path
+        from src.ibkr_contract_mapping_plan import (
+            build_ibkr_contract_mapping_plan_rows,
+            load_ibkr_contract_mapping_config,
+        )
+        from src.ibkr_contract_qualification_dry_run import build_ibkr_contract_qualification_dry_run_rows
+        from src.ibkr_contract_qualification_execution_guard import (
+            build_ibkr_contract_qualification_execution_guard_rows,
+            write_ibkr_contract_qualification_execution_guard_csv,
+            write_ibkr_contract_qualification_execution_guard_report,
+        )
+
+        input_path = args.ibkr_contract_qualification_execution_guard if args.ibkr_contract_qualification_execution_guard else monitor.config["runtime"].get("market_data_provider_config_yaml", "data/market_data_provider_config.yaml")
+        mapping_config = load_ibkr_contract_mapping_config(input_path)
+        mapping_rows = build_ibkr_contract_mapping_plan_rows(mapping_config, monitor.config["runtime"]["timezone"])
+        dry_run_rows = build_ibkr_contract_qualification_dry_run_rows(mapping_rows, monitor.config["runtime"]["timezone"])
+        rows = build_ibkr_contract_qualification_execution_guard_rows(dry_run_rows, monitor.config["runtime"]["timezone"], explicit_execution_flag=False)
+
+        csv_path = Path(monitor.config["runtime"].get("ibkr_contract_qualification_execution_guard_csv", "ibkr_contract_qualification_execution_guard.csv"))
+        md_path = Path(monitor.config["runtime"].get("ibkr_contract_qualification_execution_guard_report", "reports/ibkr_contract_qualification_execution_guard_report.md"))
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+
+        write_ibkr_contract_qualification_execution_guard_csv(csv_path, rows)
+        write_ibkr_contract_qualification_execution_guard_report(md_path, rows, input_path)
+
+        statuses = sorted({r.execution_guard_status for r in rows})
+        status_text = chr(44).join(statuses) if statuses else "none"
+        print(f"[IBKR_CONTRACT_QUALIFICATION_EXECUTION_GUARD] rows={len(rows)} statuses={status_text} qualification_allowed=false tws_connection_allowed=false api_request_allowed=false action_allowed=false")
+        print(f"execution_guard_csv={csv_path}")
+        print(f"report={md_path}")
+        print("NOTICE: IBKR contract qualification execution guard only. No TWS connection / no IBKR connection / no real contract qualification / no reqMktData / no reqHistoricalData / no order / no cancel / no rebalance / no auto trade.")
+        return 0
 
     if args.ibkr_contract_qualification_dry_run is not None:
         from pathlib import Path
