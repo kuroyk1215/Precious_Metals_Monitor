@@ -171,6 +171,25 @@ def _connection_metadata(connector: Any) -> tuple[str, str]:
     return server_version or "unavailable", connection_time or "unavailable"
 
 
+def _diagnose_connection_exception(exc: Exception, host: str, port: str) -> str:
+    message = str(exc)
+    class_name = exc.__class__.__name__
+
+    if isinstance(exc, ConnectionRefusedError) or "ConnectionRefusedError" in message:
+        return (
+            "connect_failed:tws_api_socket_not_listening;"
+            "host={};port={};error_type={};error={}"
+        ).format(host, port, class_name, message)
+
+    if "Connect call failed" in message:
+        return (
+            "connect_failed:tws_api_socket_unreachable;"
+            "host={};port={};error_type={};error={}"
+        ).format(host, port, class_name, message)
+
+    return "connect_failed:error_type={};error={}".format(class_name, message)
+
+
 def _default_connector_factory():
     try:
         from ib_insync import IB  # type: ignore
@@ -387,7 +406,7 @@ def build_ibkr_readonly_first_connect_disconnect_rows(
             connect_evidence = "connect_disconnect_metadata_only"
         except Exception as exc:
             connect_status = FAIL_TEXT
-            connect_evidence = "connect_failed: {}".format(exc)
+            connect_evidence = _diagnose_connection_exception(exc, host, port)
         finally:
             if connector is not None:
                 try:
@@ -495,11 +514,22 @@ def write_ibkr_readonly_first_connect_disconnect_report(
     selected_profile = final_row.selected_profile if final_row else "unknown"
     final_status = final_row.status if final_row else FAIL_TEXT
 
-    execute_count = sum(1 for row in row_list if row.execute_requested == TRUE_TEXT)
-    connection_attempt_count = sum(1 for row in row_list if row.connection_attempted == TRUE_TEXT)
-    connect_success_count = sum(1 for row in row_list if row.connect_succeeded == TRUE_TEXT)
-    disconnect_success_count = sum(1 for row in row_list if row.disconnect_succeeded == TRUE_TEXT)
-    current_call_allowed_count = sum(1 for row in row_list if row.current_call_allowed == TRUE_TEXT)
+    execute_count = 1 if final_row and final_row.execute_requested == TRUE_TEXT else 0
+    actual_connection_rows = [
+        row for row in row_list if row.row_id == "CONNECT_DISCONNECT"
+    ]
+    connection_attempt_count = sum(
+        1 for row in actual_connection_rows if row.connection_attempted == TRUE_TEXT
+    )
+    connect_success_count = sum(
+        1 for row in actual_connection_rows if row.connect_succeeded == TRUE_TEXT
+    )
+    disconnect_success_count = sum(
+        1 for row in actual_connection_rows if row.disconnect_succeeded == TRUE_TEXT
+    )
+    current_call_allowed_count = sum(
+        1 for row in actual_connection_rows if row.current_call_allowed == TRUE_TEXT
+    )
     action_allowed_count = sum(1 for row in row_list if row.action_allowed == TRUE_TEXT)
 
     lines = [
@@ -516,6 +546,7 @@ def write_ibkr_readonly_first_connect_disconnect_report(
         f"- connect_success_count: {connect_success_count}",
         f"- disconnect_success_count: {disconnect_success_count}",
         f"- current_call_allowed_count: {current_call_allowed_count}",
+        "- counter_scope: CONNECT_DISCONNECT row only for actual connection counters",
         f"- action_allowed_count: {action_allowed_count}",
         "- market_data_request_allowed: false",
         "- historical_data_request_allowed: false",

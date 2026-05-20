@@ -165,3 +165,117 @@ def test_write_first_connect_disconnect_csv_and_report(tmp_path):
     assert "Default mode is dry-run" in report
     assert "no market data request" in report
     assert "no auto trade" in report
+
+
+class RefusedConnector:
+    def connect(self, host, port, clientId, readonly):
+        raise ConnectionRefusedError(61, "Connect call failed")
+
+    def disconnect(self):
+        return None
+
+
+def test_first_connect_disconnect_reports_connection_refused_diagnostic(tmp_path):
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text(LIVE_CONFIG, encoding="utf-8")
+
+    rows = build_ibkr_readonly_first_connect_disconnect_rows(
+        config_path,
+        execute=True,
+        connector_factory=lambda: RefusedConnector(),
+    )
+
+    connect_row = [row for row in rows if row.row_id == "CONNECT_DISCONNECT"][0]
+    final = rows[-1]
+
+    assert connect_row.status == "FAIL"
+    assert "tws_api_socket_not_listening" in connect_row.evidence
+    assert "host=127.0.0.1" in connect_row.evidence
+    assert "port=7496" in connect_row.evidence
+    assert final.status == "FAIL"
+
+
+def test_first_connect_disconnect_report_counts_actual_connection_row_only(tmp_path):
+    rows = [
+        FirstConnectDisconnectRow(
+            row_id="CONNECT_DISCONNECT",
+            row_name="First real read-only connect/disconnect attempt",
+            source_layer="Phase 17A",
+            input_source="config.yaml",
+            selected_profile="live-readonly",
+            execute_requested="true",
+            component="connect_disconnect",
+            status="PASS",
+            host="127.0.0.1",
+            port="7496",
+            client_id="1",
+            server_version="123",
+            connection_time="2026-05-20T10:30:00",
+            connection_attempted="true",
+            connect_succeeded="true",
+            disconnect_attempted="true",
+            disconnect_succeeded="true",
+            current_call_allowed="true",
+            market_data_request_allowed="false",
+            historical_data_request_allowed="false",
+            contract_qualification_allowed="false",
+            order_action_allowed="false",
+            cancel_action_allowed="false",
+            rebalance_action_allowed="false",
+            auto_trade_allowed="false",
+            action_allowed="false",
+            evidence="connect_disconnect_metadata_only",
+            warning_flags="FIRST_CONNECT_DISCONNECT_DEFINED",
+            notes="Connect row.",
+            timestamp_jst="2026-05-20T10:30:00+09:00",
+            timestamp_et="2026-05-19T21:30:00-04:00",
+        ),
+        FirstConnectDisconnectRow(
+            row_id="FINAL",
+            row_name="Final first read-only connect/disconnect decision",
+            source_layer="Phase 17A",
+            input_source="config.yaml",
+            selected_profile="live-readonly",
+            execute_requested="true",
+            component="final",
+            status="PASS",
+            host="127.0.0.1",
+            port="7496",
+            client_id="1",
+            server_version="123",
+            connection_time="2026-05-20T10:30:00",
+            connection_attempted="true",
+            connect_succeeded="true",
+            disconnect_attempted="true",
+            disconnect_succeeded="true",
+            current_call_allowed="true",
+            market_data_request_allowed="false",
+            historical_data_request_allowed="false",
+            contract_qualification_allowed="false",
+            order_action_allowed="false",
+            cancel_action_allowed="false",
+            rebalance_action_allowed="false",
+            auto_trade_allowed="false",
+            action_allowed="false",
+            evidence="summary",
+            warning_flags="FIRST_CONNECT_DISCONNECT_DEFINED",
+            notes="Final row duplicates execution fields for summary.",
+            timestamp_jst="2026-05-20T10:30:00+09:00",
+            timestamp_et="2026-05-19T21:30:00-04:00",
+        ),
+    ]
+
+    report_path = tmp_path / "report.md"
+    write_ibkr_readonly_first_connect_disconnect_report(
+        report_path,
+        rows,
+        "config.yaml",
+    )
+
+    report = report_path.read_text(encoding="utf-8")
+
+    assert "connection_attempt_count: 1" in report
+    assert "connect_success_count: 1" in report
+    assert "disconnect_success_count: 1" in report
+    assert "current_call_allowed_count: 1" in report
+    assert "counter_scope: CONNECT_DISCONNECT row only" in report

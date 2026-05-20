@@ -544,9 +544,16 @@ def main() -> int:
         profiles = sorted({r.selected_profile for r in rows})
         status_text = ",".join(statuses) if statuses else "none"
         profile_text = ",".join(profiles) if profiles else "none"
-        connection_attempts = sum(1 for r in rows if r.connection_attempted == "true")
-        connect_success = sum(1 for r in rows if r.connect_succeeded == "true")
-        current_allowed = sum(1 for r in rows if r.current_call_allowed == "true")
+        actual_connection_rows = [r for r in rows if r.row_id == "CONNECT_DISCONNECT"]
+        connection_attempts = sum(
+            1 for r in actual_connection_rows if r.connection_attempted == "true"
+        )
+        connect_success = sum(
+            1 for r in actual_connection_rows if r.connect_succeeded == "true"
+        )
+        current_allowed = sum(
+            1 for r in actual_connection_rows if r.current_call_allowed == "true"
+        )
 
         print(
             "[IBKR_FIRST_READONLY_CONNECT_DISCONNECT] "
