@@ -21,3 +21,9 @@ reports/ibkr_historical_fetch_report.md
 reports/latest_report.md
 reports/theoretical_price_report.md
 reports/upstream_factor_report.md
+
+# Phase 54-56: local archive and handoff runtime outputs
+archive/
+logs/local/
+logs/failures/
+logs/archive/

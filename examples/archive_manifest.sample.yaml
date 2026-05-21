@@ -1,0 +1,48 @@
+# Archive manifest sample for Precious_Metals_Monitor
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+
+archive_manifest_sample:
+  run_id: SAMPLE_RUN_ID
+  run_timestamp: "YYYY-MM-DDTHH:MM:SS"
+  timezone: JST
+  branch: SAMPLE_BRANCH
+  commit: SAMPLE_COMMIT
+  workflow: report-template-daily-log-telegram-ready-output
+  config_reference: SAMPLE_PRIVATE_CONFIG_REFERENCE
+
+  outputs:
+    markdown_report:
+      path: archive/reports/SAMPLE_REPORT.md
+      archived: false
+      contains_secret: false
+
+    daily_log:
+      path: archive/daily_logs/SAMPLE_DAILY_LOG.csv
+      archived: false
+      contains_secret: false
+
+    telegram_ready_text:
+      path: archive/telegram_ready/SAMPLE_TELEGRAM_READY.txt
+      archived: false
+      contains_secret: false
+
+    final_research_trading_plan:
+      path: archive/final_plans/SAMPLE_FINAL_PLAN.md
+      archived: false
+      contains_secret: false
+
+  data_status_summary:
+    status: SAMPLE_STATUS
+    manual_review_required: true
+
+  safety:
+    research_only: true
+    read_only: true
+    manual_only: true
+    no_auto_trade: true
+    broker_execution_triggered: false
+    telegram_real_send_triggered: false
+    scheduler_real_deployment_triggered: false
