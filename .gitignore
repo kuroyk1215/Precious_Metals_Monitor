@@ -38,3 +38,7 @@ reports/final_research_plan_orchestrator_report.md
 reports/report_template_daily_log_telegram_ready_output_report.md
 reports/telegram_ready_text.txt
 reports/ibkr_smoke_report.md
+
+# Phase 93-100: data source status runtime outputs
+data_source_status.csv
+reports/data_source_status_report.md
