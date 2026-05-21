@@ -45,6 +45,11 @@ required_header = [
     "branch",
     "commit",
     "workflow",
+    "daily_summary_status",
+    "final_plan_status",
+    "telegram_ready_status",
+    "data_status_summary",
+    "blocked_reason",
     "python_compile_passed",
     "pytest_passed",
     "final_research_plan_orchestrator_run",
@@ -71,6 +76,10 @@ checks = {
     "schema_version": "daily_research_run.v1",
     "timezone": "Asia/Tokyo",
     "workflow": "daily_research_run",
+    "daily_summary_status": "INPUT_REQUIRED",
+    "final_plan_status": "INPUT_REQUIRED",
+    "telegram_ready_status": "TELEGRAM_BLOCKED",
+    "data_status_summary": "manual_review_required",
     "python_compile_passed": "true",
     "pytest_passed": "true",
     "final_research_plan_orchestrator_run": "true",
@@ -88,7 +97,7 @@ for key, expected in checks.items():
     if actual != expected:
         raise SystemExit(f"[FAIL] {key}: expected {expected}, got {actual}")
 
-for key in ("run_id", "run_timestamp", "branch", "commit"):
+for key in ("run_id", "run_timestamp", "branch", "commit", "blocked_reason"):
     if not row.get(key):
         raise SystemExit(f"[FAIL] Missing metadata value: {key}")
 
