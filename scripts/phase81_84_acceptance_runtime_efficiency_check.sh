@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[INFO] Project acceptance suite"
+echo "[INFO] Phase 81-84 acceptance runtime efficiency check"
 
 required_files=(
-  "docs/PROJECT_ACCEPTANCE_SUITE.md"
+  "docs/ACCEPTANCE_RUNTIME_EFFICIENCY.md"
   "scripts/daily_research_run.sh"
-  "scripts/phase57_60_readonly_ops_batch_check.sh"
-  "scripts/phase61_64_daily_research_run_check.sh"
-  "scripts/phase65_67_runtime_output_git_hygiene_check.sh"
-  "scripts/phase68_70_legacy_runtime_cleanup_check.sh"
-  "scripts/phase71_73_post_hygiene_daily_run_acceptance_check.sh"
+  "scripts/project_acceptance_suite.sh"
 )
 
 for file in "${required_files[@]}"; do
@@ -20,27 +16,31 @@ for file in "${required_files[@]}"; do
   fi
 done
 
+echo "[INFO] Verify --skip-tests support"
+if ! grep -q -- "--skip-tests" scripts/daily_research_run.sh; then
+  echo "[FAIL] daily_research_run.sh does not support --skip-tests"
+  exit 1
+fi
+
+if ! grep -q -- "daily_research_run.sh --skip-tests" scripts/project_acceptance_suite.sh; then
+  echo "[FAIL] project_acceptance_suite.sh does not call daily_research_run.sh --skip-tests"
+  exit 1
+fi
+
 echo "[INFO] Python syntax check"
 python3 -m py_compile main.py src/*.py
 
 echo "[INFO] Unit tests"
 python3 -m pytest -q
 
-echo "[INFO] Daily research run"
+echo "[INFO] Daily research run with --skip-tests"
 ./scripts/daily_research_run.sh --skip-tests
 
-echo "[INFO] Runtime output existence check"
-required_runtime_outputs=(
-  "daily_research_run_summary.csv"
-  "reports/daily_research_run_report.md"
-)
+echo "[INFO] Metadata schema check"
+./scripts/phase77_80_daily_run_metadata_schema_check.sh
 
-for file in "${required_runtime_outputs[@]}"; do
-  if [[ ! -f "$file" ]]; then
-    echo "[FAIL] Missing generated runtime output: $file"
-    exit 1
-  fi
-done
+echo "[INFO] Project acceptance suite"
+./scripts/project_acceptance_suite.sh
 
 echo "[INFO] Runtime output git hygiene check"
 if git status --short | grep -E "daily_research_run_summary.csv|reports/daily_research_run_report.md|final_research_plan_orchestrator.csv|report_template_daily_log_telegram_ready_output.csv|reports/telegram_ready_text.txt" >/dev/null 2>&1; then
@@ -48,26 +48,6 @@ if git status --short | grep -E "daily_research_run_summary.csv|reports/daily_re
   git status --short
   exit 1
 fi
-
-echo "[INFO] Legacy runtime tracking check"
-legacy_runtime_paths=(
-  "reports/ibkr_smoke_report.md"
-  "daily_research_run_summary.csv"
-  "final_research_plan_daily_log.csv"
-  "final_research_plan_orchestrator.csv"
-  "report_template_daily_log_telegram_ready_output.csv"
-  "reports/daily_research_run_report.md"
-  "reports/final_research_plan_orchestrator_report.md"
-  "reports/report_template_daily_log_telegram_ready_output_report.md"
-  "reports/telegram_ready_text.txt"
-)
-
-for path in "${legacy_runtime_paths[@]}"; do
-  if git ls-files --error-unmatch "$path" >/dev/null 2>&1; then
-    echo "[FAIL] Runtime output is still tracked by Git: $path"
-    exit 1
-  fi
-done
 
 echo "[INFO] Config staging guard"
 if git diff --cached --name-only | grep -q "^config.yaml$"; then
@@ -81,13 +61,14 @@ if grep -R "placeOrder\|cancelOrder\|bracketOrder\|whatIfOrder\|exerciseOptions"
   exit 1
 fi
 
-echo "[PASS] Project acceptance suite completed"
+echo "[PASS] daily_research_run.sh supports --skip-tests"
+echo "[PASS] project_acceptance_suite.sh avoids duplicate full test execution"
 echo "[PASS] Python syntax check passed"
 echo "[PASS] Unit tests passed"
-echo "[PASS] Daily research run executed"
-echo "[PASS] Runtime outputs generated locally"
+echo "[PASS] Daily research run with --skip-tests passed"
+echo "[PASS] Metadata schema check passed"
+echo "[PASS] Project acceptance suite passed"
 echo "[PASS] Runtime outputs do not pollute git status"
-echo "[PASS] Legacy runtime outputs are not tracked"
 echo "[PASS] config.yaml is not staged"
 echo "[PASS] No active Python trading API keyword found"
 echo "[PASS] No real Telegram message sent"
