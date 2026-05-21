@@ -42,3 +42,8 @@ reports/ibkr_smoke_report.md
 # Phase 93-100: data source status runtime outputs
 data_source_status.csv
 reports/data_source_status_report.md
+
+# Phase 101-108: Telegram-ready readable digest runtime outputs
+telegram_ready_summary.csv
+reports/telegram_ready_report.md
+reports/telegram_ready_daily_digest.txt
