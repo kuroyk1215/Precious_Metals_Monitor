@@ -51,3 +51,8 @@ reports/telegram_ready_daily_digest.txt
 # Phase 109-120: scheduler dry-run runtime outputs
 scheduler_dryrun_plan.csv
 reports/scheduler_dryrun_report.md
+
+# Phase 121-132: dashboard local static view runtime outputs
+dashboard_static_view_summary.csv
+reports/dashboard_static_view_report.md
+reports/dashboard/
