@@ -1,0 +1,88 @@
+# Data source policy sample for Precious_Metals_Monitor
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+
+data_source_policy:
+  enabled: false
+  mode: documentation_only
+
+  safety:
+    research_only: true
+    read_only: true
+    manual_only: true
+    auto_trade_allowed: false
+    order_action_allowed: false
+    cancel_action_allowed: false
+    rebalance_action_allowed: false
+
+  status_labels:
+    allowed:
+      - real_time
+      - delayed
+      - delayed_frozen
+      - historical_close
+      - manual_input
+      - inferred
+      - unavailable
+
+  priority_order:
+    - validated_manual_input
+    - configured_read_only_source
+    - delayed_market_data
+    - delayed_frozen_market_data
+    - historical_close
+    - inferred_reference
+    - unavailable
+
+  required_output_fields:
+    - symbol
+    - market
+    - source
+    - source_status
+    - data_status
+    - timestamp
+    - timezone
+    - price
+    - currency
+    - fallback_method
+    - has_valid_price
+    - quality_note
+
+  confidence_mapping:
+    high:
+      - real_time
+      - manual_input
+    medium:
+      - delayed
+      - historical_close
+    low:
+      - delayed_frozen
+      - inferred
+    none:
+      - unavailable
+
+  ibkr:
+    enabled: false
+    read_only_required: true
+    market_data_request_allowed: false
+    historical_data_request_allowed: false
+    trading_actions_allowed: false
+    order_action_allowed: false
+    cancel_action_allowed: false
+
+  fallback:
+    allow_delayed: true
+    allow_delayed_frozen: true
+    allow_historical_close: true
+    allow_manual_input: true
+    allow_inferred: true
+    allow_unavailable: true
+    require_visible_fallback_label: true
+    allow_silent_fallback: false
+
+  report_policy:
+    require_data_status_display: true
+    require_manual_review_if_not_real_time: true
+    prohibit_execution_language: true
