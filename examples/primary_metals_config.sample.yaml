@@ -1,0 +1,84 @@
+# Precious_Metals_Monitor sample primary metals config
+# Purpose:
+#   Public, non-sensitive example config for MVP workflow testing and documentation.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+#
+# Notes:
+#   - Do not put real account IDs, API tokens, Telegram tokens, or private endpoints here.
+#   - Keep local private settings in config.yaml or a private runtime config that is not committed.
+#   - This sample is intended as a documentation reference.
+
+project:
+  name: Precious_Metals_Monitor
+  mode: research_only
+  read_only: true
+  manual_only: true
+  auto_trade_allowed: false
+
+primary_metals:
+  - symbol: GOLD
+    market_role: primary_reference
+    enabled: true
+    notes: Global gold reference asset
+
+  - symbol: SILVER
+    market_role: secondary_reference
+    enabled: true
+    notes: Global silver reference asset
+
+market_scope:
+  jp:
+    enabled: true
+    instruments:
+      - symbol: 1540.T
+        name: Japan gold ETF reference
+      - symbol: 1542.T
+        name: Japan silver ETF reference
+
+  cn:
+    enabled: true
+    instruments:
+      - symbol: 518880.SH
+        name: China gold ETF reference
+
+  us:
+    enabled: true
+    instruments:
+      - symbol: GLD
+        name: US gold ETF reference
+      - symbol: SLV
+        name: US silver ETF reference
+
+data_policy:
+  allow_real_time: false
+  allow_delayed: true
+  allow_inferred: true
+  allow_unavailable: true
+  require_data_status_label: true
+
+ibkr:
+  read_only_required: true
+  real_connection_allowed: false
+  market_data_request_allowed: false
+  historical_data_request_allowed: false
+  trading_actions_allowed: false
+  order_action_allowed: false
+  cancel_action_allowed: false
+  rebalance_action_allowed: false
+
+telegram:
+  enabled: false
+  mode: ready_text_only
+  send_allowed: false
+
+scheduler:
+  enabled: false
+  mode: stub_only
+
+outputs:
+  markdown_report: true
+  daily_log: true
+  telegram_ready_text: true
+  final_research_trading_plan: true
