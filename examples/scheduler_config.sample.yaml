@@ -1,0 +1,85 @@
+# Scheduler sample config for Precious_Metals_Monitor
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+#
+# Do not put real secrets, tokens, account IDs, or private server data here.
+
+scheduler:
+  enabled: false
+  mode: stub_only
+  deployment_target: documentation_only
+
+  safety:
+    research_only: true
+    read_only: true
+    manual_only: true
+    auto_trade_allowed: false
+    order_action_allowed: false
+    cancel_action_allowed: false
+    rebalance_action_allowed: false
+
+  command:
+    project_dir: /Users/a456/Precious_Metals_Monitor
+    python_path: /Users/a456/Precious_Metals_Monitor/.venv/bin/python
+    entrypoint: main.py
+    workflow_flag: --report-template-daily-log-telegram-ready-output
+    config_path: primary_metals_config.yaml
+
+  time_zones:
+    user_default: JST
+    jp_market: JST
+    cn_market: CST
+    us_market: ET
+
+  planned_windows:
+    jp_morning:
+      enabled: false
+      time: "08:30"
+      timezone: JST
+
+    jp_lunch:
+      enabled: false
+      time: "12:00"
+      timezone: JST
+
+    jp_close:
+      enabled: false
+      time: "16:00"
+      timezone: JST
+
+    us_open_context:
+      enabled: false
+      time: "21:30"
+      timezone: JST
+      notes: Must account for ET daylight saving time.
+
+    us_mid_session:
+      enabled: false
+      time: "01:00"
+      timezone: JST
+      notes: Must account for ET daylight saving time.
+
+    us_post_session:
+      enabled: false
+      time: "05:15"
+      timezone: JST
+      notes: Must account for ET daylight saving time.
+
+  logging:
+    enabled: true
+    log_dir: logs/scheduler
+    include_stdout: true
+    include_stderr: true
+    include_run_summary: true
+    include_failure_reason: true
+    include_no_trade_assertion: true
+    include_secrets: false
+
+  failure_handling:
+    max_retry_count: 0
+    infinite_retry_allowed: false
+    preserve_previous_report: true
+    fail_open_to_trading: false
+    notify_on_failure: false
