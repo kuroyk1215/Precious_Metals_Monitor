@@ -56,3 +56,7 @@ reports/scheduler_dryrun_report.md
 dashboard_static_view_summary.csv
 reports/dashboard_static_view_report.md
 reports/dashboard/
+
+# Phase 137-144: IBKR read-only final gate dry-run runtime outputs
+ibkr_readonly_final_gate_plan.csv
+reports/ibkr_readonly_final_gate_report.md
