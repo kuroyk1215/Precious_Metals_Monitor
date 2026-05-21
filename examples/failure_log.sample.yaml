@@ -1,0 +1,26 @@
+# Failure log sample for Precious_Metals_Monitor
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+
+failure_log_sample:
+  failure_id: SAMPLE_FAILURE_ID
+  run_id: SAMPLE_RUN_ID
+  timestamp: "YYYY-MM-DDTHH:MM:SS"
+  timezone: JST
+  branch: SAMPLE_BRANCH
+  command: "python main.py --report-template-daily-log-telegram-ready-output <primary_metals_config.yaml>"
+  phase: SAMPLE_PHASE
+  failure_category: data_unavailable
+  failure_message: SAMPLE_NON_SECRET_FAILURE_MESSAGE
+  affected_output: SAMPLE_OUTPUT_PATH
+  data_status: unavailable
+  retry_allowed: false
+  manual_action_required: true
+  no_trade_assertion: true
+  broker_execution_triggered: false
+  telegram_real_send_triggered: false
+  scheduler_real_deployment_triggered: false
+  resolved_status: unresolved
+  notes: SAMPLE_NOTES_NO_SECRETS
