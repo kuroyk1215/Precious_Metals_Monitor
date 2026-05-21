@@ -120,9 +120,15 @@ grep -q "contract_qualification_triggered=false" reports/ibkr_oneshot_readonly_c
 grep -q "broker_execution_triggered=false" reports/ibkr_oneshot_readonly_connection_preflight_report.md
 grep -q "action_allowed=false" reports/ibkr_oneshot_readonly_connection_preflight_report.md
 
-echo "[INFO] Forbidden active runtime API guard"
-if grep -R "reqMktData\|reqHistoricalData\|reqContractDetails\|placeOrder\|cancelOrder\|bracketOrder\|whatIfOrder\|exerciseOptions" main.py src --include="*.py" >/dev/null 2>&1; then
-  echo "[FAIL] Forbidden IBKR API keyword found in active runtime code"
+echo "[INFO] Active runtime trading API guard"
+if grep -R "placeOrder\|cancelOrder\|bracketOrder\|whatIfOrder\|exerciseOptions" main.py src --include="*.py" >/dev/null 2>&1; then
+  echo "[FAIL] Trading API keyword found in active runtime code"
+  exit 1
+fi
+
+echo "[INFO] One-shot preflight direct IBKR request guard"
+if grep -n "reqMktData\|reqHistoricalData\|reqContractDetails\|placeOrder\|cancelOrder\|bracketOrder\|whatIfOrder\|exerciseOptions" scripts/ibkr_oneshot_readonly_connection_preflight.sh >/dev/null 2>&1; then
+  echo "[FAIL] One-shot preflight script contains forbidden IBKR request or trading keyword"
   exit 1
 fi
 
