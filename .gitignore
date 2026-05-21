@@ -84,3 +84,11 @@ ibkr_contract_map_lockin.csv
 reports/ibkr_contract_map_lockin_report.md
 ibkr_market_data_snapshot_preflight.csv
 reports/ibkr_market_data_snapshot_preflight_report.md
+
+# Phase 209-240: IBKR market data and daily integration preflight outputs
+ibkr_verified_contract_map.csv
+reports/ibkr_verified_contract_map_report.md
+ibkr_market_data_snapshot.csv
+reports/ibkr_market_data_snapshot_report.md
+ibkr_daily_integration_preflight.csv
+reports/ibkr_daily_integration_preflight_report.md
