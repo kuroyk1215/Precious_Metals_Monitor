@@ -1,0 +1,61 @@
+# UI sample config for Precious_Metals_Monitor
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+
+ui:
+  enabled: false
+  mode: documentation_only
+  deployment: local_only
+
+  safety:
+    research_only: true
+    read_only: true
+    manual_only: true
+    auto_trade_allowed: false
+    order_action_allowed: false
+    cancel_action_allowed: false
+    rebalance_action_allowed: false
+    broker_execution_allowed: false
+    telegram_trade_command_allowed: false
+
+  server:
+    host: 127.0.0.1
+    port: 8501
+    expose_publicly: false
+    require_authentication: false
+
+  screens:
+    dashboard: true
+    latest_report: true
+    daily_log: true
+    final_research_trading_plan: true
+    telegram_ready_text: true
+    data_status: true
+    scheduler_status: true
+    manual_review_checklist: true
+
+  forbidden_screens:
+    - order_entry
+    - cancel_order
+    - rebalance
+    - broker_execution
+    - telegram_trade_command
+
+  actions:
+    refresh_reports_allowed: true
+    open_report_allowed: true
+    copy_telegram_ready_text_allowed: true
+    run_research_workflow_allowed: false
+    send_telegram_allowed: false
+    broker_order_allowed: false
+
+  logging:
+    include_timestamp: true
+    include_report_path: true
+    include_data_status: true
+    include_no_trade_assertion: true
+    include_credentials: false
+    include_tokens: false
+    include_account_ids: false
