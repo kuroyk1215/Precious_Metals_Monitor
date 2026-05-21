@@ -1,0 +1,26 @@
+{
+  "dashboard_manifest_sample": {
+    "schema_version": "dashboard_static_view.v1",
+    "runtime_outputs": {
+      "daily_research_run_summary": "daily_research_run_summary.csv",
+      "daily_research_run_report": "reports/daily_research_run_report.md",
+      "data_source_status": "data_source_status.csv",
+      "data_source_status_report": "reports/data_source_status_report.md",
+      "telegram_ready_summary": "telegram_ready_summary.csv",
+      "telegram_ready_report": "reports/telegram_ready_report.md",
+      "telegram_ready_digest": "reports/telegram_ready_daily_digest.txt",
+      "scheduler_dryrun_plan": "scheduler_dryrun_plan.csv",
+      "scheduler_dryrun_report": "reports/scheduler_dryrun_report.md",
+      "dashboard_html": "reports/dashboard/index.html"
+    },
+    "safety": {
+      "read_only": true,
+      "manual_only": true,
+      "research_only": true,
+      "auto_trade_allowed": false,
+      "broker_execution_triggered": false,
+      "telegram_api_called": false,
+      "scheduler_deployed": false
+    }
+  }
+}
