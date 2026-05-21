@@ -1,0 +1,53 @@
+# Telegram sample config for Precious_Metals_Monitor
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+#
+# Do not put real Bot token or real chat_id in this file.
+
+telegram:
+  enabled: false
+  mode: ready_text_only
+  send_allowed: false
+
+  # Use environment variable name only.
+  # Do not commit the real token.
+  bot_token_env: TELEGRAM_BOT_TOKEN
+
+  # Placeholder only.
+  # Replace in local private config, not in committed sample files.
+  chat_id: TELEGRAM_CHAT_ID_PLACEHOLDER
+
+  message_policy:
+    include_report_summary: true
+    include_daily_log_summary: true
+    include_final_research_trading_plan: true
+    include_data_status: true
+    include_manual_review_reminder: true
+    include_no_trade_statement: true
+
+  safety:
+    research_only: true
+    read_only: true
+    manual_only: true
+    auto_trade_allowed: false
+    order_action_allowed: false
+    cancel_action_allowed: false
+    rebalance_action_allowed: false
+    telegram_command_trading_allowed: false
+
+  failure_handling:
+    dry_run_default: true
+    max_retry_count: 2
+    log_failure: true
+    fail_report_generation_on_send_error: false
+    allow_infinite_retry: false
+
+  forbidden_message_types:
+    - buy_now
+    - sell_now
+    - place_order
+    - cancel_order
+    - rebalance_now
+    - auto_trade
