@@ -1,0 +1,72 @@
+# IBKR read-only admission sample config
+# Public, non-sensitive sample only.
+#
+# Safety boundary:
+#   research-only / read-only / manual-only / no auto trade
+#
+# Do not put account IDs, credentials, tokens, or private endpoints here.
+
+ibkr_read_only_admission:
+  enabled: false
+  mode: documentation_only
+
+  safety:
+    research_only: true
+    read_only: true
+    manual_only: true
+    auto_trade_allowed: false
+    trading_actions_allowed: false
+    order_action_allowed: false
+    cancel_action_allowed: false
+    rebalance_action_allowed: false
+    telegram_command_trading_allowed: false
+    scheduler_trading_allowed: false
+
+  connection:
+    host: 127.0.0.1
+    port: 7496
+    client_id: 1
+    account_mode: live_or_paper_placeholder
+    read_only_required: true
+
+  request_gates:
+    market_data_request_allowed: false
+    historical_data_request_allowed: false
+    contract_qualification_allowed: false
+    uncontrolled_request_allowed: false
+
+  forbidden_actions:
+    - placeOrder
+    - cancelOrder
+    - bracketOrder
+    - exerciseOptions
+    - auto_rebalance
+    - auto_trade
+
+  required_output_fields:
+    - symbol
+    - market
+    - exchange
+    - currency
+    - source
+    - source_status
+    - data_status
+    - timestamp
+    - timezone
+    - fallback_method
+    - has_valid_price
+    - quality_note
+
+  logging:
+    include_run_timestamp: true
+    include_data_status: true
+    include_no_trade_assertion: true
+    include_credentials: false
+    include_account_id: false
+    include_token: false
+
+  failure_handling:
+    mark_unavailable_on_failure: true
+    preserve_report_generation: true
+    infinite_retry_allowed: false
+    fail_open_to_trading: false
