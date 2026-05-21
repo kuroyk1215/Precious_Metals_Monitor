@@ -47,3 +47,7 @@ reports/data_source_status_report.md
 telegram_ready_summary.csv
 reports/telegram_ready_report.md
 reports/telegram_ready_daily_digest.txt
+
+# Phase 109-120: scheduler dry-run runtime outputs
+scheduler_dryrun_plan.csv
+reports/scheduler_dryrun_report.md
