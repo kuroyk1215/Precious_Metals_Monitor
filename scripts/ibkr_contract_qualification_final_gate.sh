@@ -199,7 +199,7 @@ report_path.write_text(f"""# IBKR Contract Qualification Dry-run Final Gate Repo
 
 This phase generated a contract qualification dry-run plan only.
 
-No IBKR connection occurred, no `reqContractDetails` call occurred, no market data or historical data was requested, and no broker execution occurred.
+No IBKR connection occurred, no reqContractDetails call occurred, no market data or historical data was requested, and no broker execution occurred.
 """)
 
 print("[PASS] IBKR contract qualification dry-run final gate generated")
