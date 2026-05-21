@@ -1,3 +1,23 @@
 __pycache__/
 *.pyc
 outputs/
+
+# Phase 42: generated runtime artifacts and local environment
+.venv/
+
+conversion_factor_calibration_log.csv
+historical_quality_gate_log.csv
+ibkr_historical_fetch_log.csv
+ibkr_smoke_log.csv
+precious_metals_signal_log.csv
+theoretical_price_snapshot.csv
+upstream_factor_snapshot.csv
+
+data/raw/ibkr_jp_etf_prices_candidate.csv
+
+reports/conversion_factor_calibration_report.md
+reports/historical_quality_gate_report.md
+reports/ibkr_historical_fetch_report.md
+reports/latest_report.md
+reports/theoretical_price_report.md
+reports/upstream_factor_report.md
