@@ -64,3 +64,7 @@ reports/ibkr_readonly_final_gate_report.md
 # Phase 145-152: IBKR one-shot read-only connection preflight runtime outputs
 ibkr_oneshot_readonly_connection_preflight.csv
 reports/ibkr_oneshot_readonly_connection_preflight_report.md
+
+# Phase 153-160: IBKR contract qualification dry-run final gate runtime outputs
+ibkr_contract_qualification_final_gate.csv
+reports/ibkr_contract_qualification_final_gate_report.md
