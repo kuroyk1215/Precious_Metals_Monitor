@@ -76,3 +76,11 @@ reports/ibkr_contract_qualification_oneshot_report.md
 # Phase 169-176: IBKR JP contract route discovery matrix dry-run outputs
 ibkr_jp_contract_route_discovery_matrix.csv
 reports/ibkr_jp_contract_route_discovery_matrix_report.md
+
+# Phase 177-208: IBKR route map and market data preflight runtime outputs
+ibkr_jp_route_discovery_oneshot.csv
+reports/ibkr_jp_route_discovery_oneshot_report.md
+ibkr_contract_map_lockin.csv
+reports/ibkr_contract_map_lockin_report.md
+ibkr_market_data_snapshot_preflight.csv
+reports/ibkr_market_data_snapshot_preflight_report.md

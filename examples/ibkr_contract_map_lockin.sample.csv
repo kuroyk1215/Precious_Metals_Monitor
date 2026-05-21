@@ -1,0 +1,4 @@
+display_symbol,status,conid,exchange,primary_exchange,currency,local_symbol,trading_class,data_source_route
+1540.T,ROUTE_REQUIRED,,,,,,,IBKR_ROUTE_DISCOVERY_REQUIRED
+1542.T,ROUTE_REQUIRED,,,,,,,IBKR_ROUTE_DISCOVERY_REQUIRED
+518880.SH,IBKR_UNSUPPORTED,,,,,,,EXTERNAL_OR_MANUAL_ONLY
