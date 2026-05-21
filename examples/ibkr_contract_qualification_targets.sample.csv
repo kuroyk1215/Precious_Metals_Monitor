@@ -1,0 +1,4 @@
+symbol,exchange,currency,sec_type,primary_exchange,qualification_allowed,notes
+1540,TSE,JPY,STK,TSE,false,Gold ETF JP target for future one-shot contract qualification.
+1542,TSE,JPY,STK,TSE,false,Silver ETF JP target for future one-shot contract qualification.
+518880,SEHK,CNH,STK,SEHK,false,Placeholder only; actual IBKR routing must be manually verified before execution.
