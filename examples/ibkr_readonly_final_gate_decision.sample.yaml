@@ -1,0 +1,10 @@
+# Sample only. Do not store private account data or secrets here.
+ibkr_readonly_final_gate:
+  decision: NO_GO
+  operator_approval_required: true
+  real_connection_allowed: false
+  contract_qualification_allowed: false
+  market_data_request_allowed: false
+  historical_data_request_allowed: false
+  trading_actions_allowed: false
+  notes: "Dry-run sample. Actual one-shot read-only connection requires a separate explicit final gate."
