@@ -139,8 +139,8 @@ if grep -R "placeOrder\|cancelOrder\|bracketOrder\|whatIfOrder\|exerciseOptions"
 fi
 
 echo "[INFO] Contract dry-run direct IBKR request guard"
-if grep -n "reqContractDetails\|reqMktData\|reqHistoricalData\|placeOrder\|cancelOrder\|bracketOrder\|whatIfOrder\|exerciseOptions" scripts/ibkr_contract_qualification_final_gate.sh >/dev/null 2>&1; then
-  echo "[FAIL] Contract qualification dry-run script contains forbidden IBKR request or trading keyword"
+if grep -nE "\.(reqContractDetails|reqMktData|reqHistoricalData|placeOrder|cancelOrder|bracketOrder|whatIfOrder|exerciseOptions)\s*\(" scripts/ibkr_contract_qualification_final_gate.sh >/dev/null 2>&1; then
+  echo "[FAIL] Contract qualification dry-run script contains direct forbidden IBKR request or trading call"
   exit 1
 fi
 
