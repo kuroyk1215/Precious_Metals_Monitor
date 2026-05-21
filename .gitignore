@@ -27,3 +27,13 @@ archive/
 logs/local/
 logs/failures/
 logs/archive/
+
+# Phase 65-67: daily research run runtime outputs
+daily_research_run_summary.csv
+final_research_plan_daily_log.csv
+final_research_plan_orchestrator.csv
+report_template_daily_log_telegram_ready_output.csv
+reports/daily_research_run_report.md
+reports/final_research_plan_orchestrator_report.md
+reports/report_template_daily_log_telegram_ready_output_report.md
+reports/telegram_ready_text.txt
