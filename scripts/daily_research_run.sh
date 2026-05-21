@@ -2,6 +2,20 @@
 set -euo pipefail
 
 SCHEMA_VERSION="daily_research_run.v1"
+SKIP_TESTS="false"
+
+for arg in "$@"; do
+  case "$arg" in
+    --skip-tests)
+      SKIP_TESTS="true"
+      ;;
+    *)
+      echo "[FAIL] Unknown argument: $arg"
+      exit 2
+      ;;
+  esac
+done
+
 TIMEZONE="Asia/Tokyo"
 RUN_TS="$(TZ="${TIMEZONE}" date '+%Y-%m-%dT%H:%M:%S%z')"
 RUN_ID="$(TZ="${TIMEZONE}" date '+%Y%m%d_%H%M%S_JST')"
@@ -20,8 +34,12 @@ echo "[INFO] commit=${COMMIT}"
 echo "[INFO] timezone=${TIMEZONE}"
 echo "[INFO] schema_version=${SCHEMA_VERSION}"
 
-python3 -m py_compile main.py src/*.py
-python3 -m pytest -q
+if [[ "${SKIP_TESTS}" == "false" ]]; then
+  python3 -m py_compile main.py src/*.py
+  python3 -m pytest -q
+else
+  echo "[INFO] Skipping py_compile and pytest because --skip-tests was provided"
+fi
 
 python3 main.py --config config.yaml --final-research-plan-orchestrator
 python3 main.py --config config.yaml --report-template-daily-log-telegram-ready-output
@@ -48,8 +66,8 @@ cat > "${REPORT_MD}" <<MD
 
 ## 2. Executed checks
 
-- python compile: passed
-- pytest: passed
+- python compile: passed unless --skip-tests was used
+- pytest: passed unless --skip-tests was used
 - final research plan orchestrator: executed
 - report template / daily log / Telegram-ready output: executed
 
