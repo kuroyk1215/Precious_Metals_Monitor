@@ -22,6 +22,11 @@ The project remains:
 - branch
 - commit
 - workflow
+- blocked_reason
+- data_status_summary
+- telegram_ready_status
+- final_plan_status
+- daily_summary_status
 - python_compile_passed
 - pytest_passed
 - final_research_plan_orchestrator_run
@@ -65,3 +70,18 @@ The schema must preserve these assertions:
 Daily research run metadata supports auditability only.
 
 It does not authorize external execution, background operation, broker connection, or automatic trading.
+
+## 7. Daily summary fields
+
+The daily research run report should include readable summary fields:
+
+- daily_summary_status
+- final_plan_status
+- telegram_ready_status
+- data_status_summary
+- blocked_reason
+- manual_review_required
+- final_action_allowed
+
+These fields are designed for manual review and dashboard readiness.
+
