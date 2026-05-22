@@ -53,15 +53,32 @@ class IBKRDataClient:
         self.ib = None
         self.connection_status = "fallback_no_ibkr_connection"
 
+    def _ensure_asyncio_event_loop(self) -> None:
+        import asyncio
+
+        try:
+            asyncio.get_event_loop()
+        except RuntimeError as exc:
+            if "no current event loop" in str(exc).lower():
+                asyncio.set_event_loop(asyncio.new_event_loop())
+            else:  # pragma: no cover
+                raise
+
     def connect(self) -> tuple[bool, str]:
         try:
             from ib_insync import IB
         except ImportError:
             self.connection_status = "ib_insync_not_installed"
             return False, self.connection_status
+        except Exception as exc:
+            self.connection_status = "failed"
+            if "event loop" in str(exc).lower():
+                return False, f"failed:event_loop_unavailable:{exc}"
+            return False, f"failed:{exc}"
 
-        self.ib = IB()
         try:
+            self._ensure_asyncio_event_loop()
+            self.ib = IB()
             self.ib.connect(
                 host=self.ibkr_config["host"],
                 port=int(self.ibkr_config["port"]),
@@ -73,6 +90,8 @@ class IBKRDataClient:
             return True, self.connection_status
         except Exception as exc:  # pragma: no cover
             self.connection_status = "failed"
+            if "event loop" in str(exc).lower():
+                return False, f"failed:event_loop_unavailable:{exc}"
             return False, f"failed:{exc}"
 
     def disconnect(self) -> None:
@@ -122,6 +141,8 @@ class IBKRDataClient:
             from ib_insync import Contract
         except ImportError:
             return None, "needs_manual_contract_config", "ib_insync_not_installed"
+        except Exception as exc:
+            return None, "needs_manual_contract_config", f"ib_insync_unavailable:{exc}"
 
         contract_kwargs = {
             "secType": ibkr.get("secType"),
