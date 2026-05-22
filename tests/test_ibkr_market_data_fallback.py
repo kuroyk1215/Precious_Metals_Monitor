@@ -10,7 +10,7 @@ def test_delayed_market_data_available_is_fallback_allowed():
 
 
 def test_live_to_delayed_path():
-    r = build_attempt_result("auto", "delayed", "live_to_delayed", "354", "delayed market data available", True, 2, "delayed_requested")
+    r = build_attempt_result("auto", "delayed", "live_to_delayed", "354", "delayed market data available", True, 2, "delayed_available")
     assert r.fallback_stage == "live_to_delayed"
     assert r.effective_market_data_type == "delayed"
 
@@ -35,3 +35,16 @@ def test_default_without_execute_remains_no_go():
     # Decision check is handled in shell integration script; here we enforce no-attempt shape.
     r = build_attempt_result("auto", "unknown", "connection_error", "", "--execute was not provided", False, 0, "gate")
     assert r.snapshot_attempt_count == 0
+
+
+def test_live_empty_without_error_not_354_and_reason_live_snapshot_empty():
+    r = build_attempt_result("auto", "delayed", "live_to_delayed", "", "", False, 2, "live_snapshot_empty")
+    assert r.error_code == ""
+    assert r.live_permission_status == "unknown"
+    assert r.fallback_reason == "live_snapshot_empty"
+
+
+def test_confirmed_error_354_reason_delayed_available():
+    r = build_attempt_result("auto", "delayed", "live_to_delayed", "354", "delayed market data available", False, 2, "delayed_available")
+    assert r.live_permission_status == "denied"
+    assert r.fallback_reason == "delayed_available"

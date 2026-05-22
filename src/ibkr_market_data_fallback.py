@@ -46,9 +46,18 @@ def build_attempt_result(
 ) -> SnapshotAttemptResult:
     err_type = classify_error(error_code, error_message)
     live_permission_status = "denied" if err_type == "live_not_subscribed" else "unknown"
-
-    delayed_permission_status = "allowed" if requested_market_data_type in {"delayed", "auto"} else "unknown"
-    delayed_frozen_permission_status = "allowed" if requested_market_data_type in {"delayed_frozen", "auto"} else "unknown"
+    entered_delayed_path = (
+        requested_market_data_type == "delayed"
+        or effective_market_data_type in {"delayed", "delayed_frozen"}
+        or fallback_stage in {"live_to_delayed", "delayed_to_delayed_frozen"}
+    )
+    entered_delayed_frozen_path = (
+        requested_market_data_type == "delayed_frozen"
+        or effective_market_data_type == "delayed_frozen"
+        or fallback_stage == "delayed_to_delayed_frozen"
+    )
+    delayed_permission_status = "allowed" if entered_delayed_path else "unknown"
+    delayed_frozen_permission_status = "allowed" if entered_delayed_frozen_path else "unknown"
 
     data_delay_map = {
         "live": "real_time",

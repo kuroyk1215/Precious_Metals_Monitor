@@ -128,6 +128,12 @@ try:
       ib.cancelMktData(contract)
       return bid,ask,last,close,market_price,has_price,effective,err_code,err_message
 
+    def normalize_subscription_error(err_code, err_message):
+      cls = classify_error(err_code, err_message)
+      if cls == "live_not_subscribed":
+        return "354", (err_message or "delayed market data available"), "delayed_available"
+      return "", "", "live_snapshot_empty"
+
     for item in map_rows:
       status=item.get("status","")
       if status != "MAP_READY":
@@ -144,8 +150,7 @@ try:
         if has_price:
           result=build_attempt_result("auto",effective,fallback_stage,error_code,error_message,True,attempts,fallback_reason)
         else:
-          error_code="354"; error_message="delayed market data available"
-          fallback_reason="delayed_available"
+          error_code,error_message,fallback_reason = normalize_subscription_error(error_code,error_message)
           fallback_stage="live_to_delayed"
           ib.reqMarketDataType(3)
           bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"delayed")
