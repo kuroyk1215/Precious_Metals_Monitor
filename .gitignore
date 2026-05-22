@@ -92,3 +92,7 @@ ibkr_market_data_snapshot.csv
 reports/ibkr_market_data_snapshot_report.md
 ibkr_daily_integration_preflight.csv
 reports/ibkr_daily_integration_preflight_report.md
+
+# Phase 273-288: IBKR daily integration review pack bridge outputs
+ibkr_daily_integration_review_pack.csv
+reports/ibkr_daily_integration_review_pack_report.md
