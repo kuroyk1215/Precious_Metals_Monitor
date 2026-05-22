@@ -117,3 +117,11 @@ reports/ibkr_scheduler_plan_report.md
 ibkr_telegram_notification_packet.csv
 reports/ibkr_telegram_notification_packet_report.md
 reports/ibkr_telegram_message_preview.md
+
+# Phase 353-368: Telegram send gate runtime outputs and local secrets
+ibkr_telegram_send_gate_decision.csv
+reports/ibkr_telegram_send_gate_report.md
+.env.telegram*
+.telegram_send_approval*
+telegram.env
+telegram.env.local
