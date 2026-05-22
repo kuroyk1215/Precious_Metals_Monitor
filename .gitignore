@@ -100,3 +100,9 @@ reports/ibkr_daily_integration_review_pack_report.md
 # Phase 289-304: IBKR final research review pack bridge outputs
 ibkr_final_research_review_pack.csv
 reports/ibkr_final_research_review_pack_report.md
+
+# Phase 305-320: IBKR one-command daily research pipeline outputs
+ibkr_daily_operator_packet.csv
+reports/ibkr_daily_operator_packet_report.md
+ibkr_daily_research_pipeline_summary.csv
+reports/ibkr_daily_research_pipeline_report.md
