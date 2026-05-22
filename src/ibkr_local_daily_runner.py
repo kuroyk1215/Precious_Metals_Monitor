@@ -22,7 +22,9 @@ class IBKRLocalDailyRunnerSummary:
     rotation_enabled: str
     retention_days: str
     telegram_dry_run_enabled: str
+    telegram_send_gate_enabled: str
     telegram_send_triggered: str
+    telegram_send_status: str
     action_allowed: str
     broker_execution_triggered: str
     historical_data_request_triggered: str
@@ -81,6 +83,9 @@ def build_runner_summary(
     retention_days: int,
     notes: str,
     telegram_dry_run_enabled: bool = False,
+    telegram_send_gate_enabled: bool = False,
+    telegram_send_triggered: bool = False,
+    telegram_send_status: str = "not_attempted",
 ) -> IBKRLocalDailyRunnerSummary:
     return IBKRLocalDailyRunnerSummary(
         run_id=run_id,
@@ -94,7 +99,9 @@ def build_runner_summary(
         rotation_enabled=str(rotation_enabled).lower(),
         retention_days=str(normalize_retention_days(retention_days)),
         telegram_dry_run_enabled=str(telegram_dry_run_enabled).lower(),
-        telegram_send_triggered="false",
+        telegram_send_gate_enabled=str(telegram_send_gate_enabled).lower(),
+        telegram_send_triggered=str(telegram_send_triggered).lower(),
+        telegram_send_status=telegram_send_status,
         action_allowed="false",
         broker_execution_triggered="false",
         historical_data_request_triggered="false",
@@ -129,7 +136,9 @@ def write_runner_report(path: str | Path, summary: IBKRLocalDailyRunnerSummary, 
                 f"| execution_c_mode | {summary.execution_c_mode} |",
                 f"| pipeline_exit_code | {summary.pipeline_exit_code} |",
                 f"| telegram_dry_run_enabled | {summary.telegram_dry_run_enabled} |",
-                "| telegram_send_triggered | false |",
+                f"| telegram_send_gate_enabled | {summary.telegram_send_gate_enabled} |",
+                f"| telegram_send_triggered | {summary.telegram_send_triggered} |",
+                f"| telegram_send_status | {summary.telegram_send_status} |",
                 "| action_allowed | false |",
                 "",
                 "## Archive",
@@ -150,7 +159,7 @@ def write_runner_report(path: str | Path, summary: IBKRLocalDailyRunnerSummary, 
                 "## Safety Confirmation",
                 "",
                 "- action_allowed=false",
-                "- telegram_send_triggered=false",
+                f"- telegram_send_triggered={summary.telegram_send_triggered}",
                 "- broker_execution_triggered=false",
                 "- historical_data_request_triggered=false",
                 "- account_read_triggered=false",

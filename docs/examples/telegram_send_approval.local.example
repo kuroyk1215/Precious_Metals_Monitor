@@ -1,0 +1,2 @@
+APPROVED_FOR_TELEGRAM_SEND=false
+COMMENT=copy this file outside git and rename to .telegram_send_approval.local only when you intentionally test sending
