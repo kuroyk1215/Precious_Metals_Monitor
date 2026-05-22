@@ -8,6 +8,7 @@ CONTRACT_MAP_CSV="ibkr_verified_contract_map.csv"
 LOG_ROOT="logs/ibkr_daily"
 RETENTION_DAYS="30"
 ROTATE_ENABLED="true"
+TELEGRAM_DRY_RUN_ENABLED="false"
 
 for arg in "$@"; do
   case "$arg" in
@@ -34,6 +35,9 @@ for arg in "$@"; do
       ;;
     --no-rotate)
       ROTATE_ENABLED="false"
+      ;;
+    --telegram-dry-run)
+      TELEGRAM_DRY_RUN_ENABLED="true"
       ;;
     *)
       echo "[FAIL] Unknown argument: $arg"
@@ -73,10 +77,12 @@ print(f"RETENTION_DAYS={str(retention_days)!r}")
 PY
 )"
 export RUN_DATE RUN_ID RUN_TS RUN_DIR
+export TELEGRAM_DRY_RUN_ENABLED
 
 echo "[INFO] IBKR local daily runner started: ${RUN_TS}"
 echo "run_dir=${RUN_DIR}"
 echo "execution_c_mode=${EXECUTION_C_MODE}"
+echo "telegram_dry_run_enabled=${TELEGRAM_DRY_RUN_ENABLED}"
 
 PIPELINE_ARGS=(
   "--market-data-type=${MARKET_DATA_TYPE}"
@@ -92,7 +98,21 @@ PATH=.venv/bin:$PATH bash scripts/ibkr_daily_research_pipeline.sh "${PIPELINE_AR
 PIPELINE_EXIT_CODE="$?"
 set -e
 
-export PIPELINE_EXIT_CODE
+TELEGRAM_DRY_RUN_EXIT_CODE="0"
+if [[ "$TELEGRAM_DRY_RUN_ENABLED" == "true" ]]; then
+  set +e
+  PATH=.venv/bin:$PATH bash scripts/ibkr_telegram_notification_packet.sh \
+    --operator-packet=ibkr_daily_operator_packet.csv \
+    --pipeline-summary=ibkr_daily_research_pipeline_summary.csv \
+    --runner-summary=ibkr_local_daily_runner_summary.csv \
+    --output-csv=ibkr_telegram_notification_packet.csv \
+    --output-report=reports/ibkr_telegram_notification_packet_report.md \
+    --message-preview=reports/ibkr_telegram_message_preview.md
+  TELEGRAM_DRY_RUN_EXIT_CODE="$?"
+  set -e
+fi
+
+export PIPELINE_EXIT_CODE TELEGRAM_DRY_RUN_EXIT_CODE
 python3 - <<'PY'
 import os
 from pathlib import Path
@@ -117,6 +137,9 @@ outputs = [
     "reports/ibkr_daily_operator_packet_report.md",
     "ibkr_daily_research_pipeline_summary.csv",
     "reports/ibkr_daily_research_pipeline_report.md",
+    "ibkr_telegram_notification_packet.csv",
+    "reports/ibkr_telegram_notification_packet_report.md",
+    "reports/ibkr_telegram_message_preview.md",
 ]
 
 run_dir = Path(os.environ["RUN_DIR"])
@@ -128,11 +151,15 @@ removed = rotate_old_run_dirs(
     enabled=rotation_enabled,
 )
 pipeline_exit_code = int(os.environ["PIPELINE_EXIT_CODE"])
+telegram_dry_run_exit_code = int(os.environ["TELEGRAM_DRY_RUN_EXIT_CODE"])
 archive_status = "ARCHIVED" if copied else "NO_OUTPUTS_FOUND"
 notes = (
     f"pipeline_exit_code={pipeline_exit_code};"
+    f"telegram_dry_run_enabled={os.environ['TELEGRAM_DRY_RUN_ENABLED']};"
+    f"telegram_dry_run_exit_code={telegram_dry_run_exit_code};"
+    "telegram_send_triggered=false;"
     f"rotation_removed_count={len(removed)};"
-    f"runner_status={'FAILED_SAFE' if pipeline_exit_code else 'NO_GO'}"
+    f"runner_status={'FAILED_SAFE' if pipeline_exit_code or telegram_dry_run_exit_code else 'NO_GO'}"
 )
 summary = build_runner_summary(
     run_id=os.environ["RUN_ID"],
@@ -146,17 +173,20 @@ summary = build_runner_summary(
     rotation_enabled=rotation_enabled,
     retention_days=int(os.environ["RETENTION_DAYS"]),
     notes=notes,
+    telegram_dry_run_enabled=os.environ["TELEGRAM_DRY_RUN_ENABLED"] == "true",
 )
 summary_path = run_dir / "ibkr_local_daily_runner_summary.csv"
 report_path = run_dir / "ibkr_local_daily_runner_report.md"
 write_runner_summary_csv(summary_path, summary)
 write_runner_report(report_path, summary, copied)
-print(f"runner_status={'FAILED_SAFE' if pipeline_exit_code else 'NO_GO'}")
+print(f"runner_status={'FAILED_SAFE' if pipeline_exit_code or telegram_dry_run_exit_code else 'NO_GO'}")
 print(f"summary_csv={summary_path}")
 print(f"report={report_path}")
 print(f"copied_file_count={len(copied)}")
 print(f"rotation_enabled={str(rotation_enabled).lower()}")
 print(f"retention_days={summary.retention_days}")
+print(f"telegram_dry_run_enabled={os.environ['TELEGRAM_DRY_RUN_ENABLED']}")
+print("telegram_send_triggered=false")
 print("action_allowed=false")
 print("broker_execution_triggered=false")
 print("historical_data_request_triggered=false")
@@ -167,6 +197,9 @@ PY
 
 if [[ "$PIPELINE_EXIT_CODE" != "0" ]]; then
   exit "$PIPELINE_EXIT_CODE"
+fi
+if [[ "$TELEGRAM_DRY_RUN_EXIT_CODE" != "0" ]]; then
+  exit "$TELEGRAM_DRY_RUN_EXIT_CODE"
 fi
 
 echo "[PASS] IBKR local daily runner completed"
