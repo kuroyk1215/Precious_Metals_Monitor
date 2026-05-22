@@ -125,3 +125,7 @@ reports/ibkr_telegram_send_gate_report.md
 .telegram_send_approval*
 telegram.env
 telegram.env.local
+
+# Phase 369-384: IBKR Execution C validation runtime outputs
+ibkr_execution_c_validation_packet.csv
+reports/ibkr_execution_c_validation_report.md
