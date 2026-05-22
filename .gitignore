@@ -27,6 +27,7 @@ archive/
 logs/local/
 logs/failures/
 logs/archive/
+logs/
 
 # Phase 65-67: daily research run runtime outputs
 daily_research_run_summary.csv
@@ -106,3 +107,8 @@ ibkr_daily_operator_packet.csv
 reports/ibkr_daily_operator_packet_report.md
 ibkr_daily_research_pipeline_summary.csv
 reports/ibkr_daily_research_pipeline_report.md
+
+# Phase 321-336: IBKR local daily runner and scheduler plan outputs
+ibkr_local_daily_runner_summary.csv
+reports/ibkr_local_daily_runner_report.md
+reports/ibkr_scheduler_plan_report.md
