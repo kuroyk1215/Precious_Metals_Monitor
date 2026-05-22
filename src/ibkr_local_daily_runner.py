@@ -21,6 +21,8 @@ class IBKRLocalDailyRunnerSummary:
     copied_file_count: str
     rotation_enabled: str
     retention_days: str
+    telegram_dry_run_enabled: str
+    telegram_send_triggered: str
     action_allowed: str
     broker_execution_triggered: str
     historical_data_request_triggered: str
@@ -78,6 +80,7 @@ def build_runner_summary(
     rotation_enabled: bool,
     retention_days: int,
     notes: str,
+    telegram_dry_run_enabled: bool = False,
 ) -> IBKRLocalDailyRunnerSummary:
     return IBKRLocalDailyRunnerSummary(
         run_id=run_id,
@@ -90,6 +93,8 @@ def build_runner_summary(
         copied_file_count=str(copied_file_count),
         rotation_enabled=str(rotation_enabled).lower(),
         retention_days=str(normalize_retention_days(retention_days)),
+        telegram_dry_run_enabled=str(telegram_dry_run_enabled).lower(),
+        telegram_send_triggered="false",
         action_allowed="false",
         broker_execution_triggered="false",
         historical_data_request_triggered="false",
@@ -123,6 +128,8 @@ def write_runner_report(path: str | Path, summary: IBKRLocalDailyRunnerSummary, 
                 f"| runner_status | {runner_status} |",
                 f"| execution_c_mode | {summary.execution_c_mode} |",
                 f"| pipeline_exit_code | {summary.pipeline_exit_code} |",
+                f"| telegram_dry_run_enabled | {summary.telegram_dry_run_enabled} |",
+                "| telegram_send_triggered | false |",
                 "| action_allowed | false |",
                 "",
                 "## Archive",
@@ -143,6 +150,7 @@ def write_runner_report(path: str | Path, summary: IBKRLocalDailyRunnerSummary, 
                 "## Safety Confirmation",
                 "",
                 "- action_allowed=false",
+                "- telegram_send_triggered=false",
                 "- broker_execution_triggered=false",
                 "- historical_data_request_triggered=false",
                 "- account_read_triggered=false",

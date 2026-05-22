@@ -112,3 +112,8 @@ reports/ibkr_daily_research_pipeline_report.md
 ibkr_local_daily_runner_summary.csv
 reports/ibkr_local_daily_runner_report.md
 reports/ibkr_scheduler_plan_report.md
+
+# Phase 337-352: Telegram dry-run notification packet outputs
+ibkr_telegram_notification_packet.csv
+reports/ibkr_telegram_notification_packet_report.md
+reports/ibkr_telegram_message_preview.md
