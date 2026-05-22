@@ -31,3 +31,36 @@ def test_no_trading_api_tokens():
         "src", "main.py", "README.md", "config.yaml", "watchlist.yaml"
     ], capture_output=True, text=True)
     assert proc.returncode in {1}
+
+
+
+def test_connect_handles_missing_current_event_loop(monkeypatch):
+    import types
+    import sys
+    import asyncio
+    from src.ibkr_data_client import IBKRDataClient
+
+    class FakeIB:
+        def connect(self, **kwargs):
+            raise RuntimeError("simulated_no_tws")
+
+    fake_module = types.SimpleNamespace(IB=FakeIB)
+    monkeypatch.setitem(sys.modules, "ib_insync", fake_module)
+
+    called = {"set": False}
+
+    def fake_get_event_loop():
+        raise RuntimeError("There is no current event loop in thread 'MainThread'.")
+
+    def fake_set_event_loop(loop):
+        called["set"] = True
+
+    monkeypatch.setattr(asyncio, "get_event_loop", fake_get_event_loop)
+    monkeypatch.setattr(asyncio, "set_event_loop", fake_set_event_loop)
+
+    client = IBKRDataClient({"host": "127.0.0.1", "port": 7497, "client_id": 1, "readonly": True})
+    ok, status = client.connect()
+
+    assert ok is False
+    assert status.startswith("failed:")
+    assert called["set"] is True
