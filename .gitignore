@@ -96,3 +96,7 @@ reports/ibkr_daily_integration_preflight_report.md
 # Phase 273-288: IBKR daily integration review pack bridge outputs
 ibkr_daily_integration_review_pack.csv
 reports/ibkr_daily_integration_review_pack_report.md
+
+# Phase 289-304: IBKR final research review pack bridge outputs
+ibkr_final_research_review_pack.csv
+reports/ibkr_final_research_review_pack_report.md
