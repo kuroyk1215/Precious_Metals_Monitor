@@ -8,6 +8,7 @@ import subprocess
 from typing import Iterable, List
 
 
+FIRST_VALIDATION_CONTRACT_MAP = "ibkr_verified_contract_map_gld_slv.csv"
 DRY_RUN_COMMAND = "bash scripts/ibkr_local_daily_runner.sh --telegram-dry-run"
 EXECUTION_C_COMMAND = (
     "bash scripts/ibkr_execution_c_pipeline_validation.sh "
@@ -36,6 +37,9 @@ class RCManualExecutionRehearsalDecision:
     config_local_only_status: str
     required_scripts_status: str
     contract_map_status: str
+    first_validation_contract_map_status: str
+    first_validation_symbols_status: str
+    ibkr_excluded_symbol_status: str
     universe_policy_status: str
     ibkr_first_validation_universe: str
     jp_optional_universe: str
@@ -61,6 +65,17 @@ class RCManualExecutionRehearsalDecision:
 @dataclass(frozen=True)
 class ConfigLocalOnlyCheck:
     ok: bool
+    flags: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class FirstValidationContractMapCheck:
+    ok: bool
+    contract_map_exists: bool
+    contains_gld: bool
+    contains_slv: bool
+    contains_518880: bool
+    symbols: tuple[str, ...]
     flags: tuple[str, ...]
 
 
@@ -150,6 +165,53 @@ def run_config_local_only_check() -> ConfigLocalOnlyCheck:
     )
 
 
+def evaluate_first_validation_contract_map(path: str | Path) -> FirstValidationContractMapCheck:
+    contract_map_path = Path(path)
+    flags: list[str] = []
+    if not contract_map_path.exists():
+        return FirstValidationContractMapCheck(
+            ok=False,
+            contract_map_exists=False,
+            contains_gld=False,
+            contains_slv=False,
+            contains_518880=False,
+            symbols=(),
+            flags=(f"first_validation_contract_map_missing:{contract_map_path}",),
+        )
+
+    with contract_map_path.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+
+    symbols = tuple(
+        dict.fromkeys(
+            (row.get("display_symbol") or row.get("symbol") or "").strip()
+            for row in rows
+            if (row.get("display_symbol") or row.get("symbol") or "").strip()
+        )
+    )
+    symbol_set = set(symbols)
+    contains_gld = "GLD" in symbol_set
+    contains_slv = "SLV" in symbol_set
+    contains_518880 = "518880.SH" in symbol_set or "518880" in symbol_set
+
+    if not contains_gld:
+        flags.append("first_validation_symbol_missing:GLD")
+    if not contains_slv:
+        flags.append("first_validation_symbol_missing:SLV")
+    if contains_518880:
+        flags.append("ibkr_excluded_symbol_present:518880.SH")
+
+    return FirstValidationContractMapCheck(
+        ok=not flags,
+        contract_map_exists=True,
+        contains_gld=contains_gld,
+        contains_slv=contains_slv,
+        contains_518880=contains_518880,
+        symbols=symbols,
+        flags=tuple(flags),
+    )
+
+
 def build_rc_manual_execution_rehearsal_decision(
     *,
     git_branch_ok: bool = True,
@@ -157,11 +219,14 @@ def build_rc_manual_execution_rehearsal_decision(
     config_local_only_ok: bool = True,
     required_scripts_ok: bool = True,
     contract_map_ok: bool = True,
+    first_validation_contract_map_ok: bool = True,
+    first_validation_symbols_ok: bool = True,
+    ibkr_excluded_symbol_ok: bool = True,
     universe_policy_ok: bool = True,
     command_preview_ok: bool = True,
     missing_inputs: Iterable[str] = (),
     market_data_type: str = "auto",
-    contract_map: str = "ibkr_verified_contract_map.csv",
+    contract_map: str = FIRST_VALIDATION_CONTRACT_MAP,
     log_root: str = "logs/ibkr_daily",
     retention_days: str = "30",
 ) -> RCManualExecutionRehearsalDecision:
@@ -172,6 +237,9 @@ def build_rc_manual_execution_rehearsal_decision(
         ("config_local_only", config_local_only_ok),
         ("required_scripts", required_scripts_ok),
         ("contract_map", contract_map_ok),
+        ("first_validation_contract_map", first_validation_contract_map_ok),
+        ("first_validation_symbols", first_validation_symbols_ok),
+        ("ibkr_excluded_symbol", ibkr_excluded_symbol_ok),
         ("universe_policy", universe_policy_ok),
         ("command_preview", command_preview_ok),
     )
@@ -202,6 +270,11 @@ def build_rc_manual_execution_rehearsal_decision(
         config_local_only_status="PASS" if config_local_only_ok else "BLOCKED_CONFIG_NOT_LOCAL_ONLY",
         required_scripts_status="PASS" if required_scripts_ok else "BLOCKED_REQUIRED_SCRIPT_MISSING",
         contract_map_status="PASS" if contract_map_ok else "BLOCKED_CONTRACT_MAP_MISSING",
+        first_validation_contract_map_status=(
+            "PASS" if first_validation_contract_map_ok else "BLOCKED_FIRST_VALIDATION_CONTRACT_MAP"
+        ),
+        first_validation_symbols_status="PASS" if first_validation_symbols_ok else "BLOCKED_GLD_SLV_REQUIRED",
+        ibkr_excluded_symbol_status="518880_EXCLUDED_FROM_IBKR" if ibkr_excluded_symbol_ok else "BLOCKED_518880_PRESENT",
         universe_policy_status="USER_WATCHLIST_ONLY" if universe_policy_ok else "UNDEFINED",
         ibkr_first_validation_universe="GLD_SLV",
         jp_optional_universe="1540_1542_OPTIONAL",
@@ -259,6 +332,9 @@ def write_rehearsal_report(path: str | Path, decision: RCManualExecutionRehearsa
                 "",
                 f"- required_scripts_status={decision.required_scripts_status}",
                 f"- contract_map_status={decision.contract_map_status}",
+                f"- first_validation_contract_map_status={decision.first_validation_contract_map_status}",
+                f"- first_validation_symbols_status={decision.first_validation_symbols_status}",
+                f"- ibkr_excluded_symbol_status={decision.ibkr_excluded_symbol_status}",
                 f"- git_branch_status={decision.git_branch_status}",
                 f"- git_worktree_status={decision.git_worktree_status}",
                 f"- config_local_only_status={decision.config_local_only_status}",
@@ -271,6 +347,7 @@ def write_rehearsal_report(path: str | Path, decision: RCManualExecutionRehearsa
                 "## GLD / SLV First Validation Plan",
                 "",
                 f"- ibkr_first_validation_universe={decision.ibkr_first_validation_universe}",
+                f"- first_validation_contract_map={decision.execution_c_command.split('--contract-map=', 1)[1].split(' ', 1)[0]}",
                 "- use GLD and SLV first for the manual IBKR market data validation path",
                 "",
                 "## JP Optional ETF Plan",
@@ -281,6 +358,7 @@ def write_rehearsal_report(path: str | Path, decision: RCManualExecutionRehearsa
                 "## CN / 518880 Non-IBKR Policy",
                 "",
                 f"- cn_non_ibkr_policy={decision.cn_non_ibkr_policy}",
+                f"- ibkr_excluded_symbol_status={decision.ibkr_excluded_symbol_status}",
                 "- 518880.SH is not part of the IBKR contract universe",
                 "",
                 "## Manual Command Preview",

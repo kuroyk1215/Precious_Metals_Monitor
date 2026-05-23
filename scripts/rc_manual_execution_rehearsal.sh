@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONTRACT_MAP="ibkr_verified_contract_map.csv"
+FIRST_VALIDATION_CONTRACT_MAP="ibkr_verified_contract_map_gld_slv.csv"
+CONTRACT_MAP="$FIRST_VALIDATION_CONTRACT_MAP"
 MARKET_DATA_TYPE="auto"
 LOG_ROOT="logs/ibkr_daily"
 RETENTION_DAYS="30"
@@ -13,6 +14,11 @@ for arg in "$@"; do
   case "$arg" in
     --contract-map=*)
       CONTRACT_MAP="${arg#--contract-map=}"
+      FIRST_VALIDATION_CONTRACT_MAP="$CONTRACT_MAP"
+      ;;
+    --first-validation-contract-map=*)
+      FIRST_VALIDATION_CONTRACT_MAP="${arg#--first-validation-contract-map=}"
+      CONTRACT_MAP="$FIRST_VALIDATION_CONTRACT_MAP"
       ;;
     --market-data-type=*)
       MARKET_DATA_TYPE="${arg#--market-data-type=}"
@@ -48,7 +54,7 @@ mkdir -p "$(dirname "$OUTPUT_REPORT")" "$(dirname "$COMMAND_PREVIEW")"
 
 echo "[INFO] RC manual execution rehearsal started"
 
-export CONTRACT_MAP MARKET_DATA_TYPE LOG_ROOT RETENTION_DAYS OUTPUT_CSV OUTPUT_REPORT COMMAND_PREVIEW
+export CONTRACT_MAP FIRST_VALIDATION_CONTRACT_MAP MARKET_DATA_TYPE LOG_ROOT RETENTION_DAYS OUTPUT_CSV OUTPUT_REPORT COMMAND_PREVIEW
 python3 - <<'PY'
 from pathlib import Path
 import os
@@ -57,6 +63,7 @@ import subprocess
 from src.release_hardening_audit import check_required_text
 from src.rc_manual_execution_rehearsal import (
     build_rc_manual_execution_rehearsal_decision,
+    evaluate_first_validation_contract_map,
     run_config_local_only_check,
     write_command_preview,
     write_rehearsal_csv,
@@ -77,9 +84,12 @@ for script in required_scripts:
         required_scripts_ok = False
         missing_inputs.append(f"required_script_missing:{script}")
 
-contract_map_ok = Path(os.environ["CONTRACT_MAP"]).exists()
+first_validation_map = os.environ["FIRST_VALIDATION_CONTRACT_MAP"]
+contract_map_check = evaluate_first_validation_contract_map(first_validation_map)
+contract_map_ok = contract_map_check.contract_map_exists
 if not contract_map_ok:
-    missing_inputs.append(f"contract_map_missing:{os.environ['CONTRACT_MAP']}")
+    missing_inputs.append(f"contract_map_missing:{first_validation_map}")
+missing_inputs.extend(contract_map_check.flags)
 
 universe_doc = Path("docs/MARKET_UNIVERSE_POLICY.md")
 operator_doc = Path("docs/OPERATOR_MANUAL.md")
@@ -126,11 +136,14 @@ decision = build_rc_manual_execution_rehearsal_decision(
     config_local_only_ok=config_local_only_ok,
     required_scripts_ok=required_scripts_ok,
     contract_map_ok=contract_map_ok,
+    first_validation_contract_map_ok=contract_map_check.contract_map_exists,
+    first_validation_symbols_ok=contract_map_check.contains_gld and contract_map_check.contains_slv,
+    ibkr_excluded_symbol_ok=not contract_map_check.contains_518880,
     universe_policy_ok=universe_policy_ok,
     command_preview_ok=command_preview_ok,
     missing_inputs=missing_inputs,
     market_data_type=os.environ["MARKET_DATA_TYPE"],
-    contract_map=os.environ["CONTRACT_MAP"],
+    contract_map=first_validation_map,
     log_root=os.environ["LOG_ROOT"],
     retention_days=os.environ["RETENTION_DAYS"],
 )

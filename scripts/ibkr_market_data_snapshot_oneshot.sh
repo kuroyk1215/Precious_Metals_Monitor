@@ -47,6 +47,7 @@ echo "[INFO] IBKR market data snapshot one-shot started: ${RUN_TS}"
 python3 - <<'PY'
 from pathlib import Path
 import csv, math, os, yaml
+from src.ibkr_market_data_contract_builder import build_market_data_contract
 from src.ibkr_market_data_fallback import build_attempt_result, classify_error
 
 def as_float(value):
@@ -140,7 +141,7 @@ try:
         result=build_attempt_result(requested_type,"unknown","unsupported","","Unsupported contract map status",False,0,"unsupported")
         rows.append((item,"","","","","",result))
         continue
-      contract=Contract(conId=int(item.get("conid","0") or 0), secType=item.get("sec_type","STK"), exchange=item.get("exchange","SMART"), currency=item.get("currency","JPY"))
+      contract=build_market_data_contract(Contract, item)
       bid=ask=last=close=market_price=""
       error_code=""; error_message=""; fallback_stage="none"; attempts=0; fallback_reason=""
       if requested_type == "auto":
