@@ -68,7 +68,7 @@ For the first real GLD/SLV Execution C validation, a successful delayed fallback
 - `data_delay_flag=delayed`
 - `action_allowed=false`
 
-IBKR Error 10089 and Error 354 both indicate a recognizable live subscription missing / delayed data available scenario when delayed data is offered. This is not a real-time entitlement and must remain reference-only.
+IBKR Error 10089 and Error 354 can both indicate a recognizable live market data not subscribed / delayed market data available scenario when delayed data is offered. Error 10089 is visible on US ETF validation symbols such as GLD and SLV. Error 354 is visible on some venues or instruments. This is not a real-time entitlement and must remain reference-only.
 
 Post-run analysis should be generated from existing local outputs only:
 
@@ -77,6 +77,10 @@ bash scripts/first_operator_run_post_analysis.sh
 ```
 
 This post-run step must not connect to IBKR, request market data, send Telegram, read accounts, read positions, request historical data, or run the Execution C validation command again.
+
+Post-run analysis normalizes reference-ready counts by `display_symbol`, so duplicate GLD or SLV rows across snapshot and operator packets are not added twice. A GLD/SLV delayed run should report `delayed_reference_count=2` when both symbols have delayed reference rows.
+
+If the terminal shows Error 10089 or Error 354 but `ibkr_market_data_snapshot.csv` does not contain the error code or delayed-available message, check that the local error capture version is current before interpreting `live_subscription_status`.
 
 ## NO_GO vs REVIEW_READY
 

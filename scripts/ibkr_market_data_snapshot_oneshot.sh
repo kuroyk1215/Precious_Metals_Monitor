@@ -48,7 +48,8 @@ python3 - <<'PY'
 from pathlib import Path
 import csv, math, os, yaml
 from src.ibkr_market_data_contract_builder import build_market_data_contract
-from src.ibkr_market_data_fallback import build_attempt_result, classify_error
+from src.ibkr_market_data_error_capture import IbkrMarketDataErrorCapture, attach_ib_error_capture
+from src.ibkr_market_data_fallback import LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE, build_attempt_result, classify_error
 
 def as_float(value):
     try:
@@ -110,12 +111,14 @@ try:
   if not gate_failures:
     connection_attempted=True
     from ib_insync import IB, Contract
-    ib=IB(); ib.connect(host, port, clientId=client_id, timeout=5, readonly=True); connection_succeeded=ib.isConnected()
+    ib=IB(); error_capture=IbkrMarketDataErrorCapture(); attach_ib_error_capture(ib, error_capture)
+    ib.connect(host, port, clientId=client_id, timeout=5, readonly=True); connection_succeeded=ib.isConnected()
 
     def market_data_attempt(contract, md_type_name):
       md_map={"live":1,"frozen":2,"delayed":3,"delayed_frozen":4}
       if md_type_name != "auto":
         ib.reqMarketDataType(md_map[md_type_name])
+      error_start=len(error_capture.errors)
       ticker=ib.reqMktData(contract, "", True, False)
       ib.sleep(2)
       bid=as_float(getattr(ticker,"bid",None)); ask=as_float(getattr(ticker,"ask",None)); last=as_float(getattr(ticker,"last",None)); close=as_float(getattr(ticker,"close",None))
@@ -123,7 +126,9 @@ try:
       except Exception: market_price=""
       has_price=any([bid,ask,last,close,market_price])
       effective={1:"live",2:"frozen",3:"delayed",4:"delayed_frozen"}.get(getattr(ticker,"marketDataType",None), md_type_name if md_type_name!="auto" else "unknown")
-      err_code=""; err_message=""
+      captured_error=error_capture.latest_delayed_available(error_start)
+      err_code=captured_error.error_code if captured_error else ""
+      err_message=captured_error.error_message if captured_error else ""
       if hasattr(ticker, "snapshotPermissions") and getattr(ticker, "snapshotPermissions", None) in (0, None):
         pass
       ib.cancelMktData(contract)
@@ -131,8 +136,10 @@ try:
 
     def normalize_subscription_error(err_code, err_message):
       cls = classify_error(err_code, err_message)
+      if cls == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE:
+        return (err_code or "354"), (err_message or "delayed market data available"), LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
       if cls == "live_not_subscribed":
-        return "354", (err_message or "delayed market data available"), "delayed_available"
+        return (err_code or "354"), (err_message or "not subscribed"), "live_not_subscribed"
       return "", "", "live_snapshot_empty"
 
     for item in map_rows:
@@ -198,10 +205,12 @@ Path(os.environ["REPORT_PATH"]).write_text(f"""# IBKR Market Data Snapshot One-s
 - action_allowed: false
 - manual_review_required: true
 
-## 2. Error 354 Interpretation
-- Error 354 does not imply contract failure.
-- It means live market data subscription is missing for this venue/instrument.
-- If delayed data is available, delayed/delayed_frozen fallback is allowed for research-only reference.
+## 2. Error 10089 / 354 Interpretation
+- Error 10089 and Error 354 do not imply contract failure when delayed data is available.
+- They can mean live market data is not subscribed for this venue/instrument and delayed market data is available.
+- Error 10089 is visible on US ETF validation symbols such as GLD and SLV.
+- Error 354 is visible on some venues or instruments.
+- Delayed/delayed_frozen fallback is allowed for research-only reference.
 - action_allowed=false.
 
 ## 3. Fallback Attempt Summary

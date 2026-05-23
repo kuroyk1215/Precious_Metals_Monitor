@@ -1,12 +1,25 @@
-from src.ibkr_market_data_fallback import build_attempt_result, classify_error
+from src.ibkr_market_data_fallback import (
+    LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE,
+    build_attempt_result,
+    classify_error,
+)
+from src.ibkr_market_data_error_capture import IbkrMarketDataErrorCapture
 
 
-def test_error_354_is_live_not_subscribed():
-    assert classify_error("354", "anything") == "live_not_subscribed"
+def test_error_10089_is_live_not_subscribed_delayed_available():
+    assert classify_error("10089", "anything") == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+
+
+def test_error_354_is_live_not_subscribed_delayed_available():
+    assert classify_error("354", "anything") == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
 
 
 def test_delayed_market_data_available_is_fallback_allowed():
-    assert classify_error("", "Delayed market data available") == "live_not_subscribed"
+    assert classify_error("", "Delayed market data available") == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+
+
+def test_chinese_delayed_market_data_available_is_fallback_allowed():
+    assert classify_error("", "延迟市场数据可用") == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
 
 
 def test_live_to_delayed_path():
@@ -46,5 +59,32 @@ def test_live_empty_without_error_not_354_and_reason_live_snapshot_empty():
 
 def test_confirmed_error_354_reason_delayed_available():
     r = build_attempt_result("auto", "delayed", "live_to_delayed", "354", "delayed market data available", False, 2, "delayed_available")
-    assert r.live_permission_status == "denied"
-    assert r.fallback_reason == "delayed_available"
+    assert r.live_permission_status == "not_subscribed"
+    assert r.delayed_permission_status == "available"
+    assert r.fallback_reason == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+
+
+def test_confirmed_error_10089_persists_permission_and_reason():
+    r = build_attempt_result(
+        "auto",
+        "delayed",
+        "live_to_delayed",
+        "10089",
+        "Market data farm connection is OK: delayed market data available",
+        True,
+        2,
+        "",
+    )
+    assert r.error_code == "10089"
+    assert "delayed market data available" in r.error_message
+    assert r.live_permission_status == "not_subscribed"
+    assert r.delayed_permission_status == "available"
+    assert r.fallback_reason == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+
+
+def test_error_capture_can_scope_latest_error_to_attempt():
+    capture = IbkrMarketDataErrorCapture()
+    capture.record(1, "10089", "delayed market data available")
+    start_index = len(capture.errors)
+    capture.record(2, "999", "other")
+    assert capture.latest_delayed_available(start_index) is None

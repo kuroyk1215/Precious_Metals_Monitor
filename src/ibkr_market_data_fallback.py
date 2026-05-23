@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
+LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE = "live_not_subscribed_delayed_available"
+
 
 @dataclass
 class SnapshotAttemptResult:
@@ -24,8 +26,15 @@ class SnapshotAttemptResult:
 
 
 def classify_error(error_code: str, error_message: str) -> str:
+    code = str(error_code or "").strip()
     message = (error_message or "").lower()
-    if error_code == "354" or "delayed market data available" in message or "not subscribed" in message:
+    if (
+        code in {"354", "10089"}
+        or "delayed market data available" in message
+        or "延迟市场数据可用" in (error_message or "")
+    ):
+        return LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+    if "not subscribed" in message:
         return "live_not_subscribed"
     return "other"
 
@@ -45,19 +54,28 @@ def build_attempt_result(
     fallback_reason: str,
 ) -> SnapshotAttemptResult:
     err_type = classify_error(error_code, error_message)
-    live_permission_status = "denied" if err_type == "live_not_subscribed" else "unknown"
+    delayed_available = err_type == LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+    live_permission_status = (
+        "not_subscribed"
+        if delayed_available
+        else "denied" if err_type == "live_not_subscribed" else "unknown"
+    )
     entered_delayed_path = (
         requested_market_data_type == "delayed"
         or effective_market_data_type in {"delayed", "delayed_frozen"}
         or fallback_stage in {"live_to_delayed", "delayed_to_delayed_frozen"}
+        or delayed_available
     )
     entered_delayed_frozen_path = (
         requested_market_data_type == "delayed_frozen"
         or effective_market_data_type == "delayed_frozen"
         or fallback_stage == "delayed_to_delayed_frozen"
     )
-    delayed_permission_status = "allowed" if entered_delayed_path else "unknown"
+    delayed_permission_status = "available" if delayed_available else "allowed" if entered_delayed_path else "unknown"
     delayed_frozen_permission_status = "allowed" if entered_delayed_frozen_path else "unknown"
+    normalized_fallback_reason = fallback_reason
+    if delayed_available:
+        normalized_fallback_reason = LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
 
     data_delay_map = {
         "live": "real_time",
@@ -94,7 +112,7 @@ def build_attempt_result(
         price_source_priority="live>delayed>delayed_frozen",
         data_delay_flag=delay_flag,
         snapshot_attempt_count=snapshot_attempt_count,
-        fallback_reason=fallback_reason,
+        fallback_reason=normalized_fallback_reason,
         fallback_terminal_status=fallback_terminal_from_prices(has_price),
         data_status=data_status,
         snapshot_status=snapshot_status,
