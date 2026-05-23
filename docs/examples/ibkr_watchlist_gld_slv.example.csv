@@ -1,0 +1,3 @@
+market,display_symbol,ibkr_symbol,exchange,currency,asset_class,validation_role,enabled
+US,GLD,GLD,ARCA,USD,ETF,first_validation,true
+US,SLV,SLV,ARCA,USD,ETF,first_validation,true

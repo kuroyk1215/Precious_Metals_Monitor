@@ -1,0 +1,3 @@
+market,display_symbol,ibkr_symbol,exchange,currency,asset_class,validation_role,enabled
+JP,1540.T,1540,TSEJ,JPY,ETF,optional_jp_validation,false
+JP,1542.T,1542,TSEJ,JPY,ETF,optional_jp_validation,false

@@ -134,6 +134,11 @@ reports/ibkr_execution_c_validation_report.md
 release_hardening_audit.csv
 reports/release_hardening_audit_report.md
 
+# Phase 401-416: RC manual execution rehearsal runtime outputs
+rc_manual_execution_rehearsal_packet.csv
+reports/rc_manual_execution_rehearsal_report.md
+reports/rc_execution_c_command_preview.md
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md
