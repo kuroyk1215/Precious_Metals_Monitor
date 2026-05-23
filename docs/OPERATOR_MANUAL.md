@@ -12,13 +12,21 @@ Default behavior is dry-run. It does not connect to IBKR, does not request marke
 
 ## Execution C Manual Validation
 
+Prepare the first-validation map before the first Execution C run:
+
+```bash
+bash scripts/prepare_gld_slv_contract_map.sh
+```
+
 Execution C is an explicit operator validation step:
 
 ```bash
-bash scripts/ibkr_execution_c_pipeline_validation.sh --execute-market-data --market-data-type=auto --telegram-dry-run
+bash scripts/ibkr_execution_c_pipeline_validation.sh --execute-market-data --market-data-type=auto --telegram-dry-run --contract-map=ibkr_verified_contract_map_gld_slv.csv --log-root=logs/ibkr_daily --retention-days=30
 ```
 
 This may request IBKR market data only because the operator supplied `--execute-market-data`. It remains research-only, reference-only, and manual-review-only.
+
+Do not use `ibkr_verified_contract_map.csv` for first Execution C validation; it may contain JP/CN legacy rows. 1540.T and 1542.T are optional only, and 518880.SH remains non-IBKR.
 
 ## Telegram Send Gate Manual Test
 

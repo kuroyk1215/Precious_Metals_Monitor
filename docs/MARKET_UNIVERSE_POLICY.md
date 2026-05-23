@@ -10,6 +10,8 @@ The operating rule is user watchlist only. No default workflow should infer a ma
 
 IBKR validation should use GLD and SLV first. These US ETFs are the preferred first test universe because the US ETF data path is better suited for validating the IBKR market data connection, delayed/frozen fallback behavior, and dashboard-ready output files.
 
+First Execution C validation uses `ibkr_verified_contract_map_gld_slv.csv`. The older runtime `ibkr_verified_contract_map.csv` may contain JP/CN legacy rows and should not be used for first validation readiness.
+
 1540.T and 1542.T remain optional JP ETF watchlist entries. They are supported as optional observations, but they are not the only core of the system and must not lock the project into a Japan-only precious metals ETF monitor.
 
 518880.SH is excluded from IBKR contract universe files. It must not be placed into the IBKR validation contract universe.

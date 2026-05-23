@@ -14,6 +14,14 @@ The rehearsal does not connect to IBKR, request market data, send Telegram, read
 
 The first real Execution C validation should use GLD and SLV. These US ETFs are the preferred IBKR validation path for checking market data behavior and delayed/frozen fallback handling.
 
+The first Execution C command preview must use `ibkr_verified_contract_map_gld_slv.csv`. Prepare it with:
+
+```bash
+bash scripts/prepare_gld_slv_contract_map.sh
+```
+
+The legacy runtime file `ibkr_verified_contract_map.csv` may contain JP/CN legacy rows and must not be used for first validation readiness. The rehearsal blocks if the first-validation map is missing, lacks GLD or SLV, or includes 518880.SH.
+
 ## Optional JP ETF Validation
 
 1540.T and 1542.T remain optional JP ETF validation symbols. They are not the default core universe and should not lock the project into a Japan-only system.
@@ -51,7 +59,7 @@ The rehearsal allows the normal local operator state where `git status --short` 
 When the operator is ready, manually copy the Execution C command from the preview. The expected command shape is:
 
 ```bash
-bash scripts/ibkr_execution_c_pipeline_validation.sh --execute-market-data --market-data-type=auto --telegram-dry-run
+bash scripts/ibkr_execution_c_pipeline_validation.sh --execute-market-data --market-data-type=auto --telegram-dry-run --contract-map=ibkr_verified_contract_map_gld_slv.csv --log-root=logs/ibkr_daily --retention-days=30
 ```
 
 Only the operator should run this command. Codex and validation scripts must not run it automatically.
