@@ -69,9 +69,31 @@ Only the operator should run this command. Codex and validation scripts must not
 After a manual Execution C run, review:
 
 - `ibkr_execution_c_validation_packet.csv`
+- `ibkr_market_data_snapshot.csv`
 - `ibkr_daily_operator_packet.csv`
 - `reports/ibkr_daily_operator_packet_report.md`
 - `reports/ibkr_execution_c_validation_report.md`
+
+Then generate the first operator-run post analysis without running Execution C again:
+
+```bash
+bash scripts/first_operator_run_post_analysis.sh
+```
+
+This command only reads existing local runtime outputs. It must not use the manual Execution C market-data flag, must not call the Execution C pipeline validation script, must not send Telegram, and must not connect to IBKR.
+
+## First Real Result Semantics
+
+For the first GLD/SLV run, Error 10089 and Error 354 both represent a recognizable live subscription missing / delayed data available pattern when IBKR provides delayed data. This is acceptable for reference-only manual review, not for real-time trading.
+
+`NO_GO` does not mean the chain failed. In this project, global `NO_GO` means `action_allowed=false` and no trade. Row-level `OPERATOR_REVIEW_READY` means the operator can view delayed reference-only rows. Delayed or delayed_frozen references cannot become trading signals.
+
+After the live test, optionally return the local config gates to:
+
+```yaml
+real_connection_allowed: false
+market_data_request_allowed: false
+```
 
 All outputs remain research-only and manual-review-only.
 
