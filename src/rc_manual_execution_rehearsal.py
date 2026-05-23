@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import csv
+import fnmatch
+import subprocess
 from typing import Iterable, List
 
 
@@ -15,6 +17,13 @@ TELEGRAM_DRY_RUN_COMMAND = "bash scripts/ibkr_local_daily_runner.sh --telegram-d
 TELEGRAM_SEND_GATE_COMMAND = (
     "bash scripts/ibkr_telegram_send_gate.sh --send-telegram "
     "--approval-file=.telegram_send_approval.local"
+)
+LOCAL_CONFIG_PATH = "config.yaml"
+LOCAL_SECRET_PATTERNS = (
+    ".env.telegram*",
+    "telegram.env",
+    "telegram.env.local",
+    ".telegram_send_approval*",
 )
 
 
@@ -47,6 +56,98 @@ class RCManualExecutionRehearsalDecision:
     manual_review_required: str
     safety_flags: str
     next_step: str
+
+
+@dataclass(frozen=True)
+class ConfigLocalOnlyCheck:
+    ok: bool
+    flags: tuple[str, ...]
+
+
+def _porcelain_path(status_line: str) -> str:
+    path = status_line[3:] if len(status_line) > 3 else ""
+    if " -> " in path:
+        path = path.split(" -> ", 1)[1]
+    return path.strip()
+
+
+def _matches_local_secret_path(path: str) -> bool:
+    normalized = path.strip()
+    return any(fnmatch.fnmatchcase(normalized, pattern) for pattern in LOCAL_SECRET_PATTERNS)
+
+
+def evaluate_config_local_only_status(
+    *,
+    git_status_short_lines: Iterable[str],
+    cached_config_names: Iterable[str],
+    tracked_secret_names: Iterable[str],
+) -> ConfigLocalOnlyCheck:
+    flags: list[str] = []
+    status_lines = [line for line in git_status_short_lines if line.strip()]
+    cached_config = [name for name in cached_config_names if name.strip()]
+    tracked_secrets = [name for name in tracked_secret_names if name.strip()]
+
+    if cached_config:
+        flags.append("config_yaml_staged")
+
+    for secret_name in tracked_secrets:
+        flags.append(f"tracked_secret_env_or_approval:{secret_name}")
+
+    for line in status_lines:
+        status_code = line[:2]
+        path = _porcelain_path(line)
+
+        if status_code == "??":
+            if _matches_local_secret_path(path):
+                flags.append(f"untracked_secret_env_or_approval:{path}")
+            else:
+                flags.append(f"other_worktree_change:{path}")
+            continue
+
+        if path != LOCAL_CONFIG_PATH:
+            flags.append(f"other_worktree_change:{path}")
+            continue
+
+        if status_code == " M":
+            continue
+
+        if status_code[0] != " ":
+            flags.append("config_yaml_staged")
+        if "D" in status_code:
+            flags.append("config_yaml_deleted")
+        elif "A" in status_code:
+            flags.append("config_yaml_added")
+        else:
+            flags.append("config_yaml_not_local_only")
+
+    deduped_flags = tuple(dict.fromkeys(flags))
+    return ConfigLocalOnlyCheck(ok=not deduped_flags, flags=deduped_flags)
+
+
+def run_config_local_only_check() -> ConfigLocalOnlyCheck:
+    git_status = subprocess.run(
+        ["git", "status", "--short"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    cached_config_names = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "--", LOCAL_CONFIG_PATH],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    tracked_secret_names = subprocess.run(
+        ["git", "ls-files", "--", *LOCAL_SECRET_PATTERNS],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    return evaluate_config_local_only_status(
+        git_status_short_lines=git_status,
+        cached_config_names=cached_config_names,
+        tracked_secret_names=tracked_secret_names,
+    )
 
 
 def build_rc_manual_execution_rehearsal_decision(
