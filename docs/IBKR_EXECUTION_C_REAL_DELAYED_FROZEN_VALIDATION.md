@@ -57,6 +57,38 @@ Open `ibkr_execution_c_validation_packet.csv` and inspect:
 
 If the snapshot is missing, unsupported, or has no usable price, the validation decision is `REVIEW_BLOCKED`.
 
+## First Real GLD/SLV Result Pattern
+
+For the first real GLD/SLV Execution C validation, a successful delayed fallback can look like:
+
+- `execution_c_status=EXECUTION_C_VALIDATION_READY`
+- `validation_decision=REVIEW_READY_REFERENCE_ONLY`
+- `snapshot_status=DELAYED_SNAPSHOT_RETURNED`
+- `effective_market_data_type=delayed`
+- `data_delay_flag=delayed`
+- `action_allowed=false`
+
+IBKR Error 10089 and Error 354 both indicate a recognizable live subscription missing / delayed data available scenario when delayed data is offered. This is not a real-time entitlement and must remain reference-only.
+
+Post-run analysis should be generated from existing local outputs only:
+
+```bash
+bash scripts/first_operator_run_post_analysis.sh
+```
+
+This post-run step must not connect to IBKR, request market data, send Telegram, read accounts, read positions, request historical data, or run the Execution C validation command again.
+
+## NO_GO vs REVIEW_READY
+
+`NO_GO` is not equivalent to chain failure. In this project, global `NO_GO` means `action_allowed=false` and no trade. Row-level `OPERATOR_REVIEW_READY` means the operator can inspect delayed or delayed_frozen reference-only results. Delayed reference-only prices cannot trigger trades.
+
+After a live test, optionally turn the local config gate back off:
+
+```yaml
+real_connection_allowed: false
+market_data_request_allowed: false
+```
+
 ## Safety Boundary
 
 Execution C validation never authorizes:

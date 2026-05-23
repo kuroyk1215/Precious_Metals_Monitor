@@ -140,6 +140,11 @@ rc_manual_execution_rehearsal_packet.csv
 reports/rc_manual_execution_rehearsal_report.md
 reports/rc_execution_c_command_preview.md
 
+# Phase 417-432: first operator-run post analysis runtime outputs
+first_operator_run_post_analysis.csv
+reports/first_operator_run_post_analysis_report.md
+reports/first_operator_run_summary.md
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md

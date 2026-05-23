@@ -43,10 +43,39 @@ Default behavior does not send Telegram. The approval file is local-only and mus
 After a dry-run or Execution C validation, inspect these local outputs:
 
 - `ibkr_execution_c_validation_packet.csv`
+- `ibkr_market_data_snapshot.csv`
 - `ibkr_daily_operator_packet.csv`
 - `reports/ibkr_daily_operator_packet_report.md`
 
 The operator packet is the daily handoff. The Execution C validation packet records whether market data validation was explicitly requested and whether the result remains reference-only.
+
+After the first real GLD/SLV Execution C run, summarize the existing local outputs without reconnecting to IBKR:
+
+```bash
+bash scripts/first_operator_run_post_analysis.sh
+```
+
+This post-run analysis reads only local runtime CSV files and reports. It does not request market data, send Telegram, read accounts, read positions, request historical data, or execute broker actions.
+
+## First GLD/SLV Result Pattern
+
+The first real GLD/SLV Execution C run may return IBKR Error 10089 or Error 354. In this project, when delayed data is available, both errors are treated as a recognizable live subscription missing / delayed data available scenario.
+
+The expected result pattern is:
+
+- `snapshot_status=DELAYED_SNAPSHOT_RETURNED`
+- `effective_market_data_type=delayed` or `delayed_frozen`
+- `validation_decision=REVIEW_READY_REFERENCE_ONLY`
+- `action_allowed=false`
+
+`NO_GO` is not the same as a failed chain. Global `NO_GO` means no trade and `action_allowed=false`. Row-level `OPERATOR_REVIEW_READY` means the operator can manually inspect reference-only results. Delayed reference-only data cannot trigger a trade.
+
+After a live test, the operator may turn local gates back off:
+
+```yaml
+real_connection_allowed: false
+market_data_request_allowed: false
+```
 
 ## Forbidden Operations
 
