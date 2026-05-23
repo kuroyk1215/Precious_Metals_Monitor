@@ -1,0 +1,2 @@
+market,display_symbol,ibkr_symbol,exchange,currency,asset_class,validation_role,enabled
+CN,518880.SH,518880.SH,SH,CNY,ETF,non_ibkr_manual_adapter,false
