@@ -36,6 +36,16 @@ Review the preview for:
 - 518880 excluded from IBKR note
 - no-trade safety markers
 
+## Local Config Gate
+
+The rehearsal allows the normal local operator state where `git status --short` shows only:
+
+```text
+ M config.yaml
+```
+
+`config.yaml` must remain unstaged and local-only. The rehearsal blocks if `config.yaml` is staged, added, deleted, included in the cached diff, or if any other tracked or untracked file is changed. Local Telegram environment and approval files such as `.env.telegram*`, `telegram.env`, `telegram.env.local`, and `.telegram_send_approval*` must not be tracked.
+
 ## Manual Execution C
 
 When the operator is ready, manually copy the Execution C command from the preview. The expected command shape is:

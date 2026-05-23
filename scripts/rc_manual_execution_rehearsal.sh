@@ -57,6 +57,7 @@ import subprocess
 from src.release_hardening_audit import check_required_text
 from src.rc_manual_execution_rehearsal import (
     build_rc_manual_execution_rehearsal_decision,
+    run_config_local_only_check,
     write_command_preview,
     write_rehearsal_csv,
     write_rehearsal_report,
@@ -111,15 +112,10 @@ git_branch_ok = branch.startswith("phase401-416") or branch == "main"
 if not git_branch_ok:
     missing_inputs.append(f"git_branch_unexpected:{branch}")
 
-config_status = subprocess.run(
-    ["git", "status", "--short", "--", "config.yaml"],
-    check=True,
-    capture_output=True,
-    text=True,
-).stdout.strip()
-config_local_only_ok = config_status == ""
+config_local_only_check = run_config_local_only_check()
+config_local_only_ok = config_local_only_check.ok
 if not config_local_only_ok:
-    missing_inputs.append("config_yaml_not_stashed_or_not_local_only")
+    missing_inputs.extend(config_local_only_check.flags)
 
 git_worktree_ok = True
 command_preview_ok = True

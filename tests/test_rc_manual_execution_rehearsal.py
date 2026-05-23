@@ -2,6 +2,7 @@ from pathlib import Path
 
 from src.rc_manual_execution_rehearsal import (
     build_rc_manual_execution_rehearsal_decision,
+    evaluate_config_local_only_status,
     write_command_preview,
     write_rehearsal_report,
 )
@@ -77,3 +78,74 @@ def test_report_does_not_include_token_chat_id_or_secret(tmp_path: Path):
     assert "token" not in text
     assert "chat_id" not in text
     assert "secret" not in text
+
+
+def test_only_unstaged_modified_config_yaml_passes_local_only_gate():
+    result = evaluate_config_local_only_status(
+        git_status_short_lines=[" M config.yaml"],
+        cached_config_names=[],
+        tracked_secret_names=[],
+    )
+
+    assert result.ok is True
+    assert result.flags == ()
+
+
+def test_staged_config_yaml_blocks_local_only_gate():
+    result = evaluate_config_local_only_status(
+        git_status_short_lines=["M  config.yaml"],
+        cached_config_names=["config.yaml"],
+        tracked_secret_names=[],
+    )
+
+    assert result.ok is False
+    assert "config_yaml_staged" in result.flags
+
+
+def test_other_modified_file_blocks_local_only_gate():
+    result = evaluate_config_local_only_status(
+        git_status_short_lines=[" M config.yaml", " M main.py"],
+        cached_config_names=[],
+        tracked_secret_names=[],
+    )
+
+    assert result.ok is False
+    assert "other_worktree_change:main.py" in result.flags
+
+
+def test_untracked_non_secret_file_blocks_local_only_gate():
+    result = evaluate_config_local_only_status(
+        git_status_short_lines=[" M config.yaml", "?? notes.txt"],
+        cached_config_names=[],
+        tracked_secret_names=[],
+    )
+
+    assert result.ok is False
+    assert "other_worktree_change:notes.txt" in result.flags
+
+
+def test_tracked_secret_env_or_approval_file_blocks_local_only_gate():
+    result = evaluate_config_local_only_status(
+        git_status_short_lines=[" M config.yaml"],
+        cached_config_names=[],
+        tracked_secret_names=["telegram.env.local"],
+    )
+
+    assert result.ok is False
+    assert "tracked_secret_env_or_approval:telegram.env.local" in result.flags
+
+
+def test_rehearsal_ready_when_only_unstaged_config_yaml_exists():
+    local_only = evaluate_config_local_only_status(
+        git_status_short_lines=[" M config.yaml"],
+        cached_config_names=[],
+        tracked_secret_names=[],
+    )
+    result = build_rc_manual_execution_rehearsal_decision(
+        config_local_only_ok=local_only.ok,
+        missing_inputs=local_only.flags,
+    )
+
+    assert result.config_local_only_status == "PASS"
+    assert result.rehearsal_status == "RC_REHEARSAL_READY"
+    assert result.readiness_decision == "READY_FOR_MANUAL_EXECUTION_C"
