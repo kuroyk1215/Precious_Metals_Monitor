@@ -8,6 +8,7 @@ from typing import Dict, Iterable, List, Tuple
 
 TRUE_TEXT = "true"
 FALSE_TEXT = "false"
+LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE = "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
 
 
 @dataclass(frozen=True)
@@ -84,10 +85,45 @@ def _latest_value(rows: Iterable[Dict[str, str]], field: str, default: str = "un
 
 def _contains_error(rows: Iterable[Dict[str, str]], code: str) -> bool:
     needle = str(code)
-    fields = ("error_code", "error_message", "notes", "fallback_reason", "analysis_reason", "validation_reason")
+    fields = (
+        "error_code",
+        "error_message",
+        "notes",
+        "fallback_reason",
+        "error_interpretation",
+        "analysis_reason",
+        "validation_reason",
+        "report_text",
+    )
     for row in rows:
         for field in fields:
             if needle in _clean(row.get(field)):
+                return True
+    return False
+
+
+def _contains_delayed_available_signal(rows: Iterable[Dict[str, str]]) -> bool:
+    fields = (
+        "error_code",
+        "error_message",
+        "notes",
+        "fallback_reason",
+        "error_interpretation",
+        "analysis_reason",
+        "validation_reason",
+        "report_text",
+    )
+    for row in rows:
+        for field in fields:
+            value = _clean(row.get(field))
+            lowered = value.lower()
+            if value in {"354", "10089"}:
+                return True
+            if "delayed market data available" in lowered:
+                return True
+            if "live_not_subscribed_delayed_available" in lowered:
+                return True
+            if "延迟市场数据可用" in value:
                 return True
     return False
 
@@ -111,6 +147,32 @@ def _count_values(rows: Iterable[Dict[str, str]], fields: Iterable[str], values:
                 count += 1
                 break
     return count
+
+
+def _row_symbol(row: Dict[str, str], fallback_prefix: str, index: int) -> str:
+    return (
+        _clean(row.get("display_symbol"))
+        or _clean(row.get("symbol"))
+        or _clean(row.get("local_symbol"))
+        or f"{fallback_prefix}:{index}"
+    )
+
+
+def _count_unique_symbols(
+    rows: Iterable[Dict[str, str]],
+    fields: Iterable[str],
+    values: Iterable[str],
+    *,
+    fallback_prefix: str,
+) -> int:
+    wanted = {value.lower() for value in values}
+    symbols: set[str] = set()
+    for index, row in enumerate(rows):
+        for field in fields:
+            if _lower(row.get(field)) in wanted:
+                symbols.add(_row_symbol(row, fallback_prefix, index))
+                break
+    return len(symbols)
 
 
 def _safety_anomalies(rows: Iterable[Dict[str, str]]) -> List[str]:
@@ -156,19 +218,50 @@ def build_first_operator_run_post_analysis_decision(
     data_delay_flag = _latest_value(snapshot_list, "data_delay_flag", "unavailable")
     operator_packet_status = _latest_value(operator_list, "operator_packet_status", operator_packet_input_status)
 
-    operator_review_ready_count = sum(1 for row in operator_list if _upper(row.get("operator_packet_status")) == "OPERATOR_REVIEW_READY")
-    operator_review_blocked_count = sum(1 for row in operator_list if _upper(row.get("operator_packet_status")) == "OPERATOR_REVIEW_BLOCKED")
-    delayed_reference_count = _count_values(snapshot_list + operator_list, ("effective_market_data_type", "data_delay_flag", "final_research_bucket"), ("delayed", "delayed_reference"))
-    delayed_frozen_reference_count = _count_values(snapshot_list + operator_list, ("effective_market_data_type", "data_delay_flag", "final_research_bucket"), ("delayed_frozen", "stale_reference"))
-    unsupported_count = _count_values(snapshot_list + operator_list, ("snapshot_status", "effective_market_data_type", "final_research_bucket", "operator_packet_status"), ("unsupported", "UNSUPPORTED"))
-    no_go_count = _count_values(operator_list + execution_list, ("final_research_bucket", "operator_packet_status", "validation_decision"), ("no_go", "NO_GO"))
+    operator_review_ready_count = _count_unique_symbols(
+        operator_list,
+        ("operator_packet_status",),
+        ("OPERATOR_REVIEW_READY",),
+        fallback_prefix="operator_ready",
+    )
+    operator_review_blocked_count = _count_unique_symbols(
+        operator_list,
+        ("operator_packet_status",),
+        ("OPERATOR_REVIEW_BLOCKED",),
+        fallback_prefix="operator_blocked",
+    )
+    delayed_reference_count = _count_unique_symbols(
+        snapshot_list + operator_list,
+        ("effective_market_data_type", "data_delay_flag", "final_research_bucket"),
+        ("delayed", "delayed_reference"),
+        fallback_prefix="delayed_reference",
+    )
+    delayed_frozen_reference_count = _count_unique_symbols(
+        snapshot_list + operator_list,
+        ("effective_market_data_type", "data_delay_flag", "final_research_bucket"),
+        ("delayed_frozen", "stale_reference"),
+        fallback_prefix="delayed_frozen_reference",
+    )
+    unsupported_count = _count_unique_symbols(
+        snapshot_list + operator_list,
+        ("snapshot_status", "effective_market_data_type", "final_research_bucket", "operator_packet_status"),
+        ("unsupported", "UNSUPPORTED"),
+        fallback_prefix="unsupported",
+    )
+    no_go_count = _count_unique_symbols(
+        operator_list + execution_list,
+        ("final_research_bucket", "operator_packet_status", "validation_decision"),
+        ("no_go", "NO_GO"),
+        fallback_prefix="no_go",
+    )
 
     errors = _error_codes(snapshot_list + execution_list)
     error_10089_detected = _contains_error(snapshot_list + execution_list, "10089")
     error_354_detected = _contains_error(snapshot_list + execution_list, "354")
+    delayed_available_detected = _contains_delayed_available_signal(snapshot_list + execution_list)
     live_subscription_status = (
-        "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
-        if error_10089_detected or error_354_detected
+        LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
+        if delayed_available_detected
         else "LIVE_SUBSCRIPTION_STATUS_NOT_DETECTED"
     )
 
@@ -322,6 +415,7 @@ def _build_report_text(decision: FirstOperatorRunPostAnalysisDecision) -> str:
             f"- delayed_frozen_reference_count={decision.delayed_frozen_reference_count}",
             f"- unsupported_count={decision.unsupported_count}",
             f"- no_go_count={decision.no_go_count}",
+            "- Reference-ready counts are normalized by display_symbol across local input files.",
             "",
             "## NO_GO vs REVIEW_READY Semantics",
             "",

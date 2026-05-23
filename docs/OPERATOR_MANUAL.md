@@ -59,7 +59,7 @@ This post-run analysis reads only local runtime CSV files and reports. It does n
 
 ## First GLD/SLV Result Pattern
 
-The first real GLD/SLV Execution C run may return IBKR Error 10089 or Error 354. In this project, when delayed data is available, both errors are treated as a recognizable live subscription missing / delayed data available scenario.
+The first real GLD/SLV Execution C run may return IBKR Error 10089 or Error 354. In this project, when delayed data is available, both errors are treated as a recognizable live market data not subscribed / delayed market data available scenario. Error 10089 is visible on US ETF validation symbols such as GLD and SLV. Error 354 is visible on some venues or instruments.
 
 The expected result pattern is:
 
@@ -69,6 +69,10 @@ The expected result pattern is:
 - `action_allowed=false`
 
 `NO_GO` is not the same as a failed chain. Global `NO_GO` means no trade and `action_allowed=false`. Row-level `OPERATOR_REVIEW_READY` means the operator can manually inspect reference-only results. Delayed reference-only data cannot trigger a trade.
+
+Post-run analysis counts delayed and delayed_frozen reference rows by `display_symbol`, so the same symbol is not counted twice when it appears in both the snapshot CSV and operator packet. A GLD/SLV delayed reference-only run should report `delayed_reference_count=2` and `operator_review_ready_count=2`.
+
+If Error 10089 or Error 354 appears only in terminal output and not in the snapshot CSV or report, update or inspect the error capture path before relying on `LIVE_SUBSCRIPTION_STATUS_NOT_DETECTED`.
 
 After a live test, the operator may turn local gates back off:
 

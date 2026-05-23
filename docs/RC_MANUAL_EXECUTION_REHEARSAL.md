@@ -84,9 +84,11 @@ This command only reads existing local runtime outputs. It must not use the manu
 
 ## First Real Result Semantics
 
-For the first GLD/SLV run, Error 10089 and Error 354 both represent a recognizable live subscription missing / delayed data available pattern when IBKR provides delayed data. This is acceptable for reference-only manual review, not for real-time trading.
+For the first GLD/SLV run, Error 10089 and Error 354 can both represent a recognizable live market data not subscribed / delayed market data available pattern when IBKR provides delayed data. Error 10089 is visible on US ETF validation symbols such as GLD and SLV. Error 354 is visible on some venues or instruments. This is acceptable for reference-only manual review, not for real-time trading.
 
 `NO_GO` does not mean the chain failed. In this project, global `NO_GO` means `action_allowed=false` and no trade. Row-level `OPERATOR_REVIEW_READY` means the operator can view delayed reference-only rows. Delayed or delayed_frozen references cannot become trading signals.
+
+Post-run analysis counts delayed and delayed_frozen reference-ready rows by `display_symbol`, so duplicate rows across local runtime inputs do not inflate GLD/SLV counts. If terminal output shows Error 10089 or Error 354 but the snapshot CSV lacks the code or delayed-available message, check the local error capture version before interpreting the post-run live subscription status.
 
 After the live test, optionally return the local config gates to:
 

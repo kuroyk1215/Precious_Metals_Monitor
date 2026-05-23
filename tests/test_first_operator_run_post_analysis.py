@@ -99,7 +99,7 @@ def test_review_ready_reference_only_maps_to_accept_reference_only_run():
 def test_delayed_snapshot_maps_to_delayed_reference_only():
     result = _decision()
     assert result.reference_only_status == "DELAYED_REFERENCE_ONLY"
-    assert int(result.delayed_reference_count) >= 1
+    assert result.delayed_reference_count == "2"
 
 
 def test_error_10089_detected_live_subscription_missing_delayed_available():
@@ -111,6 +111,51 @@ def test_error_10089_detected_live_subscription_missing_delayed_available():
 def test_error_354_detected_live_subscription_missing_delayed_available():
     result = _decision(snapshot_rows=[_snapshot(error_code="354", error_message="354 delayed market data available")])
     assert result.error_354_detected == "true"
+    assert result.live_subscription_status == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+
+
+def test_delayed_rows_from_multiple_inputs_count_unique_display_symbols():
+    result = _decision(
+        snapshot_rows=[
+            _snapshot(display_symbol="GLD"),
+            _snapshot(display_symbol="SLV"),
+        ],
+        operator_rows=[
+            _operator(display_symbol="GLD"),
+            _operator(display_symbol="SLV"),
+        ],
+    )
+    assert result.delayed_reference_count == "2"
+    assert result.operator_review_ready_count == "2"
+
+
+def test_duplicate_gld_delayed_rows_not_counted_twice():
+    result = _decision(
+        snapshot_rows=[
+            _snapshot(display_symbol="GLD"),
+            _snapshot(display_symbol="GLD"),
+            _snapshot(display_symbol="SLV"),
+        ],
+        operator_rows=[
+            _operator(display_symbol="GLD"),
+            _operator(display_symbol="GLD"),
+            _operator(display_symbol="SLV"),
+        ],
+    )
+    assert result.delayed_reference_count == "2"
+    assert result.operator_review_ready_count == "2"
+
+
+def test_message_only_delayed_available_sets_live_subscription_status():
+    result = _decision(snapshot_rows=[_snapshot(error_code="", error_message="delayed market data available")])
+    assert result.error_10089_detected == "false"
+    assert result.error_354_detected == "false"
+    assert result.live_subscription_status == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+
+
+def test_report_text_error_10089_detected():
+    result = _decision(snapshot_rows=[{"report_text": "Error 10089: delayed market data available", "action_allowed": "false"}])
+    assert result.error_10089_detected == "true"
     assert result.live_subscription_status == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
 
 
