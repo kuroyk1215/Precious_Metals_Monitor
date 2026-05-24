@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import argparse
 import csv
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple
 
 
 TRUE_TEXT = "true"
@@ -72,6 +73,11 @@ def read_csv_rows(path: str | Path) -> Tuple[str, List[Dict[str, str]]]:
     if not rows:
         return "empty_file", []
     return "present", rows
+
+
+def _default_api_errors_csv() -> Path:
+    default_path = Path("ibkr_market_data_api_errors.csv")
+    return default_path if default_path.exists() else default_path
 
 
 def _latest_value(rows: Iterable[Dict[str, str]], field: str, default: str = "unknown") -> str:
@@ -374,6 +380,117 @@ def write_first_operator_run_summary(path: str | Path, decision: FirstOperatorRu
     Path(path).write_text(_build_summary_text(decision), encoding="utf-8")
 
 
+def build_decision_from_files(
+    *,
+    execution_c_packet: str | Path,
+    snapshot_csv: str | Path,
+    snapshot_report: str | Path,
+    api_errors_csv: Optional[str | Path],
+    operator_packet: str | Path,
+    telegram_notification_packet: str | Path,
+) -> FirstOperatorRunPostAnalysisDecision:
+    execution_status, execution_rows = read_csv_rows(Path(execution_c_packet))
+    snapshot_status, snapshot_rows = read_csv_rows(Path(snapshot_csv))
+    api_errors_path = Path(api_errors_csv) if api_errors_csv else _default_api_errors_csv()
+    _, api_error_rows = read_csv_rows(api_errors_path)
+    operator_status, operator_rows = read_csv_rows(Path(operator_packet))
+    telegram_status, telegram_rows = read_csv_rows(Path(telegram_notification_packet))
+
+    report_path = Path(snapshot_report)
+    if report_path.exists():
+        report_rows = []
+        for line in report_path.read_text(encoding="utf-8").splitlines():
+            stripped = line.strip()
+            lowered = stripped.lower()
+            cells = [cell.strip() for cell in stripped.strip("|").split("|")] if stripped.startswith("|") else []
+            table_code = next((cell for cell in cells if cell in {"10089", "354"}), "")
+            if table_code:
+                report_rows.append({"error_code": table_code, "error_message": stripped, "action_allowed": "false"})
+            elif (
+                ("error 10089" in lowered or "error 354" in lowered)
+                and ("delayed market data available" in lowered or "延迟市场数据可用" in stripped)
+            ):
+                report_rows.append({"report_text": stripped, "action_allowed": "false"})
+        snapshot_rows = list(snapshot_rows) + report_rows
+
+    return build_first_operator_run_post_analysis_decision(
+        execution_c_rows=execution_rows,
+        snapshot_rows=snapshot_rows,
+        api_error_rows=api_error_rows,
+        operator_rows=operator_rows,
+        telegram_notification_rows=telegram_rows,
+        execution_c_input_status=execution_status,
+        snapshot_input_status=snapshot_status,
+        operator_packet_input_status=operator_status,
+        telegram_notification_input_status=telegram_status,
+    )
+
+
+def _build_arg_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Build first operator-run post analysis from local offline artifacts.")
+    parser.add_argument("--execution-c-packet", default="ibkr_execution_c_validation_packet.csv")
+    parser.add_argument("--snapshot-csv", default="ibkr_market_data_snapshot.csv")
+    parser.add_argument("--snapshot-report", default="reports/ibkr_market_data_snapshot_report.md")
+    parser.add_argument("--api-errors-csv", default=None)
+    parser.add_argument("--operator-packet", default="ibkr_daily_operator_packet.csv")
+    parser.add_argument("--telegram-notification-packet", default="ibkr_telegram_notification_packet.csv")
+    parser.add_argument("--output-csv", default="first_operator_run_post_analysis.csv")
+    parser.add_argument("--output-report", default="reports/first_operator_run_post_analysis_report.md")
+    parser.add_argument("--summary-md", default="reports/first_operator_run_summary.md")
+    return parser
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = _build_arg_parser()
+    args = parser.parse_args(argv)
+
+    output_report = Path(args.output_report)
+    summary_md = Path(args.summary_md)
+    output_report.parent.mkdir(parents=True, exist_ok=True)
+    summary_md.parent.mkdir(parents=True, exist_ok=True)
+
+    print("[INFO] First operator-run post analysis started")
+
+    decision = build_decision_from_files(
+        execution_c_packet=args.execution_c_packet,
+        snapshot_csv=args.snapshot_csv,
+        snapshot_report=args.snapshot_report,
+        api_errors_csv=args.api_errors_csv,
+        operator_packet=args.operator_packet,
+        telegram_notification_packet=args.telegram_notification_packet,
+    )
+
+    write_post_analysis_csv(Path(args.output_csv), decision)
+    write_post_analysis_report(output_report, decision)
+    write_first_operator_run_summary(summary_md, decision)
+
+    print("[PASS] First operator-run post analysis generated")
+    print(f"post_run_status={decision.post_run_status}")
+    print(f"analysis_decision={decision.analysis_decision}")
+    print(f"semantic_status={decision.semantic_status}")
+    print(f"execution_c_status={decision.execution_c_status}")
+    print(f"validation_decision={decision.validation_decision}")
+    print(f"snapshot_status={decision.snapshot_status}")
+    print(f"effective_market_data_type={decision.effective_market_data_type}")
+    print(f"data_delay_flag={decision.data_delay_flag}")
+    print(f"operator_review_ready_count={decision.operator_review_ready_count}")
+    print(f"delayed_reference_count={decision.delayed_reference_count}")
+    print(f"error_codes_detected={decision.error_codes_detected}")
+    print(f"error_10089_detected={decision.error_10089_detected}")
+    print(f"error_354_detected={decision.error_354_detected}")
+    print(f"live_subscription_status={decision.live_subscription_status}")
+    print("action_allowed=false")
+    print("broker_execution_triggered=false")
+    print("historical_data_request_triggered=false")
+    print("account_read_triggered=false")
+    print("position_read_triggered=false")
+    print("telegram_send_triggered=false")
+    print(f"csv={args.output_csv}")
+    print(f"report={args.output_report}")
+    print(f"summary={args.summary_md}")
+    return 0
+
+
 def _build_report_text(decision: FirstOperatorRunPostAnalysisDecision) -> str:
     return "\n".join(
         [
@@ -483,3 +600,7 @@ def _build_summary_text(decision: FirstOperatorRunPostAnalysisDecision) -> str:
             f"- next_step={decision.next_step}",
         ]
     ) + "\n"
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -4,6 +4,7 @@ import subprocess
 
 from src.first_operator_run_post_analysis import (
     build_first_operator_run_post_analysis_decision,
+    main as post_analysis_main,
     write_post_analysis_report,
 )
 
@@ -106,6 +107,42 @@ def _decision(**overrides):
     }
     params.update(overrides)
     return build_first_operator_run_post_analysis_decision(**params)
+
+
+def _write_csv(path: Path, rows):
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _write_post_analysis_fixture(tmp_path: Path, *, api_errors_name: str = "api_errors.csv"):
+    paths = {
+        "execution": tmp_path / "execution.csv",
+        "snapshot": tmp_path / "snapshot.csv",
+        "api_errors": tmp_path / api_errors_name,
+        "operator": tmp_path / "operator.csv",
+        "telegram": tmp_path / "telegram.csv",
+        "output": tmp_path / "post.csv",
+        "report": tmp_path / "report.md",
+        "summary": tmp_path / "summary.md",
+    }
+    fixture_rows = {
+        paths["execution"]: [_execution()],
+        paths["snapshot"]: [
+            _snapshot(display_symbol="GLD", error_code="", error_message=""),
+            _snapshot(display_symbol="SLV", error_code="", error_message=""),
+        ],
+        paths["api_errors"]: [
+            _api_error(display_symbol="GLD", symbol="GLD", reqId="11"),
+            _api_error(display_symbol="SLV", symbol="SLV", reqId="12"),
+        ],
+        paths["operator"]: [_operator(display_symbol="GLD"), _operator(display_symbol="SLV")],
+        paths["telegram"]: [_telegram(display_symbol="GLD"), _telegram(display_symbol="SLV")],
+    }
+    for path, rows in fixture_rows.items():
+        _write_csv(path, rows)
+    return paths
 
 
 def test_delayed_execution_c_ready_maps_to_post_run_reference_ready():
@@ -233,6 +270,7 @@ def test_all_safety_outputs_forced_false():
     assert result.account_read_triggered == "false"
     assert result.position_read_triggered == "false"
     assert result.telegram_send_triggered == "false"
+    assert result.manual_review_required == "true"
 
 
 def test_report_does_not_contain_token_chat_id_or_secret_and_warns_reference_only(tmp_path: Path):
@@ -276,46 +314,130 @@ def test_script_missing_inputs_generates_blocked_outputs(tmp_path: Path):
 
 
 def test_script_reads_persisted_api_error_artifact(tmp_path: Path):
-    execution_csv = tmp_path / "execution.csv"
-    snapshot_csv = tmp_path / "snapshot.csv"
-    api_errors_csv = tmp_path / "api_errors.csv"
-    operator_csv = tmp_path / "operator.csv"
-    telegram_csv = tmp_path / "telegram.csv"
-    output_csv = tmp_path / "post.csv"
-    output_report = tmp_path / "report.md"
-    summary = tmp_path / "summary.md"
-
-    for path, rows in [
-        (execution_csv, [_execution()]),
-        (snapshot_csv, [_snapshot(display_symbol="GLD", error_code="", error_message=""), _snapshot(display_symbol="SLV", error_code="", error_message="")]),
-        (api_errors_csv, [_api_error(display_symbol="GLD", symbol="GLD", reqId="11"), _api_error(display_symbol="SLV", symbol="SLV", reqId="12")]),
-        (operator_csv, [_operator(display_symbol="GLD"), _operator(display_symbol="SLV")]),
-        (telegram_csv, [_telegram(display_symbol="GLD"), _telegram(display_symbol="SLV")]),
-    ]:
-        with path.open("w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
-            writer.writeheader()
-            writer.writerows(rows)
+    paths = _write_post_analysis_fixture(tmp_path)
 
     subprocess.run(
         [
             "bash",
             "scripts/first_operator_run_post_analysis.sh",
-            f"--execution-c-packet={execution_csv}",
-            f"--snapshot-csv={snapshot_csv}",
-            f"--api-errors-csv={api_errors_csv}",
-            f"--operator-packet={operator_csv}",
-            f"--telegram-notification-packet={telegram_csv}",
-            f"--output-csv={output_csv}",
-            f"--output-report={output_report}",
-            f"--summary-md={summary}",
+            f"--execution-c-packet={paths['execution']}",
+            f"--snapshot-csv={paths['snapshot']}",
+            f"--api-errors-csv={paths['api_errors']}",
+            f"--operator-packet={paths['operator']}",
+            f"--telegram-notification-packet={paths['telegram']}",
+            f"--output-csv={paths['output']}",
+            f"--output-report={paths['report']}",
+            f"--summary-md={paths['summary']}",
         ],
         check=True,
         capture_output=True,
         text=True,
     )
 
-    with output_csv.open(newline="", encoding="utf-8") as f:
+    with paths["output"].open(newline="", encoding="utf-8") as f:
+        row = list(csv.DictReader(f))[0]
+    assert row["delayed_reference_count"] == "2"
+    assert row["error_codes_detected"] == "10089"
+    assert row["error_10089_detected"] == "true"
+    assert row["live_subscription_status"] == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+
+
+def test_python_cli_reads_api_errors_csv(tmp_path: Path):
+    paths = _write_post_analysis_fixture(tmp_path)
+
+    exit_code = post_analysis_main(
+        [
+            "--execution-c-packet",
+            str(paths["execution"]),
+            "--snapshot-csv",
+            str(paths["snapshot"]),
+            "--api-errors-csv",
+            str(paths["api_errors"]),
+            "--operator-packet",
+            str(paths["operator"]),
+            "--telegram-notification-packet",
+            str(paths["telegram"]),
+            "--output-csv",
+            str(paths["output"]),
+            "--output-report",
+            str(paths["report"]),
+            "--summary-md",
+            str(paths["summary"]),
+        ]
+    )
+
+    assert exit_code == 0
+    with paths["output"].open(newline="", encoding="utf-8") as f:
+        row = list(csv.DictReader(f))[0]
+    assert row["delayed_reference_count"] == "2"
+    assert row["error_codes_detected"] == "10089"
+    assert row["error_10089_detected"] == "true"
+    assert row["live_subscription_status"] == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+
+
+def test_script_accepts_space_separated_api_errors_csv(tmp_path: Path):
+    paths = _write_post_analysis_fixture(tmp_path)
+
+    result = subprocess.run(
+        [
+            "bash",
+            "scripts/first_operator_run_post_analysis.sh",
+            "--execution-c-packet",
+            str(paths["execution"]),
+            "--snapshot-csv",
+            str(paths["snapshot"]),
+            "--api-errors-csv",
+            str(paths["api_errors"]),
+            "--operator-packet",
+            str(paths["operator"]),
+            "--telegram-notification-packet",
+            str(paths["telegram"]),
+            "--output-csv",
+            str(paths["output"]),
+            "--output-report",
+            str(paths["report"]),
+            "--summary-md",
+            str(paths["summary"]),
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert "error_10089_detected=true" in result.stdout
+    assert "delayed_reference_count=2" in result.stdout
+    with paths["output"].open(newline="", encoding="utf-8") as f:
+        row = list(csv.DictReader(f))[0]
+    assert row["delayed_reference_count"] == "2"
+    assert row["error_codes_detected"] == "10089"
+    assert row["error_10089_detected"] == "true"
+
+
+def test_python_cli_uses_default_api_errors_csv_when_present(tmp_path: Path, monkeypatch):
+    paths = _write_post_analysis_fixture(tmp_path, api_errors_name="ibkr_market_data_api_errors.csv")
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = post_analysis_main(
+        [
+            "--execution-c-packet",
+            str(paths["execution"]),
+            "--snapshot-csv",
+            str(paths["snapshot"]),
+            "--operator-packet",
+            str(paths["operator"]),
+            "--telegram-notification-packet",
+            str(paths["telegram"]),
+            "--output-csv",
+            str(paths["output"]),
+            "--output-report",
+            str(paths["report"]),
+            "--summary-md",
+            str(paths["summary"]),
+        ]
+    )
+
+    assert exit_code == 0
+    with paths["output"].open(newline="", encoding="utf-8") as f:
         row = list(csv.DictReader(f))[0]
     assert row["delayed_reference_count"] == "2"
     assert row["error_codes_detected"] == "10089"
