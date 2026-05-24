@@ -149,6 +149,12 @@ reports/first_operator_run_summary.md
 daily_operator_handoff_summary.csv
 reports/daily_operator_handoff_summary.md
 
+# Phase 436: stable latest artifact entrypoint runtime outputs
+latest_daily_operator_handoff_summary.csv
+latest_run_manifest.csv
+reports/latest_operator_handoff_summary.md
+reports/latest_run_manifest.md
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md
