@@ -155,6 +155,10 @@ latest_run_manifest.csv
 reports/latest_operator_handoff_summary.md
 reports/latest_run_manifest.md
 
+# Phase 438: offline watchlist universe runtime outputs
+watchlist_universe.csv
+reports/watchlist_universe_report.md
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md

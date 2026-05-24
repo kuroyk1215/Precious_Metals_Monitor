@@ -1,0 +1,2 @@
+market,display_symbol,symbol,exchange,currency,asset_type,data_source_route,ibkr_universe_allowed,first_validation_allowed,optional_symbol,manual_review_required,action_allowed,notes
+CN,518880,518880,SSE,CNY,ETF,CN_MANUAL_OR_EXTERNAL_ONLY,false,false,false,true,false,518880_EXCLUDED_FROM_IBKR;CN_MANUAL_EXTERNAL_ONLY

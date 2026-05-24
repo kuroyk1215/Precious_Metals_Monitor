@@ -1,0 +1,3 @@
+market,display_symbol,symbol,exchange,currency,asset_type,data_source_route,ibkr_universe_allowed,first_validation_allowed,optional_symbol,manual_review_required,action_allowed,notes
+JP,1540,1540,TSE,JPY,ETF,JP_OPTIONAL_MANUAL_OR_FUTURE_IBKR,false,false,true,true,false,JP_OPTIONAL_MANUAL_REVIEW_ONLY
+JP,1542,1542,TSE,JPY,ETF,JP_OPTIONAL_MANUAL_OR_FUTURE_IBKR,false,false,true,true,false,JP_OPTIONAL_MANUAL_REVIEW_ONLY
