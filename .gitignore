@@ -164,6 +164,9 @@ telegram_notification_gate.csv
 reports/telegram_notification_gate_report.md
 reports/telegram_notification_approval_preview.md
 
+# Phase 440: offline local dashboard runtime output
+reports/dashboard.html
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md
