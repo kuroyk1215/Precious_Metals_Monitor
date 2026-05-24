@@ -159,6 +159,11 @@ reports/latest_run_manifest.md
 watchlist_universe.csv
 reports/watchlist_universe_report.md
 
+# Phase 439: offline Telegram notification gate runtime outputs
+telegram_notification_gate.csv
+reports/telegram_notification_gate_report.md
+reports/telegram_notification_approval_preview.md
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md
