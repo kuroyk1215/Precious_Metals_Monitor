@@ -167,6 +167,10 @@ reports/telegram_notification_approval_preview.md
 # Phase 440: offline local dashboard runtime output
 reports/dashboard.html
 
+# Phase 441: offline daily MVP run wrapper runtime outputs
+operator_daily_mvp_run_summary.csv
+reports/operator_daily_mvp_run_summary.md
+
 # Generic generated operator packet/report outputs
 ibkr_*_packet.csv
 reports/*_report.md
