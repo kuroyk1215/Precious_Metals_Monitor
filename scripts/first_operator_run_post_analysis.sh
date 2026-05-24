@@ -4,6 +4,7 @@ set -euo pipefail
 EXECUTION_C_PACKET="ibkr_execution_c_validation_packet.csv"
 SNAPSHOT_CSV="ibkr_market_data_snapshot.csv"
 SNAPSHOT_REPORT="reports/ibkr_market_data_snapshot_report.md"
+API_ERRORS_CSV="ibkr_market_data_api_errors.csv"
 OPERATOR_PACKET="ibkr_daily_operator_packet.csv"
 TELEGRAM_NOTIFICATION_PACKET="ibkr_telegram_notification_packet.csv"
 OUTPUT_CSV="first_operator_run_post_analysis.csv"
@@ -20,6 +21,9 @@ for arg in "$@"; do
       ;;
     --snapshot-report=*)
       SNAPSHOT_REPORT="${arg#--snapshot-report=}"
+      ;;
+    --api-errors-csv=*)
+      API_ERRORS_CSV="${arg#--api-errors-csv=}"
       ;;
     --operator-packet=*)
       OPERATOR_PACKET="${arg#--operator-packet=}"
@@ -43,7 +47,7 @@ for arg in "$@"; do
   esac
 done
 
-export EXECUTION_C_PACKET SNAPSHOT_CSV SNAPSHOT_REPORT OPERATOR_PACKET TELEGRAM_NOTIFICATION_PACKET
+export EXECUTION_C_PACKET SNAPSHOT_CSV SNAPSHOT_REPORT API_ERRORS_CSV OPERATOR_PACKET TELEGRAM_NOTIFICATION_PACKET
 export OUTPUT_CSV OUTPUT_REPORT SUMMARY_MD
 
 mkdir -p "$(dirname "$OUTPUT_REPORT")" "$(dirname "$SUMMARY_MD")"
@@ -64,6 +68,7 @@ from src.first_operator_run_post_analysis import (
 
 execution_status, execution_rows = read_csv_rows(Path(os.environ["EXECUTION_C_PACKET"]))
 snapshot_status, snapshot_rows = read_csv_rows(Path(os.environ["SNAPSHOT_CSV"]))
+api_error_status, api_error_rows = read_csv_rows(Path(os.environ["API_ERRORS_CSV"]))
 operator_status, operator_rows = read_csv_rows(Path(os.environ["OPERATOR_PACKET"]))
 telegram_status, telegram_rows = read_csv_rows(Path(os.environ["TELEGRAM_NOTIFICATION_PACKET"]))
 
@@ -87,6 +92,7 @@ if snapshot_report.exists():
 decision = build_first_operator_run_post_analysis_decision(
     execution_c_rows=execution_rows,
     snapshot_rows=snapshot_rows,
+    api_error_rows=api_error_rows,
     operator_rows=operator_rows,
     telegram_notification_rows=telegram_rows,
     execution_c_input_status=execution_status,

@@ -71,6 +71,28 @@ def _telegram(**overrides):
     return row
 
 
+def _api_error(**overrides):
+    row = {
+        "run_id": "20260524_120000_JST",
+        "timestamp": "2026-05-24T12:00:00+0900",
+        "reqId": "4",
+        "display_symbol": "GLD",
+        "symbol": "GLD",
+        "error_code": "10089",
+        "raw_error_message": "Requested market data is not subscribed. Delayed market data available.",
+        "normalized_error_class": "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE",
+        "live_subscription_status": "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE",
+        "action_allowed": "false",
+        "broker_execution_triggered": "false",
+        "historical_data_request_triggered": "false",
+        "account_read_triggered": "false",
+        "position_read_triggered": "false",
+        "telegram_send_triggered": "false",
+    }
+    row.update(overrides)
+    return row
+
+
 def _decision(**overrides):
     params = {
         "execution_c_rows": [_execution()],
@@ -106,6 +128,24 @@ def test_error_10089_detected_live_subscription_missing_delayed_available():
     result = _decision()
     assert result.error_10089_detected == "true"
     assert result.live_subscription_status == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+
+
+def test_error_10089_detected_from_persisted_api_error_artifact():
+    result = _decision(
+        snapshot_rows=[
+            _snapshot(display_symbol="GLD", error_code="", error_message=""),
+            _snapshot(display_symbol="SLV", error_code="", error_message=""),
+        ],
+        api_error_rows=[
+            _api_error(display_symbol="GLD", symbol="GLD", reqId="11"),
+            _api_error(display_symbol="SLV", symbol="SLV", reqId="12"),
+        ],
+        operator_rows=[_operator(display_symbol="GLD"), _operator(display_symbol="SLV")],
+    )
+    assert result.error_codes_detected == "10089"
+    assert result.error_10089_detected == "true"
+    assert result.live_subscription_status == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+    assert result.delayed_reference_count == "2"
 
 
 def test_error_354_detected_live_subscription_missing_delayed_available():
@@ -233,3 +273,51 @@ def test_script_missing_inputs_generates_blocked_outputs(tmp_path: Path):
     assert rows[0]["action_allowed"] == "false"
     assert "Safety Confirmation" in output_report.read_text(encoding="utf-8")
     assert "action_allowed=false" in summary.read_text(encoding="utf-8")
+
+
+def test_script_reads_persisted_api_error_artifact(tmp_path: Path):
+    execution_csv = tmp_path / "execution.csv"
+    snapshot_csv = tmp_path / "snapshot.csv"
+    api_errors_csv = tmp_path / "api_errors.csv"
+    operator_csv = tmp_path / "operator.csv"
+    telegram_csv = tmp_path / "telegram.csv"
+    output_csv = tmp_path / "post.csv"
+    output_report = tmp_path / "report.md"
+    summary = tmp_path / "summary.md"
+
+    for path, rows in [
+        (execution_csv, [_execution()]),
+        (snapshot_csv, [_snapshot(display_symbol="GLD", error_code="", error_message=""), _snapshot(display_symbol="SLV", error_code="", error_message="")]),
+        (api_errors_csv, [_api_error(display_symbol="GLD", symbol="GLD", reqId="11"), _api_error(display_symbol="SLV", symbol="SLV", reqId="12")]),
+        (operator_csv, [_operator(display_symbol="GLD"), _operator(display_symbol="SLV")]),
+        (telegram_csv, [_telegram(display_symbol="GLD"), _telegram(display_symbol="SLV")]),
+    ]:
+        with path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+            writer.writeheader()
+            writer.writerows(rows)
+
+    subprocess.run(
+        [
+            "bash",
+            "scripts/first_operator_run_post_analysis.sh",
+            f"--execution-c-packet={execution_csv}",
+            f"--snapshot-csv={snapshot_csv}",
+            f"--api-errors-csv={api_errors_csv}",
+            f"--operator-packet={operator_csv}",
+            f"--telegram-notification-packet={telegram_csv}",
+            f"--output-csv={output_csv}",
+            f"--output-report={output_report}",
+            f"--summary-md={summary}",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    with output_csv.open(newline="", encoding="utf-8") as f:
+        row = list(csv.DictReader(f))[0]
+    assert row["delayed_reference_count"] == "2"
+    assert row["error_codes_detected"] == "10089"
+    assert row["error_10089_detected"] == "true"
+    assert row["live_subscription_status"] == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"

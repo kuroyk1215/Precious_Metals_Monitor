@@ -3,7 +3,7 @@ from src.ibkr_market_data_fallback import (
     build_attempt_result,
     classify_error,
 )
-from src.ibkr_market_data_error_capture import IbkrMarketDataErrorCapture
+from src.ibkr_market_data_error_capture import IbkrMarketDataErrorCapture, build_api_error_event_row
 
 
 def test_error_10089_is_live_not_subscribed_delayed_available():
@@ -88,3 +88,22 @@ def test_error_capture_can_scope_latest_error_to_attempt():
     start_index = len(capture.errors)
     capture.record(2, "999", "other")
     assert capture.latest_delayed_available(start_index) is None
+
+
+def test_api_error_event_row_preserves_machine_readable_10089_fields():
+    capture = IbkrMarketDataErrorCapture()
+    capture.record(11, "10089", "Requested market data is not subscribed. Delayed market data available.")
+    row = build_api_error_event_row(
+        run_id="20260524_120000_JST",
+        timestamp="2026-05-24T12:00:00+0900",
+        error=capture.errors[0],
+        display_symbol="GLD",
+        symbol="GLD",
+    )
+    assert row["reqId"] == "11"
+    assert row["display_symbol"] == "GLD"
+    assert row["symbol"] == "GLD"
+    assert row["error_code"] == "10089"
+    assert row["normalized_error_class"] == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+    assert row["live_subscription_status"] == "LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE"
+    assert row["action_allowed"] == "false"

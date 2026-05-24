@@ -151,6 +151,7 @@ from src.ibkr_local_daily_runner import (
 
 outputs = [
     "ibkr_market_data_snapshot.csv",
+    "ibkr_market_data_api_errors.csv",
     "reports/ibkr_market_data_snapshot_report.md",
     "ibkr_daily_integration_preflight.csv",
     "reports/ibkr_daily_integration_preflight_report.md",
