@@ -38,6 +38,7 @@ export RUN_ID="$(TZ=Asia/Tokyo date '+%Y%m%d_%H%M%S_JST')"
 export BRANCH="$(git branch --show-current 2>/dev/null || echo UNKNOWN_BRANCH)"
 export COMMIT="$(git rev-parse --short HEAD 2>/dev/null || echo UNKNOWN_COMMIT)"
 export CSV_PATH="ibkr_market_data_snapshot.csv"
+export API_ERRORS_CSV_PATH="ibkr_market_data_api_errors.csv"
 export REPORT_PATH="reports/ibkr_market_data_snapshot_report.md"
 
 mkdir -p reports
@@ -48,7 +49,7 @@ python3 - <<'PY'
 from pathlib import Path
 import csv, math, os, yaml
 from src.ibkr_market_data_contract_builder import build_market_data_contract
-from src.ibkr_market_data_error_capture import IbkrMarketDataErrorCapture, attach_ib_error_capture
+from src.ibkr_market_data_error_capture import IbkrMarketDataErrorCapture, attach_ib_error_capture, build_api_error_event_row
 from src.ibkr_market_data_fallback import LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE, build_attempt_result, classify_error
 
 def as_float(value):
@@ -105,6 +106,7 @@ decision = "NO_GO" if gate_failures else "GO_MARKET_DATA_SNAPSHOT_ONLY"
 connection_attempted = False
 connection_succeeded = False
 rows=[]
+api_error_rows=[]
 ib=None
 
 try:
@@ -114,7 +116,7 @@ try:
     ib=IB(); error_capture=IbkrMarketDataErrorCapture(); attach_ib_error_capture(ib, error_capture)
     ib.connect(host, port, clientId=client_id, timeout=5, readonly=True); connection_succeeded=ib.isConnected()
 
-    def market_data_attempt(contract, md_type_name):
+    def market_data_attempt(contract, md_type_name, item):
       md_map={"live":1,"frozen":2,"delayed":3,"delayed_frozen":4}
       if md_type_name != "auto":
         ib.reqMarketDataType(md_map[md_type_name])
@@ -126,6 +128,8 @@ try:
       except Exception: market_price=""
       has_price=any([bid,ask,last,close,market_price])
       effective={1:"live",2:"frozen",3:"delayed",4:"delayed_frozen"}.get(getattr(ticker,"marketDataType",None), md_type_name if md_type_name!="auto" else "unknown")
+      for captured in error_capture.errors[error_start:]:
+        api_error_rows.append(build_api_error_event_row(run_id=os.environ["RUN_ID"], timestamp=os.environ["RUN_TS"], error=captured, display_symbol=item.get("display_symbol",""), symbol=item.get("symbol","")))
       captured_error=error_capture.latest_delayed_available(error_start)
       err_code=captured_error.error_code if captured_error else ""
       err_message=captured_error.error_message if captured_error else ""
@@ -153,7 +157,7 @@ try:
       error_code=""; error_message=""; fallback_stage="none"; attempts=0; fallback_reason=""
       if requested_type == "auto":
         ib.reqMarketDataType(1)
-        bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"live")
+        bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"live",item)
         attempts=1
         if has_price:
           result=build_attempt_result("auto",effective,fallback_stage,error_code,error_message,True,attempts,fallback_reason)
@@ -161,16 +165,16 @@ try:
           error_code,error_message,fallback_reason = normalize_subscription_error(error_code,error_message)
           fallback_stage="live_to_delayed"
           ib.reqMarketDataType(3)
-          bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"delayed")
+          bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"delayed",item)
           attempts=2
           if not has_price:
             fallback_stage="delayed_to_delayed_frozen"; fallback_reason="delayed_snapshot_empty"
             ib.reqMarketDataType(4)
-            bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"delayed_frozen")
+            bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,"delayed_frozen",item)
             attempts=3
           result=build_attempt_result("auto",effective,fallback_stage,error_code,error_message,has_price,attempts,fallback_reason)
       else:
-        bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,requested_type)
+        bid,ask,last,close,market_price,has_price,effective,error_code,error_message = market_data_attempt(contract,requested_type,item)
         attempts=1
         result=build_attempt_result(requested_type,effective,fallback_stage,error_code,error_message,has_price,attempts,fallback_reason)
       rows.append((item,bid,ask,last,close,market_price,result))
@@ -195,6 +199,10 @@ for item,bid,ask,last,close,market_price,res in rows:
 Path(os.environ["CSV_PATH"]).write_text("")
 with Path(os.environ["CSV_PATH"]).open("w", newline="") as f:
   w=csv.DictWriter(f, fieldnames=list(output[0].keys())); w.writeheader(); w.writerows(output)
+
+api_error_fields=["run_id","timestamp","reqId","display_symbol","symbol","error_code","raw_error_message","error_message","normalized_error_class","live_subscription_status","action_allowed","broker_execution_triggered","historical_data_request_triggered","account_read_triggered","position_read_triggered","telegram_send_triggered"]
+with Path(os.environ["API_ERRORS_CSV_PATH"]).open("w", newline="") as f:
+  w=csv.DictWriter(f, fieldnames=api_error_fields); w.writeheader(); w.writerows(api_error_rows)
 
 lines="\n".join([f"| {r['display_symbol']} | {r['requested_market_data_type']} | {r['effective_market_data_type']} | {r['fallback_stage']} | {r['snapshot_status']} | {r['data_delay_flag']} | {r['fallback_terminal_status']} | {r['error_code']} | {r['error_message']} |" for r in output])
 Path(os.environ["REPORT_PATH"]).write_text(f"""# IBKR Market Data Snapshot One-shot Report

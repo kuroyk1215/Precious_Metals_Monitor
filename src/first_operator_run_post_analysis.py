@@ -88,6 +88,9 @@ def _contains_error(rows: Iterable[Dict[str, str]], code: str) -> bool:
     fields = (
         "error_code",
         "error_message",
+        "raw_error_message",
+        "normalized_error_class",
+        "live_subscription_status",
         "notes",
         "fallback_reason",
         "error_interpretation",
@@ -106,6 +109,9 @@ def _contains_delayed_available_signal(rows: Iterable[Dict[str, str]]) -> bool:
     fields = (
         "error_code",
         "error_message",
+        "raw_error_message",
+        "normalized_error_class",
+        "live_subscription_status",
         "notes",
         "fallback_reason",
         "error_interpretation",
@@ -198,6 +204,7 @@ def build_first_operator_run_post_analysis_decision(
     *,
     execution_c_rows: Iterable[Dict[str, str]] = (),
     snapshot_rows: Iterable[Dict[str, str]] = (),
+    api_error_rows: Iterable[Dict[str, str]] = (),
     operator_rows: Iterable[Dict[str, str]] = (),
     telegram_notification_rows: Iterable[Dict[str, str]] = (),
     execution_c_input_status: str = "missing",
@@ -207,9 +214,11 @@ def build_first_operator_run_post_analysis_decision(
 ) -> FirstOperatorRunPostAnalysisDecision:
     execution_list = list(execution_c_rows)
     snapshot_list = list(snapshot_rows)
+    api_error_list = list(api_error_rows)
     operator_list = list(operator_rows)
     telegram_list = list(telegram_notification_rows)
-    all_rows = execution_list + snapshot_list + operator_list + telegram_list
+    all_rows = execution_list + snapshot_list + api_error_list + operator_list + telegram_list
+    error_source_rows = snapshot_list + execution_list + api_error_list
 
     execution_c_status = _latest_value(execution_list, "execution_c_status", execution_c_input_status)
     validation_decision = _latest_value(execution_list, "validation_decision", execution_c_input_status)
@@ -255,10 +264,10 @@ def build_first_operator_run_post_analysis_decision(
         fallback_prefix="no_go",
     )
 
-    errors = _error_codes(snapshot_list + execution_list)
-    error_10089_detected = _contains_error(snapshot_list + execution_list, "10089")
-    error_354_detected = _contains_error(snapshot_list + execution_list, "354")
-    delayed_available_detected = _contains_delayed_available_signal(snapshot_list + execution_list)
+    errors = _error_codes(error_source_rows)
+    error_10089_detected = _contains_error(error_source_rows, "10089")
+    error_354_detected = _contains_error(error_source_rows, "354")
+    delayed_available_detected = _contains_delayed_available_signal(error_source_rows)
     live_subscription_status = (
         LIVE_NOT_SUBSCRIBED_DELAYED_AVAILABLE
         if delayed_available_detected
