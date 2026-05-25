@@ -26,6 +26,11 @@ BATCH_I_PACKET_SOURCES = (
     "operator_batch_i_safe_unavailable_review.csv",
 )
 
+BATCH_J_PACKET_SOURCES = (
+    "operator_batch_j_strategy_threshold_refinement.csv",
+    "operator_batch_j_strategy_threshold_gate.csv",
+)
+
 FINAL_PACKET_FIELDS = (
     "generated_at",
     "final_packet_status",
@@ -48,6 +53,24 @@ FINAL_PACKET_FIELDS = (
     "batch_i_no_position_read",
     "batch_i_no_historical_data",
     "batch_i_no_real_telegram_send",
+    "batch_j_source_files_present",
+    "batch_j_gate_status",
+    "batch_j_threshold_profile_status",
+    "batch_j_spread_threshold_status",
+    "batch_j_range_threshold_status",
+    "batch_j_signal_quality_status",
+    "batch_j_risk_label_status",
+    "batch_j_safe_unavailable_preserved",
+    "batch_j_review_only_preserved",
+    "batch_j_production_ready_claim_detected",
+    "batch_j_strategy_auto_execution_allowed",
+    "batch_j_manual_only",
+    "batch_j_research_only",
+    "batch_j_observation_only",
+    "batch_j_no_account_read",
+    "batch_j_no_position_read",
+    "batch_j_no_historical_data",
+    "batch_j_no_real_telegram_send",
     "operator_next_step",
     "diagnostic_reason",
     "trading_actions_allowed",
@@ -170,6 +193,50 @@ def _batch_i_summary(base: Path) -> Dict[str, str]:
     }
 
 
+def _batch_j_summary(base: Path) -> Dict[str, str]:
+    present = [name for name in BATCH_J_PACKET_SOURCES if (base / name).exists()]
+    gate = _latest(base / "operator_batch_j_strategy_threshold_gate.csv")
+    refinement_rows = _read_rows(base / "operator_batch_j_strategy_threshold_refinement.csv")
+    rows = [gate] if gate else []
+    rows.extend(refinement_rows)
+    safety_rows_present = bool(rows)
+
+    return {
+        "batch_j_source_files_present": ",".join(present) if present else "none",
+        "batch_j_gate_status": gate.get("gate_status", "MISSING"),
+        "batch_j_threshold_profile_status": gate.get("threshold_profile_status", "MISSING"),
+        "batch_j_spread_threshold_status": gate.get("spread_threshold_status", "MISSING"),
+        "batch_j_range_threshold_status": gate.get("range_threshold_status", "MISSING"),
+        "batch_j_signal_quality_status": gate.get("signal_quality_status", "MISSING"),
+        "batch_j_risk_label_status": gate.get("risk_label_status", "MISSING"),
+        "batch_j_safe_unavailable_preserved": gate.get("safe_unavailable_preserved", FALSE_TEXT),
+        "batch_j_review_only_preserved": (
+            TRUE_TEXT if gate.get("threshold_profile_status") == "BATCH_J_THRESHOLD_PROFILE_REVIEW_ONLY" else FALSE_TEXT
+        ),
+        "batch_j_production_ready_claim_detected": gate.get("production_ready_claim_detected", FALSE_TEXT),
+        "batch_j_strategy_auto_execution_allowed": gate.get("strategy_auto_execution_allowed", FALSE_TEXT),
+        "batch_j_manual_only": TRUE_TEXT if _all_rows_satisfy(rows, "manual_only", TRUE_TEXT) else FALSE_TEXT,
+        "batch_j_research_only": TRUE_TEXT if _all_rows_satisfy(rows, "research_only", TRUE_TEXT) else FALSE_TEXT,
+        "batch_j_observation_only": TRUE_TEXT if _all_rows_satisfy(rows, "observation_only", TRUE_TEXT) else FALSE_TEXT,
+        "batch_j_no_account_read": (
+            TRUE_TEXT if safety_rows_present and _all_rows_satisfy(rows, "account_read_allowed", FALSE_TEXT) else FALSE_TEXT
+        ),
+        "batch_j_no_position_read": (
+            TRUE_TEXT if safety_rows_present and _all_rows_satisfy(rows, "position_read_allowed", FALSE_TEXT) else FALSE_TEXT
+        ),
+        "batch_j_no_historical_data": (
+            TRUE_TEXT
+            if safety_rows_present and _all_rows_satisfy(rows, "historical_data_request_allowed", FALSE_TEXT)
+            else FALSE_TEXT
+        ),
+        "batch_j_no_real_telegram_send": (
+            TRUE_TEXT
+            if safety_rows_present and _all_rows_satisfy(rows, "telegram_real_send_allowed", FALSE_TEXT)
+            else FALSE_TEXT
+        ),
+    }
+
+
 def build_final_daily_packet_row(
     *,
     base_dir: PathLike = ".",
@@ -179,6 +246,7 @@ def build_final_daily_packet_row(
     present = [name for name in FINAL_PACKET_SOURCES if (base / name).exists()]
     missing = [name for name in FINAL_PACKET_SOURCES if name not in present]
     batch_i = _batch_i_summary(base)
+    batch_j = _batch_j_summary(base)
 
     master = _latest(base / "operator_daily_master_run_summary.csv")
     readiness = _latest(base / "operator_mvp_readiness_report.csv")
@@ -228,6 +296,7 @@ def build_final_daily_packet_row(
         "source_files_present": ",".join(present) if present else "none",
         "missing_sources": ",".join(missing) if missing else "none",
         **batch_i,
+        **batch_j,
         "current_readiness": readiness_status,
         "strategy_explanation": "|".join(explanation_statuses),
         "quote_availability": "REAL_QUOTE_AVAILABLE" if real_quote_available else ("SAFE_UNAVAILABLE" if safe_unavailable else "INSUFFICIENT_DATA"),
@@ -295,6 +364,33 @@ def build_markdown_report(row: Dict[str, str]) -> str:
             f"- batch_i_no_position_read={row['batch_i_no_position_read']}",
             f"- batch_i_no_historical_data={row['batch_i_no_historical_data']}",
             f"- batch_i_no_real_telegram_send={row['batch_i_no_real_telegram_send']}",
+            "",
+            "## Batch J Threshold Framework Status",
+            "",
+            "- PASS only means Batch J threshold framework generation PASS",
+            "- PASS is not live production PASS, not real market data PASS, and not strategy execution PASS",
+            f"- batch_j_gate_status={row['batch_j_gate_status']}",
+            f"- batch_j_threshold_profile_status={row['batch_j_threshold_profile_status']}",
+            f"- batch_j_spread_threshold_status={row['batch_j_spread_threshold_status']}",
+            f"- batch_j_range_threshold_status={row['batch_j_range_threshold_status']}",
+            f"- batch_j_signal_quality_status={row['batch_j_signal_quality_status']}",
+            f"- batch_j_risk_label_status={row['batch_j_risk_label_status']}",
+            f"- batch_j_safe_unavailable_preserved={row['batch_j_safe_unavailable_preserved']}",
+            (
+                f"- batch_j_safe_unavailable_marker=SAFE_UNAVAILABLE_REVIEW_REQUIRED"
+                if row["batch_j_safe_unavailable_preserved"] == TRUE_TEXT
+                else "- batch_j_safe_unavailable_marker=MISSING"
+            ),
+            f"- batch_j_review_only_preserved={row['batch_j_review_only_preserved']}",
+            f"- batch_j_production_ready_claim_detected={row['batch_j_production_ready_claim_detected']}",
+            f"- batch_j_strategy_auto_execution_allowed={row['batch_j_strategy_auto_execution_allowed']}",
+            f"- batch_j_manual_only={row['batch_j_manual_only']}",
+            f"- batch_j_research_only={row['batch_j_research_only']}",
+            f"- batch_j_observation_only={row['batch_j_observation_only']}",
+            f"- batch_j_no_account_read={row['batch_j_no_account_read']}",
+            f"- batch_j_no_position_read={row['batch_j_no_position_read']}",
+            f"- batch_j_no_historical_data={row['batch_j_no_historical_data']}",
+            f"- batch_j_no_real_telegram_send={row['batch_j_no_real_telegram_send']}",
             f"- trading_actions_allowed={row['trading_actions_allowed']}",
             f"- account_read_allowed={row['account_read_allowed']}",
             f"- position_read_allowed={row['position_read_allowed']}",

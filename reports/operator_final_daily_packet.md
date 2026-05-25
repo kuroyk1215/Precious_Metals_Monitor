@@ -31,6 +31,29 @@
 - batch_i_no_position_read=true
 - batch_i_no_historical_data=true
 - batch_i_no_real_telegram_send=true
+
+## Batch J Threshold Framework Status
+
+- PASS only means Batch J threshold framework generation PASS
+- PASS is not live production PASS, not real market data PASS, and not strategy execution PASS
+- batch_j_gate_status=PASS
+- batch_j_threshold_profile_status=BATCH_J_THRESHOLD_PROFILE_REVIEW_ONLY
+- batch_j_spread_threshold_status=review_required
+- batch_j_range_threshold_status=review_required
+- batch_j_signal_quality_status=review_required
+- batch_j_risk_label_status=review_required
+- batch_j_safe_unavailable_preserved=true
+- batch_j_safe_unavailable_marker=SAFE_UNAVAILABLE_REVIEW_REQUIRED
+- batch_j_review_only_preserved=true
+- batch_j_production_ready_claim_detected=false
+- batch_j_strategy_auto_execution_allowed=false
+- batch_j_manual_only=true
+- batch_j_research_only=true
+- batch_j_observation_only=true
+- batch_j_no_account_read=true
+- batch_j_no_position_read=true
+- batch_j_no_historical_data=true
+- batch_j_no_real_telegram_send=true
 - trading_actions_allowed=false
 - account_read_allowed=false
 - position_read_allowed=false

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from src.operator_final_daily_packet import FINAL_PACKET_FIELDS, generate_final_daily_packet
 from src.operator_batch_i_real_market_env_check import generate_batch_i_real_market_env_check
+from src.operator_batch_j_strategy_threshold_refinement import generate_batch_j_strategy_threshold_refinement
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -165,6 +166,61 @@ def test_final_packet_reads_batch_i_gate_without_promoting_to_ready(tmp_path: Pa
     assert "Batch I Real Market Env Status" in report
     assert "batch_i_env_gate_status=SAFE_UNAVAILABLE_REVIEW_REQUIRED" in report
     assert "trading_actions_allowed=false" in report
+
+
+def test_final_packet_reads_batch_j_gate_as_framework_only(tmp_path: Path):
+    _write_safe_unavailable_sources(tmp_path)
+    (tmp_path / "reports").mkdir(exist_ok=True)
+    (tmp_path / "operator_batch_i_final_integration_audit_gate.csv").write_text(
+        "generated_at,audit_gate_status,batch_i_gate_status,final_packet_batch_i_gate_status,batch_i_status_consistent,safe_unavailable_preserved,production_ready_claim_detected,trading_actions_allowed,order_action_allowed,cancel_action_allowed,rebalance_action_allowed,account_read_allowed,position_read_allowed,historical_data_request_allowed,telegram_real_send_allowed,manual_only,research_only,observation_only,diagnostic_reason\n"
+        "2026-05-25T00:02:00+00:00,PASS,SAFE_UNAVAILABLE_REVIEW_REQUIRED,SAFE_UNAVAILABLE_REVIEW_REQUIRED,true,true,false,false,false,false,false,false,false,false,false,true,true,true,integration_audit_pass_only_not_live_production_or_real_market_data_pass\n",
+        encoding="utf-8",
+    )
+    base_packet = generate_final_daily_packet(
+        base_dir=tmp_path,
+        output_csv=tmp_path / "operator_final_daily_packet.csv",
+        output_report=tmp_path / "reports/operator_final_daily_packet.md",
+        generated_at="2026-05-25T00:01:00+00:00",
+    )
+    assert base_packet["batch_j_gate_status"] == "MISSING"
+    (tmp_path / "reports/operator_final_daily_packet.md").write_text(
+        "# Operator Final Daily Packet\n\n- batch_i_env_gate_status=SAFE_UNAVAILABLE_REVIEW_REQUIRED\n",
+        encoding="utf-8",
+    )
+    generate_batch_j_strategy_threshold_refinement(
+        base_dir=tmp_path,
+        output_csv=tmp_path / "operator_batch_j_strategy_threshold_refinement.csv",
+        output_report=tmp_path / "reports/operator_batch_j_strategy_threshold_refinement_report.md",
+        gate_csv=tmp_path / "operator_batch_j_strategy_threshold_gate.csv",
+        gate_report=tmp_path / "reports/operator_batch_j_strategy_threshold_gate_report.md",
+        generated_at="2026-05-25T00:03:00+00:00",
+    )
+
+    row = generate_final_daily_packet(
+        base_dir=tmp_path,
+        output_csv=tmp_path / "operator_final_daily_packet.csv",
+        output_report=tmp_path / "reports/operator_final_daily_packet.md",
+        generated_at="2026-05-25T00:04:00+00:00",
+    )
+
+    assert row["batch_j_gate_status"] == "PASS"
+    assert row["batch_j_threshold_profile_status"] == "BATCH_J_THRESHOLD_PROFILE_REVIEW_ONLY"
+    assert row["batch_j_safe_unavailable_preserved"] == "true"
+    assert row["batch_j_review_only_preserved"] == "true"
+    assert row["batch_j_production_ready_claim_detected"] == "false"
+    assert row["batch_j_strategy_auto_execution_allowed"] == "false"
+    assert row["batch_j_manual_only"] == "true"
+    assert row["batch_j_research_only"] == "true"
+    assert row["batch_j_observation_only"] == "true"
+    assert row["batch_j_no_account_read"] == "true"
+    assert row["batch_j_no_position_read"] == "true"
+    assert row["batch_j_no_historical_data"] == "true"
+    assert row["batch_j_no_real_telegram_send"] == "true"
+    report = (tmp_path / "reports/operator_final_daily_packet.md").read_text(encoding="utf-8")
+    assert "Batch J Threshold Framework Status" in report
+    assert "batch_j_gate_status=PASS" in report
+    assert "BATCH_J_THRESHOLD_PROFILE_REVIEW_ONLY" in report
+    assert "PASS only means Batch J threshold framework generation PASS" in report
 
 
 def test_final_packet_output_has_no_trade_execution_words(tmp_path: Path):
