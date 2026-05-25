@@ -19,18 +19,38 @@ FINAL_PACKET_SOURCES = (
     "operator_real_market_mvp_status.csv",
 )
 
+BATCH_I_PACKET_SOURCES = (
+    "operator_batch_i_real_market_env_gate.csv",
+    "operator_batch_i_real_market_env_check.csv",
+    "operator_batch_i_marketdata_permission_check.csv",
+    "operator_batch_i_safe_unavailable_review.csv",
+)
+
 FINAL_PACKET_FIELDS = (
     "generated_at",
     "final_packet_status",
     "source_files_present",
     "missing_sources",
+    "batch_i_source_files_present",
     "current_readiness",
     "strategy_explanation",
     "quote_availability",
     "safety_status",
     "manual_review_status",
+    "batch_i_env_gate_status",
+    "batch_i_real_market_environment_status",
+    "batch_i_marketdata_permission_status",
+    "batch_i_safe_unavailable_review_status",
+    "batch_i_manual_only",
+    "batch_i_research_only",
+    "batch_i_observation_only",
+    "batch_i_no_account_read",
+    "batch_i_no_position_read",
+    "batch_i_no_historical_data",
+    "batch_i_no_real_telegram_send",
     "operator_next_step",
     "diagnostic_reason",
+    "trading_actions_allowed",
     "auto_trade_allowed",
     "account_read_allowed",
     "position_read_allowed",
@@ -39,6 +59,9 @@ FINAL_PACKET_FIELDS = (
     "order_action_allowed",
     "cancel_action_allowed",
     "rebalance_action_allowed",
+    "manual_only",
+    "research_only",
+    "observation_only",
 )
 
 PathLike = Union[str, Path]
@@ -115,6 +138,38 @@ def _safe_unavailable(rows: Sequence[Dict[str, str]]) -> bool:
     return any(_is_true(row.get("safe_unavailable")) or markers.intersection(str(value).strip() for value in row.values()) for row in rows)
 
 
+def _all_rows_satisfy(rows: Sequence[Dict[str, str]], field: str, expected: str) -> bool:
+    matching_rows = [row for row in rows if field in row]
+    return bool(matching_rows) and all(str(row.get(field, "")).strip().lower() == expected for row in matching_rows)
+
+
+def _batch_i_summary(base: Path) -> Dict[str, str]:
+    present = [name for name in BATCH_I_PACKET_SOURCES if (base / name).exists()]
+    gate = _latest(base / "operator_batch_i_real_market_env_gate.csv")
+    environment = _latest(base / "operator_batch_i_real_market_env_check.csv")
+    permissions = _read_rows(base / "operator_batch_i_marketdata_permission_check.csv")
+    review = _latest(base / "operator_batch_i_safe_unavailable_review.csv")
+    rows = [row for row in [gate, environment, review] if row] + permissions
+
+    permission_statuses = sorted({row.get("permission_status", "MISSING") for row in permissions}) or ["MISSING"]
+    safety_rows_present = bool(rows)
+
+    return {
+        "batch_i_source_files_present": ",".join(present) if present else "none",
+        "batch_i_env_gate_status": gate.get("gate_status", "MISSING"),
+        "batch_i_real_market_environment_status": environment.get("real_market_environment_status", "MISSING"),
+        "batch_i_marketdata_permission_status": "|".join(permission_statuses),
+        "batch_i_safe_unavailable_review_status": review.get("safe_unavailable_review_status", "MISSING"),
+        "batch_i_manual_only": TRUE_TEXT if _all_rows_satisfy(rows, "manual_only", TRUE_TEXT) else FALSE_TEXT,
+        "batch_i_research_only": TRUE_TEXT if _all_rows_satisfy(rows, "research_only", TRUE_TEXT) else FALSE_TEXT,
+        "batch_i_observation_only": TRUE_TEXT if _all_rows_satisfy(rows, "observation_only", TRUE_TEXT) else FALSE_TEXT,
+        "batch_i_no_account_read": TRUE_TEXT if safety_rows_present and _all_rows_satisfy(rows, "account_read_allowed", FALSE_TEXT) else FALSE_TEXT,
+        "batch_i_no_position_read": TRUE_TEXT if safety_rows_present and _all_rows_satisfy(rows, "position_read_allowed", FALSE_TEXT) else FALSE_TEXT,
+        "batch_i_no_historical_data": TRUE_TEXT if safety_rows_present and _all_rows_satisfy(rows, "historical_data_request_allowed", FALSE_TEXT) else FALSE_TEXT,
+        "batch_i_no_real_telegram_send": TRUE_TEXT if safety_rows_present and _all_rows_satisfy(rows, "telegram_real_send_allowed", FALSE_TEXT) else FALSE_TEXT,
+    }
+
+
 def build_final_daily_packet_row(
     *,
     base_dir: PathLike = ".",
@@ -123,6 +178,7 @@ def build_final_daily_packet_row(
     base = Path(base_dir)
     present = [name for name in FINAL_PACKET_SOURCES if (base / name).exists()]
     missing = [name for name in FINAL_PACKET_SOURCES if name not in present]
+    batch_i = _batch_i_summary(base)
 
     master = _latest(base / "operator_daily_master_run_summary.csv")
     readiness = _latest(base / "operator_mvp_readiness_report.csv")
@@ -171,6 +227,7 @@ def build_final_daily_packet_row(
         "final_packet_status": status,
         "source_files_present": ",".join(present) if present else "none",
         "missing_sources": ",".join(missing) if missing else "none",
+        **batch_i,
         "current_readiness": readiness_status,
         "strategy_explanation": "|".join(explanation_statuses),
         "quote_availability": "REAL_QUOTE_AVAILABLE" if real_quote_available else ("SAFE_UNAVAILABLE" if safe_unavailable else "INSUFFICIENT_DATA"),
@@ -178,6 +235,7 @@ def build_final_daily_packet_row(
         "manual_review_status": "MANUAL_REVIEW_REQUIRED" if manual_review else "MANUAL_REVIEW_NOT_REQUIRED",
         "operator_next_step": next_step,
         "diagnostic_reason": f"{reason};quality_status={quality_status};mvp_status={mvp_status}",
+        "trading_actions_allowed": FALSE_TEXT,
         "auto_trade_allowed": FALSE_TEXT,
         "account_read_allowed": FALSE_TEXT,
         "position_read_allowed": FALSE_TEXT,
@@ -186,6 +244,9 @@ def build_final_daily_packet_row(
         "order_action_allowed": FALSE_TEXT,
         "cancel_action_allowed": FALSE_TEXT,
         "rebalance_action_allowed": FALSE_TEXT,
+        "manual_only": TRUE_TEXT,
+        "research_only": TRUE_TEXT,
+        "observation_only": TRUE_TEXT,
     }
 
 
@@ -220,6 +281,25 @@ def build_markdown_report(row: Dict[str, str]) -> str:
             f"- quote availability: {row['quote_availability']}",
             f"- safety status: {row['safety_status']}",
             f"- manual review status: {row['manual_review_status']}",
+            "",
+            "## Batch I Real Market Env Status",
+            "",
+            f"- batch_i_env_gate_status={row['batch_i_env_gate_status']}",
+            f"- batch_i_real_market_environment_status={row['batch_i_real_market_environment_status']}",
+            f"- batch_i_marketdata_permission_status={row['batch_i_marketdata_permission_status']}",
+            f"- batch_i_safe_unavailable_review_status={row['batch_i_safe_unavailable_review_status']}",
+            f"- batch_i_manual_only={row['batch_i_manual_only']}",
+            f"- batch_i_research_only={row['batch_i_research_only']}",
+            f"- batch_i_observation_only={row['batch_i_observation_only']}",
+            f"- batch_i_no_account_read={row['batch_i_no_account_read']}",
+            f"- batch_i_no_position_read={row['batch_i_no_position_read']}",
+            f"- batch_i_no_historical_data={row['batch_i_no_historical_data']}",
+            f"- batch_i_no_real_telegram_send={row['batch_i_no_real_telegram_send']}",
+            f"- trading_actions_allowed={row['trading_actions_allowed']}",
+            f"- account_read_allowed={row['account_read_allowed']}",
+            f"- position_read_allowed={row['position_read_allowed']}",
+            f"- historical_data_request_allowed={row['historical_data_request_allowed']}",
+            f"- telegram_real_send_allowed={row['telegram_real_send_allowed']}",
             f"- operator next step: {row['operator_next_step']}",
             f"- diagnostic_reason={row['diagnostic_reason']}",
         ]
