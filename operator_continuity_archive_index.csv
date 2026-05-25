@@ -1,0 +1,17 @@
+generated_at,source_file,source_exists,source_type,detected_status,detected_timestamp,archive_role,continuity_status,operator_next_step
+2026-05-25T04:14:58+00:00,operator_real_marketdata_smoke_summary.csv,true,csv,REAL_MARKETDATA_SMOKE_AUDIT_READY,2026-05-25T03:07:08+00:00,marketdata_smoke_source,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_marketdata_smoke_archive.csv,true,csv,REAL_MARKETDATA_SMOKE_AUDIT_READY,2026-05-25T04:14:57+00:00,marketdata_smoke_archive,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_marketdata_decision_gate.csv,true,csv,HOLD_SAFE_FAILURE,2026-05-25T04:14:57+00:00,marketdata_decision_gate,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_marketdata_latest.csv,true,csv,HOLD_SAFE_FAILURE,2026-05-25T04:14:57+00:00,marketdata_latest_pointer,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_marketdata_daily_run_summary.csv,true,csv,HOLD_SAFE_FAILURE,2026-05-25T04:14:57+00:00,daily_marketdata_summary,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_quote_normalization.csv,true,csv,SAFE_UNAVAILABLE,2026-05-25T04:14:57+00:00,quote_normalization,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_quote_signal_bridge.csv,true,csv,SAFE_UNAVAILABLE,2026-05-25T04:14:57+00:00,quote_signal_bridge,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_daily_real_market_report.csv,true,csv,SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,daily_real_market_report,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_market_mvp_status.csv,true,csv,MVP_SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,mvp_status,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_market_archive_compare.csv,true,csv,CONSISTENT_OBSERVATION_STATE,2026-05-25T04:14:58+00:00,archive_compare,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_signal_threshold_explainer.csv,true,csv,SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,threshold_explainer,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_strategy_quality_report.csv,true,csv,MVP_SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,strategy_quality,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_daily_checklist.csv,true,csv,STATUS_NOT_DETECTED,2026-05-25T04:14:58+00:00,daily_checklist,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_real_market_mvp_regression.csv,true,csv,MVP_SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,mvp_regression,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,operator_daily_master_run_summary.csv,true,csv,MASTER_SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,master_run,CONTINUITY_INDEX_READY,review_multi_run_continuity
+2026-05-25T04:14:58+00:00,reports/operator_daily_master_run_report.md,true,markdown,MASTER_SAFE_UNAVAILABLE,2026-05-25T04:14:58+00:00,master_run_report,CONTINUITY_INDEX_READY,review_multi_run_continuity
