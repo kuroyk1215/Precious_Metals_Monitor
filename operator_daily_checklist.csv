@@ -1,0 +1,11 @@
+generated_at,step_order,check_name,operator_action,completion_required,manual_review_only,auto_trade_allowed,account_read_allowed,position_read_allowed,historical_data_request_allowed,telegram_send_allowed,order_action_allowed,cancel_action_allowed,rebalance_action_allowed
+2026-05-25T03:37:52+00:00,1,git status safety check,run git status --short and review local-only files,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,2,confirm config.yaml remains local-only,verify config.yaml is not staged or committed,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,3,confirm ibkr_market_data_api_errors.csv remains local-only,verify ibkr_market_data_api_errors.csv is not staged or committed,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,4,run real marketdata daily wrapper,run scripts/operator_real_marketdata_daily_run.sh,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,5,run quote normalization,run scripts/operator_real_quote_normalization.sh,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,6,run signal bridge,run scripts/operator_real_quote_signal_bridge.sh,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,7,run daily real-market report,run scripts/operator_daily_real_market_report.sh,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,8,run MVP status aggregator,run scripts/operator_real_market_mvp_status.sh,true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,9,review decision / quote / signal status,"manually review decision, quote, signal, and MVP status outputs",true,true,false,false,false,false,false,false,false,false
+2026-05-25T03:37:52+00:00,10,do not trade automatically,"keep all trading, account, position, historical, and Telegram send actions disabled",true,true,false,false,false,false,false,false,false,false
