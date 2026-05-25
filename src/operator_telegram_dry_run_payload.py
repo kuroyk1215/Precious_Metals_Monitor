@@ -15,6 +15,8 @@ TRUE_TEXT = "true"
 SAFE_UNAVAILABLE_STATUS = "SAFE_UNAVAILABLE_REVIEW_REQUIRED"
 TELEGRAM_DRY_RUN_READY = "TELEGRAM_DRY_RUN_READY"
 TELEGRAM_APPROVAL_REVIEW_REQUIRED = "TELEGRAM_APPROVAL_REVIEW_REQUIRED"
+TELEGRAM_MANUAL_SEND_ARCHIVE_READY = "TELEGRAM_MANUAL_SEND_ARCHIVE_READY"
+TELEGRAM_MANUAL_SEND_ARCHIVE_REVIEW_REQUIRED = "TELEGRAM_MANUAL_SEND_ARCHIVE_REVIEW_REQUIRED"
 
 DRY_RUN_FIELDS = (
     "generated_at",
@@ -55,6 +57,35 @@ APPROVAL_FIELDS = (
     "telegram_real_send_allowed",
     "production_ready_claim_detected",
     "execution_ready_claim_detected",
+    "trading_actions_allowed",
+    "order_action_allowed",
+    "cancel_action_allowed",
+    "rebalance_action_allowed",
+    "account_read_allowed",
+    "position_read_allowed",
+    "historical_data_request_allowed",
+    "manual_only",
+    "research_only",
+    "observation_only",
+    "diagnostic_reason",
+)
+
+MANUAL_SEND_ARCHIVE_FIELDS = (
+    "generated_at",
+    "manual_send_archive_status",
+    "telegram_payload_status",
+    "approval_gate_status",
+    "dry_run_payload_present",
+    "approval_gate_present",
+    "manual_approval_required",
+    "manual_send_archive_only",
+    "no_real_send",
+    "send_executed",
+    "telegram_real_send_allowed",
+    "token_read_allowed",
+    "telegram_api_call_allowed",
+    "network_send_allowed",
+    "background_task_allowed",
     "trading_actions_allowed",
     "order_action_allowed",
     "cancel_action_allowed",
@@ -130,6 +161,30 @@ def _safety_diagnostic(reason: str) -> str:
         "account_read_allowed=false",
         "position_read_allowed=false",
         "historical_data_request_allowed=false",
+    ]
+    return reason + ";" + ";".join(markers)
+
+
+def _manual_send_archive_diagnostic(reason: str) -> str:
+    markers = [
+        "manual_send_archive_only=true",
+        "no_real_send=true",
+        "send_executed=false",
+        "telegram_real_send_allowed=false",
+        "token_read_allowed=false",
+        "telegram_api_call_allowed=false",
+        "network_send_allowed=false",
+        "background_task_allowed=false",
+        "trading_actions_allowed=false",
+        "order_action_allowed=false",
+        "cancel_action_allowed=false",
+        "rebalance_action_allowed=false",
+        "account_read_allowed=false",
+        "position_read_allowed=false",
+        "historical_data_request_allowed=false",
+        "manual_only=true",
+        "research_only=true",
+        "observation_only=true",
     ]
     return reason + ";" + ";".join(markers)
 
@@ -343,8 +398,101 @@ def generate_telegram_approval_gate(
     return row
 
 
+def build_telegram_manual_send_archive_row(
+    *,
+    payload_csv: PathLike = "operator_telegram_dry_run_payload.csv",
+    payload_json: PathLike = "operator_telegram_dry_run_payload.json",
+    approval_csv: PathLike = "operator_telegram_approval_gate.csv",
+    generated_at: Optional[str] = None,
+) -> Dict[str, str]:
+    payload = _latest(payload_csv) or _read_json_object(payload_json)
+    approval = _latest(approval_csv)
+    payload_present = bool(payload)
+    approval_present = bool(approval)
+    no_real_send = _is_true(payload.get("no_real_send")) or _is_true(approval.get("no_real_send"))
+    manual_required = _is_true(payload.get("manual_approval_required")) or _is_true(approval.get("manual_approval_required"))
+    status = (
+        TELEGRAM_MANUAL_SEND_ARCHIVE_READY
+        if payload_present and approval_present and no_real_send
+        else TELEGRAM_MANUAL_SEND_ARCHIVE_REVIEW_REQUIRED
+    )
+    reason = (
+        "dry_run_payload_and_approval_gate_present_no_real_send_archive_ready"
+        if status == TELEGRAM_MANUAL_SEND_ARCHIVE_READY
+        else "dry_run_payload_or_approval_gate_missing_manual_archive_review_required"
+    )
+
+    row = {
+        "generated_at": generated_at or _now_timestamp(),
+        "manual_send_archive_status": status,
+        "telegram_payload_status": payload.get("telegram_payload_status", "MISSING"),
+        "approval_gate_status": approval.get("approval_gate_status", "MISSING"),
+        "dry_run_payload_present": TRUE_TEXT if payload_present else FALSE_TEXT,
+        "approval_gate_present": TRUE_TEXT if approval_present else FALSE_TEXT,
+        "manual_approval_required": TRUE_TEXT if manual_required else FALSE_TEXT,
+        "manual_send_archive_only": TRUE_TEXT,
+        "no_real_send": TRUE_TEXT,
+        "send_executed": FALSE_TEXT,
+        "telegram_real_send_allowed": FALSE_TEXT,
+        "token_read_allowed": FALSE_TEXT,
+        "telegram_api_call_allowed": FALSE_TEXT,
+        "network_send_allowed": FALSE_TEXT,
+        "background_task_allowed": FALSE_TEXT,
+        "trading_actions_allowed": FALSE_TEXT,
+        "order_action_allowed": FALSE_TEXT,
+        "cancel_action_allowed": FALSE_TEXT,
+        "rebalance_action_allowed": FALSE_TEXT,
+        "account_read_allowed": FALSE_TEXT,
+        "position_read_allowed": FALSE_TEXT,
+        "historical_data_request_allowed": FALSE_TEXT,
+        "manual_only": TRUE_TEXT,
+        "research_only": TRUE_TEXT,
+        "observation_only": TRUE_TEXT,
+        "diagnostic_reason": _manual_send_archive_diagnostic(reason),
+    }
+    return row
+
+
+def build_manual_send_archive_markdown(row: Dict[str, str]) -> str:
+    lines = [
+        "# Operator Telegram Manual-Send Archive Report",
+        "",
+        "## Scope",
+        "",
+        "- manual-send review/archive skeleton only",
+        "- no Telegram API client, token read, network send, real send, automatic push, or background task",
+        "- archive-ready only; execution-ready and auto-send states are not emitted",
+        "- no IBKR, account, position, historical data, trading, order, cancel, or rebalance action",
+        "",
+        "## Archive",
+        "",
+    ]
+    lines.extend(f"- {field}={row[field]}" for field in MANUAL_SEND_ARCHIVE_FIELDS)
+    return "\n".join(lines) + "\n"
+
+
+def generate_telegram_manual_send_archive(
+    *,
+    payload_csv: PathLike = "operator_telegram_dry_run_payload.csv",
+    payload_json: PathLike = "operator_telegram_dry_run_payload.json",
+    approval_csv: PathLike = "operator_telegram_approval_gate.csv",
+    output_csv: PathLike = "operator_telegram_manual_send_archive.csv",
+    output_report: PathLike = "reports/operator_telegram_manual_send_archive_report.md",
+    generated_at: Optional[str] = None,
+) -> Dict[str, str]:
+    row = build_telegram_manual_send_archive_row(
+        payload_csv=payload_csv,
+        payload_json=payload_json,
+        approval_csv=approval_csv,
+        generated_at=generated_at,
+    )
+    _write_csv(output_csv, row, MANUAL_SEND_ARCHIVE_FIELDS)
+    _write_markdown(output_report, build_manual_send_archive_markdown(row))
+    return row
+
+
 def _build_arg_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build Phase 490-493 Telegram dry-run payload and approval gate.")
+    parser = argparse.ArgumentParser(description="Build Telegram dry-run payload, approval gate, and manual-send archive artifacts.")
     subparsers = parser.add_subparsers(dest="command")
 
     payload = subparsers.add_parser("payload", help="Build Telegram dry-run payload artifacts.")
@@ -360,6 +508,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     gate.add_argument("--output-csv", default="operator_telegram_approval_gate.csv")
     gate.add_argument("--output-report", default="reports/operator_telegram_approval_gate_report.md")
     gate.add_argument("--generated-at", default=None)
+
+    archive = subparsers.add_parser("archive", help="Build Telegram manual-send archive artifacts without sending.")
+    archive.add_argument("--payload-csv", default="operator_telegram_dry_run_payload.csv")
+    archive.add_argument("--payload-json", default="operator_telegram_dry_run_payload.json")
+    archive.add_argument("--approval-csv", default="operator_telegram_approval_gate.csv")
+    archive.add_argument("--output-csv", default="operator_telegram_manual_send_archive.csv")
+    archive.add_argument("--output-report", default="reports/operator_telegram_manual_send_archive_report.md")
+    archive.add_argument("--generated-at", default=None)
     return parser
 
 
@@ -398,6 +554,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             )
         )
         print("NOTICE: Human review gate only. No send is allowed or attempted.")
+        return 0
+    if args.command == "archive":
+        row = generate_telegram_manual_send_archive(
+            payload_csv=args.payload_csv,
+            payload_json=args.payload_json,
+            approval_csv=args.approval_csv,
+            output_csv=args.output_csv,
+            output_report=args.output_report,
+            generated_at=args.generated_at,
+        )
+        print("[TELEGRAM_MANUAL_SEND_ARCHIVE] generated")
+        print(
+            "manual_send_archive_status={}:telegram_payload_status={}:approval_gate_status={}:send_executed=false:no_real_send=true:telegram_real_send_allowed=false".format(
+                row["manual_send_archive_status"],
+                row["telegram_payload_status"],
+                row["approval_gate_status"],
+            )
+        )
+        print("NOTICE: Manual-send archive only. No Telegram API, token read, network send, real send, or background task.")
         return 0
     _build_arg_parser().print_help()
     return 2
