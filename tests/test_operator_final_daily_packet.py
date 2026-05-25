@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 
 from src.operator_final_daily_packet import FINAL_PACKET_FIELDS, generate_final_daily_packet
+from src.operator_batch_i_real_market_env_check import generate_batch_i_real_market_env_check
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -68,7 +69,9 @@ def test_final_packet_outputs_safe_unavailable_without_real_quotes(tmp_path: Pat
     assert row["quote_availability"] == "SAFE_UNAVAILABLE"
     assert row["safety_status"] == "SAFETY_CLEAN"
     assert row["manual_review_status"] == "MANUAL_REVIEW_REQUIRED"
+    assert row["batch_i_env_gate_status"] == "MISSING"
     for field in (
+        "trading_actions_allowed",
         "auto_trade_allowed",
         "account_read_allowed",
         "position_read_allowed",
@@ -77,8 +80,12 @@ def test_final_packet_outputs_safe_unavailable_without_real_quotes(tmp_path: Pat
         "order_action_allowed",
         "cancel_action_allowed",
         "rebalance_action_allowed",
+        "manual_only",
+        "research_only",
+        "observation_only",
     ):
-        assert row[field] == "false"
+        expected = "true" if field in {"manual_only", "research_only", "observation_only"} else "false"
+        assert row[field] == expected
     assert set(_read_one(tmp_path / "operator_final_daily_packet.csv")) == set(FINAL_PACKET_FIELDS)
     report = (tmp_path / "reports/operator_final_daily_packet.md").read_text(encoding="utf-8")
     for marker in (
@@ -87,9 +94,77 @@ def test_final_packet_outputs_safe_unavailable_without_real_quotes(tmp_path: Pat
         "quote availability",
         "safety status",
         "manual review status",
+        "batch_i_env_gate_status",
         "operator next step",
     ):
         assert marker in report
+
+
+def test_final_packet_reads_batch_i_gate_without_promoting_to_ready(tmp_path: Path):
+    _write_safe_unavailable_sources(tmp_path)
+    config = tmp_path / "config.yaml"
+    errors = tmp_path / "ibkr_market_data_api_errors.csv"
+    config.write_text(
+        "\n".join(
+            [
+                "ibkr:",
+                "  host: 127.0.0.1",
+                "  port: 7496",
+                "  client_id: 1",
+                "  readonly: true",
+                "  read_only_required: true",
+                "  real_connection_allowed: false",
+                "  market_data_request_allowed: false",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    errors.write_text(
+        "symbol,error_code,error_message,status\n"
+        "GLD,10089,Market data subscription missing,SAFE_UNAVAILABLE\n",
+        encoding="utf-8",
+    )
+    generate_batch_i_real_market_env_check(
+        config_path=config,
+        api_errors_csv=errors,
+        env_csv=tmp_path / "operator_batch_i_real_market_env_check.csv",
+        permission_csv=tmp_path / "operator_batch_i_marketdata_permission_check.csv",
+        review_csv=tmp_path / "operator_batch_i_safe_unavailable_review.csv",
+        gate_csv=tmp_path / "operator_batch_i_real_market_env_gate.csv",
+        env_report=tmp_path / "reports/operator_batch_i_real_market_env_check.md",
+        permission_report=tmp_path / "reports/operator_batch_i_marketdata_permission_check.md",
+        review_report=tmp_path / "reports/operator_batch_i_safe_unavailable_review.md",
+        gate_report=tmp_path / "reports/operator_batch_i_real_market_env_gate_report.md",
+        generated_at="2026-05-25T00:00:00+00:00",
+    )
+
+    row = generate_final_daily_packet(
+        base_dir=tmp_path,
+        output_csv=tmp_path / "operator_final_daily_packet.csv",
+        output_report=tmp_path / "reports/operator_final_daily_packet.md",
+        generated_at="2026-05-25T00:01:00+00:00",
+    )
+
+    assert row["final_packet_status"] == "FINAL_PACKET_SAFE_UNAVAILABLE"
+    assert row["batch_i_env_gate_status"] == "SAFE_UNAVAILABLE_REVIEW_REQUIRED"
+    assert row["batch_i_real_market_environment_status"] == "SAFE_UNAVAILABLE_REVIEW_REQUIRED"
+    assert row["batch_i_marketdata_permission_status"] == "REVIEW_REQUIRED"
+    assert row["batch_i_safe_unavailable_review_status"] == "SAFE_UNAVAILABLE_REVIEW_REQUIRED"
+    assert row["batch_i_manual_only"] == "true"
+    assert row["batch_i_research_only"] == "true"
+    assert row["batch_i_observation_only"] == "true"
+    assert row["batch_i_no_account_read"] == "true"
+    assert row["batch_i_no_position_read"] == "true"
+    assert row["batch_i_no_historical_data"] == "true"
+    assert row["batch_i_no_real_telegram_send"] == "true"
+
+    csv_row = _read_one(tmp_path / "operator_final_daily_packet.csv")
+    assert csv_row["batch_i_env_gate_status"] == "SAFE_UNAVAILABLE_REVIEW_REQUIRED"
+    report = (tmp_path / "reports/operator_final_daily_packet.md").read_text(encoding="utf-8")
+    assert "Batch I Real Market Env Status" in report
+    assert "batch_i_env_gate_status=SAFE_UNAVAILABLE_REVIEW_REQUIRED" in report
+    assert "trading_actions_allowed=false" in report
 
 
 def test_final_packet_output_has_no_trade_execution_words(tmp_path: Path):
