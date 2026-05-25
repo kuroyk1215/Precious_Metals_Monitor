@@ -9,8 +9,10 @@ from pathlib import Path
 from src.operator_telegram_dry_run_payload import (
     APPROVAL_FIELDS,
     DRY_RUN_FIELDS,
+    MANUAL_SEND_ARCHIVE_FIELDS,
     generate_telegram_approval_gate,
     generate_telegram_dry_run_payload,
+    generate_telegram_manual_send_archive,
 )
 
 
@@ -160,6 +162,93 @@ def test_telegram_approval_gate_requires_human_review_for_dry_run_payload(tmp_pa
     assert "telegram_real_send_allowed=false" in report
 
 
+def test_telegram_manual_send_archive_ready_without_sending(tmp_path: Path):
+    _write_dashboard_sources(tmp_path)
+    generate_telegram_dry_run_payload(
+        base_dir=tmp_path,
+        output_csv=tmp_path / "operator_telegram_dry_run_payload.csv",
+        output_json=tmp_path / "operator_telegram_dry_run_payload.json",
+        output_report=tmp_path / "reports/operator_telegram_dry_run_payload.md",
+        generated_at="2026-05-25T00:07:00+00:00",
+    )
+    generate_telegram_approval_gate(
+        payload_csv=tmp_path / "operator_telegram_dry_run_payload.csv",
+        payload_json=tmp_path / "operator_telegram_dry_run_payload.json",
+        output_csv=tmp_path / "operator_telegram_approval_gate.csv",
+        output_report=tmp_path / "reports/operator_telegram_approval_gate_report.md",
+        generated_at="2026-05-25T00:08:00+00:00",
+    )
+
+    row = generate_telegram_manual_send_archive(
+        payload_csv=tmp_path / "operator_telegram_dry_run_payload.csv",
+        payload_json=tmp_path / "operator_telegram_dry_run_payload.json",
+        approval_csv=tmp_path / "operator_telegram_approval_gate.csv",
+        output_csv=tmp_path / "operator_telegram_manual_send_archive.csv",
+        output_report=tmp_path / "reports/operator_telegram_manual_send_archive_report.md",
+        generated_at="2026-05-25T00:09:00+00:00",
+    )
+
+    assert row["manual_send_archive_status"] == "TELEGRAM_MANUAL_SEND_ARCHIVE_READY"
+    assert row["telegram_payload_status"] == "TELEGRAM_DRY_RUN_READY"
+    assert row["approval_gate_status"] == "TELEGRAM_APPROVAL_REVIEW_REQUIRED"
+    assert row["dry_run_payload_present"] == "true"
+    assert row["approval_gate_present"] == "true"
+    assert row["manual_approval_required"] == "true"
+    assert row["manual_send_archive_only"] == "true"
+    assert row["no_real_send"] == "true"
+    assert row["send_executed"] == "false"
+    for field in (
+        "telegram_real_send_allowed",
+        "token_read_allowed",
+        "telegram_api_call_allowed",
+        "network_send_allowed",
+        "background_task_allowed",
+        "trading_actions_allowed",
+        "order_action_allowed",
+        "cancel_action_allowed",
+        "rebalance_action_allowed",
+        "account_read_allowed",
+        "position_read_allowed",
+        "historical_data_request_allowed",
+    ):
+        assert row[field] == "false"
+    for field in ("manual_only", "research_only", "observation_only"):
+        assert row[field] == "true"
+
+    csv_row = _read_one(tmp_path / "operator_telegram_manual_send_archive.csv")
+    assert set(csv_row) == set(MANUAL_SEND_ARCHIVE_FIELDS)
+    report = (tmp_path / "reports/operator_telegram_manual_send_archive_report.md").read_text(encoding="utf-8")
+    assert "TELEGRAM_MANUAL_SEND_ARCHIVE_READY" in report
+    assert "manual_send_archive_only=true" in report
+    assert "send_executed=false" in report
+    assert "no_real_send=true" in report
+    assert "telegram_real_send_allowed=false" in report
+    assert "token_read_allowed=false" in report
+    assert "telegram_api_call_allowed=false" in report
+    assert "network_send_allowed=false" in report
+    assert "background_task_allowed=false" in report
+    for forbidden in ("SENT", "SEND_READY", "AUTO_SEND_READY"):
+        assert forbidden not in report
+
+
+def test_telegram_manual_send_archive_requires_review_when_inputs_missing(tmp_path: Path):
+    row = generate_telegram_manual_send_archive(
+        payload_csv=tmp_path / "missing_payload.csv",
+        payload_json=tmp_path / "missing_payload.json",
+        approval_csv=tmp_path / "missing_gate.csv",
+        output_csv=tmp_path / "operator_telegram_manual_send_archive.csv",
+        output_report=tmp_path / "reports/operator_telegram_manual_send_archive_report.md",
+        generated_at="2026-05-25T00:09:00+00:00",
+    )
+
+    assert row["manual_send_archive_status"] == "TELEGRAM_MANUAL_SEND_ARCHIVE_REVIEW_REQUIRED"
+    assert row["dry_run_payload_present"] == "false"
+    assert row["approval_gate_present"] == "false"
+    assert row["no_real_send"] == "true"
+    assert row["send_executed"] == "false"
+    assert row["telegram_real_send_allowed"] == "false"
+
+
 def test_telegram_main_cli_generates_payload_and_gate(tmp_path: Path):
     _write_dashboard_sources(tmp_path)
     env = os.environ.copy()
@@ -210,3 +299,27 @@ def test_telegram_main_cli_generates_payload_and_gate(tmp_path: Path):
     assert (tmp_path / "reports/operator_telegram_dry_run_payload.md").exists()
     assert (tmp_path / "operator_telegram_approval_gate.csv").exists()
     assert (tmp_path / "reports/operator_telegram_approval_gate_report.md").exists()
+
+    archive_result = subprocess.run(
+        [
+            env["PYTHON"],
+            str(REPO_ROOT / "main.py"),
+            "--config",
+            str(REPO_ROOT / "config.yaml"),
+            "--watchlist",
+            str(REPO_ROOT / "watchlist.yaml"),
+            "--telegram-manual-send-archive",
+        ],
+        cwd=tmp_path,
+        env=env,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    assert archive_result.returncode == 0, archive_result.stdout
+    assert "manual_send_archive_status=TELEGRAM_MANUAL_SEND_ARCHIVE_READY" in archive_result.stdout
+    assert "send_executed=false" in archive_result.stdout
+    assert "telegram_real_send_allowed=false" in archive_result.stdout
+    assert (tmp_path / "operator_telegram_manual_send_archive.csv").exists()
+    assert (tmp_path / "reports/operator_telegram_manual_send_archive_report.md").exists()
