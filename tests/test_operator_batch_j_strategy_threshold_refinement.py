@@ -88,7 +88,7 @@ def test_batch_j_strategy_threshold_refinement_generates_review_only_framework(t
     gate_report = (tmp_path / "reports/operator_batch_j_strategy_threshold_gate_report.md").read_text(encoding="utf-8")
     assert "SAFE_UNAVAILABLE_REVIEW_REQUIRED" in refinement_report
     assert "trading_actions_allowed=false" in refinement_report
-    assert "PASS does not mean live production ready" in gate_report
+    assert "PASS does not mean live production approval" in gate_report
     assert "historical_data_request_allowed=false" in gate_report
 
 
