@@ -23,6 +23,15 @@ DASHBOARD_FIELDS = (
     "batch_j_threshold_profile_status",
     "batch_j_audit_gate_status",
     "safe_unavailable_status",
+    "multi_market_schema_gate_status",
+    "multi_market_adapter_gate_status",
+    "jp_symbol_count",
+    "cn_symbol_count",
+    "us_symbol_count",
+    "all_markets_observation_only",
+    "all_symbols_trading_disabled",
+    "real_market_data_request_allowed",
+    "contract_qualification_allowed",
     "production_ready_claim_detected",
     "real_market_data_verified",
     "strategy_execution_ready",
@@ -190,7 +199,12 @@ def build_dashboard_artifact_reader_row(
     batch_j_gate = _latest(base / "operator_batch_j_strategy_threshold_gate.csv")
     mvp_audit = _latest(base / "operator_mvp_final_audit_gate.csv")
     completion_gate = _latest(base / "operator_real_market_mvp_completion_gate.csv")
-    rows = [row for row in (final_packet, batch_i_audit, batch_j_audit, batch_j_gate, mvp_audit, completion_gate) if row]
+    multi_market_adapter_gate = _latest(base / "operator_multi_market_adapter_gate.csv")
+    rows = [
+        row
+        for row in (final_packet, batch_i_audit, batch_j_audit, batch_j_gate, mvp_audit, completion_gate, multi_market_adapter_gate)
+        if row
+    ]
 
     final_packet_status = final_packet.get("final_packet_status", "MISSING")
     batch_i_env_gate_status = final_packet.get(
@@ -210,6 +224,19 @@ def build_dashboard_artifact_reader_row(
         or final_packet.get("batch_i_safe_unavailable_review_status") == SAFE_UNAVAILABLE_STATUS
         or SAFE_UNAVAILABLE_STATUS in final_report_text
         else "MISSING"
+    )
+    multi_market_schema_gate_status = multi_market_adapter_gate.get("multi_market_schema_gate_status", "MISSING")
+    multi_market_adapter_gate_status = multi_market_adapter_gate.get("adapter_gate_status", "MISSING")
+    jp_symbol_count = multi_market_adapter_gate.get("jp_symbol_count", "0")
+    cn_symbol_count = multi_market_adapter_gate.get("cn_symbol_count", "0")
+    us_symbol_count = multi_market_adapter_gate.get("us_symbol_count", "0")
+    all_markets_observation_only = multi_market_adapter_gate.get("all_markets_observation_only", FALSE_TEXT)
+    all_symbols_trading_disabled = multi_market_adapter_gate.get("all_symbols_trading_disabled", FALSE_TEXT)
+    real_market_data_request_allowed = (
+        TRUE_TEXT if multi_market_adapter_gate and multi_market_adapter_gate.get("no_real_market_data_request") != TRUE_TEXT else FALSE_TEXT
+    )
+    contract_qualification_allowed = (
+        TRUE_TEXT if multi_market_adapter_gate and multi_market_adapter_gate.get("no_contract_qualification") != TRUE_TEXT else FALSE_TEXT
     )
     production_claim = _production_ready_claim_detected(rows, final_report_text)
     status_readable = (
@@ -251,6 +278,15 @@ def build_dashboard_artifact_reader_row(
         "batch_j_threshold_profile_status": batch_j_threshold_profile_status,
         "batch_j_audit_gate_status": batch_j_audit_gate_status,
         "safe_unavailable_status": safe_unavailable_status,
+        "multi_market_schema_gate_status": multi_market_schema_gate_status,
+        "multi_market_adapter_gate_status": multi_market_adapter_gate_status,
+        "jp_symbol_count": jp_symbol_count,
+        "cn_symbol_count": cn_symbol_count,
+        "us_symbol_count": us_symbol_count,
+        "all_markets_observation_only": all_markets_observation_only,
+        "all_symbols_trading_disabled": all_symbols_trading_disabled,
+        "real_market_data_request_allowed": real_market_data_request_allowed,
+        "contract_qualification_allowed": contract_qualification_allowed,
         "production_ready_claim_detected": TRUE_TEXT if production_claim else FALSE_TEXT,
         "real_market_data_verified": FALSE_TEXT,
         "strategy_execution_ready": FALSE_TEXT,

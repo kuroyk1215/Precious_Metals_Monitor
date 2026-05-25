@@ -60,6 +60,11 @@ def _write_dashboard_sources(tmp_path: Path) -> None:
         "2026-05-25T00:05:00+00:00,PASS,false,false,false,false,false,false,false,false,true,true,true\n",
         encoding="utf-8",
     )
+    (tmp_path / "operator_multi_market_adapter_gate.csv").write_text(
+        "generated_at,adapter_gate_status,multi_market_schema_gate_status,markets_present,jp_symbol_count,cn_symbol_count,us_symbol_count,adapter_rows_count,all_markets_observation_only,all_symbols_trading_disabled,no_real_market_data_request,no_contract_qualification,no_account_or_position_read,no_historical_data_request,no_real_telegram_send,no_trading_actions,diagnostic_reason\n"
+        "2026-05-25T00:06:00+00:00,MULTI_MARKET_ADAPTER_SKELETON_READY,MULTI_MARKET_SYMBOL_SCHEMA_READY,CN JP US,6,6,6,18,true,true,true,true,true,true,true,true,JP_CN_US_adapter_skeleton_complete_all_symbols_trading_disabled_observation_only\n",
+        encoding="utf-8",
+    )
 
 
 def test_dashboard_artifact_reader_outputs_review_only_ready_summary(tmp_path: Path):
@@ -81,6 +86,15 @@ def test_dashboard_artifact_reader_outputs_review_only_ready_summary(tmp_path: P
     assert row["batch_j_threshold_profile_status"] == "BATCH_J_THRESHOLD_PROFILE_REVIEW_ONLY"
     assert row["batch_j_audit_gate_status"] == "PASS"
     assert row["safe_unavailable_status"] == "SAFE_UNAVAILABLE_REVIEW_REQUIRED"
+    assert row["multi_market_schema_gate_status"] == "MULTI_MARKET_SYMBOL_SCHEMA_READY"
+    assert row["multi_market_adapter_gate_status"] == "MULTI_MARKET_ADAPTER_SKELETON_READY"
+    assert row["jp_symbol_count"] == "6"
+    assert row["cn_symbol_count"] == "6"
+    assert row["us_symbol_count"] == "6"
+    assert row["all_markets_observation_only"] == "true"
+    assert row["all_symbols_trading_disabled"] == "true"
+    assert row["real_market_data_request_allowed"] == "false"
+    assert row["contract_qualification_allowed"] == "false"
     assert row["production_ready_claim_detected"] == "false"
     assert row["real_market_data_verified"] == "false"
     assert row["strategy_execution_ready"] == "false"
@@ -109,6 +123,9 @@ def test_dashboard_artifact_reader_outputs_review_only_ready_summary(tmp_path: P
     assert "position_read_allowed=false" in report
     assert "historical_data_request_allowed=false" in report
     assert "telegram_real_send_allowed=false" in report
+    assert "multi_market_adapter_gate_status=MULTI_MARKET_ADAPTER_SKELETON_READY" in report
+    assert "real_market_data_request_allowed=false" in report
+    assert "contract_qualification_allowed=false" in report
     assert "web service" in report
 
 
