@@ -398,12 +398,22 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Build Phase 486-489 local read-only dashboard artifact reader summary without UI, connecting, or sending.",
     )
+    parser.add_argument(
+        "--telegram-dry-run-payload",
+        action="store_true",
+        help="Build Phase 490-493 Telegram-ready dry-run payload without token read, API call, or real send.",
+    )
+    parser.add_argument(
+        "--telegram-approval-gate",
+        action="store_true",
+        help="Build Phase 490-493 Telegram human approval gate without token read, API call, or real send.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None or args.live_final_research_review_pack is not None or args.ibkr_live_provider_adapter_check is not None or args.ibkr_contract_mapping_plan is not None or args.ibkr_contract_qualification_dry_run is not None or args.ibkr_contract_qualification_execution_guard is not None or args.ibkr_readonly_qualification_precheck is not None or args.ibkr_readonly_qualification_runbook is not None or args.ibkr_readonly_qualification_go_no_go is not None or args.ibkr_readonly_qualification_config_template is not None or args.ibkr_readonly_qualification_config_audit is not None or args.ibkr_readonly_qualification_config_apply_plan is not None or args.ibkr_readonly_qualification_config_final_gate is not None or args.ibkr_readonly_qualification_safety_summary is not None or args.ibkr_readonly_qualification_candidate_resolver is not None or args.ibkr_readonly_qualification_candidate_review_pack is not None or args.ibkr_readonly_qualification_candidate_final_gate is not None or args.ibkr_readonly_qualification_candidate_safety_summary is not None or args.ibkr_readonly_qualification_operator_decision_ledger is not None or args.ibkr_readonly_qualification_operator_approval_stub is not None or args.ibkr_readonly_qualification_effective_approval_gate is not None or args.ibkr_readonly_qualification_final_authorization_packet is not None or args.ibkr_readonly_qualification_phase12_closure_report is not None or args.ibkr_readonly_qualification_sandbox_design is not None or args.ibkr_readonly_qualification_sandbox_input_contract is not None or args.ibkr_readonly_qualification_sandbox_input_validator is not None or args.ibkr_readonly_qualification_sandbox_qualification_simulator is not None or args.ibkr_readonly_qualification_sandbox_result_pack is not None or args.ibkr_readonly_qualification_sandbox_safety_gate is not None or args.ibkr_readonly_qualification_sandbox_final_review_pack is not None or args.ibkr_readonly_qualification_sandbox_closure_report is not None or args.ibkr_readonly_preflight_guard_design is not None or args.ibkr_readonly_preflight_config_contract is not None or args.ibkr_readonly_preflight_config_validator is not None or args.ibkr_readonly_preflight_config_template is not None or args.ibkr_readonly_preflight_config_apply_plan is not None or args.ibkr_readonly_preflight_final_gate is not None or args.ibkr_readonly_preflight_safe_config_merge_plan is not None or args.ibkr_readonly_preflight_profile_aware_config_plan is not None or args.ibkr_readonly_preflight_profile_aware_final_gate is not None or args.ibkr_readonly_tws_environment_checklist is not None or args.ibkr_readonly_external_readiness_pack is not None or args.ibkr_readonly_connection_preflight_pack is not None or args.ibkr_readonly_authorization_pack is not None or args.ibkr_first_readonly_connect_disconnect is not None or args.ibkr_readonly_connection_log_heartbeat_guard is not None or args.ibkr_readonly_nontrading_account_server_info_pack is not None or args.ibkr_readonly_contract_info_preflight_pack is not None or args.ibkr_readonly_market_data_snapshot_preflight_pack is not None or args.ibkr_readonly_market_data_entitlement_diagnostic is not None or args.primary_metals_market_inference_layer is not None or args.primary_metals_inference_research_plan_integration is not None or args.primary_metals_final_review_pack_integration is not None or args.final_research_trading_plan_output is not None or args.final_research_plan_orchestrator is not None or args.report_template_daily_log_telegram_ready_output is not None or args.scheduler_stub_final_readme_release_checklist is not None or args.batch_i_real_market_env_check or args.batch_i_final_integration_audit_gate or args.batch_j_strategy_threshold_refinement or args.batch_j_final_integration_audit_gate or args.dashboard_artifact_reader))
+    monitor = PreciousMetalsMonitor(args.config, args.watchlist, mock_mode=(args.mock or args.ibkr_smoke or bool(args.contract_search) or args.calibrate_model or args.pricing_mock or bool(args.calibration_csv) or bool(args.validate_history) or bool(args.build_history) or bool(args.source_audit) or args.ibkr_historical_plan or args.ibkr_historical_fetch or bool(args.quality_gate) or args.historical_pipeline_check or args.upstream_factors or args.theoretical_pricing is not None or args.actual_etf_prices or args.deviation_check is not None or args.reference_signals is not None or args.daily_trade_plan is not None or args.strategy_plan is not None or args.manual_research_pipeline or args.market_data_source_plan or args.manual_market_data_adapter is not None or args.integrate_manual_market_data is not None or args.manual_market_data_pipeline is not None or args.validate_filled_manual_scenario is not None or args.manual_market_data_review_pack is not None or args.generated_output_guard or args.manual_csv_smoke is not None or args.market_data_provider_registry or args.market_data_adapter_contract or args.manual_csv_adapter_interface is not None or args.adapter_interface_bridge is not None or args.research_trading_plan is not None or args.manual_research_trading_pipeline is not None or args.final_research_review_pack is not None or args.market_data_provider_readiness or args.market_data_provider_config_audit is not None or args.market_data_provider_selector is not None or args.live_provider_interface_check is not None or args.live_provider_request_gate is not None or args.live_provider_mock_adapter is not None or args.live_data_quality_gate is not None or args.live_research_review_pack is not None or args.live_final_research_review_pack is not None or args.ibkr_live_provider_adapter_check is not None or args.ibkr_contract_mapping_plan is not None or args.ibkr_contract_qualification_dry_run is not None or args.ibkr_contract_qualification_execution_guard is not None or args.ibkr_readonly_qualification_precheck is not None or args.ibkr_readonly_qualification_runbook is not None or args.ibkr_readonly_qualification_go_no_go is not None or args.ibkr_readonly_qualification_config_template is not None or args.ibkr_readonly_qualification_config_audit is not None or args.ibkr_readonly_qualification_config_apply_plan is not None or args.ibkr_readonly_qualification_config_final_gate is not None or args.ibkr_readonly_qualification_safety_summary is not None or args.ibkr_readonly_qualification_candidate_resolver is not None or args.ibkr_readonly_qualification_candidate_review_pack is not None or args.ibkr_readonly_qualification_candidate_final_gate is not None or args.ibkr_readonly_qualification_candidate_safety_summary is not None or args.ibkr_readonly_qualification_operator_decision_ledger is not None or args.ibkr_readonly_qualification_operator_approval_stub is not None or args.ibkr_readonly_qualification_effective_approval_gate is not None or args.ibkr_readonly_qualification_final_authorization_packet is not None or args.ibkr_readonly_qualification_phase12_closure_report is not None or args.ibkr_readonly_qualification_sandbox_design is not None or args.ibkr_readonly_qualification_sandbox_input_contract is not None or args.ibkr_readonly_qualification_sandbox_input_validator is not None or args.ibkr_readonly_qualification_sandbox_qualification_simulator is not None or args.ibkr_readonly_qualification_sandbox_result_pack is not None or args.ibkr_readonly_qualification_sandbox_safety_gate is not None or args.ibkr_readonly_qualification_sandbox_final_review_pack is not None or args.ibkr_readonly_qualification_sandbox_closure_report is not None or args.ibkr_readonly_preflight_guard_design is not None or args.ibkr_readonly_preflight_config_contract is not None or args.ibkr_readonly_preflight_config_validator is not None or args.ibkr_readonly_preflight_config_template is not None or args.ibkr_readonly_preflight_config_apply_plan is not None or args.ibkr_readonly_preflight_final_gate is not None or args.ibkr_readonly_preflight_safe_config_merge_plan is not None or args.ibkr_readonly_preflight_profile_aware_config_plan is not None or args.ibkr_readonly_preflight_profile_aware_final_gate is not None or args.ibkr_readonly_tws_environment_checklist is not None or args.ibkr_readonly_external_readiness_pack is not None or args.ibkr_readonly_connection_preflight_pack is not None or args.ibkr_readonly_authorization_pack is not None or args.ibkr_first_readonly_connect_disconnect is not None or args.ibkr_readonly_connection_log_heartbeat_guard is not None or args.ibkr_readonly_nontrading_account_server_info_pack is not None or args.ibkr_readonly_contract_info_preflight_pack is not None or args.ibkr_readonly_market_data_snapshot_preflight_pack is not None or args.ibkr_readonly_market_data_entitlement_diagnostic is not None or args.primary_metals_market_inference_layer is not None or args.primary_metals_inference_research_plan_integration is not None or args.primary_metals_final_review_pack_integration is not None or args.final_research_trading_plan_output is not None or args.final_research_plan_orchestrator is not None or args.report_template_daily_log_telegram_ready_output is not None or args.scheduler_stub_final_readme_release_checklist is not None or args.batch_i_real_market_env_check or args.batch_i_final_integration_audit_gate or args.batch_j_strategy_threshold_refinement or args.batch_j_final_integration_audit_gate or args.dashboard_artifact_reader or args.telegram_dry_run_payload or args.telegram_approval_gate))
 
 
     if args.upstream_factors:
@@ -743,6 +753,45 @@ def main() -> int:
         print(
             "NOTICE: Local read-only dashboard artifacts only. No UI frontend, no web service, no IBKR, "
             "no account/position/historical-data reads, no Telegram real send, and no trading/order/cancel/rebalance."
+        )
+        return 0
+
+    if args.telegram_dry_run_payload:
+        from src.operator_telegram_dry_run_payload import generate_telegram_dry_run_payload
+
+        row = generate_telegram_dry_run_payload()
+        print("[TELEGRAM_DRY_RUN_PAYLOAD] generated")
+        print(
+            "telegram_payload_status={}:dashboard_status={}:no_real_send=true:manual_approval_required=true".format(
+                row["telegram_payload_status"],
+                row["dashboard_status"],
+            )
+        )
+        print("csv=operator_telegram_dry_run_payload.csv")
+        print("json=operator_telegram_dry_run_payload.json")
+        print("report=reports/operator_telegram_dry_run_payload.md")
+        print(
+            "NOTICE: Telegram dry-run payload only. No Telegram API, no token read, no network send, "
+            "no real send, no IBKR/account/position/historical-data reads, and no trading/order/cancel/rebalance."
+        )
+        return 0
+
+    if args.telegram_approval_gate:
+        from src.operator_telegram_dry_run_payload import generate_telegram_approval_gate
+
+        row = generate_telegram_approval_gate()
+        print("[TELEGRAM_APPROVAL_GATE] generated")
+        print(
+            "approval_gate_status={}:telegram_payload_status={}:no_real_send=true:telegram_real_send_allowed=false".format(
+                row["approval_gate_status"],
+                row["telegram_payload_status"],
+            )
+        )
+        print("csv=operator_telegram_approval_gate.csv")
+        print("report=reports/operator_telegram_approval_gate_report.md")
+        print(
+            "NOTICE: Human approval review gate only. No Telegram API, no token read, no network send, "
+            "no real send, no auto push, and no trading/order/cancel/rebalance."
         )
         return 0
 
