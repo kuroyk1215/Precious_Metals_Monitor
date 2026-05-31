@@ -1,0 +1,26 @@
+{
+  "generated_at_utc": "2026-05-31T02:34:13+00:00",
+  "recommendation_enabled": "NO",
+  "signal_mode": "STATIC_RESEARCH_PLACEHOLDER",
+  "symbols": [
+    {
+      "long_term_signal": "DISABLED",
+      "mid_term_signal": "DISABLED",
+      "reason": "MARKET_DATA_BLOCKED_BY_SUBSCRIPTION",
+      "rolling_t_signal": "DISABLED",
+      "short_term_signal": "DISABLED",
+      "signal_status": "NOT_AVAILABLE_MARKET_DATA_BLOCKED",
+      "symbol": "GLD"
+    },
+    {
+      "long_term_signal": "DISABLED",
+      "mid_term_signal": "DISABLED",
+      "reason": "MARKET_DATA_BLOCKED_BY_SUBSCRIPTION",
+      "rolling_t_signal": "DISABLED",
+      "short_term_signal": "DISABLED",
+      "signal_status": "NOT_AVAILABLE_MARKET_DATA_BLOCKED",
+      "symbol": "SLV"
+    }
+  ],
+  "trading_signal_enabled": "NO"
+}
