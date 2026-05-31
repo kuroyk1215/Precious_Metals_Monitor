@@ -1,16 +1,8 @@
 {
-  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
-  "phase": "Phase 681-696",
-  "status": "PHASE_PROGRESS_RAIL_READY",
-  "timeline_items": [
-    "Phase 633-640",
-    "Phase 641-648",
-    "Phase 649-656",
-    "Phase 657-664",
-    "Phase 665-672",
-    "Phase 673-680",
-    "Phase 681-696"
-  ],
-  "timeline_mode": "STATIC_OPERATOR_PHASE_RAIL"
+  "external_assets": "NO",
+  "freeze_status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "javascript_required": "NO",
+  "phase": "Phase 697-704",
+  "status": "PHASE_PROGRESS_RAIL_FROZEN"
 }

@@ -1,0 +1,30 @@
+{
+  "checked_ui_generation": "V7_HIGH_TECH_TRADING_VISUAL",
+  "external_resource_check": "PASS",
+  "forbidden_price_field_check": "PASS",
+  "forbidden_trading_output_check": "PASS",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "language_mode": "ZH_CN_PRIMARY",
+  "phase": "Phase 697-704",
+  "required_safety_labels": [
+    "未连接 IBKR",
+    "未请求行情",
+    "未请求历史数据",
+    "未读取账户/持仓",
+    "未交易",
+    "未 Telegram 实发"
+  ],
+  "required_sections": [
+    "AI 投研交易驾驶舱",
+    "贵金属观察系统",
+    "总览",
+    "市场观察",
+    "图表面板",
+    "信号状态",
+    "风险边界",
+    "本地文件流",
+    "项目进度轨道",
+    "版本与安全"
+  ],
+  "status": "STATIC_UI_QA_PASS"
+}

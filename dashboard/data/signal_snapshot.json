@@ -1,6 +1,7 @@
 {
   "current_status": "仅保留研究框架，不输出方向判断",
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "phase": "Phase 697-704",
   "reason": "行情订阅权限阻断",
   "signal_module": "未启用",
   "strategy_output": "未启用"

@@ -1,0 +1,28 @@
+{
+  "external_assets": "NO",
+  "freeze_scope": [
+    "dashboard/index.html",
+    "dashboard/assets/style.css",
+    "dashboard/data/high_tech_visual_snapshot.json",
+    "dashboard/data/trading_shell_snapshot.json",
+    "dashboard/data/static_chart_snapshot.json"
+  ],
+  "frozen_ui_generation": "V7_HIGH_TECH_TRADING_VISUAL",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "javascript_required": "NO",
+  "phase": "Phase 697-704",
+  "status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "visual_contract": [
+    "DARK_FINTECH_TRADING_DASHBOARD",
+    "CSS_ONLY_DARK_GRID_SURFACE",
+    "LEFT_NAVIGATION",
+    "TOP_STATUS_COMMAND_BAR",
+    "HERO_TRADING_OVERVIEW",
+    "STATIC_CHART_PANEL",
+    "WATCHLIST_CARDS",
+    "RISK_PERMISSION_PANEL",
+    "ARTIFACT_STREAM",
+    "PHASE_PROGRESS_RAIL",
+    "SAFETY_FOOTER"
+  ]
+}

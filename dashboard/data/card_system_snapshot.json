@@ -1,14 +1,8 @@
 {
-  "card_types": [
-    "HERO_STATUS_CARD",
-    "STATIC_CHART_CARD",
-    "WATCHLIST_CARD",
-    "RISK_PERMISSION_CARD",
-    "ARTIFACT_STREAM_CARD",
-    "PHASE_RAIL_CARD"
-  ],
   "external_assets": "NO",
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
-  "phase": "Phase 681-696",
-  "status": "HIGH_TECH_CARD_SYSTEM_READY"
+  "freeze_status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "javascript_required": "NO",
+  "phase": "Phase 697-704",
+  "status": "HIGH_TECH_CARD_SYSTEM_FROZEN"
 }
