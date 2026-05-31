@@ -1,0 +1,63 @@
+{
+  "active": "Dashboard",
+  "generated_at_utc": "2026-05-31T06:10:39+00:00",
+  "items": [
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#dashboard",
+      "icon_text": "D",
+      "label": "Dashboard"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#watchlist",
+      "icon_text": "W",
+      "label": "Watchlist"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#signals",
+      "icon_text": "S",
+      "label": "Signals"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#risk-boundary",
+      "icon_text": "R",
+      "label": "Risk Boundary"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#artifacts",
+      "icon_text": "A",
+      "label": "Artifacts"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#timeline",
+      "icon_text": "T",
+      "label": "Timeline"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#system-status",
+      "icon_text": "Y",
+      "label": "System Status"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#settings",
+      "icon_text": "G",
+      "label": "Settings"
+    }
+  ],
+  "nav_mode": "STATIC_LOCAL_NAVIGATION"
+}

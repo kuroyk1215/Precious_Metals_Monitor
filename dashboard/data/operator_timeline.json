@@ -1,33 +1,26 @@
 {
-  "generated_at_utc": "2026-05-31T02:34:13+00:00",
+  "generated_at_utc": "2026-05-31T06:10:39+00:00",
   "timeline": [
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Locked GLD / SLV MVP boundary while market data remained subscription-blocked.",
-      "phase": "Phase 617-624",
-      "status": "US_ONLY_MVP_FINAL_AUDIT_FREEZE_READY",
-      "title": "US-only MVP final audit freeze"
-    },
-    {
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Prepared local archive handoff artifacts without external system access.",
-      "phase": "Phase 625-632",
-      "status": "US_ONLY_MVP_ARCHIVE_HANDOFF_PACK_READY",
-      "title": "US-only MVP archive handoff pack"
-    },
-    {
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Added local static dashboard shell and status snapshot.",
+      "notes": "Added the first local static dashboard shell.",
       "phase": "Phase 633-640",
       "status": "DASHBOARD_UI_ENHANCEMENT_READY",
       "title": "Dashboard UI enhancement pack"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Expanded local static research console panels with JSON artifacts only.",
+      "notes": "Expanded local static data panels and artifact reader.",
       "phase": "Phase 641-648",
       "status": "DASHBOARD_UI_V2_DATA_PANEL_READY",
-      "title": "Dashboard UI v2 data panel expansion pack"
+      "title": "Dashboard UI v2 data panel pack"
+    },
+    {
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "notes": "Polished the local app shell with sidebar, header, summary strip, and safety footer.",
+      "phase": "Phase 649-656",
+      "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY",
+      "title": "Dashboard UI v3 layout polish pack"
     }
   ]
 }

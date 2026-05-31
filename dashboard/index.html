@@ -7,165 +7,225 @@
     <link rel="stylesheet" href="assets/style.css">
   </head>
   <body>
-    <div class="shell">
-      <header class="topbar">
+    <div class="app-shell" id="dashboard">
+      <aside class="sidebar" aria-label="Sidebar navigation">
+        <div class="brand">
+          <span class="brand-mark">PM</span>
+          <div>
+            <span class="brand-title">AI Research Console</span>
+            <span class="brand-subtitle">Precious Metals Monitor</span>
+          </div>
+        </div>
         <div>
-          <h1>AI Research Console / Precious Metals Monitor</h1>
-          <p class="subtitle">Local static research console for GLD / SLV read-only artifact review.</p>
+          <div class="nav-section-label">Navigation</div>
+          <nav class="sidebar-nav">
+          <a class="nav-item active" href="#dashboard"><span class="nav-icon">D</span><span>Dashboard</span></a>
+          <a class="nav-item" href="#watchlist"><span class="nav-icon">W</span><span>Watchlist</span></a>
+          <a class="nav-item" href="#signals"><span class="nav-icon">S</span><span>Signals</span></a>
+          <a class="nav-item" href="#risk-boundary"><span class="nav-icon">R</span><span>Risk Boundary</span></a>
+          <a class="nav-item" href="#artifacts"><span class="nav-icon">A</span><span>Artifacts</span></a>
+          <a class="nav-item" href="#timeline"><span class="nav-icon">T</span><span>Timeline</span></a>
+          <a class="nav-item" href="#system-status"><span class="nav-icon">Y</span><span>System Status</span></a>
+          <a class="nav-item" href="#settings"><span class="nav-icon">G</span><span>Settings</span></a>
+          </nav>
         </div>
-        <div class="badges" aria-label="status badges">
-          <span class="badge safe">US_ONLY</span>
-          <span class="badge safe">READ_ONLY</span>
-          <span class="badge warn">DATA_BLOCKED</span>
-          <span class="badge warn">NOT_PRODUCTION</span>
-          <span class="badge safe">UI_V2</span>
-        </div>
-      </header>
-
-      <section class="summary-strip" aria-label="summary strip">
-        <div class="summary-item"><span class="label">MVP Status</span><span class="value mono">US_ONLY_READONLY_MONITORING_MVP_READY_WITH_MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</span></div>
-        <div class="summary-item"><span class="label">Market Data</span><span class="value mono danger">BLOCKED_BY_SUBSCRIPTION</span></div>
-        <div class="summary-item"><span class="label">Symbols</span><span class="value mono">GLD, SLV</span></div>
-        <div class="summary-item"><span class="label">External Effect</span><span class="value mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></div>
-      </section>
-
-      <main class="card-grid">
-        <section class="card wide">
-          <h2>MVP Status</h2>
-          <dl class="kv">
-            <dt>ui_phase</dt><dd class="mono">Phase 641-648</dd>
-            <dt>ui_status</dt><dd class="mono">DASHBOARD_UI_V2_DATA_PANEL_READY</dd>
-            <dt>ui_mode</dt><dd class="mono">LOCAL_STATIC_RESEARCH_CONSOLE</dd>
-            <dt>panel_count</dt><dd class="mono">8</dd>
-            <dt>market_scope</dt><dd class="mono">US_ONLY</dd>
-            <dt>symbols</dt><dd class="mono">GLD, SLV</dd>
-          </dl>
-        </section>
-
-        <section class="card">
-          <h2>Market Data Block</h2>
-          <dl class="kv">
-            <dt>market_data_status</dt><dd class="mono danger">BLOCKED_BY_SUBSCRIPTION</dd>
-            <dt>market_data_classification</dt><dd class="mono danger">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
-            <dt>ibkr_error_code</dt><dd class="mono">10089</dd>
-            <dt>subscription_required</dt><dd class="mono">YES</dd>
-            <dt>delayed_available</dt><dd class="mono">YES</dd>
-            <dt>realtime_market_data_verified</dt><dd class="mono ok">NO</dd>
-          </dl>
-        </section>
-
-        <section class="card wide">
-          <h2>Watchlist</h2>
-          <table class="watchlist-table">
-            <thead><tr><th>Symbol</th><th>Asset</th><th>Market</th><th>Data Status</th><th>Realtime</th><th>Delayed</th></tr></thead>
-            <tbody>
-              <tr><td class="mono">GLD</td><td>ETF</td><td>US</td><td class="mono danger">BLOCKED_BY_SUBSCRIPTION</td><td class="mono ok">NO</td><td class="mono">YES</td></tr>
-              <tr><td class="mono">SLV</td><td>ETF</td><td>US</td><td class="mono danger">BLOCKED_BY_SUBSCRIPTION</td><td class="mono ok">NO</td><td class="mono">YES</td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section class="card">
-          <h2>Signal Panel</h2>
-          <dl class="kv">
-            <dt>signal_mode</dt><dd class="mono">STATIC_RESEARCH_PLACEHOLDER</dd>
-            <dt>trading_signal_enabled</dt><dd class="mono ok">NO</dd>
-            <dt>recommendation_enabled</dt><dd class="mono ok">NO</dd>
-          </dl>
-          <table>
-            <thead><tr><th>Symbol</th><th>Status</th><th>Short</th><th>Mid</th><th>Long</th></tr></thead>
-            <tbody>
-              <tr><td class="mono">GLD</td><td class="mono danger">NOT_AVAILABLE_MARKET_DATA_BLOCKED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td></tr>
-              <tr><td class="mono">SLV</td><td class="mono danger">NOT_AVAILABLE_MARKET_DATA_BLOCKED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td></tr>
-            </tbody>
-          </table>
-        </section>
-
-        <section class="card wide">
-          <h2>Risk Boundary</h2>
-          <table class="risk-flag-table">
-            <tbody>
-              <tr><th>realtime_market_data_verified</th><td class="mono ok">NO</td></tr>
-              <tr><th>production_ready</th><td class="mono ok">NO</td></tr>
-              <tr><th>trading_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>account_read_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>positions_read_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>historical_data_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>telegram_real_send_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>external_effect</th><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><th>ibkr_connect_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>market_data_request_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>historical_data_request_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>account_read_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>positions_read_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>contract_qualification_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>order_submit_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>order_cancel_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>rebalance_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>telegram_real_send_enabled</th><td class="mono ok">NO</td></tr>
-              <tr><th>external_url_load_enabled</th><td class="mono ok">NO</td></tr>
-            </tbody>
-          </table>
-          <div class="flag-row" aria-label="blocked actions">
-            <span class="flag warn">IBKR_CONNECT</span>
-            <span class="flag warn">MARKET_DATA_REQUEST</span>
-            <span class="flag warn">HISTORICAL_DATA_REQUEST</span>
-            <span class="flag warn">ACCOUNT_READ</span>
-            <span class="flag warn">POSITION_READ</span>
-            <span class="flag warn">CONTRACT_QUALIFICATION</span>
-            <span class="flag warn">ORDER_SUBMIT</span>
-            <span class="flag warn">ORDER_CANCEL</span>
-            <span class="flag warn">REBALANCE</span>
-            <span class="flag warn">TELEGRAM_REAL_SEND</span>
-            <span class="flag warn">EXTERNAL_URL_LOAD</span>
+        <section class="console-mode" aria-label="Console Mode">
+          <div class="nav-section-label">Console Mode</div>
+          <div class="mode-list">
+            <span class="badge safe">LOCAL ONLY</span>
+            <span class="badge safe">READ-ONLY</span>
+            <span class="badge safe">NO EXTERNAL EFFECTS</span>
+            <span class="badge warn">NOT FOR PRODUCTION</span>
           </div>
         </section>
+      </aside>
 
-        <section class="card">
-          <h2>Operator Timeline</h2>
-          <ol class="timeline">
-            <li><strong>Phase 617-624: US-only MVP final audit freeze</strong><span class="mono">US_ONLY_MVP_FINAL_AUDIT_FREEZE_READY</span><span>Locked GLD / SLV MVP boundary while market data remained subscription-blocked.</span></li>
-            <li><strong>Phase 625-632: US-only MVP archive handoff pack</strong><span class="mono">US_ONLY_MVP_ARCHIVE_HANDOFF_PACK_READY</span><span>Prepared local archive handoff artifacts without external system access.</span></li>
-            <li><strong>Phase 633-640: Dashboard UI enhancement pack</strong><span class="mono">DASHBOARD_UI_ENHANCEMENT_READY</span><span>Added local static dashboard shell and status snapshot.</span></li>
-            <li><strong>Phase 641-648: Dashboard UI v2 data panel expansion pack</strong><span class="mono">DASHBOARD_UI_V2_DATA_PANEL_READY</span><span>Expanded local static research console panels with JSON artifacts only.</span></li>
-          </ol>
+      <div class="content">
+        <header class="topbar">
+          <div>
+            <h1>AI Research Console / Precious Metals Monitor</h1>
+            <p class="subtitle">Local Static Read-Only Research Console · Not for Production · No External Effects</p>
+            <div class="badge-bar" aria-label="status badge bar">
+              <span class="badge safe">US_ONLY</span>
+              <span class="badge safe">READ_ONLY</span>
+              <span class="badge warn">DATA_BLOCKED</span>
+              <span class="badge warn">NOT_PRODUCTION</span>
+              <span class="badge safe">UI_V3</span>
+            </div>
+          </div>
+          <section class="build-box" aria-label="build box">
+            <span class="label">generated_at_utc</span>
+            <strong class="summary-value mono">2026-05-31T06:10:39+00:00</strong>
+            <span class="caption">local static</span>
+          </section>
+        </header>
+
+        <section class="summary-strip" aria-label="summary strip">
+          <div class="summary-card"><span class="label">MVP Status</span><span class="summary-value mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</span></div>
+          <div class="summary-card"><span class="label">Market Data</span><span class="summary-value mono status-disabled">BLOCKED_BY_SUBSCRIPTION</span></div>
+          <div class="summary-card"><span class="label">Symbols</span><span class="summary-value mono">GLD / SLV</span></div>
+          <div class="summary-card"><span class="label">External Effect</span><span class="summary-value mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></div>
         </section>
 
-        <section class="card wide">
-          <h2>Artifact Reader</h2>
-          <ul class="artifact-list">
-            <li><a href="index.html">dashboard/index.html</a></li>
-            <li><a href="assets/style.css">dashboard/assets/style.css</a></li>
-            <li><a href="data/status_snapshot.json">dashboard/data/status_snapshot.json</a></li>
-            <li><a href="data/watchlist_snapshot.json">dashboard/data/watchlist_snapshot.json</a></li>
-            <li><a href="data/signal_snapshot.json">dashboard/data/signal_snapshot.json</a></li>
-            <li><a href="data/risk_snapshot.json">dashboard/data/risk_snapshot.json</a></li>
-            <li><a href="data/operator_timeline.json">dashboard/data/operator_timeline.json</a></li>
-            <li><a href="data/artifact_manifest.json">dashboard/data/artifact_manifest.json</a></li>
-            <li><a href="us_etf_dashboard_readonly.html">dashboard/us_etf_dashboard_readonly.html</a></li>
-            <li><a href="../telegram/us_etf_telegram_payload_preview.md">telegram/us_etf_telegram_payload_preview.md</a></li>
-            <li><a href="../Precious_Metals_Monitor_US_Only_MVP_Final_Freeze_Summary.md">Precious_Metals_Monitor_US_Only_MVP_Final_Freeze_Summary.md</a></li>
-            <li><a href="../Precious_Metals_Monitor_US_Only_MVP_Archive_Handoff_Pack.md">Precious_Metals_Monitor_US_Only_MVP_Archive_Handoff_Pack.md</a></li>
-            <li><a href="../Precious_Metals_Monitor_Dashboard_UI_Enhancement_Pack.md">Precious_Metals_Monitor_Dashboard_UI_Enhancement_Pack.md</a></li>
-          </ul>
-        </section>
+        <main class="card-grid">
+          <section class="card" id="system-status">
+            <h2>Market Data Block</h2>
+            <dl class="kv">
+              <dt>market_data_status</dt><dd class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</dd>
+              <dt>market_data_classification</dt><dd class="mono status-disabled">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
+              <dt>ibkr_error_code</dt><dd class="mono">10089</dd>
+              <dt>subscription_required</dt><dd class="mono">YES</dd>
+              <dt>delayed_available</dt><dd class="mono">YES</dd>
+              <dt>realtime_market_data_verified</dt><dd class="mono status-safe">NO</dd>
+            </dl>
+            <div class="warning-box">Market data remains blocked by subscription. This console is a local artifact viewer only.</div>
+          </section>
 
-        <section class="card">
-          <h2>JP / CN Frozen Scope</h2>
-          <dl class="kv">
-            <dt>jp_status</dt><dd class="mono">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</dd>
-            <dt>cn_status</dt><dd class="mono">FROZEN_PENDING_DATA_SOURCE_DECISION</dd>
-          </dl>
-        </section>
+          <section class="card wide" id="watchlist">
+            <h2>Watchlist</h2>
+            <table class="dense-table">
+              <thead><tr><th>Symbol</th><th>Asset</th><th>Market</th><th>Data Status</th><th>Realtime</th><th>Delayed</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">GLD</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono">YES</td></tr>
+              <tr><td class="mono">SLV</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono">YES</td></tr>
+              </tbody>
+            </table>
+          </section>
 
-        <section class="card">
-          <h2>Next Operator Action</h2>
-          <dl class="kv">
-            <dt>action</dt><dd class="mono">SUBSCRIBE_NETWORK_B_OR_KEEP_FRAMEWORK_ONLY_READONLY_MVP</dd>
-            <dt>generated_at_utc</dt><dd class="mono">2026-05-31T02:34:13+00:00</dd>
-          </dl>
-        </section>
-      </main>
+          <section class="card wide" id="signals">
+            <h2>Signal Panel</h2>
+            <table class="dense-table">
+              <thead><tr><th>Symbol</th><th>Status</th><th>Short</th><th>Mid</th><th>Long</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">GLD</td><td class="mono status-disabled">NOT_AVAILABLE_MARKET_DATA_BLOCKED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td></tr>
+              <tr><td class="mono">SLV</td><td class="mono status-disabled">NOT_AVAILABLE_MARKET_DATA_BLOCKED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="card" id="risk-boundary">
+            <h2>Risk Boundary</h2>
+            <table class="risk-matrix">
+              <tbody>
+                <tr><th>production_ready</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>trading_enabled</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>account_read_enabled</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>positions_read_enabled</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>historical_data_enabled</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>telegram_real_send_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>ibkr_connect_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>market_data_request_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>historical_data_request_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>account_read_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>positions_read_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>contract_qualification_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>order_submit_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>order_cancel_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>rebalance_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>telegram_real_send_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr><th>external_url_load_enabled</th><td class="mono status-safe">NO</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="card full">
+            <h2>Disabled Permission Matrix</h2>
+            <div class="flag-row">
+            <span class="flag status-warn">IBKR_CONNECT</span>
+            <span class="flag status-warn">MARKET_DATA_REQUEST</span>
+            <span class="flag status-warn">HISTORICAL_DATA_REQUEST</span>
+            <span class="flag status-warn">ACCOUNT_READ</span>
+            <span class="flag status-warn">POSITION_READ</span>
+            <span class="flag status-warn">CONTRACT_QUALIFICATION</span>
+            <span class="flag status-warn">ORDER_SUBMIT</span>
+            <span class="flag status-warn">ORDER_CANCEL</span>
+            <span class="flag status-warn">REBALANCE</span>
+            <span class="flag status-warn">TELEGRAM_REAL_SEND</span>
+            <span class="flag status-warn">EXTERNAL_URL_LOAD</span>
+            </div>
+          </section>
+
+          <section class="card" id="timeline">
+            <h2>Operator Timeline</h2>
+            <ol class="timeline">
+            <li><strong>Phase 633-640: Dashboard UI enhancement pack</strong><span class="mono">DASHBOARD_UI_ENHANCEMENT_READY</span><span class="caption">Added the first local static dashboard shell.</span></li>
+            <li><strong>Phase 641-648: Dashboard UI v2 data panel pack</strong><span class="mono">DASHBOARD_UI_V2_DATA_PANEL_READY</span><span class="caption">Expanded local static data panels and artifact reader.</span></li>
+            <li><strong>Phase 649-656: Dashboard UI v3 layout polish pack</strong><span class="mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</span><span class="caption">Polished the local app shell with sidebar, header, summary strip, and safety footer.</span></li>
+            </ol>
+          </section>
+
+          <section class="card wide" id="artifacts">
+            <h2>Artifact Reader</h2>
+            <table class="artifact-table">
+              <thead><tr><th>Local File</th><th>Type</th><th>External Effect</th></tr></thead>
+              <tbody>
+              <tr><td><a href="index.html">dashboard/index.html</a></td><td class="mono">html</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="assets/style.css">dashboard/assets/style.css</a></td><td class="mono">css</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/status_snapshot.json">dashboard/data/status_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/layout_snapshot.json">dashboard/data/layout_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/navigation_snapshot.json">dashboard/data/navigation_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/build_snapshot.json">dashboard/data/build_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/watchlist_snapshot.json">dashboard/data/watchlist_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/signal_snapshot.json">dashboard/data/signal_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/risk_snapshot.json">dashboard/data/risk_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/operator_timeline.json">dashboard/data/operator_timeline.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/artifact_manifest.json">dashboard/data/artifact_manifest.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="../operator_dashboard_ui_v3_layout_polish_pack.csv">operator_dashboard_ui_v3_layout_polish_pack.csv</a></td><td class="mono">csv</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="../reports/operator_dashboard_ui_v3_layout_polish_pack_report.md">reports/operator_dashboard_ui_v3_layout_polish_pack_report.md</a></td><td class="mono">md</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="../Precious_Metals_Monitor_Dashboard_UI_V3_Layout_Polish_Pack.md">Precious_Metals_Monitor_Dashboard_UI_V3_Layout_Polish_Pack.md</a></td><td class="mono">md</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="card">
+            <h2>JP / CN Frozen Scope</h2>
+            <dl class="kv">
+              <dt>jp_status</dt><dd class="mono">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</dd>
+              <dt>cn_status</dt><dd class="mono">FROZEN_PENDING_DATA_SOURCE_DECISION</dd>
+            </dl>
+          </section>
+
+          <section class="card" id="settings">
+            <h2>Next Operator Action</h2>
+            <dl class="kv">
+              <dt>action</dt><dd class="mono">SUBSCRIBE_NETWORK_B_OR_KEEP_FRAMEWORK_ONLY_READONLY_MVP</dd>
+              <dt>nav_mode</dt><dd class="mono">STATIC_LOCAL_NAVIGATION</dd>
+              <dt>javascript_required</dt><dd class="mono status-safe">NO</dd>
+            </dl>
+          </section>
+
+          <section class="card wide">
+            <h2>Build / Version / Safety</h2>
+            <dl class="kv">
+              <dt>phase</dt><dd class="mono">Phase 649-656</dd>
+              <dt>status</dt><dd class="mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</dd>
+              <dt>latest_main_commit</dt><dd class="mono">fa365c6</dd>
+              <dt>latest_merged_pr</dt><dd class="mono">219</dd>
+              <dt>current_branch_basis</dt><dd class="mono">main</dd>
+              <dt>production_ready</dt><dd class="mono status-safe">NO</dd>
+              <dt>trading_enabled</dt><dd class="mono status-safe">NO</dd>
+              <dt>external_effect</dt><dd class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</dd>
+            </dl>
+          </section>
+
+          <section class="card full">
+            <h2>Layout Snapshot</h2>
+            <table class="dense-table">
+              <thead><tr><th>Section</th><th>Status</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">SIDEBAR</td><td class="mono status-safe">READY</td></tr>
+              <tr><td class="mono">TOP_HEADER</td><td class="mono status-safe">READY</td></tr>
+              <tr><td class="mono">STATUS_BADGE_BAR</td><td class="mono status-safe">READY</td></tr>
+              <tr><td class="mono">SUMMARY_STRIP</td><td class="mono status-safe">READY</td></tr>
+              <tr><td class="mono">MAIN_CARD_GRID</td><td class="mono status-safe">READY</td></tr>
+              <tr><td class="mono">SAFETY_FOOTER</td><td class="mono status-safe">READY</td></tr>
+              <tr><td class="mono">BUILD_VERSION_PANEL</td><td class="mono status-safe">READY</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </main>
+      </div>
     </div>
+    <footer class="footer-safety-bar">No IBKR connection · No market data request · No historical data · No account/position read · No trading · No Telegram real send</footer>
   </body>
 </html>
