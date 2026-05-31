@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>US ETF Dashboard Readonly</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; }
+    body { margin: 0; background: #f5f7f9; color: #1b1f24; }
+    header, main { max-width: 1040px; margin: 0 auto; padding: 24px; }
+    header { border-bottom: 1px solid #d7dde3; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    h2 { margin: 0 0 16px; font-size: 20px; }
+    .status { display: inline-block; padding: 6px 10px; border: 1px solid #9b6a00; background: #fff4d6; color: #4f3600; font-weight: 700; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+    .card, .panel { background: #ffffff; border: 1px solid #d7dde3; border-radius: 8px; padding: 18px; }
+    dl { display: grid; grid-template-columns: minmax(130px, 45%) 1fr; gap: 8px 12px; margin: 0; }
+    dt { color: #5c6670; }
+    dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+    ul { margin: 10px 0 0; padding-left: 20px; }
+    li { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>US ETF Dashboard Readonly</h1>
+    <div class="status">US_ETF_DASHBOARD_READONLY_READY</div>
+    <p>Read-only artifact viewer for GLD / SLV. No trading terminal functions are enabled.</p>
+  </header>
+  <main>
+    <div class="grid">
+
+      <section class="card">
+        <h2>GLD</h2>
+        <dl>
+          <dt>Connectivity</dt><dd>VERIFIED_CONNECT_DISCONNECT</dd>
+          <dt>Contract qualification</dt><dd>GLD_SLV_QUALIFIED</dd>
+          <dt>Market data</dt><dd>BLOCKED_BY_SUBSCRIPTION</dd>
+          <dt>Classification</dt><dd>MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
+          <dt>Realtime verified</dt><dd>NO</dd>
+        </dl>
+      </section>
+      <section class="card">
+        <h2>SLV</h2>
+        <dl>
+          <dt>Connectivity</dt><dd>VERIFIED_CONNECT_DISCONNECT</dd>
+          <dt>Contract qualification</dt><dd>GLD_SLV_QUALIFIED</dd>
+          <dt>Market data</dt><dd>BLOCKED_BY_SUBSCRIPTION</dd>
+          <dt>Classification</dt><dd>MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
+          <dt>Realtime verified</dt><dd>NO</dd>
+        </dl>
+      </section>
+    </div>
+    <section class="panel">
+      <h2>Market Data Blocked</h2>
+      <ul>
+        <li>PERMISSION_DENIED / IBKR_ERROR_10089 / SUBSCRIPTION_REQUIRED / DELAYED_AVAILABLE</li>
+        <li>market data blocked by subscription</li>
+        <li>IBKR 10089</li>
+        <li>realtime_market_data_verified=NO</li>
+      </ul>
+    </section>
+    <section class="panel">
+      <h2>JP / CN Frozen</h2>
+      <ul><li>FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</li><li>FROZEN_PENDING_DATA_SOURCE_DECISION</li></ul>
+    </section>
+    <section class="panel">
+      <h2>Operator Review</h2>
+      <p>SUBSCRIBE_NETWORK_B_OR_CONTINUE_FRAMEWORK_ONLY_MVP</p>
+      <ul>
+        <li>read-only</li>
+        <li>no trading</li>
+        <li>no account reads</li>
+        <li>no positions reads</li>
+        <li>no external network resources</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
