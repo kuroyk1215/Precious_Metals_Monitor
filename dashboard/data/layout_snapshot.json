@@ -1,20 +1,8 @@
 {
   "external_assets": "NO",
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
+  "freeze_status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
   "javascript_required": "NO",
-  "layout_mode": "HIGH_TECH_TRADING_DASHBOARD_APP_SHELL",
-  "phase": "Phase 681-696",
-  "responsive_layout": "YES",
-  "sections": [
-    "LEFT_NAVIGATION",
-    "TOP_STATUS_COMMAND_BAR",
-    "HERO_TRADING_OVERVIEW",
-    "STATIC_CHART_PANEL",
-    "WATCHLIST_CARDS",
-    "RISK_PERMISSION_PANEL",
-    "ARTIFACT_STREAM",
-    "PHASE_PROGRESS_RAIL",
-    "SAFETY_FOOTER"
-  ],
-  "status": "DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY"
+  "phase": "Phase 697-704",
+  "status": "HIGH_TECH_TRADING_DASHBOARD_APP_SHELL_FROZEN"
 }

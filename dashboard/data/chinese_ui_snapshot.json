@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
   "language_mode": "ZH_CN_PRIMARY",
   "nav_labels": [
     "总览",
@@ -11,9 +11,18 @@
     "项目进度",
     "系统状态"
   ],
-  "phase": "Phase 681-696",
-  "primary_title": "AI 投研交易驾驶舱 · 贵金属观察系统",
-  "status": "CHINESE_MAIN_UI_READY",
-  "subtitle": "本地静态只读 · 行情订阅阻断 · 无账户读取 · 无交易权限",
-  "technical_status_codes": "SECONDARY_TECHNICAL_BADGE_ONLY"
+  "phase": "Phase 697-704",
+  "required_sections": [
+    "AI 投研交易驾驶舱",
+    "贵金属观察系统",
+    "总览",
+    "市场观察",
+    "图表面板",
+    "信号状态",
+    "风险边界",
+    "本地文件流",
+    "项目进度轨道",
+    "版本与安全"
+  ],
+  "status": "CHINESE_MAIN_UI_FROZEN"
 }

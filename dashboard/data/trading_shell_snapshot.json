@@ -1,20 +1,10 @@
 {
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
-  "hero_panels": [
-    "系统状态",
-    "静态图表占位",
-    "风险边界摘要"
-  ],
-  "phase": "Phase 681-696",
+  "freeze_status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "phase": "Phase 697-704",
   "primary_title": "AI 投研交易驾驶舱 · 贵金属观察系统",
   "real_trading_ui": "NO",
   "shell_mode": "READ_ONLY_TRADING_DASHBOARD_VISUAL_ONLY",
   "status": "STATIC_TRADING_SHELL_READY",
-  "subtitle": "本地静态只读 · 行情订阅阻断 · 无账户读取 · 无交易权限",
-  "trading_controls": {
-    "order_cancel": "DISABLED",
-    "order_entry": "DISABLED",
-    "rebalance": "DISABLED",
-    "telegram_real_send": "DISABLED"
-  }
+  "subtitle": "本地静态只读 · 行情订阅阻断 · 无账户读取 · 无交易权限"
 }

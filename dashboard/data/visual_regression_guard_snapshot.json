@@ -1,0 +1,39 @@
+{
+  "forbidden_markers": [
+    "http://",
+    "https://",
+    "cdn",
+    "@import",
+    "script src",
+    "TradingView",
+    "iframe",
+    "BUY",
+    "SELL",
+    "HOLD",
+    "target_price",
+    "stop_loss",
+    "take_profit",
+    "买入",
+    "卖出",
+    "持有",
+    "目标价",
+    "止损",
+    "止盈"
+  ],
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "guard_mode": "STATIC_TEXT_AND_STRUCTURE_GUARD",
+  "phase": "Phase 697-704",
+  "protected_markers": [
+    "AI 投研交易驾驶舱",
+    "本地静态只读",
+    "行情订阅阻断",
+    "静态占位",
+    "无实时行情",
+    "订阅权限阻断",
+    "本地文件流",
+    "项目进度轨道",
+    "DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY",
+    "V7_HIGH_TECH_TRADING_VISUAL"
+  ],
+  "status": "VISUAL_REGRESSION_GUARD_READY"
+}

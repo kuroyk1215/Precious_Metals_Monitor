@@ -1,11 +1,8 @@
 {
-  "copied_external_code": "NO",
-  "copied_external_fonts": "NO",
-  "copied_external_icons": "NO",
-  "copied_external_images": "NO",
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
-  "loaded_external_assets": "NO",
-  "phase": "Phase 681-696",
-  "reference_mode": "PUBLIC_DASHBOARD_LAYOUT_LANGUAGE_ONLY",
+  "external_assets": "NO",
+  "freeze_status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "javascript_required": "NO",
+  "phase": "Phase 697-704",
   "status": "PUBLIC_TEMPLATE_INSPIRED_LAYOUT_READY"
 }

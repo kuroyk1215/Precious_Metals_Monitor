@@ -25,6 +25,30 @@
       "type": "JSON"
     },
     {
+      "artifact_path": "dashboard/data/ui_qa_snapshot.json",
+      "category": "JSON",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/ui_qa_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/static_visual_freeze_snapshot.json",
+      "category": "JSON",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/static_visual_freeze_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/visual_regression_guard_snapshot.json",
+      "category": "JSON",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/visual_regression_guard_snapshot.json",
+      "type": "JSON"
+    },
+    {
       "artifact_path": "dashboard/data/high_tech_visual_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
@@ -97,30 +121,6 @@
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/artifact_manifest.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "icon_token": "JSON_LOCAL",
-      "local_href": "data/artifact_manifest.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/build_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "icon_token": "JSON_LOCAL",
-      "local_href": "data/build_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/operator_timeline.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "icon_token": "JSON_LOCAL",
-      "local_href": "data/operator_timeline.json",
-      "type": "JSON"
-    },
-    {
       "artifact_path": "dashboard/data/watchlist_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
@@ -161,31 +161,56 @@
       "type": "JSON"
     },
     {
-      "artifact_path": "operator_dashboard_high_tech_trading_visual_rebuild_pack.csv",
+      "artifact_path": "dashboard/data/build_snapshot.json",
+      "category": "JSON",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/build_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/operator_timeline.json",
+      "category": "JSON",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/operator_timeline.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/artifact_manifest.json",
+      "category": "JSON",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/artifact_manifest.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "operator_dashboard_ui_static_visual_freeze_pack.csv",
       "category": "CSV",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
       "icon_token": "CSV_LOCAL",
-      "local_href": "../operator_dashboard_high_tech_trading_visual_rebuild_pack.csv",
+      "local_href": "../operator_dashboard_ui_static_visual_freeze_pack.csv",
       "type": "CSV"
     },
     {
-      "artifact_path": "reports/operator_dashboard_high_tech_trading_visual_rebuild_pack_report.md",
+      "artifact_path": "reports/operator_dashboard_ui_static_visual_freeze_pack_report.md",
       "category": "REPORT",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
       "icon_token": "REPORT_LOCAL",
-      "local_href": "../reports/operator_dashboard_high_tech_trading_visual_rebuild_pack_report.md",
+      "local_href": "../reports/operator_dashboard_ui_static_visual_freeze_pack_report.md",
       "type": "MD"
     },
     {
-      "artifact_path": "Precious_Metals_Monitor_Dashboard_High_Tech_Trading_Visual_Rebuild_Pack.md",
+      "artifact_path": "Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md",
       "category": "PACK",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
       "icon_token": "PACK_LOCAL",
-      "local_href": "../Precious_Metals_Monitor_Dashboard_High_Tech_Trading_Visual_Rebuild_Pack.md",
+      "local_href": "../Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md",
       "type": "MD"
     }
   ],
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
-  "phase": "Phase 681-696",
-  "status": "DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY"
+  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "phase": "Phase 697-704",
+  "status": "DASHBOARD_UI_STATIC_VISUAL_FREEZE_READY"
 }

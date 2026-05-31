@@ -1,22 +1,8 @@
 {
-  "external_icon_library": "NO",
-  "generated_at_utc": "2026-05-31T11:56:27+00:00",
-  "icon_mode": "TEXT_ONLY_LOCAL_ICON_TOKENS",
-  "icon_tokens": [
-    "总",
-    "观",
-    "图",
-    "信",
-    "风",
-    "文",
-    "线",
-    "系",
-    "SYS",
-    "CSS",
-    "LOCK",
-    "FILE"
-  ],
-  "phase": "Phase 681-696",
-  "remote_icon_assets": "NO",
-  "status": "LOCAL_TEXT_ICON_SYSTEM_READY"
+  "external_assets": "NO",
+  "freeze_status": "STATIC_VISUAL_BASELINE_FROZEN",
+  "generated_at_utc": "2026-05-31T12:15:43+00:00",
+  "javascript_required": "NO",
+  "phase": "Phase 697-704",
+  "status": "LOCAL_TEXT_ICON_SYSTEM_FROZEN"
 }
