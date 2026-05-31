@@ -1,0 +1,26 @@
+{
+  "allowed_local_residue": [
+    "M config.yaml",
+    "?? ibkr_market_data_api_errors.csv"
+  ],
+  "dashboard_open_commands": [
+    "open dashboard/index.html",
+    "python3 main.py --dashboard-high-tech-trading-visual-rebuild-pack",
+    "python3 main.py --dashboard-ui-static-visual-freeze-pack"
+  ],
+  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+  "forbidden_commit_files": [
+    "config.yaml",
+    "ibkr_market_data_api_errors.csv"
+  ],
+  "frozen_ui_generation": "V7_HIGH_TECH_TRADING_VISUAL_FROZEN",
+  "frozen_ui_status": "DASHBOARD_UI_STATIC_VISUAL_FREEZE_READY",
+  "generated_artifact_warning": "RUNNING_GENERATORS_REFRESHES_GENERATED_AT_UTC",
+  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "handoff_purpose": "LOCK_UI_BASELINE_AND_ROUTE_NEXT_DEVELOPMENT",
+  "latest_main_commit": "3909b6c",
+  "latest_merged_pr": 225,
+  "phase": "Phase 705-720",
+  "restore_after_viewing_required": "YES_IF_DASHBOARD_ARTIFACTS_MODIFIED",
+  "status": "POST_UI_FREEZE_OPERATOR_HANDOFF_READY"
+}

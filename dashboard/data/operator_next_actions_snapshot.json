@@ -1,0 +1,29 @@
+{
+  "blocked_actions": [
+    "IBKR_CONNECT",
+    "MARKET_DATA_REQUEST",
+    "HISTORICAL_DATA_REQUEST",
+    "ACCOUNT_READ",
+    "POSITION_READ",
+    "CONTRACT_QUALIFICATION",
+    "ORDER_SUBMIT",
+    "ORDER_CANCEL",
+    "REBALANCE",
+    "TELEGRAM_REAL_SEND"
+  ],
+  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "immediate_next_actions": [
+    "Review UI freeze status",
+    "Choose next track: market data source decision",
+    "Decide whether IBKR Network B / ARCA subscription is acceptable",
+    "Compare public delayed data source vs manual CSV vs paid API",
+    "Keep JP / CN frozen until source policy is defined"
+  ],
+  "operator_commands": [
+    "python3 main.py --post-ui-freeze-handoff-data-roadmap-pack",
+    "open dashboard/index.html",
+    "git status --short"
+  ],
+  "phase": "Phase 705-720",
+  "status": "OPERATOR_NEXT_ACTIONS_READY"
+}

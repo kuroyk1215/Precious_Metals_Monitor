@@ -1,11 +1,11 @@
 {
   "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-  "generated_at_utc": "2026-05-31T12:15:43+00:00",
-  "latest_main_commit": "f4bb1fa",
-  "latest_merged_pr": "224",
-  "phase": "Phase 697-704",
+  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "latest_main_commit": "3909b6c",
+  "latest_merged_pr": 225,
+  "phase": "Phase 705-720",
   "production_ready": "NO",
-  "status": "DASHBOARD_UI_STATIC_VISUAL_FREEZE_READY",
+  "status": "POST_UI_FREEZE_HANDOFF_DATA_ROADMAP_READY",
   "trading_enabled": "NO",
   "ui_generation": "V7_HIGH_TECH_TRADING_VISUAL_FROZEN"
 }
