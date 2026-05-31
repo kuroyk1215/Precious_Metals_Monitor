@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Research Console / Precious Metals Monitor</title>
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>AI Research Console / Precious Metals Monitor</h1>
+          <p class="subtitle">Local static read-only console for GLD / SLV archive review.</p>
+        </div>
+        <div class="badges" aria-label="status badges">
+          <span class="badge safe">US_ONLY</span>
+          <span class="badge safe">READ_ONLY</span>
+          <span class="badge warn">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</span>
+          <span class="badge warn">NOT_PRODUCTION</span>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="card">
+          <h2>MVP Status</h2>
+          <dl class="kv">
+            <dt>phase</dt><dd class="mono">Phase 633-640</dd>
+            <dt>status</dt><dd class="mono">DASHBOARD_UI_ENHANCEMENT_READY</dd>
+            <dt>final_mvp_status</dt><dd class="mono">US_ONLY_READONLY_MONITORING_MVP_READY_WITH_MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
+            <dt>archive_handoff_status</dt><dd class="mono">US_ONLY_MVP_ARCHIVE_HANDOFF_PACK_READY</dd>
+            <dt>market_scope</dt><dd class="mono">US_ONLY</dd>
+            <dt>symbols</dt><dd class="mono">GLD, SLV</dd>
+          </dl>
+        </section>
+
+        <section class="card">
+          <h2>Market Data Block</h2>
+          <dl class="kv">
+            <dt>market_data_status</dt><dd class="mono danger">BLOCKED_BY_SUBSCRIPTION</dd>
+            <dt>market_data_classification</dt><dd class="mono danger">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
+            <dt>ibkr_error_code</dt><dd class="mono">10089</dd>
+            <dt>subscription_required</dt><dd class="mono">YES</dd>
+            <dt>delayed_available</dt><dd class="mono">YES</dd>
+            <dt>realtime_market_data_verified</dt><dd class="mono ok">NO</dd>
+          </dl>
+        </section>
+
+        <section class="card">
+          <h2>Safety Boundary</h2>
+          <table>
+            <tbody>
+              <tr><th>realtime_market_data_verified</th><td class="mono ok">NO</td></tr>
+              <tr><th>production_ready</th><td class="mono ok">NO</td></tr>
+              <tr><th>trading_enabled</th><td class="mono ok">NO</td></tr>
+              <tr><th>account_read_enabled</th><td class="mono ok">NO</td></tr>
+              <tr><th>positions_read_enabled</th><td class="mono ok">NO</td></tr>
+              <tr><th>historical_data_enabled</th><td class="mono ok">NO</td></tr>
+              <tr><th>telegram_real_send_enabled</th><td class="mono ok">NO</td></tr>
+              <tr><th>external_effect</th><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="card">
+          <h2>Artifact Map</h2>
+          <ul>
+            <li><a href="../dashboard/us_etf_dashboard_readonly.html">dashboard/us_etf_dashboard_readonly.html</a></li>
+            <li><a href="../telegram/us_etf_telegram_payload_preview.md">telegram/us_etf_telegram_payload_preview.md</a></li>
+            <li><a href="../Precious_Metals_Monitor_US_Only_MVP_Final_Freeze_Summary.md">Precious_Metals_Monitor_US_Only_MVP_Final_Freeze_Summary.md</a></li>
+            <li><a href="../Precious_Metals_Monitor_US_Only_MVP_Archive_Handoff_Pack.md">Precious_Metals_Monitor_US_Only_MVP_Archive_Handoff_Pack.md</a></li>
+            <li><a href="data/status_snapshot.json">dashboard/data/status_snapshot.json</a></li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>JP / CN Frozen Scope</h2>
+          <dl class="kv">
+            <dt>jp_status</dt><dd class="mono">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</dd>
+            <dt>cn_status</dt><dd class="mono">FROZEN_PENDING_DATA_SOURCE_DECISION</dd>
+          </dl>
+        </section>
+
+        <section class="card">
+          <h2>Next Operator Action</h2>
+          <dl class="kv">
+            <dt>action</dt><dd class="mono">SUBSCRIBE_NETWORK_B_OR_KEEP_FRAMEWORK_ONLY_READONLY_MVP</dd>
+            <dt>generated_at_utc</dt><dd class="mono">2026-05-31T02:20:37+00:00</dd>
+          </dl>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

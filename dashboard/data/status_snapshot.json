@@ -1,0 +1,33 @@
+{
+  "account_read_enabled": "NO",
+  "archive_handoff_status": "US_ONLY_MVP_ARCHIVE_HANDOFF_PACK_READY",
+  "artifacts": [
+    "dashboard/us_etf_dashboard_readonly.html",
+    "telegram/us_etf_telegram_payload_preview.md",
+    "Precious_Metals_Monitor_US_Only_MVP_Final_Freeze_Summary.md",
+    "Precious_Metals_Monitor_US_Only_MVP_Archive_Handoff_Pack.md"
+  ],
+  "cn_status": "FROZEN_PENDING_DATA_SOURCE_DECISION",
+  "delayed_available": "YES",
+  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+  "final_mvp_status": "US_ONLY_READONLY_MONITORING_MVP_READY_WITH_MARKET_DATA_BLOCKED_BY_SUBSCRIPTION",
+  "generated_at_utc": "2026-05-31T02:20:37+00:00",
+  "historical_data_enabled": "NO",
+  "ibkr_error_code": "10089",
+  "jp_status": "FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION",
+  "market_data_classification": "MARKET_DATA_BLOCKED_BY_SUBSCRIPTION",
+  "market_data_status": "BLOCKED_BY_SUBSCRIPTION",
+  "market_scope": "US_ONLY",
+  "phase": "Phase 633-640",
+  "positions_read_enabled": "NO",
+  "production_ready": "NO",
+  "realtime_market_data_verified": "NO",
+  "status": "DASHBOARD_UI_ENHANCEMENT_READY",
+  "subscription_required": "YES",
+  "symbols": [
+    "GLD",
+    "SLV"
+  ],
+  "telegram_real_send_enabled": "NO",
+  "trading_enabled": "NO"
+}
