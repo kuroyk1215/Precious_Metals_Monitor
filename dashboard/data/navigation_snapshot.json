@@ -1,62 +1,62 @@
 {
-  "active": "Dashboard",
-  "generated_at_utc": "2026-05-31T09:51:04+00:00",
+  "active": "\u603b\u89c8",
+  "generated_at_utc": "2026-05-31T11:28:32+00:00",
   "items": [
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#dashboard",
-      "icon_text": "DASHBOARD",
-      "label": "Dashboard"
+      "icon_text": "\u603b",
+      "label": "\u603b\u89c8"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#watchlist",
-      "icon_text": "WATCHLIST",
-      "label": "Watchlist"
+      "icon_text": "\u89c2",
+      "label": "\u89c2\u5bdf\u6c60"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#signals",
-      "icon_text": "SIGNAL",
-      "label": "Signals"
+      "icon_text": "\u4fe1",
+      "label": "\u4fe1\u53f7\u72b6\u6001"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#risk-boundary",
-      "icon_text": "RISK",
-      "label": "Risk Boundary"
+      "icon_text": "\u98ce",
+      "label": "\u98ce\u9669\u8fb9\u754c"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#artifacts",
-      "icon_text": "ARTIFACT",
-      "label": "Artifacts"
+      "icon_text": "\u6587",
+      "label": "\u672c\u5730\u6587\u4ef6"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#timeline",
-      "icon_text": "TIMELINE",
-      "label": "Timeline"
+      "icon_text": "\u7ebf",
+      "label": "\u9879\u76ee\u8fdb\u5ea6"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#system-status",
-      "icon_text": "SYSTEM",
-      "label": "System Status"
+      "icon_text": "\u7cfb",
+      "label": "\u7cfb\u7edf\u72b6\u6001"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#settings",
-      "icon_text": "SETTINGS",
-      "label": "Settings"
+      "icon_text": "\u8bbe",
+      "label": "\u8bbe\u7f6e"
     }
   ],
   "nav_mode": "STATIC_LOCAL_NAVIGATION"
