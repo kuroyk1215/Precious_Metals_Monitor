@@ -1,0 +1,25 @@
+{
+  "card_types": [
+    "SUMMARY_CARD",
+    "STATUS_CARD",
+    "MATRIX_CARD",
+    "TABLE_CARD",
+    "TIMELINE_CARD",
+    "ARTIFACT_CARD",
+    "ACTION_CARD",
+    "SAFETY_CARD"
+  ],
+  "external_assets": "NO",
+  "generated_at_utc": "2026-05-31T09:33:02+00:00",
+  "phase": "Phase 657-664",
+  "status": "CARD_SYSTEM_READY",
+  "status_tokens": [
+    "SAFE",
+    "WARNING",
+    "DISABLED",
+    "BLOCKED",
+    "LOCAL_ONLY",
+    "READ_ONLY",
+    "NOT_PRODUCTION"
+  ]
+}

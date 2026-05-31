@@ -1,26 +1,33 @@
 {
-  "generated_at_utc": "2026-05-31T06:10:39+00:00",
+  "generated_at_utc": "2026-05-31T09:33:02+00:00",
   "timeline": [
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Added the first local static dashboard shell.",
+      "notes": "Initial local static dashboard shell.",
       "phase": "Phase 633-640",
       "status": "DASHBOARD_UI_ENHANCEMENT_READY",
-      "title": "Dashboard UI enhancement pack"
+      "theme": "Dashboard UI enhancement"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Expanded local static data panels and artifact reader.",
+      "notes": "Added dense local data panels and artifact reader.",
       "phase": "Phase 641-648",
       "status": "DASHBOARD_UI_V2_DATA_PANEL_READY",
-      "title": "Dashboard UI v2 data panel pack"
+      "theme": "Dashboard UI v2 data panels"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Polished the local app shell with sidebar, header, summary strip, and safety footer.",
+      "notes": "Added sidebar, header, summary strip, and safety footer.",
       "phase": "Phase 649-656",
       "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY",
-      "title": "Dashboard UI v3 layout polish pack"
+      "theme": "Dashboard UI v3 layout polish"
+    },
+    {
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "notes": "Upgraded matrix tables, card hierarchy, and compact reader density.",
+      "phase": "Phase 657-664",
+      "status": "DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY",
+      "theme": "Visual density and card system"
     }
   ]
 }

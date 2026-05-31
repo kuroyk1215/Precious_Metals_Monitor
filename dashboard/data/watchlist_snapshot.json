@@ -1,28 +1,24 @@
 {
-  "generated_at_utc": "2026-05-31T06:10:39+00:00",
+  "generated_at_utc": "2026-05-31T09:33:02+00:00",
   "scope": "US_ONLY",
   "symbols": [
     {
-      "asset_class": "ETF",
+      "asset": "ETF",
       "data_status": "BLOCKED_BY_SUBSCRIPTION",
-      "delayed_available": "YES",
+      "delayed": "YES",
       "market": "US",
-      "notes": "Static US ETF watchlist member. No quote, holding, or account value is embedded.",
-      "realtime_price_available": "NO",
-      "subscription_required": "YES",
+      "realtime": "NO",
       "symbol": "GLD",
-      "tradability_view": "RESEARCH_ONLY_NOT_TRADE_SIGNAL"
+      "tradability_view": "RESEARCH_ONLY_NO_TRADING_ACTION"
     },
     {
-      "asset_class": "ETF",
+      "asset": "ETF",
       "data_status": "BLOCKED_BY_SUBSCRIPTION",
-      "delayed_available": "YES",
+      "delayed": "YES",
       "market": "US",
-      "notes": "Static US ETF watchlist member. No quote, holding, or account value is embedded.",
-      "realtime_price_available": "NO",
-      "subscription_required": "YES",
+      "realtime": "NO",
       "symbol": "SLV",
-      "tradability_view": "RESEARCH_ONLY_NOT_TRADE_SIGNAL"
+      "tradability_view": "RESEARCH_ONLY_NO_TRADING_ACTION"
     }
   ]
 }

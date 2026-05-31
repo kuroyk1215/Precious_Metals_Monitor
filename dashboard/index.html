@@ -32,10 +32,10 @@
         <section class="console-mode" aria-label="Console Mode">
           <div class="nav-section-label">Console Mode</div>
           <div class="mode-list">
-            <span class="badge safe">LOCAL ONLY</span>
-            <span class="badge safe">READ-ONLY</span>
-            <span class="badge safe">NO EXTERNAL EFFECTS</span>
-            <span class="badge warn">NOT FOR PRODUCTION</span>
+            <span class="badge safe">LOCAL_ONLY</span>
+            <span class="badge safe">READ_ONLY</span>
+            <span class="badge disabled">BLOCKED</span>
+            <span class="badge warn">NOT_PRODUCTION</span>
           </div>
         </section>
       </aside>
@@ -44,182 +44,161 @@
         <header class="topbar">
           <div>
             <h1>AI Research Console / Precious Metals Monitor</h1>
-            <p class="subtitle">Local Static Read-Only Research Console · Not for Production · No External Effects</p>
-            <div class="badge-bar" aria-label="status badge bar">
+            <p class="subtitle">Local Static Read-Only Research Console · High Information Density · No External Effects</p>
+            <div class="badge-bar" aria-label="status token bar">
               <span class="badge safe">US_ONLY</span>
               <span class="badge safe">READ_ONLY</span>
-              <span class="badge warn">DATA_BLOCKED</span>
+              <span class="badge disabled">DATA_BLOCKED</span>
               <span class="badge warn">NOT_PRODUCTION</span>
-              <span class="badge safe">UI_V3</span>
+              <span class="badge safe">V4_VISUAL_DENSITY</span>
             </div>
           </div>
           <section class="build-box" aria-label="build box">
             <span class="label">generated_at_utc</span>
-            <strong class="summary-value mono">2026-05-31T06:10:39+00:00</strong>
-            <span class="caption">local static</span>
+            <strong class="summary-value mono">2026-05-31T09:33:02+00:00</strong>
+            <span class="caption">file local static</span>
           </section>
         </header>
 
-        <section class="summary-strip" aria-label="summary strip">
-          <div class="summary-card"><span class="label">MVP Status</span><span class="summary-value mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</span></div>
-          <div class="summary-card"><span class="label">Market Data</span><span class="summary-value mono status-disabled">BLOCKED_BY_SUBSCRIPTION</span></div>
-          <div class="summary-card"><span class="label">Symbols</span><span class="summary-value mono">GLD / SLV</span></div>
-          <div class="summary-card"><span class="label">External Effect</span><span class="summary-value mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></div>
+        <section class="summary-strip" aria-label="summary cards">
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon">S</span><span class="label">UI Status</span></div><span class="summary-value mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</span><span class="summary-note">Phase 657-664 card system</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon">M</span><span class="label">Market Data</span></div><span class="summary-value mono status-disabled">BLOCKED_BY_SUBSCRIPTION</span><span class="summary-note">IBKR error code 10089</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon">W</span><span class="label">Watchlist</span></div><span class="summary-value mono">GLD / SLV</span><span class="summary-note">US ETF scope only</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon">E</span><span class="label">External Effect</span></div><span class="summary-value mono status-warn">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span><span class="summary-note">Local artifact generation only</span></div>
         </section>
 
         <main class="card-grid">
           <section class="card" id="system-status">
-            <h2>Market Data Block</h2>
-            <dl class="kv">
-              <dt>market_data_status</dt><dd class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</dd>
-              <dt>market_data_classification</dt><dd class="mono status-disabled">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</dd>
-              <dt>ibkr_error_code</dt><dd class="mono">10089</dd>
-              <dt>subscription_required</dt><dd class="mono">YES</dd>
-              <dt>delayed_available</dt><dd class="mono">YES</dd>
-              <dt>realtime_market_data_verified</dt><dd class="mono status-safe">NO</dd>
-            </dl>
-            <div class="warning-box">Market data remains blocked by subscription. This console is a local artifact viewer only.</div>
+            <div class="card-header"><div><span class="eyebrow">status matrix</span><h2>Market Data Block</h2></div><span class="token blocked">BLOCKED</span></div>
+            <table class="matrix-table">
+              <thead><tr><th>Field</th><th>Value</th><th>Severity</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">ibkr_error_code</td><td class="mono ">10089</td><td class="mono status-disabled">BLOCKED</td></tr>
+              <tr><td class="mono">subscription_required</td><td class="mono status-warn">YES</td><td class="mono status-warn">WARNING</td></tr>
+              <tr><td class="mono">delayed_available</td><td class="mono status-warn">YES</td><td class="mono status-warn">WARNING</td></tr>
+              <tr><td class="mono">realtime_market_data_verified</td><td class="mono status-safe">NO</td><td class="mono status-disabled">BLOCKED</td></tr>
+              </tbody>
+            </table>
+            <div class="warning-strip danger-strip">Market data access blocked by subscription. No market data requests will be made.</div>
           </section>
 
           <section class="card wide" id="watchlist">
-            <h2>Watchlist</h2>
+            <div class="card-header"><div><span class="eyebrow">compact table</span><h2>Watchlist</h2></div><span class="token safe">GLD / SLV</span></div>
             <table class="dense-table">
-              <thead><tr><th>Symbol</th><th>Asset</th><th>Market</th><th>Data Status</th><th>Realtime</th><th>Delayed</th></tr></thead>
+              <thead><tr><th>Symbol</th><th>Asset</th><th>Market</th><th>Data Status</th><th>Realtime</th><th>Delayed</th><th>Tradability View</th></tr></thead>
               <tbody>
-              <tr><td class="mono">GLD</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono">YES</td></tr>
-              <tr><td class="mono">SLV</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono">YES</td></tr>
+              <tr><td class="mono">GLD</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono status-warn">YES</td><td class="mono">RESEARCH_ONLY_NO_TRADING_ACTION</td></tr>
+              <tr><td class="mono">SLV</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono status-warn">YES</td><td class="mono">RESEARCH_ONLY_NO_TRADING_ACTION</td></tr>
               </tbody>
             </table>
           </section>
 
           <section class="card wide" id="signals">
-            <h2>Signal Panel</h2>
-            <table class="dense-table">
-              <thead><tr><th>Symbol</th><th>Status</th><th>Short</th><th>Mid</th><th>Long</th></tr></thead>
+            <div class="card-header"><div><span class="eyebrow">disabled matrix</span><h2>Signal Panel</h2></div><span class="token disabled">DISABLED</span></div>
+            <table class="matrix-table">
+              <thead><tr><th>Symbol</th><th>Short</th><th>Mid</th><th>Long</th><th>Rolling</th><th>Reason</th></tr></thead>
               <tbody>
-              <tr><td class="mono">GLD</td><td class="mono status-disabled">NOT_AVAILABLE_MARKET_DATA_BLOCKED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td></tr>
-              <tr><td class="mono">SLV</td><td class="mono status-disabled">NOT_AVAILABLE_MARKET_DATA_BLOCKED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td><td class="mono">DISABLED</td></tr>
+              <tr class="signal-disabled-row"><td class="mono">GLD</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</td></tr>
+              <tr class="signal-disabled-row"><td class="mono">SLV</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</td></tr>
               </tbody>
             </table>
+            <div class="warning-strip">trading_signal_enabled=NO · recommendation_enabled=NO</div>
           </section>
 
-          <section class="card" id="risk-boundary">
-            <h2>Risk Boundary</h2>
-            <table class="risk-matrix">
+          <section class="card full" id="risk-boundary">
+            <div class="card-header"><div><span class="eyebrow">permission matrix</span><h2>Risk Boundary</h2></div><span class="token disabled">ALL DISABLED</span></div>
+            <table class="matrix-table">
+              <thead><tr><th>Action / Function</th><th>Function</th><th>Status</th><th>Allowed</th></tr></thead>
               <tbody>
-                <tr><th>production_ready</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>trading_enabled</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>account_read_enabled</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>positions_read_enabled</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>historical_data_enabled</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>telegram_real_send_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>ibkr_connect_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>market_data_request_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>historical_data_request_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>account_read_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>positions_read_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>contract_qualification_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>order_submit_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>order_cancel_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>rebalance_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>telegram_real_send_enabled</th><td class="mono status-safe">NO</td></tr>
-              <tr><th>external_url_load_enabled</th><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">IBKR_CONNECT</td><td>IBKR_CONNECT</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">MARKET_DATA_REQUEST</td><td>MARKET_DATA_REQUEST</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">HISTORICAL_DATA_REQUEST</td><td>HISTORICAL_DATA_REQUEST</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">ACCOUNT_READ</td><td>ACCOUNT_READ</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">POSITION_READ</td><td>POSITION_READ</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">CONTRACT_QUALIFICATION</td><td>CONTRACT_QUALIFICATION</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">ORDER_SUBMIT</td><td>ORDER_SUBMIT</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">ORDER_CANCEL</td><td>ORDER_CANCEL</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">REBALANCE</td><td>REBALANCE</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">TELEGRAM_REAL_SEND</td><td>TELEGRAM_REAL_SEND</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
+              <tr class="risk-disabled-row"><td class="mono">EXTERNAL_URL_LOAD</td><td>EXTERNAL_URL_LOAD</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
               </tbody>
             </table>
-          </section>
-
-          <section class="card full">
-            <h2>Disabled Permission Matrix</h2>
-            <div class="flag-row">
-            <span class="flag status-warn">IBKR_CONNECT</span>
-            <span class="flag status-warn">MARKET_DATA_REQUEST</span>
-            <span class="flag status-warn">HISTORICAL_DATA_REQUEST</span>
-            <span class="flag status-warn">ACCOUNT_READ</span>
-            <span class="flag status-warn">POSITION_READ</span>
-            <span class="flag status-warn">CONTRACT_QUALIFICATION</span>
-            <span class="flag status-warn">ORDER_SUBMIT</span>
-            <span class="flag status-warn">ORDER_CANCEL</span>
-            <span class="flag status-warn">REBALANCE</span>
-            <span class="flag status-warn">TELEGRAM_REAL_SEND</span>
-            <span class="flag status-warn">EXTERNAL_URL_LOAD</span>
-            </div>
-          </section>
-
-          <section class="card" id="timeline">
-            <h2>Operator Timeline</h2>
-            <ol class="timeline">
-            <li><strong>Phase 633-640: Dashboard UI enhancement pack</strong><span class="mono">DASHBOARD_UI_ENHANCEMENT_READY</span><span class="caption">Added the first local static dashboard shell.</span></li>
-            <li><strong>Phase 641-648: Dashboard UI v2 data panel pack</strong><span class="mono">DASHBOARD_UI_V2_DATA_PANEL_READY</span><span class="caption">Expanded local static data panels and artifact reader.</span></li>
-            <li><strong>Phase 649-656: Dashboard UI v3 layout polish pack</strong><span class="mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</span><span class="caption">Polished the local app shell with sidebar, header, summary strip, and safety footer.</span></li>
-            </ol>
+            <div class="warning-strip danger-strip">All functions are disabled in this read-only research console.</div>
           </section>
 
           <section class="card wide" id="artifacts">
-            <h2>Artifact Reader</h2>
+            <div class="card-header"><div><span class="eyebrow">static manifest</span><h2>Artifact Reader</h2></div><span class="token safe">READ_ONLY</span></div>
             <table class="artifact-table">
-              <thead><tr><th>Local File</th><th>Type</th><th>External Effect</th></tr></thead>
+              <thead><tr><th>Artifact Path</th><th>Type</th><th>Category</th><th>External Effect</th></tr></thead>
               <tbody>
-              <tr><td><a href="index.html">dashboard/index.html</a></td><td class="mono">html</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="assets/style.css">dashboard/assets/style.css</a></td><td class="mono">css</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/status_snapshot.json">dashboard/data/status_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/layout_snapshot.json">dashboard/data/layout_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/navigation_snapshot.json">dashboard/data/navigation_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/build_snapshot.json">dashboard/data/build_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/watchlist_snapshot.json">dashboard/data/watchlist_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/signal_snapshot.json">dashboard/data/signal_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/risk_snapshot.json">dashboard/data/risk_snapshot.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/operator_timeline.json">dashboard/data/operator_timeline.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/artifact_manifest.json">dashboard/data/artifact_manifest.json</a></td><td class="mono">json</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="../operator_dashboard_ui_v3_layout_polish_pack.csv">operator_dashboard_ui_v3_layout_polish_pack.csv</a></td><td class="mono">csv</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="../reports/operator_dashboard_ui_v3_layout_polish_pack_report.md">reports/operator_dashboard_ui_v3_layout_polish_pack_report.md</a></td><td class="mono">md</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="../Precious_Metals_Monitor_Dashboard_UI_V3_Layout_Polish_Pack.md">Precious_Metals_Monitor_Dashboard_UI_V3_Layout_Polish_Pack.md</a></td><td class="mono">md</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="index.html">dashboard/index.html</a></td><td class="mono">HTML</td><td class="mono">HTML</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="assets/style.css">dashboard/assets/style.css</a></td><td class="mono">CSS</td><td class="mono">CSS</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/status_snapshot.json">dashboard/data/status_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/visual_density_snapshot.json">dashboard/data/visual_density_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/card_system_snapshot.json">dashboard/data/card_system_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/watchlist_snapshot.json">dashboard/data/watchlist_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/signal_snapshot.json">dashboard/data/signal_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/risk_snapshot.json">dashboard/data/risk_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/operator_timeline.json">dashboard/data/operator_timeline.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/artifact_manifest.json">dashboard/data/artifact_manifest.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/layout_snapshot.json">dashboard/data/layout_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/navigation_snapshot.json">dashboard/data/navigation_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="data/build_snapshot.json">dashboard/data/build_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="../operator_dashboard_visual_density_card_system_pack.csv">operator_dashboard_visual_density_card_system_pack.csv</a></td><td class="mono">CSV</td><td class="mono">CSV</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="../reports/operator_dashboard_visual_density_card_system_pack_report.md">reports/operator_dashboard_visual_density_card_system_pack_report.md</a></td><td class="mono">MD</td><td class="mono">REPORT</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><a href="../Precious_Metals_Monitor_Dashboard_Visual_Density_Card_System_Pack.md">Precious_Metals_Monitor_Dashboard_Visual_Density_Card_System_Pack.md</a></td><td class="mono">MD</td><td class="mono">PACK</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="card" id="timeline">
+            <div class="card-header"><div><span class="eyebrow">compact table</span><h2>Operator Timeline</h2></div><span class="token safe">4 PHASES</span></div>
+            <table class="timeline-table">
+              <thead><tr><th>Phase</th><th>Theme</th><th>Status</th><th>External Effect</th><th>Notes</th></tr></thead>
+              <tbody>
+              <tr><td class="mono">Phase 633-640</td><td>Dashboard UI enhancement</td><td class="mono">DASHBOARD_UI_ENHANCEMENT_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Initial local static dashboard shell.</td></tr>
+              <tr><td class="mono">Phase 641-648</td><td>Dashboard UI v2 data panels</td><td class="mono">DASHBOARD_UI_V2_DATA_PANEL_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Added dense local data panels and artifact reader.</td></tr>
+              <tr><td class="mono">Phase 649-656</td><td>Dashboard UI v3 layout polish</td><td class="mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Added sidebar, header, summary strip, and safety footer.</td></tr>
+              <tr><td class="mono">Phase 657-664</td><td>Visual density and card system</td><td class="mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Upgraded matrix tables, card hierarchy, and compact reader density.</td></tr>
               </tbody>
             </table>
           </section>
 
           <section class="card">
-            <h2>JP / CN Frozen Scope</h2>
-            <dl class="kv">
-              <dt>jp_status</dt><dd class="mono">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</dd>
-              <dt>cn_status</dt><dd class="mono">FROZEN_PENDING_DATA_SOURCE_DECISION</dd>
-            </dl>
+            <div class="card-header"><div><span class="eyebrow">design tokens</span><h2>Card System</h2></div><span class="token safe">CARD_SYSTEM_READY</span></div>
+            <table class="dense-table">
+              <tbody>
+                <tr><th>visual_density_status</th><td class="mono">HIGH_DENSITY_CONSOLE_READY</td></tr>
+                <tr><th>card_system_status</th><td class="mono">CARD_SYSTEM_READY</td></tr>
+                <tr><th>matrix_status</th><td class="mono">RISK_SIGNAL_MATRIX_READY</td></tr>
+                <tr><th>density_mode</th><td class="mono">HIGH_INFORMATION_DENSITY_STATIC_CONSOLE</td></tr>
+                <tr><th>card_types</th><td class="mono">SUMMARY_CARD, STATUS_CARD, MATRIX_CARD, TABLE_CARD, TIMELINE_CARD, ARTIFACT_CARD, ACTION_CARD, SAFETY_CARD</td></tr>
+              </tbody>
+            </table>
           </section>
 
           <section class="card" id="settings">
-            <h2>Next Operator Action</h2>
-            <dl class="kv">
-              <dt>action</dt><dd class="mono">SUBSCRIBE_NETWORK_B_OR_KEEP_FRAMEWORK_ONLY_READONLY_MVP</dd>
-              <dt>nav_mode</dt><dd class="mono">STATIC_LOCAL_NAVIGATION</dd>
-              <dt>javascript_required</dt><dd class="mono status-safe">NO</dd>
-            </dl>
+            <div class="card-header"><div><span class="eyebrow">operator action</span><h2>JP / CN Frozen Scope</h2></div><span class="token warn">FROZEN</span></div>
+            <table class="dense-table">
+              <tbody>
+                <tr><th>jp_status</th><td class="mono">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</td></tr>
+                <tr><th>cn_status</th><td class="mono">FROZEN_PENDING_DATA_SOURCE_DECISION</td></tr>
+                <tr><th>action</th><td class="mono">SUBSCRIBE_NETWORK_B_OR_KEEP_FRAMEWORK_ONLY_READONLY_MVP</td></tr>
+              </tbody>
+            </table>
           </section>
 
           <section class="card wide">
-            <h2>Build / Version / Safety</h2>
-            <dl class="kv">
-              <dt>phase</dt><dd class="mono">Phase 649-656</dd>
-              <dt>status</dt><dd class="mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</dd>
-              <dt>latest_main_commit</dt><dd class="mono">fa365c6</dd>
-              <dt>latest_merged_pr</dt><dd class="mono">219</dd>
-              <dt>current_branch_basis</dt><dd class="mono">main</dd>
-              <dt>production_ready</dt><dd class="mono status-safe">NO</dd>
-              <dt>trading_enabled</dt><dd class="mono status-safe">NO</dd>
-              <dt>external_effect</dt><dd class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</dd>
-            </dl>
-          </section>
-
-          <section class="card full">
-            <h2>Layout Snapshot</h2>
+            <div class="card-header"><div><span class="eyebrow">version control</span><h2>Build / Version / Safety</h2></div><span class="token safe">LOCAL_ONLY</span></div>
             <table class="dense-table">
-              <thead><tr><th>Section</th><th>Status</th></tr></thead>
               <tbody>
-              <tr><td class="mono">SIDEBAR</td><td class="mono status-safe">READY</td></tr>
-              <tr><td class="mono">TOP_HEADER</td><td class="mono status-safe">READY</td></tr>
-              <tr><td class="mono">STATUS_BADGE_BAR</td><td class="mono status-safe">READY</td></tr>
-              <tr><td class="mono">SUMMARY_STRIP</td><td class="mono status-safe">READY</td></tr>
-              <tr><td class="mono">MAIN_CARD_GRID</td><td class="mono status-safe">READY</td></tr>
-              <tr><td class="mono">SAFETY_FOOTER</td><td class="mono status-safe">READY</td></tr>
-              <tr><td class="mono">BUILD_VERSION_PANEL</td><td class="mono status-safe">READY</td></tr>
+                <tr><th>phase</th><td class="mono">Phase 657-664</td></tr>
+                <tr><th>status</th><td class="mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</td></tr>
+                <tr><th>latest_main_commit</th><td class="mono">e0823dc</td></tr>
+                <tr><th>latest_merged_pr</th><td class="mono">220</td></tr>
+                <tr><th>production_ready</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>trading_enabled</th><td class="mono status-safe">NO</td></tr>
+                <tr><th>external_effect</th><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
               </tbody>
             </table>
           </section>
