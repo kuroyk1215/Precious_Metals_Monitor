@@ -1,24 +1,7 @@
 {
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
-  "recommendation_enabled": "NO",
-  "signal_mode": "STATIC_DISABLED_MATRIX",
-  "symbols": [
-    {
-      "long": "DISABLED",
-      "mid": "DISABLED",
-      "reason": "MARKET_DATA_BLOCKED_BY_SUBSCRIPTION",
-      "rolling": "DISABLED",
-      "short": "DISABLED",
-      "symbol": "GLD"
-    },
-    {
-      "long": "DISABLED",
-      "mid": "DISABLED",
-      "reason": "MARKET_DATA_BLOCKED_BY_SUBSCRIPTION",
-      "rolling": "DISABLED",
-      "short": "DISABLED",
-      "symbol": "SLV"
-    }
-  ],
-  "trading_signal_enabled": "NO"
+  "current_status": "仅保留研究框架，不输出方向判断",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
+  "reason": "行情订阅权限阻断",
+  "signal_module": "未启用",
+  "strategy_output": "未启用"
 }

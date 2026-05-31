@@ -3,228 +3,189 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI 投研控制台 · 贵金属观察系统</title>
+    <title>AI 投研交易驾驶舱 · 贵金属观察系统</title>
     <link rel="stylesheet" href="assets/style.css">
   </head>
   <body>
-    <div class="app-shell" id="dashboard">
-      <aside class="sidebar" aria-label="Sidebar navigation">
-        <div class="brand">
-            <span class="brand-mark">PM</span>
-          <div>
-            <span class="brand-title">AI 投研控制台</span>
-            <span class="brand-subtitle">贵金属观察系统</span>
-          </div>
-        </div>
-        <div>
-          <div class="nav-section-label">导航</div>
-          <nav class="sidebar-nav">
-          <a class="nav-item active" href="#dashboard"><span class="nav-icon icon-token">总</span><span>总览</span></a>
-          <a class="nav-item" href="#watchlist"><span class="nav-icon icon-token">观</span><span>观察池</span></a>
-          <a class="nav-item" href="#signals"><span class="nav-icon icon-token">信</span><span>信号状态</span></a>
-          <a class="nav-item" href="#risk-boundary"><span class="nav-icon icon-token">风</span><span>风险边界</span></a>
-          <a class="nav-item" href="#artifacts"><span class="nav-icon icon-token">文</span><span>本地文件</span></a>
-          <a class="nav-item" href="#timeline"><span class="nav-icon icon-token">线</span><span>项目进度</span></a>
-          <a class="nav-item" href="#system-status"><span class="nav-icon icon-token">系</span><span>系统状态</span></a>
-          <a class="nav-item" href="#settings"><span class="nav-icon icon-token">设</span><span>设置</span></a>
-          </nav>
-        </div>
-        <section class="console-mode" aria-label="Console Mode">
-          <div class="nav-section-label">控制台模式</div>
-          <div class="mode-list">
-            <span class="badge safe">本地文件</span>
-            <span class="badge safe">只读模式</span>
-            <span class="badge disabled">行情阻断</span>
-            <span class="badge warn">非生产环境</span>
-          </div>
-        </section>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="左侧导航">
+        <div class="brand"><span class="brand-mark">AI</span><span class="brand-title">AI 投研交易驾驶舱</span><span class="brand-subtitle">贵金属观察系统</span></div>
+        <nav class="sidebar-nav">
+          <a class="nav-item active" href="#overview"><span class="nav-icon">总</span><span>总览</span></a>
+          <a class="nav-item" href="#watchlist"><span class="nav-icon">观</span><span>市场观察</span></a>
+          <a class="nav-item" href="#chart-panel"><span class="nav-icon">图</span><span>图表面板</span></a>
+          <a class="nav-item" href="#signals"><span class="nav-icon">信</span><span>信号状态</span></a>
+          <a class="nav-item" href="#risk-boundary"><span class="nav-icon">风</span><span>风险边界</span></a>
+          <a class="nav-item" href="#artifacts"><span class="nav-icon">文</span><span>本地文件</span></a>
+          <a class="nav-item" href="#timeline"><span class="nav-icon">线</span><span>项目进度</span></a>
+          <a class="nav-item" href="#system-status"><span class="nav-icon">系</span><span>系统状态</span></a>
+        </nav>
+        <div class="sidebar-note">本地静态只读 · 不连接 IBKR · 不请求行情</div>
       </aside>
-
       <div class="content">
-        <header class="topbar">
+        <header class="command-bar">
           <div>
-            <h1>AI 投研控制台 · 贵金属观察系统</h1>
-            <p class="subtitle">本地静态只读 · 非生产环境 · 无外部连接 · 无交易权限</p>
-            <div class="badge-bar" aria-label="status token bar">
+            <h1>AI 投研交易驾驶舱 · 贵金属观察系统</h1>
+            <p class="subtitle">本地静态只读 · 行情订阅阻断 · 无账户读取 · 无交易权限</p>
+            <div class="badge-row">
               <span class="badge safe">美股观察</span>
+              <span class="badge safe">GLD / SLV</span>
               <span class="badge safe">只读模式</span>
-              <span class="badge disabled">行情阻断</span>
+              <span class="badge blocked">行情阻断</span>
               <span class="badge warn">非生产环境</span>
-              <span class="badge safe">本地文件</span>
-              <span class="badge safe">中文界面</span>
+              <span class="badge safe">本地静态</span>
               <span class="badge secondary mono">US_ONLY</span>
-              <span class="badge secondary mono">READ_ONLY</span>
               <span class="badge secondary mono">BLOCKED_BY_SUBSCRIPTION</span>
+              <span class="badge secondary mono">IBKR_ERROR_10089</span>
+              <span class="badge secondary mono">V7_HIGH_TECH_TRADING_VISUAL</span>
             </div>
           </div>
-          <section class="build-box" aria-label="build box">
-            <span class="label">generated_at_utc</span>
-            <strong class="summary-value mono">2026-05-31T11:28:32+00:00</strong>
-            <span class="caption">file local static</span>
-          </section>
+          <section class="build-chip"><span class="label">generated_at_utc</span><strong class="big-copy mono">2026-05-31T11:56:27+00:00</strong></section>
         </header>
 
-        <section class="summary-strip" aria-label="summary cards">
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">系</span><span class="label">系统状态</span></div><span class="summary-value">本地只读控制台已就绪</span><span class="summary-note mono">DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">风</span><span class="label">行情权限</span></div><span class="summary-value status-disabled">IBKR 行情订阅权限阻断</span><span class="summary-note mono">行情权限阻断 · BLOCKED_BY_SUBSCRIPTION · IBKR 10089</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">观</span><span class="label">观察标的</span></div><span class="summary-value">GLD / SLV</span><span class="summary-note mono">US_ONLY</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">文</span><span class="label">安全边界</span></div><span class="summary-value status-warn">仅生成本地文件</span><span class="summary-note mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></div>
+        <section class="hero-grid" id="overview">
+          <article class="panel" id="system-status">
+            <div class="panel-header"><div><span class="eyebrow">系统状态</span><h2>系统状态</h2></div><span class="token safe">READY</span></div>
+            <strong class="big-copy">本地只读投研驾驶舱已就绪</strong>
+            <span class="small-copy mono">DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY</span>
+          </article>
+          <article class="panel" id="chart-panel">
+            <div class="panel-header"><div><span class="eyebrow">静态图表占位</span><h2>图表面板</h2></div><span class="token warn">CSS ONLY</span></div>
+            <div class="chart-shell" aria-label="静态占位 · 无实时行情"><span class="chart-watermark">静态占位 · 无实时行情</span><div class="bar-row"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+          </article>
+          <article class="panel">
+            <div class="panel-header"><div><span class="eyebrow">风险边界摘要</span><h2>安全边界</h2></div><span class="token disabled">LOCKED</span></div>
+            <strong class="big-copy">所有外部动作已禁用</strong>
+            <div class="metric-list">
+              <div class="metric">IBKR 连接：禁用</div>
+              <div class="metric">行情请求：禁用</div>
+              <div class="metric">账户读取：禁用</div>
+              <div class="metric">交易：禁用</div>
+            </div>
+          </article>
         </section>
 
-        <main class="card-grid">
-          <section class="card" id="system-status">
-            <div class="card-header"><div><span class="eyebrow">状态矩阵</span><h2>行情阻断说明</h2></div><span class="token blocked">BLOCKED</span></div>
-            <table class="matrix-table">
-              <thead><tr><th>字段</th><th>状态</th><th>级别</th></tr></thead>
-              <tbody>
-              <tr><td class="mono">ibkr_error_code</td><td class="mono ">10089</td><td class="mono status-disabled">BLOCKED</td></tr>
-              <tr><td class="mono">subscription_required</td><td class="mono status-warn">YES</td><td class="mono status-warn">WARNING</td></tr>
-              <tr><td class="mono">delayed_available</td><td class="mono status-warn">YES</td><td class="mono status-warn">WARNING</td></tr>
-              <tr><td class="mono">realtime_market_data_verified</td><td class="mono status-safe">NO</td><td class="mono status-disabled">BLOCKED</td></tr>
-              </tbody>
-            </table>
-            <div class="warning-strip danger-strip">当前系统不会发起行情请求，也不会尝试连接 IBKR。此页面仅展示本地静态状态。</div>
+        <main class="main-grid">
+          <section class="card" id="market-data">
+            <div class="card-header"><h2>行情权限状态</h2><span class="token blocked">IBKR 10089</span></div>
+            <div class="version-table">
+              <div class="version-row"><span>当前状态</span><strong>订阅权限阻断</strong></div>
+              <div class="version-row"><span>IBKR 错误码</span><strong class="mono">10089</strong></div>
+              <div class="version-row"><span>是否请求行情</span><strong>否</strong></div>
+              <div class="version-row"><span>实时行情验证</span><strong>否</strong></div>
+              <div class="version-row"><span>延迟行情可用</span><strong>是</strong></div>
+            </div>
+            <p class="muted">当前页面仅显示本地静态研究状态，不会发起行情请求或连接 IBKR。</p>
           </section>
 
-          <section class="card wide" id="watchlist">
-            <div class="card-header"><div><span class="eyebrow">紧凑表格</span><h2>观察池</h2></div><span class="token safe">GLD / SLV</span></div>
-            <table class="dense-table">
-              <thead><tr><th>标的</th><th>资产类型</th><th>市场</th><th>数据状态</th><th>实时行情</th><th>延迟可用</th><th>用途</th></tr></thead>
-              <tbody>
-              <tr><td class="mono">GLD</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono status-warn">YES</td><td class="mono">RESEARCH_ONLY_NO_TRADING_ACTION</td></tr>
-              <tr><td class="mono">SLV</td><td>ETF</td><td>US</td><td class="mono status-disabled">BLOCKED_BY_SUBSCRIPTION</td><td class="mono status-safe">NO</td><td class="mono status-warn">YES</td><td class="mono">RESEARCH_ONLY_NO_TRADING_ACTION</td></tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section class="card wide" id="signals">
-            <div class="card-header"><div><span class="eyebrow">禁用矩阵</span><h2>信号状态</h2></div><span class="token disabled">DISABLED</span></div>
-            <table class="matrix-table">
-              <thead><tr><th>标的</th><th>短线</th><th>中线</th><th>长线</th><th>滚动状态</th><th>原因</th></tr></thead>
-              <tbody>
-              <tr class="signal-disabled-row"><td class="mono">GLD</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</td></tr>
-              <tr class="signal-disabled-row"><td class="mono">SLV</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono status-disabled">DISABLED</td><td class="mono">MARKET_DATA_BLOCKED_BY_SUBSCRIPTION</td></tr>
-              </tbody>
-            </table>
-            <div class="warning-strip">trading_signal_enabled=NO · recommendation_enabled=NO</div>
-          </section>
-
-          <section class="card full" id="risk-boundary">
-            <div class="card-header"><div><span class="eyebrow">权限矩阵</span><h2>安全边界</h2></div><span class="token disabled">ALL DISABLED</span></div>
-            <table class="matrix-table">
-              <thead><tr><th>功能</th><th>模块</th><th>状态</th><th>是否允许</th></tr></thead>
-              <tbody>
-              <tr class="risk-disabled-row"><td class="mono">IBKR_CONNECT</td><td>IBKR_CONNECT</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">MARKET_DATA_REQUEST</td><td>MARKET_DATA_REQUEST</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">HISTORICAL_DATA_REQUEST</td><td>HISTORICAL_DATA_REQUEST</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">ACCOUNT_READ</td><td>ACCOUNT_READ</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">POSITION_READ</td><td>POSITION_READ</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">CONTRACT_QUALIFICATION</td><td>CONTRACT_QUALIFICATION</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">ORDER_SUBMIT</td><td>ORDER_SUBMIT</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">ORDER_CANCEL</td><td>ORDER_CANCEL</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">REBALANCE</td><td>REBALANCE</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">TELEGRAM_REAL_SEND</td><td>TELEGRAM_REAL_SEND</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              <tr class="risk-disabled-row"><td class="mono">EXTERNAL_URL_LOAD</td><td>EXTERNAL_URL_LOAD</td><td class="mono status-disabled">DISABLED</td><td class="mono status-safe">NO</td></tr>
-              </tbody>
-            </table>
-            <div class="warning-strip danger-strip">当前控制台仅用于本地只读研究展示，所有外部动作均已禁用。</div>
-          </section>
-
-          <section class="card wide" id="artifacts">
-            <div class="card-header"><div><span class="eyebrow">静态清单</span><h2>本地文件</h2></div><span class="token safe">READ_ONLY</span></div>
-            <table class="artifact-table">
-              <thead><tr><th>类型</th><th>文件路径</th><th>文件类型</th><th>分类</th><th>本地链接</th><th>外部影响</th></tr></thead>
-              <tbody>
-              <tr><td><span class="artifact-icon mono">HTML_DOC</span></td><td class="mono artifact-path">dashboard/index.html</td><td class="mono">HTML</td><td class="mono">HTML</td><td><a class="local-link mono" href="index.html">index.html</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">CSS_STYLE</span></td><td class="mono artifact-path">dashboard/assets/style.css</td><td class="mono">CSS</td><td class="mono">CSS</td><td><a class="local-link mono" href="assets/style.css">assets/style.css</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/status_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/status_snapshot.json">data/status_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/visual_density_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/visual_density_snapshot.json">data/visual_density_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/card_system_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/card_system_snapshot.json">data/card_system_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/icon_system_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/icon_system_snapshot.json">data/icon_system_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/timeline_polish_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/timeline_polish_snapshot.json">data/timeline_polish_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/chinese_ui_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/chinese_ui_snapshot.json">data/chinese_ui_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/template_reference_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/template_reference_snapshot.json">data/template_reference_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/watchlist_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/watchlist_snapshot.json">data/watchlist_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/signal_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/signal_snapshot.json">data/signal_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/risk_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/risk_snapshot.json">data/risk_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/operator_timeline.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/operator_timeline.json">data/operator_timeline.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/artifact_manifest.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/artifact_manifest.json">data/artifact_manifest.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/layout_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/layout_snapshot.json">data/layout_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/navigation_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/navigation_snapshot.json">data/navigation_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/build_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/build_snapshot.json">data/build_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">CSV_TABLE</span></td><td class="mono artifact-path">operator_dashboard_chinese_template_soft_polish_pack.csv</td><td class="mono">CSV</td><td class="mono">CSV</td><td><a class="local-link mono" href="../operator_dashboard_chinese_template_soft_polish_pack.csv">../operator_dashboard_chinese_template_soft_polish_pack.csv</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">MD_REPORT</span></td><td class="mono artifact-path">reports/operator_dashboard_chinese_template_soft_polish_pack_report.md</td><td class="mono">MD</td><td class="mono">REPORT</td><td><a class="local-link mono" href="../reports/operator_dashboard_chinese_template_soft_polish_pack_report.md">../reports/operator_dashboard_chinese_template_soft_polish_pack_report.md</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="artifact-icon mono">HANDOFF_PACK</span></td><td class="mono artifact-path">Precious_Metals_Monitor_Dashboard_Chinese_Template_Soft_Polish_Pack.md</td><td class="mono">MD</td><td class="mono">PACK</td><td><a class="local-link mono" href="../Precious_Metals_Monitor_Dashboard_Chinese_Template_Soft_Polish_Pack.md">../Precious_Metals_Monitor_Dashboard_Chinese_Template_Soft_Polish_Pack.md</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section class="card" id="timeline">
-            <div class="card-header"><div><span class="eyebrow">紧凑时间线</span><h2>项目进度</h2></div><span class="token safe">6 PHASES</span></div>
-            <table class="timeline-table">
-              <thead><tr><th>阶段</th><th>主题 / 说明</th><th>状态</th><th>视觉层级</th><th>外部影响</th></tr></thead>
-              <tbody>
-              <tr><td><span class="phase-badge mono">Phase 633-640</span></td><td><strong>控制台 UI 增强</strong><span class="row-note">建立本地静态控制台外壳。</span></td><td class="mono status-safe">DASHBOARD_UI_ENHANCEMENT_READY</td><td class="mono">V1_STATIC_SHELL</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="phase-badge mono">Phase 641-648</span></td><td><strong>控制台 v2 数据面板</strong><span class="row-note">加入高密度本地数据面板与文件读取视图。</span></td><td class="mono status-safe">DASHBOARD_UI_V2_DATA_PANEL_READY</td><td class="mono">V2_DATA_PANELS</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="phase-badge mono">Phase 649-656</span></td><td><strong>控制台 v3 布局优化</strong><span class="row-note">加入侧边栏、顶部栏、摘要区与安全页脚。</span></td><td class="mono status-safe">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</td><td class="mono">V3_LAYOUT_POLISH</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="phase-badge mono">Phase 657-664</span></td><td><strong>视觉密度与卡片系统</strong><span class="row-note">升级矩阵表格、卡片层级与紧凑文件视图。</span></td><td class="mono status-safe">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</td><td class="mono">V4_VISUAL_DENSITY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="phase-badge mono">Phase 665-672</span></td><td><strong>图标 / 时间线 / 文件视图优化</strong><span class="row-note">加入本地图标短标签、紧凑时间线、本地文件视图与构建安全元数据。</span></td><td class="mono status-safe">DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY</td><td class="mono">V5_ICON_TIMELINE_ARTIFACT_POLISH</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><span class="phase-badge mono">Phase 673-680</span></td><td><strong>中文主界面柔化优化</strong><span class="row-note">应用柔和纸面、低饱和红金青点缀与中文企业控制台间距，同时保持本地只读边界。</span></td><td class="mono status-safe">DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY</td><td class="mono">V6_CHINESE_TEMPLATE_SOFT_POLISH</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              </tbody>
-            </table>
+          <section class="card" id="watchlist">
+            <div class="card-header"><h2>市场观察</h2><span class="token safe">GLD / SLV</span></div>
+            <div class="watch-grid">
+              <article class="watch-card">
+                <div><strong class="mono">GLD</strong><span class="token blocked">订阅阻断</span></div>
+                <dl>
+                  <div><dt>类型</dt><dd>ETF</dd></div>
+                  <div><dt>市场</dt><dd class="mono">US</dd></div>
+                  <div><dt>实时行情</dt><dd class="mono">NO</dd></div>
+                  <div><dt>延迟可用</dt><dd class="mono">YES</dd></div>
+                  <div><dt>用途</dt><dd>研究观察框架</dd></div>
+                </dl>
+              </article>
+              <article class="watch-card">
+                <div><strong class="mono">SLV</strong><span class="token blocked">订阅阻断</span></div>
+                <dl>
+                  <div><dt>类型</dt><dd>ETF</dd></div>
+                  <div><dt>市场</dt><dd class="mono">US</dd></div>
+                  <div><dt>实时行情</dt><dd class="mono">NO</dd></div>
+                  <div><dt>延迟可用</dt><dd class="mono">YES</dd></div>
+                  <div><dt>用途</dt><dd>研究观察框架</dd></div>
+                </dl>
+              </article>
+            </div>
           </section>
 
           <section class="card">
-            <div class="card-header"><div><span class="eyebrow">设计令牌</span><h2>卡片系统</h2></div><span class="token safe">CARD_SYSTEM_READY</span></div>
-            <table class="dense-table">
-              <tbody>
-                <tr><th>visual_density_status</th><td class="mono">HIGH_DENSITY_CONSOLE_READY</td></tr>
-                <tr><th>card_system_status</th><td class="mono">CARD_SYSTEM_READY</td></tr>
-                <tr><th>icon_system_status</th><td class="mono">LOCAL_ICON_SYSTEM_READY</td></tr>
-                <tr><th>icon_mode</th><td class="mono">TEXT_ONLY_LOCAL_ICON_TOKENS</td></tr>
-                <tr><th>timeline_polish_status</th><td class="mono">COMPACT_TIMELINE_POLISHED</td></tr>
-                <tr><th>soft_polish_status</th><td class="mono">SOFT_POLISH_APPLIED</td></tr>
-                <tr><th>chinese_ui_status</th><td class="mono">CHINESE_MAIN_UI_READY</td></tr>
-                <tr><th>language_mode</th><td class="mono">ZH_CN_PRIMARY</td></tr>
-                <tr><th>technical_status_codes</th><td class="mono">SECONDARY_ONLY</td></tr>
-                <tr><th>template_reference_status</th><td class="mono">PUBLIC_TEMPLATE_INSPIRED_LAYOUT_READY</td></tr>
-                <tr><th>reference_mode</th><td class="mono">PUBLIC_DASHBOARD_LAYOUT_LANGUAGE_ONLY</td></tr>
-                <tr><th>loaded_external_assets</th><td class="mono">NO</td></tr>
-                <tr><th>matrix_status</th><td class="mono">RISK_SIGNAL_MATRIX_READY</td></tr>
-                <tr><th>artifact_reader_status</th><td class="mono">FILE_BROWSER_STYLE_READY</td></tr>
-                <tr><th>density_mode</th><td class="mono">HIGH_INFORMATION_DENSITY_STATIC_CONSOLE</td></tr>
-                <tr><th>card_types</th><td class="mono">SUMMARY_CARD, STATUS_CARD, MATRIX_CARD, TABLE_CARD, TIMELINE_CARD, ARTIFACT_CARD, ACTION_CARD, SAFETY_CARD</td></tr>
-              </tbody>
-            </table>
+            <div class="card-header"><h2>信号状态</h2><span class="token disabled">未启用</span></div>
+            <div class="version-table">
+              <div class="version-row"><span>信号模块</span><strong>未启用</strong></div>
+              <div class="version-row"><span>策略建议</span><strong>未启用</strong></div>
+              <div class="version-row"><span>原因</span><strong>行情订阅权限阻断</strong></div>
+              <div class="version-row"><span>当前状态</span><strong>仅保留研究框架，不输出方向判断</strong></div>
+            </div>
           </section>
 
-          <section class="card" id="settings">
-            <div class="card-header"><div><span class="eyebrow">操作边界</span><h2>JP / CN 冻结范围</h2></div><span class="token warn">FROZEN</span></div>
-            <table class="dense-table">
-              <tbody>
-                <tr><th>jp_status</th><td class="mono">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</td></tr>
-                <tr><th>cn_status</th><td class="mono">FROZEN_PENDING_DATA_SOURCE_DECISION</td></tr>
-                <tr><th>action</th><td class="mono">SUBSCRIBE_NETWORK_B_OR_KEEP_FRAMEWORK_ONLY_READONLY_MVP</td></tr>
-              </tbody>
-            </table>
+          <section class="card full" id="risk-boundary">
+            <div class="card-header"><h2>风险边界</h2><span class="token disabled">ALL DISABLED</span></div>
+            <div class="risk-list">
+              <div class="risk-item"><span class="lamp"></span><span class="mono">IBKR_CONNECT</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">MARKET_DATA_REQUEST</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">HISTORICAL_DATA_REQUEST</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">ACCOUNT_READ</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">POSITION_READ</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">CONTRACT_QUALIFICATION</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">ORDER_SUBMIT</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">ORDER_CANCEL</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">REBALANCE</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">TELEGRAM_REAL_SEND</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+              <div class="risk-item"><span class="lamp"></span><span class="mono">EXTERNAL_URL_LOAD</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
+            </div>
           </section>
 
-          <section class="card wide">
-            <div class="card-header"><div><span class="eyebrow">版本控制</span><h2>版本与安全</h2></div><span class="token safe">LOCAL_ONLY</span></div>
-            <table class="dense-table">
-              <tbody>
-                <tr><th>phase</th><td class="mono">Phase 673-680</td></tr>
-                <tr><th>status</th><td class="mono">DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY</td></tr>
-                <tr><th>ui_generation</th><td class="mono">V6_CHINESE_TEMPLATE_SOFT_POLISH</td></tr>
-                <tr><th>latest_main_commit</th><td class="mono">53c5d1f</td></tr>
-                <tr><th>latest_merged_pr</th><td class="mono">222</td></tr>
-                <tr><th>current_branch_basis</th><td class="mono">main</td></tr>
-                <tr><th>production_ready</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>trading_enabled</th><td class="mono status-safe">NO</td></tr>
-                <tr><th>external_effect</th><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-                <tr><th>generated_at_utc</th><td class="mono">2026-05-31T11:28:32+00:00</td></tr>
-              </tbody>
-            </table>
+          <section class="card full" id="artifacts">
+            <div class="card-header"><h2>本地文件流</h2><span class="token safe">LOCAL ARTIFACTS</span></div>
+            <div class="file-stream">
+              <article class="file-card"><span class="token mono">HTML_LOCAL</span><span class="mono">dashboard/index.html</span><span>HTML</span><a class="local-link mono" href="index.html">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">CSS_LOCAL</span><span class="mono">dashboard/assets/style.css</span><span>CSS</span><a class="local-link mono" href="assets/style.css">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/status_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/status_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/high_tech_visual_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/high_tech_visual_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/trading_shell_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/trading_shell_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/static_chart_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/static_chart_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/chinese_ui_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/chinese_ui_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/template_reference_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/template_reference_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/visual_density_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/visual_density_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/card_system_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/card_system_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/icon_system_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/icon_system_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/timeline_polish_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/timeline_polish_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/artifact_manifest.json</span><span>JSON</span><a class="local-link mono" href="data/artifact_manifest.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/build_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/build_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/operator_timeline.json</span><span>JSON</span><a class="local-link mono" href="data/operator_timeline.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/watchlist_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/watchlist_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/signal_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/signal_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/risk_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/risk_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/layout_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/layout_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/navigation_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/navigation_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">CSV_LOCAL</span><span class="mono">operator_dashboard_high_tech_trading_visual_rebuild_pack.csv</span><span>CSV</span><a class="local-link mono" href="../operator_dashboard_high_tech_trading_visual_rebuild_pack.csv">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">REPORT_LOCAL</span><span class="mono">reports/operator_dashboard_high_tech_trading_visual_rebuild_pack_report.md</span><span>REPORT</span><a class="local-link mono" href="../reports/operator_dashboard_high_tech_trading_visual_rebuild_pack_report.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card"><span class="token mono">PACK_LOCAL</span><span class="mono">Precious_Metals_Monitor_Dashboard_High_Tech_Trading_Visual_Rebuild_Pack.md</span><span>PACK</span><a class="local-link mono" href="../Precious_Metals_Monitor_Dashboard_High_Tech_Trading_Visual_Rebuild_Pack.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+            </div>
+          </section>
+
+          <section class="card full" id="timeline">
+            <div class="card-header"><h2>项目进度轨道</h2><span class="token safe">Phase 681-696</span></div>
+            <div class="phase-rail">
+              <article class="phase-card"><strong class="mono">Phase 633-640</strong><p>控制台 UI 增强</p><span class="token safe mono">DASHBOARD_UI_ENHANCEMENT_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+              <article class="phase-card"><strong class="mono">Phase 641-648</strong><p>控制台 v2 数据面板</p><span class="token safe mono">DASHBOARD_UI_V2_DATA_PANEL_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+              <article class="phase-card"><strong class="mono">Phase 649-656</strong><p>控制台 v3 布局优化</p><span class="token safe mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+              <article class="phase-card"><strong class="mono">Phase 657-664</strong><p>视觉密度与卡片系统</p><span class="token safe mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+              <article class="phase-card"><strong class="mono">Phase 665-672</strong><p>图标 / 时间线 / 文件视图优化</p><span class="token safe mono">DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+              <article class="phase-card"><strong class="mono">Phase 673-680</strong><p>中文模板柔化优化</p><span class="token safe mono">DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+              <article class="phase-card"><strong class="mono">Phase 681-696</strong><p>高科技交易驾驶舱视觉重构</p><span class="token safe mono">DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
+            </div>
+          </section>
+
+          <section class="card full">
+            <div class="card-header"><h2>版本与安全</h2><span class="token safe">LOCAL STATIC</span></div>
+            <div class="version-table">
+              <div class="version-row"><span>当前阶段</span><strong class="mono">Phase 681-696</strong></div>
+              <div class="version-row"><span>当前状态</span><strong class="mono">DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY</strong></div>
+              <div class="version-row"><span>UI 代际</span><strong class="mono">V7_HIGH_TECH_TRADING_VISUAL</strong></div>
+              <div class="version-row"><span>最新 main commit</span><strong class="mono">82afe1b</strong></div>
+              <div class="version-row"><span>最新合并 PR</span><strong class="mono">223</strong></div>
+              <div class="version-row"><span>是否生产环境</span><strong class="mono">NO</strong></div>
+              <div class="version-row"><span>是否允许交易</span><strong class="mono">NO</strong></div>
+              <div class="version-row"><span>外部影响</span><strong class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</strong></div>
+              <div class="version-row"><span>生成时间</span><strong class="mono">2026-05-31T11:56:27+00:00</strong></div>
+            </div>
           </section>
         </main>
       </div>

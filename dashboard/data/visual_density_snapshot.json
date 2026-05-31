@@ -1,13 +1,9 @@
 {
-  "card_spacing": "COMPACT",
-  "density_mode": "HIGH_INFORMATION_DENSITY_STATIC_CONSOLE",
+  "density_mode": "HIGH_INFORMATION_DENSITY_STATIC_TRADING_DASHBOARD",
   "external_assets": "NO",
-  "footer_safety_bar": "ENABLED",
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
   "javascript_required": "NO",
-  "phase": "Phase 673-680",
+  "phase": "Phase 681-696",
   "responsive_layout": "YES",
-  "status": "DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY",
-  "status_badge_density": "HIGH",
-  "table_density": "COMPACT"
+  "status": "HIGH_TECH_DENSE_TRADING_CONSOLE_READY"
 }

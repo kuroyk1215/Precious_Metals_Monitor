@@ -1,22 +1,11 @@
 {
-  "applied_design_patterns": [
-    "LOCAL_STATIC_APP_SHELL",
-    "COMPACT_STATUS_TOKEN_BAR",
-    "DENSE_READ_ONLY_ARTIFACT_TABLE",
-    "DISABLED_RISK_SIGNAL_MATRIX"
-  ],
   "copied_external_code": "NO",
   "copied_external_fonts": "NO",
   "copied_external_icons": "NO",
   "copied_external_images": "NO",
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
-  "inspiration_types": [
-    "LEFT_NAV_TOP_SUMMARY_DENSE_DATA_GRID",
-    "CHINESE_ENTERPRISE_DASHBOARD_SPACING_LANGUAGE",
-    "SOFT_PAPER_SURFACE_ACCENT_LANGUAGE"
-  ],
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
   "loaded_external_assets": "NO",
-  "phase": "Phase 673-680",
+  "phase": "Phase 681-696",
   "reference_mode": "PUBLIC_DASHBOARD_LAYOUT_LANGUAGE_ONLY",
   "status": "PUBLIC_TEMPLATE_INSPIRED_LAYOUT_READY"
 }
