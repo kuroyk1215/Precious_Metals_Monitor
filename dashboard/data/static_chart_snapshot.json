@@ -1,0 +1,13 @@
+{
+  "chart_mode": "STATIC_VISUAL_PLACEHOLDER_ONLY",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
+  "generated_price_values": "NO",
+  "generated_signals": "NO",
+  "phase": "Phase 681-696",
+  "purpose": "VISUAL_CONTEXT_ONLY_MARKET_DATA_BLOCKED",
+  "real_candlestick": "NO",
+  "real_market_data": "NO",
+  "real_pnl_curve": "NO",
+  "real_price_axis": "NO",
+  "status": "CSS_ONLY_STATIC_CHART_PLACEHOLDER_READY"
+}

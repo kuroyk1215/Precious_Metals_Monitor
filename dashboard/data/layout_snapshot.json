@@ -1,19 +1,20 @@
 {
   "external_assets": "NO",
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
   "javascript_required": "NO",
-  "layout_mode": "DESKTOP_STATIC_APP_SHELL",
-  "phase": "Phase 673-680",
+  "layout_mode": "HIGH_TECH_TRADING_DASHBOARD_APP_SHELL",
+  "phase": "Phase 681-696",
   "responsive_layout": "YES",
   "sections": [
-    "SIDEBAR",
-    "TOP_HEADER",
-    "STATUS_TOKEN_BAR",
-    "SUMMARY_CARD_STRIP",
-    "DENSE_MATRIX_GRID",
-    "ARTIFACT_READER",
-    "SAFETY_FOOTER",
-    "BUILD_VERSION_PANEL"
+    "LEFT_NAVIGATION",
+    "TOP_STATUS_COMMAND_BAR",
+    "HERO_TRADING_OVERVIEW",
+    "STATIC_CHART_PANEL",
+    "WATCHLIST_CARDS",
+    "RISK_PERMISSION_PANEL",
+    "ARTIFACT_STREAM",
+    "PHASE_PROGRESS_RAIL",
+    "SAFETY_FOOTER"
   ],
-  "status": "DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY"
+  "status": "DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY"
 }

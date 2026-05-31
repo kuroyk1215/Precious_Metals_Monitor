@@ -1,24 +1,24 @@
 {
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
   "scope": "US_ONLY",
   "symbols": [
     {
-      "asset": "ETF",
-      "data_status": "BLOCKED_BY_SUBSCRIPTION",
+      "data_status": "订阅阻断",
       "delayed": "YES",
       "market": "US",
+      "purpose": "研究观察框架",
       "realtime": "NO",
       "symbol": "GLD",
-      "tradability_view": "RESEARCH_ONLY_NO_TRADING_ACTION"
+      "type": "ETF"
     },
     {
-      "asset": "ETF",
-      "data_status": "BLOCKED_BY_SUBSCRIPTION",
+      "data_status": "订阅阻断",
       "delayed": "YES",
       "market": "US",
+      "purpose": "研究观察框架",
       "realtime": "NO",
       "symbol": "SLV",
-      "tradability_view": "RESEARCH_ONLY_NO_TRADING_ACTION"
+      "type": "ETF"
     }
   ]
 }

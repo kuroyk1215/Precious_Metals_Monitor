@@ -1,63 +1,63 @@
 {
-  "active": "\u603b\u89c8",
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
+  "active": "总览",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
   "items": [
     {
       "enabled": "YES",
       "external_url": "NO",
-      "href": "#dashboard",
-      "icon_text": "\u603b",
-      "label": "\u603b\u89c8"
+      "href": "#overview",
+      "icon_text": "总",
+      "label": "总览"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#watchlist",
-      "icon_text": "\u89c2",
-      "label": "\u89c2\u5bdf\u6c60"
+      "icon_text": "观",
+      "label": "市场观察"
+    },
+    {
+      "enabled": "YES",
+      "external_url": "NO",
+      "href": "#chart-panel",
+      "icon_text": "图",
+      "label": "图表面板"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#signals",
-      "icon_text": "\u4fe1",
-      "label": "\u4fe1\u53f7\u72b6\u6001"
+      "icon_text": "信",
+      "label": "信号状态"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#risk-boundary",
-      "icon_text": "\u98ce",
-      "label": "\u98ce\u9669\u8fb9\u754c"
+      "icon_text": "风",
+      "label": "风险边界"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#artifacts",
-      "icon_text": "\u6587",
-      "label": "\u672c\u5730\u6587\u4ef6"
+      "icon_text": "文",
+      "label": "本地文件"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#timeline",
-      "icon_text": "\u7ebf",
-      "label": "\u9879\u76ee\u8fdb\u5ea6"
+      "icon_text": "线",
+      "label": "项目进度"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#system-status",
-      "icon_text": "\u7cfb",
-      "label": "\u7cfb\u7edf\u72b6\u6001"
-    },
-    {
-      "enabled": "YES",
-      "external_url": "NO",
-      "href": "#settings",
-      "icon_text": "\u8bbe",
-      "label": "\u8bbe\u7f6e"
+      "icon_text": "系",
+      "label": "系统状态"
     }
   ],
-  "nav_mode": "STATIC_LOCAL_NAVIGATION"
+  "nav_mode": "STATIC_LOCAL_LEFT_NAVIGATION"
 }

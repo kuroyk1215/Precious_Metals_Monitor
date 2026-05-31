@@ -1,25 +1,14 @@
 {
   "card_types": [
-    "SUMMARY_CARD",
-    "STATUS_CARD",
-    "MATRIX_CARD",
-    "TABLE_CARD",
-    "TIMELINE_CARD",
-    "ARTIFACT_CARD",
-    "ACTION_CARD",
-    "SAFETY_CARD"
+    "HERO_STATUS_CARD",
+    "STATIC_CHART_CARD",
+    "WATCHLIST_CARD",
+    "RISK_PERMISSION_CARD",
+    "ARTIFACT_STREAM_CARD",
+    "PHASE_RAIL_CARD"
   ],
   "external_assets": "NO",
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
-  "phase": "Phase 673-680",
-  "status": "CARD_SYSTEM_READY",
-  "status_tokens": [
-    "SAFE",
-    "WARNING",
-    "DISABLED",
-    "BLOCKED",
-    "LOCAL_ONLY",
-    "READ_ONLY",
-    "NOT_PRODUCTION"
-  ]
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
+  "phase": "Phase 681-696",
+  "status": "HIGH_TECH_CARD_SYSTEM_READY"
 }

@@ -1,73 +1,72 @@
 {
-  "generated_at_utc": "2026-05-31T11:28:32+00:00",
-  "max_external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+  "generated_at_utc": "2026-05-31T11:56:27+00:00",
   "permissions": [
     {
       "action": "IBKR_CONNECT",
       "allowed": "NO",
-      "function": "IBKR_CONNECT",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "MARKET_DATA_REQUEST",
       "allowed": "NO",
-      "function": "MARKET_DATA_REQUEST",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "HISTORICAL_DATA_REQUEST",
       "allowed": "NO",
-      "function": "HISTORICAL_DATA_REQUEST",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "ACCOUNT_READ",
       "allowed": "NO",
-      "function": "ACCOUNT_READ",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "POSITION_READ",
       "allowed": "NO",
-      "function": "POSITION_READ",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "CONTRACT_QUALIFICATION",
       "allowed": "NO",
-      "function": "CONTRACT_QUALIFICATION",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "ORDER_SUBMIT",
       "allowed": "NO",
-      "function": "ORDER_SUBMIT",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "ORDER_CANCEL",
       "allowed": "NO",
-      "function": "ORDER_CANCEL",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "REBALANCE",
       "allowed": "NO",
-      "function": "REBALANCE",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "TELEGRAM_REAL_SEND",
       "allowed": "NO",
-      "function": "TELEGRAM_REAL_SEND",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     },
     {
       "action": "EXTERNAL_URL_LOAD",
       "allowed": "NO",
-      "function": "EXTERNAL_URL_LOAD",
+      "reason": "LOCAL_STATIC_READ_ONLY_OR_MARKET_DATA_BLOCKED",
       "status": "DISABLED"
     }
   ],
-  "risk_mode": "STATIC_DISABLED_PERMISSION_MATRIX"
+  "risk_mode": "STATIC_TRADING_PLATFORM_PERMISSION_PANEL"
 }
