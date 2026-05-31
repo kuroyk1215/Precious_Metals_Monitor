@@ -1,31 +1,73 @@
 {
-  "blocked_actions": [
-    "IBKR_CONNECT",
-    "MARKET_DATA_REQUEST",
-    "HISTORICAL_DATA_REQUEST",
-    "ACCOUNT_READ",
-    "POSITION_READ",
-    "CONTRACT_QUALIFICATION",
-    "ORDER_SUBMIT",
-    "ORDER_CANCEL",
-    "REBALANCE",
-    "TELEGRAM_REAL_SEND",
-    "EXTERNAL_URL_LOAD"
-  ],
-  "enabled_flags": {
-    "account_read_enabled": "NO",
-    "contract_qualification_enabled": "NO",
-    "external_url_load_enabled": "NO",
-    "historical_data_request_enabled": "NO",
-    "ibkr_connect_enabled": "NO",
-    "market_data_request_enabled": "NO",
-    "order_cancel_enabled": "NO",
-    "order_submit_enabled": "NO",
-    "positions_read_enabled": "NO",
-    "rebalance_enabled": "NO",
-    "telegram_real_send_enabled": "NO"
-  },
-  "generated_at_utc": "2026-05-31T06:10:39+00:00",
+  "generated_at_utc": "2026-05-31T09:33:02+00:00",
   "max_external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-  "risk_mode": "STATIC_BOUNDARY_VIEW"
+  "permissions": [
+    {
+      "action": "IBKR_CONNECT",
+      "allowed": "NO",
+      "function": "IBKR_CONNECT",
+      "status": "DISABLED"
+    },
+    {
+      "action": "MARKET_DATA_REQUEST",
+      "allowed": "NO",
+      "function": "MARKET_DATA_REQUEST",
+      "status": "DISABLED"
+    },
+    {
+      "action": "HISTORICAL_DATA_REQUEST",
+      "allowed": "NO",
+      "function": "HISTORICAL_DATA_REQUEST",
+      "status": "DISABLED"
+    },
+    {
+      "action": "ACCOUNT_READ",
+      "allowed": "NO",
+      "function": "ACCOUNT_READ",
+      "status": "DISABLED"
+    },
+    {
+      "action": "POSITION_READ",
+      "allowed": "NO",
+      "function": "POSITION_READ",
+      "status": "DISABLED"
+    },
+    {
+      "action": "CONTRACT_QUALIFICATION",
+      "allowed": "NO",
+      "function": "CONTRACT_QUALIFICATION",
+      "status": "DISABLED"
+    },
+    {
+      "action": "ORDER_SUBMIT",
+      "allowed": "NO",
+      "function": "ORDER_SUBMIT",
+      "status": "DISABLED"
+    },
+    {
+      "action": "ORDER_CANCEL",
+      "allowed": "NO",
+      "function": "ORDER_CANCEL",
+      "status": "DISABLED"
+    },
+    {
+      "action": "REBALANCE",
+      "allowed": "NO",
+      "function": "REBALANCE",
+      "status": "DISABLED"
+    },
+    {
+      "action": "TELEGRAM_REAL_SEND",
+      "allowed": "NO",
+      "function": "TELEGRAM_REAL_SEND",
+      "status": "DISABLED"
+    },
+    {
+      "action": "EXTERNAL_URL_LOAD",
+      "allowed": "NO",
+      "function": "EXTERNAL_URL_LOAD",
+      "status": "DISABLED"
+    }
+  ],
+  "risk_mode": "STATIC_DISABLED_PERMISSION_MATRIX"
 }

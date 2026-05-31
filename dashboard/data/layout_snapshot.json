@@ -1,18 +1,19 @@
 {
   "external_assets": "NO",
-  "generated_at_utc": "2026-05-31T06:10:39+00:00",
+  "generated_at_utc": "2026-05-31T09:33:02+00:00",
   "javascript_required": "NO",
   "layout_mode": "DESKTOP_STATIC_APP_SHELL",
-  "phase": "Phase 649-656",
+  "phase": "Phase 657-664",
   "responsive_layout": "YES",
   "sections": [
     "SIDEBAR",
     "TOP_HEADER",
-    "STATUS_BADGE_BAR",
-    "SUMMARY_STRIP",
-    "MAIN_CARD_GRID",
+    "STATUS_TOKEN_BAR",
+    "SUMMARY_CARD_STRIP",
+    "DENSE_MATRIX_GRID",
+    "ARTIFACT_READER",
     "SAFETY_FOOTER",
     "BUILD_VERSION_PANEL"
   ],
-  "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY"
+  "status": "DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY"
 }

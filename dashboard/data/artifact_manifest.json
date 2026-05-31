@@ -1,77 +1,103 @@
 {
   "artifacts": [
     {
-      "artifact_type": "html",
+      "artifact_path": "dashboard/index.html",
+      "category": "HTML",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/index.html"
+      "type": "HTML"
     },
     {
-      "artifact_type": "css",
+      "artifact_path": "dashboard/assets/style.css",
+      "category": "CSS",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/assets/style.css"
+      "type": "CSS"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/status_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/status_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/visual_density_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/layout_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/card_system_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/navigation_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/watchlist_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/build_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/signal_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/watchlist_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/risk_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/signal_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/operator_timeline.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/risk_snapshot.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/artifact_manifest.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/operator_timeline.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "json",
+      "artifact_path": "dashboard/data/layout_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "dashboard/data/artifact_manifest.json"
+      "type": "JSON"
     },
     {
-      "artifact_type": "csv",
+      "artifact_path": "dashboard/data/navigation_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "operator_dashboard_ui_v3_layout_polish_pack.csv"
+      "type": "JSON"
     },
     {
-      "artifact_type": "md",
+      "artifact_path": "dashboard/data/build_snapshot.json",
+      "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "reports/operator_dashboard_ui_v3_layout_polish_pack_report.md"
+      "type": "JSON"
     },
     {
-      "artifact_type": "md",
+      "artifact_path": "operator_dashboard_visual_density_card_system_pack.csv",
+      "category": "CSV",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "path": "Precious_Metals_Monitor_Dashboard_UI_V3_Layout_Polish_Pack.md"
+      "type": "CSV"
+    },
+    {
+      "artifact_path": "reports/operator_dashboard_visual_density_card_system_pack_report.md",
+      "category": "REPORT",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "type": "MD"
+    },
+    {
+      "artifact_path": "Precious_Metals_Monitor_Dashboard_Visual_Density_Card_System_Pack.md",
+      "category": "PACK",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "type": "MD"
     }
   ],
-  "generated_at_utc": "2026-05-31T06:10:39+00:00",
-  "phase": "Phase 649-656",
-  "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY"
+  "generated_at_utc": "2026-05-31T09:33:02+00:00",
+  "phase": "Phase 657-664",
+  "status": "DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY"
 }
