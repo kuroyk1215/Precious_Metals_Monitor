@@ -1,0 +1,72 @@
+{
+  "artifacts": [
+    {
+      "artifact_type": "html",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/index.html"
+    },
+    {
+      "artifact_type": "css",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/assets/style.css"
+    },
+    {
+      "artifact_type": "json",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/data/status_snapshot.json"
+    },
+    {
+      "artifact_type": "json",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/data/watchlist_snapshot.json"
+    },
+    {
+      "artifact_type": "json",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/data/signal_snapshot.json"
+    },
+    {
+      "artifact_type": "json",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/data/risk_snapshot.json"
+    },
+    {
+      "artifact_type": "json",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/data/operator_timeline.json"
+    },
+    {
+      "artifact_type": "json",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/data/artifact_manifest.json"
+    },
+    {
+      "artifact_type": "html",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "dashboard/us_etf_dashboard_readonly.html"
+    },
+    {
+      "artifact_type": "md",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "telegram/us_etf_telegram_payload_preview.md"
+    },
+    {
+      "artifact_type": "md",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "Precious_Metals_Monitor_US_Only_MVP_Final_Freeze_Summary.md"
+    },
+    {
+      "artifact_type": "md",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "Precious_Metals_Monitor_US_Only_MVP_Archive_Handoff_Pack.md"
+    },
+    {
+      "artifact_type": "md",
+      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "path": "Precious_Metals_Monitor_Dashboard_UI_Enhancement_Pack.md"
+    }
+  ],
+  "generated_at_utc": "2026-05-31T02:34:13+00:00",
+  "phase": "Phase 641-648",
+  "status": "DASHBOARD_UI_V2_DATA_PANEL_READY"
+}
