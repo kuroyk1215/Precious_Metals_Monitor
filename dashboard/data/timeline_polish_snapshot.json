@@ -1,0 +1,14 @@
+{
+  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+  "generated_at_utc": "2026-05-31T09:51:04+00:00",
+  "phase": "Phase 665-672",
+  "status": "COMPACT_TIMELINE_POLISHED",
+  "timeline_items": [
+    "Phase 633-640",
+    "Phase 641-648",
+    "Phase 649-656",
+    "Phase 657-664",
+    "Phase 665-672"
+  ],
+  "timeline_mode": "STATIC_OPERATOR_PHASE_TIMELINE"
+}

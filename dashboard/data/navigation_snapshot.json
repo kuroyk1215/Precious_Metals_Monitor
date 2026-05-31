@@ -1,61 +1,61 @@
 {
   "active": "Dashboard",
-  "generated_at_utc": "2026-05-31T09:33:02+00:00",
+  "generated_at_utc": "2026-05-31T09:51:04+00:00",
   "items": [
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#dashboard",
-      "icon_text": "D",
+      "icon_text": "DASHBOARD",
       "label": "Dashboard"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#watchlist",
-      "icon_text": "W",
+      "icon_text": "WATCHLIST",
       "label": "Watchlist"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#signals",
-      "icon_text": "S",
+      "icon_text": "SIGNAL",
       "label": "Signals"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#risk-boundary",
-      "icon_text": "R",
+      "icon_text": "RISK",
       "label": "Risk Boundary"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#artifacts",
-      "icon_text": "A",
+      "icon_text": "ARTIFACT",
       "label": "Artifacts"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#timeline",
-      "icon_text": "T",
+      "icon_text": "TIMELINE",
       "label": "Timeline"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#system-status",
-      "icon_text": "Y",
+      "icon_text": "SYSTEM",
       "label": "System Status"
     },
     {
       "enabled": "YES",
       "external_url": "NO",
       "href": "#settings",
-      "icon_text": "G",
+      "icon_text": "SETTINGS",
       "label": "Settings"
     }
   ],

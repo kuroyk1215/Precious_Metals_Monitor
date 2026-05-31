@@ -19,14 +19,14 @@
         <div>
           <div class="nav-section-label">Navigation</div>
           <nav class="sidebar-nav">
-          <a class="nav-item active" href="#dashboard"><span class="nav-icon">D</span><span>Dashboard</span></a>
-          <a class="nav-item" href="#watchlist"><span class="nav-icon">W</span><span>Watchlist</span></a>
-          <a class="nav-item" href="#signals"><span class="nav-icon">S</span><span>Signals</span></a>
-          <a class="nav-item" href="#risk-boundary"><span class="nav-icon">R</span><span>Risk Boundary</span></a>
-          <a class="nav-item" href="#artifacts"><span class="nav-icon">A</span><span>Artifacts</span></a>
-          <a class="nav-item" href="#timeline"><span class="nav-icon">T</span><span>Timeline</span></a>
-          <a class="nav-item" href="#system-status"><span class="nav-icon">Y</span><span>System Status</span></a>
-          <a class="nav-item" href="#settings"><span class="nav-icon">G</span><span>Settings</span></a>
+          <a class="nav-item active" href="#dashboard"><span class="nav-icon icon-token">DASHBOARD</span><span>Dashboard</span></a>
+          <a class="nav-item" href="#watchlist"><span class="nav-icon icon-token">WATCHLIST</span><span>Watchlist</span></a>
+          <a class="nav-item" href="#signals"><span class="nav-icon icon-token">SIGNAL</span><span>Signals</span></a>
+          <a class="nav-item" href="#risk-boundary"><span class="nav-icon icon-token">RISK</span><span>Risk Boundary</span></a>
+          <a class="nav-item" href="#artifacts"><span class="nav-icon icon-token">ARTIFACT</span><span>Artifacts</span></a>
+          <a class="nav-item" href="#timeline"><span class="nav-icon icon-token">TIMELINE</span><span>Timeline</span></a>
+          <a class="nav-item" href="#system-status"><span class="nav-icon icon-token">SYSTEM</span><span>System Status</span></a>
+          <a class="nav-item" href="#settings"><span class="nav-icon icon-token">SETTINGS</span><span>Settings</span></a>
           </nav>
         </div>
         <section class="console-mode" aria-label="Console Mode">
@@ -50,21 +50,23 @@
               <span class="badge safe">READ_ONLY</span>
               <span class="badge disabled">DATA_BLOCKED</span>
               <span class="badge warn">NOT_PRODUCTION</span>
-              <span class="badge safe">V4_VISUAL_DENSITY</span>
+              <span class="badge safe">V5_POLISH</span>
+              <span class="badge safe">LOCAL_ICONS</span>
+              <span class="badge safe">STATIC_ARTIFACTS</span>
             </div>
           </div>
           <section class="build-box" aria-label="build box">
             <span class="label">generated_at_utc</span>
-            <strong class="summary-value mono">2026-05-31T09:33:02+00:00</strong>
+            <strong class="summary-value mono">2026-05-31T09:51:04+00:00</strong>
             <span class="caption">file local static</span>
           </section>
         </header>
 
         <section class="summary-strip" aria-label="summary cards">
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon">S</span><span class="label">UI Status</span></div><span class="summary-value mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</span><span class="summary-note">Phase 657-664 card system</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon">M</span><span class="label">Market Data</span></div><span class="summary-value mono status-disabled">BLOCKED_BY_SUBSCRIPTION</span><span class="summary-note">IBKR error code 10089</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon">W</span><span class="label">Watchlist</span></div><span class="summary-value mono">GLD / SLV</span><span class="summary-note">US ETF scope only</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon">E</span><span class="label">External Effect</span></div><span class="summary-value mono status-warn">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span><span class="summary-note">Local artifact generation only</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">SYSTEM</span><span class="label">UI Status</span></div><span class="summary-value mono">DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY</span><span class="summary-note">Phase 665-672 icon / timeline / artifact polish</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">BLOCKED</span><span class="label">Market Data</span></div><span class="summary-value mono status-disabled">BLOCKED_BY_SUBSCRIPTION</span><span class="summary-note">IBKR error code 10089</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">WATCHLIST</span><span class="label">Watchlist</span></div><span class="summary-value mono">GLD / SLV</span><span class="summary-note">US ETF scope only</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">LOCAL</span><span class="label">External Effect</span></div><span class="summary-value mono status-warn">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span><span class="summary-note">Local artifact generation only</span></div>
         </section>
 
         <main class="card-grid">
@@ -129,37 +131,40 @@
           <section class="card wide" id="artifacts">
             <div class="card-header"><div><span class="eyebrow">static manifest</span><h2>Artifact Reader</h2></div><span class="token safe">READ_ONLY</span></div>
             <table class="artifact-table">
-              <thead><tr><th>Artifact Path</th><th>Type</th><th>Category</th><th>External Effect</th></tr></thead>
+              <thead><tr><th>Icon</th><th>Artifact Path</th><th>Type</th><th>Category</th><th>Local Link</th><th>External Effect</th></tr></thead>
               <tbody>
-              <tr><td><a href="index.html">dashboard/index.html</a></td><td class="mono">HTML</td><td class="mono">HTML</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="assets/style.css">dashboard/assets/style.css</a></td><td class="mono">CSS</td><td class="mono">CSS</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/status_snapshot.json">dashboard/data/status_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/visual_density_snapshot.json">dashboard/data/visual_density_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/card_system_snapshot.json">dashboard/data/card_system_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/watchlist_snapshot.json">dashboard/data/watchlist_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/signal_snapshot.json">dashboard/data/signal_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/risk_snapshot.json">dashboard/data/risk_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/operator_timeline.json">dashboard/data/operator_timeline.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/artifact_manifest.json">dashboard/data/artifact_manifest.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/layout_snapshot.json">dashboard/data/layout_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/navigation_snapshot.json">dashboard/data/navigation_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="data/build_snapshot.json">dashboard/data/build_snapshot.json</a></td><td class="mono">JSON</td><td class="mono">JSON</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="../operator_dashboard_visual_density_card_system_pack.csv">operator_dashboard_visual_density_card_system_pack.csv</a></td><td class="mono">CSV</td><td class="mono">CSV</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="../reports/operator_dashboard_visual_density_card_system_pack_report.md">reports/operator_dashboard_visual_density_card_system_pack_report.md</a></td><td class="mono">MD</td><td class="mono">REPORT</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
-              <tr><td><a href="../Precious_Metals_Monitor_Dashboard_Visual_Density_Card_System_Pack.md">Precious_Metals_Monitor_Dashboard_Visual_Density_Card_System_Pack.md</a></td><td class="mono">MD</td><td class="mono">PACK</td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">HTML_DOC</span></td><td class="mono artifact-path">dashboard/index.html</td><td class="mono">HTML</td><td class="mono">HTML</td><td><a class="local-link mono" href="index.html">index.html</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">CSS_STYLE</span></td><td class="mono artifact-path">dashboard/assets/style.css</td><td class="mono">CSS</td><td class="mono">CSS</td><td><a class="local-link mono" href="assets/style.css">assets/style.css</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/status_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/status_snapshot.json">data/status_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/visual_density_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/visual_density_snapshot.json">data/visual_density_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/card_system_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/card_system_snapshot.json">data/card_system_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/icon_system_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/icon_system_snapshot.json">data/icon_system_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/timeline_polish_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/timeline_polish_snapshot.json">data/timeline_polish_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/watchlist_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/watchlist_snapshot.json">data/watchlist_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/signal_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/signal_snapshot.json">data/signal_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/risk_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/risk_snapshot.json">data/risk_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/operator_timeline.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/operator_timeline.json">data/operator_timeline.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/artifact_manifest.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/artifact_manifest.json">data/artifact_manifest.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/layout_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/layout_snapshot.json">data/layout_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/navigation_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/navigation_snapshot.json">data/navigation_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">JSON_DATA</span></td><td class="mono artifact-path">dashboard/data/build_snapshot.json</td><td class="mono">JSON</td><td class="mono">JSON</td><td><a class="local-link mono" href="data/build_snapshot.json">data/build_snapshot.json</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">CSV_TABLE</span></td><td class="mono artifact-path">operator_dashboard_icon_timeline_artifact_polish_pack.csv</td><td class="mono">CSV</td><td class="mono">CSV</td><td><a class="local-link mono" href="../operator_dashboard_icon_timeline_artifact_polish_pack.csv">../operator_dashboard_icon_timeline_artifact_polish_pack.csv</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">MD_REPORT</span></td><td class="mono artifact-path">reports/operator_dashboard_icon_timeline_artifact_polish_pack_report.md</td><td class="mono">MD</td><td class="mono">REPORT</td><td><a class="local-link mono" href="../reports/operator_dashboard_icon_timeline_artifact_polish_pack_report.md">../reports/operator_dashboard_icon_timeline_artifact_polish_pack_report.md</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="artifact-icon mono">HANDOFF_PACK</span></td><td class="mono artifact-path">Precious_Metals_Monitor_Dashboard_Icon_Timeline_Artifact_Polish_Pack.md</td><td class="mono">MD</td><td class="mono">PACK</td><td><a class="local-link mono" href="../Precious_Metals_Monitor_Dashboard_Icon_Timeline_Artifact_Polish_Pack.md">../Precious_Metals_Monitor_Dashboard_Icon_Timeline_Artifact_Polish_Pack.md</a></td><td class="mono status-safe">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
               </tbody>
             </table>
           </section>
 
           <section class="card" id="timeline">
-            <div class="card-header"><div><span class="eyebrow">compact table</span><h2>Operator Timeline</h2></div><span class="token safe">4 PHASES</span></div>
+            <div class="card-header"><div><span class="eyebrow">compact timeline</span><h2>Operator Timeline</h2></div><span class="token safe">5 PHASES</span></div>
             <table class="timeline-table">
-              <thead><tr><th>Phase</th><th>Theme</th><th>Status</th><th>External Effect</th><th>Notes</th></tr></thead>
+              <thead><tr><th>Phase</th><th>Theme / Notes</th><th>Status</th><th>Visual Tier</th><th>External Effect</th></tr></thead>
               <tbody>
-              <tr><td class="mono">Phase 633-640</td><td>Dashboard UI enhancement</td><td class="mono">DASHBOARD_UI_ENHANCEMENT_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Initial local static dashboard shell.</td></tr>
-              <tr><td class="mono">Phase 641-648</td><td>Dashboard UI v2 data panels</td><td class="mono">DASHBOARD_UI_V2_DATA_PANEL_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Added dense local data panels and artifact reader.</td></tr>
-              <tr><td class="mono">Phase 649-656</td><td>Dashboard UI v3 layout polish</td><td class="mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Added sidebar, header, summary strip, and safety footer.</td></tr>
-              <tr><td class="mono">Phase 657-664</td><td>Visual density and card system</td><td class="mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td><td>Upgraded matrix tables, card hierarchy, and compact reader density.</td></tr>
+              <tr><td><span class="phase-badge mono">Phase 633-640</span></td><td><strong>Dashboard UI enhancement</strong><span class="row-note">Initial local static dashboard shell.</span></td><td class="mono status-safe">DASHBOARD_UI_ENHANCEMENT_READY</td><td class="mono">V1_STATIC_SHELL</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="phase-badge mono">Phase 641-648</span></td><td><strong>Dashboard UI v2 data panels</strong><span class="row-note">Added dense local data panels and artifact reader.</span></td><td class="mono status-safe">DASHBOARD_UI_V2_DATA_PANEL_READY</td><td class="mono">V2_DATA_PANELS</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="phase-badge mono">Phase 649-656</span></td><td><strong>Dashboard UI v3 layout polish</strong><span class="row-note">Added sidebar, header, summary strip, and safety footer.</span></td><td class="mono status-safe">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</td><td class="mono">V3_LAYOUT_POLISH</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="phase-badge mono">Phase 657-664</span></td><td><strong>Visual density and card system</strong><span class="row-note">Upgraded matrix tables, card hierarchy, and compact reader density.</span></td><td class="mono status-safe">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</td><td class="mono">V4_VISUAL_DENSITY</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+              <tr><td><span class="phase-badge mono">Phase 665-672</span></td><td><strong>Icon / Timeline / Artifact polish</strong><span class="row-note">Added local icon tokens, compact timeline polish, file browser artifact reader, and dense build safety metadata.</span></td><td class="mono status-safe">DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY</td><td class="mono">V5_ICON_TIMELINE_ARTIFACT_POLISH</td><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
               </tbody>
             </table>
           </section>
@@ -170,7 +175,11 @@
               <tbody>
                 <tr><th>visual_density_status</th><td class="mono">HIGH_DENSITY_CONSOLE_READY</td></tr>
                 <tr><th>card_system_status</th><td class="mono">CARD_SYSTEM_READY</td></tr>
+                <tr><th>icon_system_status</th><td class="mono">LOCAL_ICON_SYSTEM_READY</td></tr>
+                <tr><th>icon_mode</th><td class="mono">TEXT_ONLY_LOCAL_ICON_TOKENS</td></tr>
+                <tr><th>timeline_polish_status</th><td class="mono">COMPACT_TIMELINE_POLISHED</td></tr>
                 <tr><th>matrix_status</th><td class="mono">RISK_SIGNAL_MATRIX_READY</td></tr>
+                <tr><th>artifact_reader_status</th><td class="mono">FILE_BROWSER_STYLE_READY</td></tr>
                 <tr><th>density_mode</th><td class="mono">HIGH_INFORMATION_DENSITY_STATIC_CONSOLE</td></tr>
                 <tr><th>card_types</th><td class="mono">SUMMARY_CARD, STATUS_CARD, MATRIX_CARD, TABLE_CARD, TIMELINE_CARD, ARTIFACT_CARD, ACTION_CARD, SAFETY_CARD</td></tr>
               </tbody>
@@ -192,13 +201,16 @@
             <div class="card-header"><div><span class="eyebrow">version control</span><h2>Build / Version / Safety</h2></div><span class="token safe">LOCAL_ONLY</span></div>
             <table class="dense-table">
               <tbody>
-                <tr><th>phase</th><td class="mono">Phase 657-664</td></tr>
-                <tr><th>status</th><td class="mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</td></tr>
-                <tr><th>latest_main_commit</th><td class="mono">e0823dc</td></tr>
-                <tr><th>latest_merged_pr</th><td class="mono">220</td></tr>
+                <tr><th>phase</th><td class="mono">Phase 665-672</td></tr>
+                <tr><th>status</th><td class="mono">DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY</td></tr>
+                <tr><th>ui_generation</th><td class="mono">V5_ICON_TIMELINE_ARTIFACT_POLISH</td></tr>
+                <tr><th>latest_main_commit</th><td class="mono">20fd4fa</td></tr>
+                <tr><th>latest_merged_pr</th><td class="mono">221</td></tr>
+                <tr><th>current_branch_basis</th><td class="mono">main</td></tr>
                 <tr><th>production_ready</th><td class="mono status-safe">NO</td></tr>
                 <tr><th>trading_enabled</th><td class="mono status-safe">NO</td></tr>
                 <tr><th>external_effect</th><td class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</td></tr>
+                <tr><th>generated_at_utc</th><td class="mono">2026-05-31T09:51:04+00:00</td></tr>
               </tbody>
             </table>
           </section>
