@@ -164,11 +164,19 @@ def test_dashboard_index_contains_v6_sections_and_local_css(tmp_path: Path) -> N
         "LOCAL_ICON_SYSTEM_READY",
         "COMPACT_TIMELINE_POLISHED",
         "FILE_BROWSER_STYLE_READY",
-        "Artifact Reader",
-        "Operator Timeline",
-        "Build / Version / Safety",
-        "No IBKR connection",
-        "No market data request",
+        "AI 投研控制台",
+        "贵金属观察系统",
+        "总览",
+        "观察池",
+        "信号状态",
+        "风险边界",
+        "本地文件",
+        "项目进度",
+        "版本与安全",
+        "行情权限阻断",
+        "本地静态只读",
+        "未连接 IBKR",
+        "未请求行情",
     ):
         assert marker in html
 
@@ -201,7 +209,7 @@ def test_icon_system_snapshot_uses_local_text_tokens(tmp_path: Path) -> None:
     assert icon_system["icon_mode"] == "TEXT_ONLY_LOCAL_ICON_TOKENS"
     assert icon_system["external_icon_library"] == "NO"
     assert icon_system["remote_icon_assets"] == "NO"
-    for token in ("DASHBOARD", "WATCHLIST", "SIGNAL", "RISK", "ARTIFACT", "TIMELINE", "SYSTEM", "SETTINGS", "LOCAL", "READ_ONLY", "BLOCKED", "WARNING", "SAFETY"):
+    for token in ("总", "观", "信", "风", "文", "线", "系", "设", "LOCAL", "READ_ONLY", "BLOCKED", "WARNING", "SAFETY"):
         assert token in icon_system["icon_tokens"]
 
 
@@ -232,6 +240,20 @@ def test_chinese_ui_and_template_reference_snapshots_record_boundaries(tmp_path:
     assert chinese_ui["language_mode"] == "ZH_CN_PRIMARY"
     assert chinese_ui["technical_status_codes"] == "SECONDARY_ONLY"
     assert chinese_ui["primary_title"] == "AI 投研控制台 · 贵金属观察系统"
+    assert chinese_ui["nav_labels"] == ["总览", "观察池", "信号状态", "风险边界", "本地文件", "项目进度", "系统状态", "设置"]
+    assert chinese_ui["panel_labels"] == [
+        "系统状态",
+        "行情权限",
+        "观察标的",
+        "安全边界",
+        "行情阻断说明",
+        "观察池",
+        "信号状态",
+        "风险边界",
+        "本地文件",
+        "项目进度",
+        "版本与安全",
+    ]
     assert template_reference["status"] == "PUBLIC_TEMPLATE_INSPIRED_LAYOUT_READY"
     assert template_reference["copied_external_code"] == "NO"
     assert template_reference["loaded_external_assets"] == "NO"

@@ -1,52 +1,52 @@
 {
-  "generated_at_utc": "2026-05-31T10:36:11+00:00",
+  "generated_at_utc": "2026-05-31T11:28:32+00:00",
   "timeline": [
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Initial local static dashboard shell.",
+      "notes": "\u5efa\u7acb\u672c\u5730\u9759\u6001\u63a7\u5236\u53f0\u5916\u58f3\u3002",
       "phase": "Phase 633-640",
       "status": "DASHBOARD_UI_ENHANCEMENT_READY",
-      "theme": "Dashboard UI enhancement",
+      "theme": "\u63a7\u5236\u53f0 UI \u589e\u5f3a",
       "visual_tier": "V1_STATIC_SHELL"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Added dense local data panels and artifact reader.",
+      "notes": "\u52a0\u5165\u9ad8\u5bc6\u5ea6\u672c\u5730\u6570\u636e\u9762\u677f\u4e0e\u6587\u4ef6\u8bfb\u53d6\u89c6\u56fe\u3002",
       "phase": "Phase 641-648",
       "status": "DASHBOARD_UI_V2_DATA_PANEL_READY",
-      "theme": "Dashboard UI v2 data panels",
+      "theme": "\u63a7\u5236\u53f0 v2 \u6570\u636e\u9762\u677f",
       "visual_tier": "V2_DATA_PANELS"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Added sidebar, header, summary strip, and safety footer.",
+      "notes": "\u52a0\u5165\u4fa7\u8fb9\u680f\u3001\u9876\u90e8\u680f\u3001\u6458\u8981\u533a\u4e0e\u5b89\u5168\u9875\u811a\u3002",
       "phase": "Phase 649-656",
       "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY",
-      "theme": "Dashboard UI v3 layout polish",
+      "theme": "\u63a7\u5236\u53f0 v3 \u5e03\u5c40\u4f18\u5316",
       "visual_tier": "V3_LAYOUT_POLISH"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Upgraded matrix tables, card hierarchy, and compact reader density.",
+      "notes": "\u5347\u7ea7\u77e9\u9635\u8868\u683c\u3001\u5361\u7247\u5c42\u7ea7\u4e0e\u7d27\u51d1\u6587\u4ef6\u89c6\u56fe\u3002",
       "phase": "Phase 657-664",
       "status": "DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY",
-      "theme": "Visual density and card system",
+      "theme": "\u89c6\u89c9\u5bc6\u5ea6\u4e0e\u5361\u7247\u7cfb\u7edf",
       "visual_tier": "V4_VISUAL_DENSITY"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Added local icon tokens, compact timeline polish, file browser artifact reader, and dense build safety metadata.",
+      "notes": "\u52a0\u5165\u672c\u5730\u56fe\u6807\u77ed\u6807\u7b7e\u3001\u7d27\u51d1\u65f6\u95f4\u7ebf\u3001\u672c\u5730\u6587\u4ef6\u89c6\u56fe\u4e0e\u6784\u5efa\u5b89\u5168\u5143\u6570\u636e\u3002",
       "phase": "Phase 665-672",
       "status": "DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY",
-      "theme": "Icon / Timeline / Artifact polish",
+      "theme": "\u56fe\u6807 / \u65f6\u95f4\u7ebf / \u6587\u4ef6\u89c6\u56fe\u4f18\u5316",
       "visual_tier": "V5_ICON_TIMELINE_ARTIFACT_POLISH"
     },
     {
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "notes": "Applied soft paper surfaces, restrained ink-red/gold/jade accents, and Chinese enterprise dashboard-inspired spacing while preserving the local read-only boundary.",
+      "notes": "\u5e94\u7528\u67d4\u548c\u7eb8\u9762\u3001\u4f4e\u9971\u548c\u7ea2\u91d1\u9752\u70b9\u7f00\u4e0e\u4e2d\u6587\u4f01\u4e1a\u63a7\u5236\u53f0\u95f4\u8ddd\uff0c\u540c\u65f6\u4fdd\u6301\u672c\u5730\u53ea\u8bfb\u8fb9\u754c\u3002",
       "phase": "Phase 673-680",
       "status": "DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY",
-      "theme": "Chinese Template-Inspired Soft Polish",
+      "theme": "\u4e2d\u6587\u4e3b\u754c\u9762\u67d4\u5316\u4f18\u5316",
       "visual_tier": "V6_CHINESE_TEMPLATE_SOFT_POLISH"
     }
   ]

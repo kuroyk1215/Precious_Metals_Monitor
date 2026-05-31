@@ -61,25 +61,25 @@ SECTIONS = (
 )
 
 NAV_ITEMS = (
-    ("Dashboard", "DASHBOARD", "#dashboard"),
-    ("Watchlist", "WATCHLIST", "#watchlist"),
-    ("Signals", "SIGNAL", "#signals"),
-    ("Risk Boundary", "RISK", "#risk-boundary"),
-    ("Artifacts", "ARTIFACT", "#artifacts"),
-    ("Timeline", "TIMELINE", "#timeline"),
-    ("System Status", "SYSTEM", "#system-status"),
-    ("Settings", "SETTINGS", "#settings"),
+    ("总览", "总", "#dashboard"),
+    ("观察池", "观", "#watchlist"),
+    ("信号状态", "信", "#signals"),
+    ("风险边界", "风", "#risk-boundary"),
+    ("本地文件", "文", "#artifacts"),
+    ("项目进度", "线", "#timeline"),
+    ("系统状态", "系", "#system-status"),
+    ("设置", "设", "#settings"),
 )
 
 ICON_TOKENS = (
-    "DASHBOARD",
-    "WATCHLIST",
-    "SIGNAL",
-    "RISK",
-    "ARTIFACT",
-    "TIMELINE",
-    "SYSTEM",
-    "SETTINGS",
+    "总",
+    "观",
+    "信",
+    "风",
+    "文",
+    "线",
+    "系",
+    "设",
     "LOCAL",
     "READ_ONLY",
     "BLOCKED",
@@ -307,16 +307,19 @@ def build_chinese_ui_snapshot(generated_at: Optional[str] = None) -> Dict[str, o
         "language_mode": "ZH_CN_PRIMARY",
         "primary_title": "AI 投研控制台 · 贵金属观察系统",
         "subtitle": "本地静态只读 · 非生产环境 · 无外部连接 · 无交易权限",
-        "nav_labels": ["总览", "观察列表", "信号面板", "风险边界", "产物浏览", "阶段时间线", "系统状态", "设置"],
+        "nav_labels": ["总览", "观察池", "信号状态", "风险边界", "本地文件", "项目进度", "系统状态", "设置"],
         "panel_labels": [
-            "市场数据阻断",
-            "观察列表",
-            "信号面板",
+            "系统状态",
+            "行情权限",
+            "观察标的",
+            "安全边界",
+            "行情阻断说明",
+            "观察池",
+            "信号状态",
             "风险边界",
-            "产物浏览",
-            "操作阶段时间线",
-            "卡片系统",
-            "构建 / 版本 / 安全",
+            "本地文件",
+            "项目进度",
+            "版本与安全",
         ],
         "technical_status_codes": "SECONDARY_ONLY",
         "generated_at_utc": timestamp,
@@ -409,51 +412,51 @@ def build_operator_timeline(generated_at: Optional[str] = None) -> Dict[str, obj
         "timeline": [
             {
                 "phase": "Phase 633-640",
-                "theme": "Dashboard UI enhancement",
+                "theme": "控制台 UI 增强",
                 "status": "DASHBOARD_UI_ENHANCEMENT_READY",
                 "visual_tier": "V1_STATIC_SHELL",
                 "external_effect": EXTERNAL_EFFECT,
-                "notes": "Initial local static dashboard shell.",
+                "notes": "建立本地静态控制台外壳。",
             },
             {
                 "phase": "Phase 641-648",
-                "theme": "Dashboard UI v2 data panels",
+                "theme": "控制台 v2 数据面板",
                 "status": "DASHBOARD_UI_V2_DATA_PANEL_READY",
                 "visual_tier": "V2_DATA_PANELS",
                 "external_effect": EXTERNAL_EFFECT,
-                "notes": "Added dense local data panels and artifact reader.",
+                "notes": "加入高密度本地数据面板与文件读取视图。",
             },
             {
                 "phase": "Phase 649-656",
-                "theme": "Dashboard UI v3 layout polish",
+                "theme": "控制台 v3 布局优化",
                 "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY",
                 "visual_tier": "V3_LAYOUT_POLISH",
                 "external_effect": EXTERNAL_EFFECT,
-                "notes": "Added sidebar, header, summary strip, and safety footer.",
+                "notes": "加入侧边栏、顶部栏、摘要区与安全页脚。",
             },
             {
                 "phase": "Phase 657-664",
-                "theme": "Visual density and card system",
+                "theme": "视觉密度与卡片系统",
                 "status": "DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY",
                 "visual_tier": "V4_VISUAL_DENSITY",
                 "external_effect": EXTERNAL_EFFECT,
-                "notes": "Upgraded matrix tables, card hierarchy, and compact reader density.",
+                "notes": "升级矩阵表格、卡片层级与紧凑文件视图。",
             },
             {
                 "phase": "Phase 665-672",
-                "theme": "Icon / Timeline / Artifact polish",
+                "theme": "图标 / 时间线 / 文件视图优化",
                 "status": "DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY",
                 "visual_tier": "V5_ICON_TIMELINE_ARTIFACT_POLISH",
                 "external_effect": EXTERNAL_EFFECT,
-                "notes": "Added local icon tokens, compact timeline polish, file browser artifact reader, and dense build safety metadata.",
+                "notes": "加入本地图标短标签、紧凑时间线、本地文件视图与构建安全元数据。",
             },
             {
                 "phase": PHASE,
-                "theme": "Chinese Template-Inspired Soft Polish",
+                "theme": "中文主界面柔化优化",
                 "status": STATUS,
                 "visual_tier": "V6_CHINESE_TEMPLATE_SOFT_POLISH",
                 "external_effect": EXTERNAL_EFFECT,
-                "notes": "Applied soft paper surfaces, restrained ink-red/gold/jade accents, and Chinese enterprise dashboard-inspired spacing while preserving the local read-only boundary.",
+                "notes": "应用柔和纸面、低饱和红金青点缀与中文企业控制台间距，同时保持本地只读边界。",
             },
         ],
         "generated_at_utc": timestamp,
@@ -478,7 +481,7 @@ def build_navigation_snapshot(generated_at: Optional[str] = None) -> Dict[str, o
     timestamp = generated_at or _now_timestamp()
     return {
         "nav_mode": "STATIC_LOCAL_NAVIGATION",
-        "active": "Dashboard",
+        "active": "总览",
         "items": [
             {"label": label, "icon_text": icon_text, "href": href, "enabled": YES_TEXT, "external_url": NO_TEXT}
             for label, icon_text, href in NAV_ITEMS
@@ -684,7 +687,7 @@ a { color: inherit; text-decoration: none; }
   border-color: rgba(245, 230, 189, 0.6);
   color: #f7ddb0;
   font-family: Consolas, Monaco, monospace;
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 0;
   overflow: hidden;
   padding: 0 3px;
@@ -692,10 +695,10 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap;
 }
 .nav-icon.icon-token {
-  width: 58px;
+  width: 32px;
 }
 .summary-icon.icon-token {
-  width: 72px;
+  width: 32px;
 }
 .brand-title { display: block; font-size: 13px; font-weight: 800; }
 .brand-title, .brand-subtitle, .nav-section-label, .sidebar .badge { color: #f4f7f8; }
@@ -754,6 +757,12 @@ h1 { font-size: 26px; line-height: 1.1; margin: 0; }
   font-weight: 800;
   min-height: 24px;
   padding: 3px 8px;
+}
+.badge.secondary {
+  font-size: 9px;
+  min-height: 20px;
+  opacity: 0.72;
+  padding: 2px 6px;
 }
 .safe, .status-safe { border-color: rgba(112, 214, 143, 0.55); color: var(--green); }
 .warn, .status-warn { border-color: rgba(242, 189, 85, 0.65); color: var(--amber); }
@@ -949,17 +958,17 @@ def build_dashboard_html(
     manifest: Dict[str, object],
 ) -> str:
     nav_label_by_icon = {
-        "DASHBOARD": "总览",
-        "WATCHLIST": "观察列表",
-        "SIGNAL": "信号面板",
-        "RISK": "风险边界",
-        "ARTIFACT": "产物浏览",
-        "TIMELINE": "阶段时间线",
-        "SYSTEM": "系统状态",
-        "SETTINGS": "设置",
+        "总": "总览",
+        "观": "观察池",
+        "信": "信号状态",
+        "风": "风险边界",
+        "文": "本地文件",
+        "线": "项目进度",
+        "系": "系统状态",
+        "设": "设置",
     }
     nav_links = "\n".join(
-        f'          <a class="nav-item{" active" if item["label"] == "Dashboard" else ""}" href="{escape(item["href"])}"><span class="nav-icon icon-token">{escape(item["icon_text"])}</span><span>{escape(nav_label_by_icon.get(str(item["icon_text"]), str(item["label"])))}</span></a>'
+        f'          <a class="nav-item{" active" if item["href"] == "#dashboard" else ""}" href="{escape(item["href"])}"><span class="nav-icon icon-token">{escape(item["icon_text"])}</span><span>{escape(nav_label_by_icon.get(str(item["icon_text"]), str(item["label"])))}</span></a>'
         for item in navigation["items"]
     )
     watchlist_rows = "\n".join(
@@ -1026,10 +1035,10 @@ def build_dashboard_html(
         <section class="console-mode" aria-label="Console Mode">
           <div class="nav-section-label">控制台模式</div>
           <div class="mode-list">
-            <span class="badge safe">LOCAL_ONLY</span>
-            <span class="badge safe">READ_ONLY</span>
-            <span class="badge disabled">BLOCKED</span>
-            <span class="badge warn">NOT_PRODUCTION</span>
+            <span class="badge safe">本地文件</span>
+            <span class="badge safe">只读模式</span>
+            <span class="badge disabled">行情阻断</span>
+            <span class="badge warn">非生产环境</span>
           </div>
         </section>
       </aside>
@@ -1040,14 +1049,15 @@ def build_dashboard_html(
             <h1>{_dd(chinese_ui["primary_title"])}</h1>
             <p class="subtitle">{_dd(chinese_ui["subtitle"])}</p>
             <div class="badge-bar" aria-label="status token bar">
-              <span class="badge safe">US_ONLY</span>
-              <span class="badge safe">READ_ONLY</span>
-              <span class="badge disabled">DATA_BLOCKED</span>
-              <span class="badge warn">NOT_PRODUCTION</span>
-              <span class="badge safe">V6_SOFT_POLISH</span>
-              <span class="badge safe">CHINESE_TEMPLATE</span>
-              <span class="badge safe">LOCAL_ICONS</span>
-              <span class="badge safe">STATIC_ARTIFACTS</span>
+              <span class="badge safe">美股观察</span>
+              <span class="badge safe">只读模式</span>
+              <span class="badge disabled">行情阻断</span>
+              <span class="badge warn">非生产环境</span>
+              <span class="badge safe">本地文件</span>
+              <span class="badge safe">中文界面</span>
+              <span class="badge secondary mono">US_ONLY</span>
+              <span class="badge secondary mono">READ_ONLY</span>
+              <span class="badge secondary mono">BLOCKED_BY_SUBSCRIPTION</span>
             </div>
           </div>
           <section class="build-box" aria-label="build box">
@@ -1058,28 +1068,28 @@ def build_dashboard_html(
         </header>
 
         <section class="summary-strip" aria-label="summary cards">
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">SYSTEM</span><span class="label">界面状态</span></div><span class="summary-value mono">{_dd(status["ui_status"])}</span><span class="summary-note">Phase 673-680 Chinese template-inspired soft polish</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">BLOCKED</span><span class="label">市场数据</span></div><span class="summary-value mono status-disabled">{_dd(status["market_data_status"])}</span><span class="summary-note">IBKR error code {_dd(status["ibkr_error_code"])}</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">WATCHLIST</span><span class="label">观察列表</span></div><span class="summary-value mono">{symbols_text}</span><span class="summary-note">US ETF scope only</span></div>
-          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">LOCAL</span><span class="label">外部影响</span></div><span class="summary-value mono status-warn">{_dd(status["external_effect"])}</span><span class="summary-note">Local artifact generation only</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">系</span><span class="label">系统状态</span></div><span class="summary-value">本地只读控制台已就绪</span><span class="summary-note mono">{_dd(status["ui_status"])}</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">风</span><span class="label">行情权限</span></div><span class="summary-value status-disabled">IBKR 行情订阅权限阻断</span><span class="summary-note mono">行情权限阻断 · {_dd(status["market_data_status"])} · IBKR {_dd(status["ibkr_error_code"])}</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">观</span><span class="label">观察标的</span></div><span class="summary-value">{symbols_text}</span><span class="summary-note mono">{_dd(status["market_scope"])}</span></div>
+          <div class="summary-card"><div class="summary-top"><span class="summary-icon icon-token">文</span><span class="label">安全边界</span></div><span class="summary-value status-warn">仅生成本地文件</span><span class="summary-note mono">{_dd(status["external_effect"])}</span></div>
         </section>
 
         <main class="card-grid">
           <section class="card" id="system-status">
-{_card_header("Market Data Block", "status matrix", "BLOCKED", "blocked")}
+{_card_header("行情阻断说明", "状态矩阵", "BLOCKED", "blocked")}
             <table class="matrix-table">
-              <thead><tr><th>Field</th><th>Value</th><th>Severity</th></tr></thead>
+              <thead><tr><th>字段</th><th>状态</th><th>级别</th></tr></thead>
               <tbody>
 {market_data_rows}
               </tbody>
             </table>
-            <div class="warning-strip danger-strip">Market data access blocked by subscription. No market data requests will be made.</div>
+            <div class="warning-strip danger-strip">当前系统不会发起行情请求，也不会尝试连接 IBKR。此页面仅展示本地静态状态。</div>
           </section>
 
           <section class="card wide" id="watchlist">
-{_card_header("Watchlist", "compact table", "GLD / SLV", "safe")}
+{_card_header("观察池", "紧凑表格", "GLD / SLV", "safe")}
             <table class="dense-table">
-              <thead><tr><th>Symbol</th><th>Asset</th><th>Market</th><th>Data Status</th><th>Realtime</th><th>Delayed</th><th>Tradability View</th></tr></thead>
+              <thead><tr><th>标的</th><th>资产类型</th><th>市场</th><th>数据状态</th><th>实时行情</th><th>延迟可用</th><th>用途</th></tr></thead>
               <tbody>
 {watchlist_rows}
               </tbody>
@@ -1087,9 +1097,9 @@ def build_dashboard_html(
           </section>
 
           <section class="card wide" id="signals">
-{_card_header("Signal Panel", "disabled matrix", "DISABLED", "disabled")}
+{_card_header("信号状态", "禁用矩阵", "DISABLED", "disabled")}
             <table class="matrix-table">
-              <thead><tr><th>Symbol</th><th>Short</th><th>Mid</th><th>Long</th><th>Rolling</th><th>Reason</th></tr></thead>
+              <thead><tr><th>标的</th><th>短线</th><th>中线</th><th>长线</th><th>滚动状态</th><th>原因</th></tr></thead>
               <tbody>
 {signal_rows}
               </tbody>
@@ -1098,20 +1108,20 @@ def build_dashboard_html(
           </section>
 
           <section class="card full" id="risk-boundary">
-{_card_header("Risk Boundary", "permission matrix", "ALL DISABLED", "disabled")}
+{_card_header("安全边界", "权限矩阵", "ALL DISABLED", "disabled")}
             <table class="matrix-table">
-              <thead><tr><th>Action / Function</th><th>Function</th><th>Status</th><th>Allowed</th></tr></thead>
+              <thead><tr><th>功能</th><th>模块</th><th>状态</th><th>是否允许</th></tr></thead>
               <tbody>
 {risk_rows}
               </tbody>
             </table>
-            <div class="warning-strip danger-strip">All functions are disabled in this read-only research console.</div>
+            <div class="warning-strip danger-strip">当前控制台仅用于本地只读研究展示，所有外部动作均已禁用。</div>
           </section>
 
           <section class="card wide" id="artifacts">
-{_card_header("Artifact Reader", "static manifest", "READ_ONLY", "safe")}
+{_card_header("本地文件", "静态清单", "READ_ONLY", "safe")}
             <table class="artifact-table">
-              <thead><tr><th>Icon</th><th>Artifact Path</th><th>Type</th><th>Category</th><th>Local Link</th><th>External Effect</th></tr></thead>
+              <thead><tr><th>类型</th><th>文件路径</th><th>文件类型</th><th>分类</th><th>本地链接</th><th>外部影响</th></tr></thead>
               <tbody>
 {artifact_rows}
               </tbody>
@@ -1119,9 +1129,9 @@ def build_dashboard_html(
           </section>
 
           <section class="card" id="timeline">
-{_card_header("Operator Timeline", "compact timeline", "6 PHASES", "safe")}
+{_card_header("项目进度", "紧凑时间线", "6 PHASES", "safe")}
             <table class="timeline-table">
-              <thead><tr><th>Phase</th><th>Theme / Notes</th><th>Status</th><th>Visual Tier</th><th>External Effect</th></tr></thead>
+              <thead><tr><th>阶段</th><th>主题 / 说明</th><th>状态</th><th>视觉层级</th><th>外部影响</th></tr></thead>
               <tbody>
 {timeline_rows}
               </tbody>
@@ -1129,7 +1139,7 @@ def build_dashboard_html(
           </section>
 
           <section class="card">
-{_card_header("Card System", "design tokens", "CARD_SYSTEM_READY", "safe")}
+{_card_header("卡片系统", "设计令牌", "CARD_SYSTEM_READY", "safe")}
             <table class="dense-table">
               <tbody>
                 <tr><th>visual_density_status</th><td class="mono">{_dd(status["visual_density_status"])}</td></tr>
@@ -1153,7 +1163,7 @@ def build_dashboard_html(
           </section>
 
           <section class="card" id="settings">
-{_card_header("JP / CN Frozen Scope", "operator action", "FROZEN", "warn")}
+{_card_header("JP / CN 冻结范围", "操作边界", "FROZEN", "warn")}
             <table class="dense-table">
               <tbody>
                 <tr><th>jp_status</th><td class="mono">{_dd(status["jp_status"])}</td></tr>
@@ -1164,7 +1174,7 @@ def build_dashboard_html(
           </section>
 
           <section class="card wide">
-{_card_header("Build / Version / Safety", "version control", "LOCAL_ONLY", "safe")}
+{_card_header("版本与安全", "版本控制", "LOCAL_ONLY", "safe")}
             <table class="dense-table">
               <tbody>
                 <tr><th>phase</th><td class="mono">{_dd(build["phase"])}</td></tr>
@@ -1183,7 +1193,7 @@ def build_dashboard_html(
         </main>
       </div>
     </div>
-    <footer class="footer-safety-bar">No IBKR connection · No market data request · No historical data · No account/position read · No trading · No Telegram real send</footer>
+    <footer class="footer-safety-bar">未连接 IBKR · 未请求行情 · 未请求历史数据 · 未读取账户/持仓 · 未交易 · 未 Telegram 实发</footer>
   </body>
 </html>
 """
