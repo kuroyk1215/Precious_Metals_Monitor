@@ -1,0 +1,18 @@
+{
+  "external_assets": "NO",
+  "generated_at_utc": "2026-05-31T06:10:39+00:00",
+  "javascript_required": "NO",
+  "layout_mode": "DESKTOP_STATIC_APP_SHELL",
+  "phase": "Phase 649-656",
+  "responsive_layout": "YES",
+  "sections": [
+    "SIDEBAR",
+    "TOP_HEADER",
+    "STATUS_BADGE_BAR",
+    "SUMMARY_STRIP",
+    "MAIN_CARD_GRID",
+    "SAFETY_FOOTER",
+    "BUILD_VERSION_PANEL"
+  ],
+  "status": "DASHBOARD_UI_V3_LAYOUT_POLISH_READY"
+}

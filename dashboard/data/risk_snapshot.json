@@ -25,7 +25,7 @@
     "rebalance_enabled": "NO",
     "telegram_real_send_enabled": "NO"
   },
-  "generated_at_utc": "2026-05-31T02:34:13+00:00",
+  "generated_at_utc": "2026-05-31T06:10:39+00:00",
   "max_external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
   "risk_mode": "STATIC_BOUNDARY_VIEW"
 }
