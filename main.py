@@ -589,6 +589,16 @@ def parse_args() -> argparse.Namespace:
         help="Build Phase 801-1000 UI-driven local research platform MVP pack without external actions.",
     )
     parser.add_argument(
+        "--productized-ui-public-data-intake-pack",
+        action="store_true",
+        help="Build Phase 1001-1120 productized Chinese research workbench and public data intake preparation pack without external actions.",
+    )
+    parser.add_argument(
+        "--public-data-intake-prep",
+        action="store_true",
+        help="Build public data intake preparation artifacts without network, live price ingestion, or trading output.",
+    )
+    parser.add_argument(
         "--local-workflow-run",
         action="store_true",
         help="Run local read-only workflow preview artifact generation without external actions.",
@@ -811,6 +821,18 @@ def main() -> int:
         )
 
         return ui_driven_local_research_platform_mvp_pack_main([])
+
+    if args.productized_ui_public_data_intake_pack:
+        from src.operator_productized_ui_public_data_intake_pack import (
+            main as productized_ui_public_data_intake_pack_main,
+        )
+
+        return productized_ui_public_data_intake_pack_main([])
+
+    if args.public_data_intake_prep:
+        from src.public_data_intake_preparation import main as public_data_intake_prep_main
+
+        return public_data_intake_prep_main([])
 
     if args.local_workflow_run:
         from src.local_workflow_automation import main as local_workflow_run_main

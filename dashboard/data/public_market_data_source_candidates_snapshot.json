@@ -1,0 +1,42 @@
+{
+  "candidates": [
+    {
+      "candidate_code": "PUBLIC_DELAYED_SOURCE_CANDIDATE",
+      "decision_status": "OPTIONAL_TERMS_AND_STABILITY_PENDING",
+      "panel_copy": "可选，低成本；条款和稳定性待确认。",
+      "source_type": "PUBLIC_DELAYED",
+      "user_label": "公共延迟源"
+    },
+    {
+      "candidate_code": "MANUAL_CSV_SOURCE",
+      "decision_status": "SAFEST_FALLBACK_NOW",
+      "panel_copy": "当前最安全 fallback；适合先验证流程。",
+      "source_type": "LOCAL_MANUAL_FILE",
+      "user_label": "手动 CSV"
+    },
+    {
+      "candidate_code": "PAID_MARKET_DATA_API_CANDIDATE",
+      "decision_status": "NOT_PRIORITIZED_NOW",
+      "panel_copy": "暂不优先；后续评估。",
+      "source_type": "PAID_API",
+      "user_label": "付费 API"
+    },
+    {
+      "candidate_code": "IBKR_SUBSCRIPTION_OPTION",
+      "decision_status": "OPTIONAL_NOT_SUBSCRIBED_NOT_CONNECTED",
+      "panel_copy": "可选，开通后支持更稳定行情；当前未订阅未连接。",
+      "source_type": "IBKR_SUBSCRIPTION",
+      "user_label": "IBKR Network B / ARCA"
+    },
+    {
+      "candidate_code": "HYBRID_ROUTER_DESIGN",
+      "decision_status": "FUTURE_MULTI_MARKET_DESIGN",
+      "panel_copy": "未来多市场扩展方案。",
+      "source_type": "ROUTER_DESIGN",
+      "user_label": "Hybrid Router"
+    }
+  ],
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "phase": "Phase 1001-1120",
+  "status": "PUBLIC_MARKET_DATA_SOURCE_CANDIDATES_READY"
+}

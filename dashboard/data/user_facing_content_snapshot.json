@@ -1,0 +1,21 @@
+{
+  "available_now": [
+    "研究框架",
+    "本地报告",
+    "数据源状态",
+    "风险边界"
+  ],
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "next_step": "准备公共行情导入",
+  "phase": "Phase 1001-1120",
+  "status": "USER_FACING_CONTENT_READY",
+  "subtitle": "本地只读研究平台 · GLD / SLV · 无实时行情 · 无交易权限",
+  "title": "AI 投研工作台",
+  "today_status": "本地投研平台已就绪",
+  "unavailable_now": [
+    "实时行情",
+    "交易建议",
+    "账户读取",
+    "Telegram 实发"
+  ]
+}

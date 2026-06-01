@@ -1,0 +1,14 @@
+{
+  "external_market_data_request_enabled": "NO",
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "phase": "Phase 1001-1120",
+  "public_data_connection_implemented": "NO",
+  "real_price_ingestion_enabled": "NO",
+  "rules": [
+    "no source -> no price",
+    "no price -> no signal",
+    "no approved terms -> no automated ingestion",
+    "no verified freshness -> framework only"
+  ],
+  "status": "PUBLIC_DATA_SAFETY_GUARD_READY"
+}

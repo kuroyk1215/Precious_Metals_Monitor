@@ -1,0 +1,20 @@
+{
+  "disabled_actions": [
+    "获取实时行情",
+    "读取账户",
+    "读取持仓",
+    "生成交易信号",
+    "发送 Telegram",
+    "解冻 JP / CN"
+  ],
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "next_actions": [
+    "查看本地报告",
+    "查看数据源准备说明",
+    "确认公共延迟源条款",
+    "准备手动 CSV fallback",
+    "保持外部动作禁用"
+  ],
+  "phase": "Phase 1001-1120",
+  "status": "PRODUCTIZED_NEXT_ACTIONS_READY"
+}

@@ -1,0 +1,15 @@
+{
+  "automated_ingestion_enabled": "NO",
+  "external_market_data_request_enabled": "NO",
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "live_market_data_enabled": "NO",
+  "phase": "Phase 1001-1120",
+  "public_data_connection_implemented": "NO",
+  "real_price_ingestion_enabled": "NO",
+  "report_generation_from_real_price_enabled": "NO",
+  "status": "PUBLIC_DATA_INTAKE_PREPARATION_READY",
+  "symbols": [
+    "GLD",
+    "SLV"
+  ]
+}

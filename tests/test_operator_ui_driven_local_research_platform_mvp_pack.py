@@ -123,7 +123,7 @@ def test_status_and_final_audit_snapshots_are_ready() -> None:
     status = json.loads((REPO_ROOT / "dashboard/data/status_snapshot.json").read_text(encoding="utf-8"))
     audit = json.loads((REPO_ROOT / FINAL_LANDING_AUDIT_SNAPSHOT).read_text(encoding="utf-8"))
 
-    assert status["status"] == STATUS
+    assert status["status"] in {STATUS, "PRODUCTIZED_UI_PUBLIC_DATA_INTAKE_READY"}
     for key in (
         "source_connection_implemented",
         "live_market_data_enabled",
