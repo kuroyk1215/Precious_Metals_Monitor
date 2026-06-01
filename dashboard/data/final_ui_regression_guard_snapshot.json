@@ -1,0 +1,13 @@
+{
+  "default_surface_must_hide_technical_status": "YES",
+  "generated_at_utc": "2026-06-01T11:22:19+00:00",
+  "guard_groups": [
+    "remote asset markers",
+    "external request APIs",
+    "directional trading terms",
+    "numeric market value fields",
+    "chart-like price visuals"
+  ],
+  "phase": "Phase 1161-1320",
+  "status": "FINAL_UI_REGRESSION_GUARD_READY"
+}

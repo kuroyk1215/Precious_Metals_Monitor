@@ -1,0 +1,13 @@
+{
+  "developer_mode_entry": "设置页高级模式",
+  "generated_at_utc": "2026-06-01T11:22:19+00:00",
+  "phase": "Phase 1161-1320",
+  "status": "FINAL_USER_WORKFLOW_READY",
+  "workflow": [
+    "查看总览",
+    "观察 GLD / SLV",
+    "核对数据源状态",
+    "查看本地报告",
+    "确认风险边界"
+  ]
+}
