@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
   "markets": {
     "CN": {
       "next_step": "DEFER_UNTIL_SOURCE_POLICY",
@@ -18,6 +18,6 @@
       "status": "READONLY_FRAMEWORK_READY_MARKET_DATA_BLOCKED"
     }
   },
-  "phase": "Phase 705-720",
-  "status": "MARKET_SCOPE_STATUS_LOCKED"
+  "phase": "Phase 721-760",
+  "status": "MARKET_SCOPE_STATUS_UI_SHELL_READY"
 }

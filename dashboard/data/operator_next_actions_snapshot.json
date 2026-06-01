@@ -11,19 +11,18 @@
     "REBALANCE",
     "TELEGRAM_REAL_SEND"
   ],
-  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
   "immediate_next_actions": [
-    "Review UI freeze status",
-    "Choose next track: market data source decision",
-    "Decide whether IBKR Network B / ARCA subscription is acceptable",
-    "Compare public delayed data source vs manual CSV vs paid API",
-    "Keep JP / CN frozen until source policy is defined"
+    "Market Data Source Decision",
+    "Review Phase 729-736 Local Backend API Shell entry",
+    "Keep all external runtime actions disabled",
+    "Use UI for local research shell navigation"
   ],
   "operator_commands": [
-    "python3 main.py --post-ui-freeze-handoff-data-roadmap-pack",
-    "open dashboard/index.html",
-    "git status --short"
+    "python3 main.py --interactive-local-research-platform-ui-shell-pack",
+    "python3 -m py_compile main.py src/*.py",
+    ".venv/bin/python -m pytest -q"
   ],
-  "phase": "Phase 705-720",
-  "status": "OPERATOR_NEXT_ACTIONS_READY"
+  "phase": "Phase 721-760",
+  "status": "OPERATOR_NEXT_ACTIONS_UI_SHELL_READY"
 }

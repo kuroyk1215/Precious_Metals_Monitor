@@ -1,0 +1,18 @@
+{
+  "all_disabled": "YES",
+  "disabled_actions": [
+    "IBKR_CONNECT",
+    "MARKET_DATA_REQUEST",
+    "HISTORICAL_DATA_REQUEST",
+    "ACCOUNT_READ",
+    "POSITION_READ",
+    "CONTRACT_QUALIFICATION",
+    "ORDER_SUBMIT",
+    "ORDER_CANCEL",
+    "REBALANCE",
+    "TELEGRAM_REAL_SEND",
+    "EXTERNAL_URL_LOAD"
+  ],
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
+  "status": "UI_DISABLED_ACTIONS_READY"
+}

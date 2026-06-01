@@ -1,0 +1,22 @@
+{
+  "filters": [
+    "all",
+    "risk-only",
+    "json",
+    "report",
+    "us-only",
+    "frozen-market",
+    "next-actions"
+  ],
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
+  "status": "UI_FILTER_TABS_READY",
+  "tabs": [
+    "overview",
+    "watchlist",
+    "data-source",
+    "risk",
+    "artifacts",
+    "roadmap",
+    "system"
+  ]
+}

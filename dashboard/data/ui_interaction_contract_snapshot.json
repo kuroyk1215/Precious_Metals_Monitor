@@ -1,0 +1,25 @@
+{
+  "allowed_interactions": [
+    "tab_switch",
+    "local_search",
+    "local_filter",
+    "collapse_expand",
+    "copy_text",
+    "disabled_button_tooltip"
+  ],
+  "forbidden_interactions": [
+    "network_fetch",
+    "websocket",
+    "ibkr_connect",
+    "market_data_request",
+    "historical_data_request",
+    "account_read",
+    "position_read",
+    "order_submit",
+    "order_cancel",
+    "telegram_real_send",
+    "file_write_from_browser"
+  ],
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
+  "status": "UI_INTERACTION_CONTRACT_READY"
+}
