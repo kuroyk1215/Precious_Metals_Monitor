@@ -1,32 +1,12 @@
 {
-  "current_blocker": "IBKR_ERROR_10089_SUBSCRIPTION_REQUIRED",
-  "current_market_data_status": "BLOCKED_BY_SUBSCRIPTION",
-  "decision_criteria": [
-    "COST",
-    "RELIABILITY",
-    "TERMS_OF_USE",
-    "UPDATE_FREQUENCY",
-    "SYMBOL_COVERAGE",
-    "JP_CN_FUTURE_EXTENSION",
-    "LOCAL_STATIC_COMPATIBILITY",
-    "NO_ACCOUNT_READ_REQUIRED",
-    "NO_TRADING_PERMISSION_REQUIRED"
-  ],
-  "delayed_available": "YES",
-  "generated_at_utc": "2026-06-01T00:00:00+00:00",
-  "ibkr_subscription_decision_required": "YES",
+  "cn_status": "FROZEN_PENDING_DATA_SOURCE_DECISION",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "ibkr_error_code": "10089",
+  "jp_status": "FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION",
   "live_market_data_enabled": "NO",
-  "phase": "Phase 721-760",
-  "realtime_market_data_verified": "NO",
-  "recommended_initial_path": "DECIDE_US_GLD_SLV_SOURCE_FIRST",
+  "market_data_status": "BLOCKED_BY_SUBSCRIPTION",
+  "phase": "Phase 801-1000",
   "source_connection_implemented": "NO",
-  "source_options": [
-    "IBKR_SUBSCRIBE_NETWORK_B_ARCA",
-    "FREE_DELAYED_PUBLIC_SOURCE",
-    "MANUAL_CSV_SOURCE",
-    "PAID_MARKET_DATA_API",
-    "HYBRID_SOURCE_ROUTER"
-  ],
-  "status": "MARKET_DATA_SOURCE_DECISION_FRAMEWORK_READY",
-  "ui_selection_panel_status": "DISPLAY_ONLY_NOT_CONNECTED"
+  "status": "MARKET_DATA_SOURCE_DECISION_FROZEN",
+  "us_status": "GLD_SLV_DRY_RUN_ONLY"
 }

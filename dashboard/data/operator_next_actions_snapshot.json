@@ -1,28 +1,17 @@
 {
-  "blocked_actions": [
-    "IBKR_CONNECT",
-    "MARKET_DATA_REQUEST",
-    "HISTORICAL_DATA_REQUEST",
-    "ACCOUNT_READ",
-    "POSITION_READ",
-    "CONTRACT_QUALIFICATION",
-    "ORDER_SUBMIT",
-    "ORDER_CANCEL",
-    "REBALANCE",
-    "TELEGRAM_REAL_SEND"
-  ],
-  "generated_at_utc": "2026-06-01T00:00:00+00:00",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
   "immediate_next_actions": [
-    "Market Data Source Decision",
-    "Review Phase 729-736 Local Backend API Shell entry",
-    "Keep all external runtime actions disabled",
-    "Use UI for local research shell navigation"
+    "Start local UI server from terminal only when needed",
+    "Use browser UI as the primary workbench",
+    "Run local workflow from CLI to refresh local preview artifacts",
+    "Keep all external actions disabled"
   ],
   "operator_commands": [
-    "python3 main.py --interactive-local-research-platform-ui-shell-pack",
-    "python3 -m py_compile main.py src/*.py",
-    ".venv/bin/python -m pytest -q"
+    "python3 main.py --ui-driven-local-research-platform-mvp-pack",
+    "python3 main.py --local-workflow-run",
+    "python3 main.py --local-research-report-build",
+    "python3 main.py --local-ui-server"
   ],
-  "phase": "Phase 721-760",
-  "status": "OPERATOR_NEXT_ACTIONS_UI_SHELL_READY"
+  "phase": "Phase 801-1000",
+  "status": "OPERATOR_NEXT_ACTIONS_MVP_READY"
 }

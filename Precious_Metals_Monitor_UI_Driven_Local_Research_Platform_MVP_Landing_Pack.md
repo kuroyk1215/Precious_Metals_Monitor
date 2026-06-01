@@ -1,0 +1,28 @@
+# Phase 801-1000 UI-driven Local Research Platform MVP Pack
+
+- status: UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY
+- UI-driven local research platform MVP
+- local workflow automation ready
+- GLD / SLV research report framework ready
+- US GLD / SLV data source dry-run ready
+- operator daily packet preview ready
+- Telegram preview local-only ready
+- watchlist policy ready
+- final landing audit ready
+- terminal role reduced to startup and fallback only
+- no real market data
+- no source connection implemented
+- no live market data enabled
+- no IBKR connection
+- no market data request
+- no historical data request
+- no account/position read
+- no contract qualification
+- no trading
+- no Telegram real send
+- no directional trading signal
+- no price-level guidance
+- market data remains BLOCKED_BY_SUBSCRIPTION / IBKR_ERROR_10089
+- GLD / SLV only
+- JP / CN remain frozen
+- generated_at_utc: 2026-06-01T08:54:47+00:00

@@ -1,12 +1,10 @@
 {
-  "backend_api_status": "LOCAL_READONLY_API_SHELL_READY",
-  "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
-  "generated_at_utc": "2026-06-01T05:32:59+00:00",
-  "latest_main_commit": "0d0c7ab",
-  "latest_merged_pr": 227,
-  "phase": "Phase 761-800",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "latest_main_commit": "022cdc2",
+  "latest_merged_pr": 228,
+  "phase": "Phase 801-1000",
   "production_ready": "NO",
-  "status": "LOCAL_BACKEND_API_SHELL_READY",
+  "status": "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY",
   "trading_enabled": "NO",
-  "ui_generation": "V8_INTERACTIVE_LOCAL_RESEARCH_PLATFORM_SHELL"
+  "ui_generation": "V9_UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP"
 }

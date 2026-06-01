@@ -1,19 +1,12 @@
 {
-  "account_read_enabled": "NO",
+  "allowed_http_methods": [
+    "GET"
+  ],
   "api_mode": "READONLY_LOCAL_ARTIFACT_API",
-  "default_port": 8765,
-  "dependency_added": "NO",
   "external_network_enabled": "NO",
-  "generated_at_utc": "2026-06-01T05:32:59+00:00",
-  "host": "127.0.0.1",
-  "ibkr_connection_enabled": "NO",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
   "local_backend_api": "YES_READONLY_SHELL",
-  "market_data_request_enabled": "NO",
-  "phase": "Phase 761-800",
-  "positions_read_enabled": "NO",
-  "server_type": "PYTHON_STDLIB_HTTP_SERVER",
+  "phase": "Phase 801-1000",
   "status": "LOCAL_BACKEND_API_SHELL_READY",
-  "telegram_real_send_enabled": "NO",
-  "trading_enabled": "NO",
   "write_api_enabled": "NO"
 }

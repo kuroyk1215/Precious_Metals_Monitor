@@ -1,27 +1,13 @@
 {
-  "current_track_completed": "INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL",
-  "generated_at_utc": "2026-06-01T00:00:00+00:00",
-  "next_recommended_track": "LOCAL_BACKEND_API_SHELL",
+  "current_track_completed": "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "next_recommended_track": "DATA_SOURCE_DECISION_AFTER_SUBSCRIPTION_UNBLOCK",
   "not_recommended_now": [
-    "MORE_UI_REDESIGN",
-    "REALTIME_MONITORING_BEFORE_DATA_SOURCE_DECISION",
-    "JP_CN_LIVE_MONITOR_BEFORE_DATA_SOURCE_DECISION",
+    "REALTIME_MONITORING",
+    "ACCOUNT_READER",
     "AUTO_TRADING",
-    "ACCOUNT_POSITION_READER"
+    "JP_CN_LIVE_MONITOR"
   ],
-  "phase": "Phase 721-760",
-  "priority_tracks": [
-    "MARKET_DATA_SOURCE_DECISION",
-    "US_GLD_SLV_FIRST",
-    "WATCHLIST_EXPANSION_AFTER_DATA_SOURCE",
-    "JP_CN_REMAIN_FROZEN_UNTIL_SOURCE_DECISION"
-  ],
-  "recommended_sequence": [
-    "Phase 729-736 Local Backend API Shell",
-    "Phase 737-744 US GLD / SLV Data Source Adapter Plan",
-    "Phase 745-752 Watchlist Expansion Policy Pack",
-    "Phase 753-760 Telegram Manual Packet Enhancement Pack"
-  ],
-  "roadmap_mode": "POST_UI_FREEZE_DEVELOPMENT_SEQUENCE",
+  "phase": "Phase 801-1000",
   "status": "NEXT_ROADMAP_READY"
 }

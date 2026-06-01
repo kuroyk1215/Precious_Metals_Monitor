@@ -98,3 +98,39 @@ input, select { background: rgba(23, 33, 45, 0.92); border: 1px solid var(--line
 }
 
 /* Phase 761-800 local backend API shell additions */
+
+
+/* Phase 801-1000 UI-driven local research platform MVP additions */
+.workbench-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.workbench-card {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.78);
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.workbench-card h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+.endpoint-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+}
+.endpoint-pill {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid rgba(34, 197, 94, 0.24);
+  border-radius: 8px;
+  background: rgba(22, 101, 52, 0.18);
+  color: #bbf7d0;
+  overflow-wrap: anywhere;
+}

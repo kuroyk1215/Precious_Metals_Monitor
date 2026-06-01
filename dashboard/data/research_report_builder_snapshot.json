@@ -1,0 +1,18 @@
+{
+  "directional_signal_enabled": "NO",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "phase": "Phase 801-1000",
+  "price_level_output_enabled": "NO",
+  "real_market_data_status": "NO_REAL_MARKET_DATA",
+  "status": "RESEARCH_REPORT_FRAMEWORK_READY",
+  "supported_horizons": [
+    "日内",
+    "短期",
+    "中期",
+    "长期"
+  ],
+  "symbols": [
+    "GLD",
+    "SLV"
+  ]
+}

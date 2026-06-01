@@ -1,0 +1,25 @@
+{
+  "account_read_enabled": "NO",
+  "browser_write_actions_enabled": "NO",
+  "external_network_enabled": "NO",
+  "generated_artifacts": [
+    "dashboard/data/operator_daily_packet_snapshot.json",
+    "dashboard/data/us_gld_slv_data_source_dry_run_snapshot.json",
+    "dashboard/data/research_report_framework_snapshot.json",
+    "dashboard/data/telegram_preview_snapshot.json",
+    "dashboard/data/watchlist_policy_snapshot.json",
+    "reports/local_research_report_framework_GLD_SLV.md",
+    "reports/operator_daily_packet_preview.md",
+    "reports/telegram_preview_local_only.md"
+  ],
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "historical_data_request_enabled": "NO",
+  "market_data_request_enabled": "NO",
+  "phase": "Phase 801-1000",
+  "position_read_enabled": "NO",
+  "status": "LOCAL_WORKFLOW_AUTOMATION_READY",
+  "telegram_real_send_enabled": "NO",
+  "trading_enabled": "NO",
+  "ui_trigger_mode": "VIEW_AND_COPY_COMMAND_ONLY",
+  "workflow_mode": "CLI_GENERATED_LOCAL_ARTIFACT_PREVIEW"
+}

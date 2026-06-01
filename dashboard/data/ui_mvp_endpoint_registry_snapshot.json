@@ -47,6 +47,6 @@
     "GET /api/mvp/status"
   ],
   "phase": "Phase 801-1000",
-  "status": "API_ENDPOINT_REGISTRY_READY",
+  "status": "UI_MVP_ENDPOINT_REGISTRY_READY",
   "write_endpoints_enabled": "NO"
 }

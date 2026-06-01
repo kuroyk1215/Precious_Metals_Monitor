@@ -1,23 +1,20 @@
 {
-  "generated_at_utc": "2026-06-01T00:00:00+00:00",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
   "timeline": [
     {
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "phase": "Phase 697-704",
-      "status": "DASHBOARD_UI_STATIC_VISUAL_FREEZE_READY",
-      "theme": "Dashboard UI Static Visual Freeze"
-    },
-    {
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "phase": "Phase 705-720",
-      "status": "POST_UI_FREEZE_HANDOFF_DATA_ROADMAP_READY",
-      "theme": "Post-UI Freeze Handoff / 数据源路线图"
-    },
-    {
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
       "phase": "Phase 721-760",
-      "status": "INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL_READY",
+      "status": "READY",
       "theme": "Interactive Local Research Platform UI Shell"
+    },
+    {
+      "phase": "Phase 761-800",
+      "status": "READY",
+      "theme": "Local Backend API Shell"
+    },
+    {
+      "phase": "Phase 801-1000",
+      "status": "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY",
+      "theme": "UI-Driven Local Research Platform MVP Landing"
     }
   ]
 }

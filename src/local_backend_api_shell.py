@@ -39,6 +39,14 @@ API_ROUTES: Mapping[str, str] = {
     "/api/market-scope": "dashboard/data/market_scope_status_snapshot.json",
     "/api/data-source": "dashboard/data/market_data_source_decision_snapshot.json",
     "/api/operator-actions": "dashboard/data/operator_next_actions_snapshot.json",
+    "/api/workflow/status": "dashboard/data/local_workflow_automation_snapshot.json",
+    "/api/workflow/run-preview": "dashboard/data/local_workflow_automation_snapshot.json",
+    "/api/research/report-framework": "dashboard/data/research_report_framework_snapshot.json",
+    "/api/data-source/dry-run": "dashboard/data/us_gld_slv_data_source_dry_run_snapshot.json",
+    "/api/operator/daily-packet": "dashboard/data/operator_daily_packet_snapshot.json",
+    "/api/telegram/preview": "dashboard/data/telegram_preview_snapshot.json",
+    "/api/watchlist/policy": "dashboard/data/watchlist_policy_snapshot.json",
+    "/api/mvp/status": "dashboard/data/local_research_platform_mvp_status_snapshot.json",
 }
 
 FORBIDDEN_ROUTES = {
