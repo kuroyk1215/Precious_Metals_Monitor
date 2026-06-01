@@ -9,20 +9,8 @@
     "PATCH",
     "DELETE"
   ],
-  "blocked_runtime_actions": [
-    "IBKR_CONNECT",
-    "MARKET_DATA_REQUEST",
-    "HISTORICAL_DATA_REQUEST",
-    "ACCOUNT_READ",
-    "POSITION_READ",
-    "CONTRACT_QUALIFICATION",
-    "ORDER_SUBMIT",
-    "ORDER_CANCEL",
-    "REBALANCE",
-    "TELEGRAM_REAL_SEND",
-    "EXTERNAL_URL_LOAD"
-  ],
-  "generated_at_utc": "2026-06-01T05:32:59+00:00",
-  "phase": "Phase 761-800",
-  "status": "API_READONLY_GUARD_READY"
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "phase": "Phase 801-1000",
+  "status": "API_READONLY_GUARD_READY",
+  "write_api_enabled": "NO"
 }

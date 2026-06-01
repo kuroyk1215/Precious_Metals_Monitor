@@ -1,0 +1,13 @@
+{
+  "add_symbol_requires_manual_confirmation": "YES",
+  "cn_status": "FROZEN",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "jp_status": "FROZEN",
+  "live_monitor_without_data_source": "NO",
+  "phase": "Phase 801-1000",
+  "status": "WATCHLIST_POLICY_READY",
+  "us_scope": [
+    "GLD",
+    "SLV"
+  ]
+}

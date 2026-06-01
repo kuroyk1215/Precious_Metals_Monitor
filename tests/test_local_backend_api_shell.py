@@ -27,6 +27,13 @@ def _prepare_root(tmp_path: Path) -> None:
     _write_json(tmp_path / "dashboard/data/market_scope_status_snapshot.json", {"status": "MARKET_SCOPE_STATUS_LOCAL_BACKEND_API_SHELL_READY"})
     _write_json(tmp_path / "dashboard/data/market_data_source_decision_snapshot.json", {"status": "MARKET_DATA_SOURCE_DECISION_READY"})
     _write_json(tmp_path / "dashboard/data/operator_next_actions_snapshot.json", {"status": "OPERATOR_NEXT_ACTIONS_LOCAL_BACKEND_API_READY"})
+    _write_json(tmp_path / "dashboard/data/local_workflow_automation_snapshot.json", {"status": "LOCAL_WORKFLOW_AUTOMATION_READY"})
+    _write_json(tmp_path / "dashboard/data/research_report_framework_snapshot.json", {"status": "RESEARCH_REPORT_FRAMEWORK_READY"})
+    _write_json(tmp_path / "dashboard/data/us_gld_slv_data_source_dry_run_snapshot.json", {"status": "US_GLD_SLV_DATA_SOURCE_DRY_RUN_READY"})
+    _write_json(tmp_path / "dashboard/data/operator_daily_packet_snapshot.json", {"status": "OPERATOR_DAILY_PACKET_PREVIEW_READY"})
+    _write_json(tmp_path / "dashboard/data/telegram_preview_snapshot.json", {"status": "TELEGRAM_PREVIEW_LOCAL_ONLY_READY"})
+    _write_json(tmp_path / "dashboard/data/watchlist_policy_snapshot.json", {"status": "WATCHLIST_POLICY_READY"})
+    _write_json(tmp_path / "dashboard/data/local_research_platform_mvp_status_snapshot.json", {"status": "LOCAL_RESEARCH_PLATFORM_MVP_READY"})
 
 
 class _FakeSocket:
@@ -88,14 +95,23 @@ def test_server_serves_allowed_local_api_and_blocks_writes(tmp_path: Path) -> No
     assert _request_json(tmp_path, b"GET /api/status HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "LOCAL_BACKEND_API_SHELL_READY"
     assert _request_json(tmp_path, b"GET /api/artifacts HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "LOCAL_BACKEND_API_SHELL_READY"
     assert _request_json(tmp_path, b"GET /api/data-source HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "MARKET_DATA_SOURCE_DECISION_READY"
+    assert _request_json(tmp_path, b"GET /api/workflow/status HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "LOCAL_WORKFLOW_AUTOMATION_READY"
+    assert _request_json(tmp_path, b"GET /api/workflow/run-preview HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "LOCAL_WORKFLOW_AUTOMATION_READY"
+    assert _request_json(tmp_path, b"GET /api/research/report-framework HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "RESEARCH_REPORT_FRAMEWORK_READY"
+    assert _request_json(tmp_path, b"GET /api/data-source/dry-run HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "US_GLD_SLV_DATA_SOURCE_DRY_RUN_READY"
+    assert _request_json(tmp_path, b"GET /api/operator/daily-packet HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "OPERATOR_DAILY_PACKET_PREVIEW_READY"
+    assert _request_json(tmp_path, b"GET /api/telegram/preview HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "TELEGRAM_PREVIEW_LOCAL_ONLY_READY"
+    assert _request_json(tmp_path, b"GET /api/watchlist/policy HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "WATCHLIST_POLICY_READY"
+    assert _request_json(tmp_path, b"GET /api/mvp/status HTTP/1.1\r\nHost: local\r\n\r\n")[1]["status"] == "LOCAL_RESEARCH_PLATFORM_MVP_READY"
 
-    status, body = _request_json(
-        tmp_path,
-        b"POST /api/status HTTP/1.1\r\nHost: local\r\nContent-Length: 2\r\n\r\n{}",
-    )
-    assert status == 405
-    assert body["forbidden"] is True
-    assert body["external_action"] == "BLOCKED"
+    for method in (b"POST", b"PUT", b"DELETE"):
+        status, body = _request_json(
+            tmp_path,
+            method + b" /api/status HTTP/1.1\r\nHost: local\r\nContent-Length: 2\r\n\r\n{}",
+        )
+        assert status == 405
+        assert body["forbidden"] is True
+        assert body["external_action"] == "BLOCKED"
 
     status, body = _request_json(tmp_path, b"GET /api/order/submit HTTP/1.1\r\nHost: local\r\n\r\n")
     assert status in {403, 404}

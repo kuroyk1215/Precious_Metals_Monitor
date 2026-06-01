@@ -1,0 +1,11 @@
+{
+  "browser_role": "PRIMARY_LOCAL_WORKBENCH",
+  "browser_write_actions_enabled": "NO",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "pack_build_command": "python3 main.py --ui-driven-local-research-platform-mvp-pack",
+  "phase": "Phase 801-1000",
+  "research_build_command": "python3 main.py --local-research-report-build",
+  "status": "UI_MVP_WORKFLOW_CONTRACT_READY",
+  "terminal_role": "STARTUP_AND_FALLBACK_ONLY",
+  "workflow_run_command": "python3 main.py --local-workflow-run"
+}

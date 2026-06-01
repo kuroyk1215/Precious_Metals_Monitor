@@ -1,0 +1,25 @@
+{
+  "directional_signal_enabled": "NO",
+  "framework_sections": [
+    "market_context_placeholder",
+    "data_source_status",
+    "risk_boundary",
+    "next_required_data",
+    "manual_review_checklist"
+  ],
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "horizons": [
+    "INTRADAY",
+    "SHORT_TERM",
+    "MID_TERM",
+    "LONG_TERM"
+  ],
+  "phase": "Phase 801-1000",
+  "price_levels_enabled": "NO",
+  "real_market_data_status": "NO_REAL_MARKET_DATA",
+  "status": "RESEARCH_REPORT_FRAMEWORK_READY",
+  "symbols": [
+    "GLD",
+    "SLV"
+  ]
+}

@@ -584,6 +584,21 @@ def parse_args() -> argparse.Namespace:
         help="Build Phase 761-800 localhost read-only backend API shell pack without external actions.",
     )
     parser.add_argument(
+        "--ui-driven-local-research-platform-mvp-pack",
+        action="store_true",
+        help="Build Phase 801-1000 UI-driven local research platform MVP pack without external actions.",
+    )
+    parser.add_argument(
+        "--local-workflow-run",
+        action="store_true",
+        help="Run local read-only workflow preview artifact generation without external actions.",
+    )
+    parser.add_argument(
+        "--local-research-report-build",
+        action="store_true",
+        help="Build GLD / SLV local research report framework without real market data.",
+    )
+    parser.add_argument(
         "--local-ui-server",
         action="store_true",
         help="Start the Phase 761-800 localhost read-only dashboard/API server.",
@@ -789,6 +804,23 @@ def main() -> int:
         from src.operator_local_backend_api_shell_pack import main as local_backend_api_shell_pack_main
 
         return local_backend_api_shell_pack_main([])
+
+    if args.ui_driven_local_research_platform_mvp_pack:
+        from src.operator_ui_driven_local_research_platform_mvp_pack import (
+            main as ui_driven_local_research_platform_mvp_pack_main,
+        )
+
+        return ui_driven_local_research_platform_mvp_pack_main([])
+
+    if args.local_workflow_run:
+        from src.local_workflow_automation import main as local_workflow_run_main
+
+        return local_workflow_run_main([])
+
+    if args.local_research_report_build:
+        from src.local_research_report_builder import main as local_research_report_build_main
+
+        return local_research_report_build_main([])
 
     if args.local_ui_server:
         from src.local_backend_api_shell import run_local_ui_server

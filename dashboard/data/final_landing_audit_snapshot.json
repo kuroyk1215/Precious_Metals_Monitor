@@ -1,0 +1,17 @@
+{
+  "all_external_actions_blocked": "YES",
+  "cn_status": "FROZEN_PENDING_DATA_SOURCE_DECISION",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "ibkr_error_code": "10089",
+  "jp_status": "FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION",
+  "market_data_status": "BLOCKED_BY_SUBSCRIPTION",
+  "no_live_market_data_enabled": "YES",
+  "no_real_market_data": "YES",
+  "no_source_connection_implemented": "YES",
+  "no_telegram_real_send": "YES",
+  "no_trading": "YES",
+  "phase": "Phase 801-1000",
+  "status": "LOCAL_PLATFORM_MVP_FINAL_AUDIT_READY",
+  "terminal_role": "STARTUP_AND_FALLBACK_ONLY",
+  "ui_driven_workbench_ready": "YES"
+}

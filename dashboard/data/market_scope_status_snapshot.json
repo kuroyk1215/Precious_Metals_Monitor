@@ -1,23 +1,11 @@
 {
-  "generated_at_utc": "2026-06-01T00:00:00+00:00",
-  "markets": {
-    "CN": {
-      "next_step": "DEFER_UNTIL_SOURCE_POLICY",
-      "scope": "FROZEN",
-      "status": "FROZEN_PENDING_DATA_SOURCE_DECISION"
-    },
-    "JP": {
-      "next_step": "DEFER_UNTIL_US_SOURCE_DECISION",
-      "scope": "FROZEN",
-      "status": "FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION"
-    },
-    "US": {
-      "blocker": "IBKR_ERROR_10089_SUBSCRIPTION_REQUIRED",
-      "next_step": "MARKET_DATA_SOURCE_DECISION",
-      "scope": "GLD_SLV_ONLY",
-      "status": "READONLY_FRAMEWORK_READY_MARKET_DATA_BLOCKED"
-    }
-  },
-  "phase": "Phase 721-760",
-  "status": "MARKET_SCOPE_STATUS_UI_SHELL_READY"
+  "cn_status": "FROZEN_PENDING_DATA_SOURCE_DECISION",
+  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "jp_status": "FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION",
+  "phase": "Phase 801-1000",
+  "status": "MARKET_SCOPE_STATUS_MVP_READY",
+  "us_symbols": [
+    "GLD",
+    "SLV"
+  ]
 }
