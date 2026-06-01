@@ -1,0 +1,25 @@
+# Phase 1161-1320 Final Product UI Lock Pack
+
+- status: FINAL_PRODUCT_UI_LOCK_READY
+- final product UI locked
+- user-facing research workbench
+- template-inspired only, no copied template code
+- no external assets
+- no CDN
+- developer mode collapsed in settings
+- no real market data
+- no source connection implemented
+- no live market data enabled
+- no IBKR connection
+- no market data request
+- no historical data request
+- no account/position read
+- no contract qualification
+- no trading
+- no Telegram real send
+- no directional trading signal
+- no target, stop, or take-profit levels
+- no live price fields
+- GLD / SLV only
+- JP / CN remain frozen
+- generated_at_utc: 2026-06-01T11:22:19+00:00

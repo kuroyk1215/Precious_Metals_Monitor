@@ -599,6 +599,11 @@ def parse_args() -> argparse.Namespace:
         help="Build Phase 1121-1160 productized UI user surface cleanup pack without external actions.",
     )
     parser.add_argument(
+        "--final-product-ui-lock-pack",
+        action="store_true",
+        help="Build Phase 1161-1320 final product UI lock pack without external actions.",
+    )
+    parser.add_argument(
         "--public-data-intake-prep",
         action="store_true",
         help="Build public data intake preparation artifacts without network, live price ingestion, or trading output.",
@@ -840,6 +845,11 @@ def main() -> int:
         )
 
         return productized_ui_user_surface_cleanup_pack_main([])
+
+    if args.final_product_ui_lock_pack:
+        from src.operator_final_product_ui_lock_pack import main as final_product_ui_lock_pack_main
+
+        return final_product_ui_lock_pack_main([])
 
     if args.public_data_intake_prep:
         from src.public_data_intake_preparation import main as public_data_intake_prep_main
