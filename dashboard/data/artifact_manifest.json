@@ -1,126 +1,168 @@
 {
   "artifacts": [
     {
+      "artifact_path": "data/manual_market_data_template.csv",
+      "category": "CSV",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../data/manual_market_data_template.csv",
+      "type": "CSV"
+    },
+    {
+      "artifact_path": "data/manual_market_data_sample_GLD_SLV.csv",
+      "category": "CSV",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../data/manual_market_data_sample_GLD_SLV.csv",
+      "type": "CSV"
+    },
+    {
+      "artifact_path": "data/local_market_data_store.json",
+      "category": "JSON",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../data/local_market_data_store.json",
+      "type": "JSON"
+    },
+    {
       "artifact_path": "dashboard/index.html",
       "category": "HTML",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "index.html",
       "type": "HTML"
     },
     {
       "artifact_path": "dashboard/assets/style.css",
       "category": "CSS",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "assets/style.css",
       "type": "CSS"
     },
     {
       "artifact_path": "dashboard/data/status_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "data/status_snapshot.json",
       "type": "JSON"
     },
     {
       "artifact_path": "dashboard/data/artifact_manifest.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "data/artifact_manifest.json",
       "type": "JSON"
     },
     {
       "artifact_path": "dashboard/data/build_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "data/build_snapshot.json",
       "type": "JSON"
     },
     {
       "artifact_path": "dashboard/data/operator_timeline.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "data/operator_timeline.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/final_product_ui_lock_snapshot.json",
+      "artifact_path": "dashboard/data/manual_csv_import_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/final_product_ui_lock_snapshot.json",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/manual_csv_import_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/final_navigation_snapshot.json",
+      "artifact_path": "dashboard/data/public_data_pilot_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/final_navigation_snapshot.json",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/public_data_pilot_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/final_dashboard_layout_snapshot.json",
+      "artifact_path": "dashboard/data/public_data_source_registry_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/final_dashboard_layout_snapshot.json",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/public_data_source_registry_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/final_visual_system_snapshot.json",
+      "artifact_path": "dashboard/data/market_data_validation_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/final_visual_system_snapshot.json",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/market_data_validation_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/final_user_workflow_snapshot.json",
+      "artifact_path": "dashboard/data/local_market_data_store_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/final_user_workflow_snapshot.json",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/local_market_data_store_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/final_ui_regression_guard_snapshot.json",
+      "artifact_path": "dashboard/data/gld_slv_data_status_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/final_ui_regression_guard_snapshot.json",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/gld_slv_data_status_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/data_driven_research_framework_snapshot.json",
+      "category": "JSON",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "data/data_driven_research_framework_snapshot.json",
       "type": "JSON"
     },
     {
       "artifact_path": "dashboard/data/final_landing_audit_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
       "local_href": "data/final_landing_audit_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "operator_final_product_ui_lock_pack.csv",
+      "artifact_path": "operator_manual_csv_public_data_pilot_pack.csv",
       "category": "CSV",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../operator_final_product_ui_lock_pack.csv",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../operator_manual_csv_public_data_pilot_pack.csv",
       "type": "CSV"
     },
     {
-      "artifact_path": "reports/operator_final_product_ui_lock_pack_report.md",
+      "artifact_path": "reports/operator_manual_csv_public_data_pilot_pack_report.md",
       "category": "REPORT",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../reports/operator_final_product_ui_lock_pack_report.md",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../reports/operator_manual_csv_public_data_pilot_pack_report.md",
       "type": "MD"
     },
     {
-      "artifact_path": "reports/final_product_ui_user_guide.md",
+      "artifact_path": "reports/manual_csv_market_data_user_guide.md",
       "category": "REPORT",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../reports/final_product_ui_user_guide.md",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../reports/manual_csv_market_data_user_guide.md",
       "type": "MD"
     },
     {
-      "artifact_path": "Precious_Metals_Monitor_Final_Product_UI_Lock_Pack.md",
+      "artifact_path": "reports/public_data_pilot_report.md",
+      "category": "REPORT",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../reports/public_data_pilot_report.md",
+      "type": "MD"
+    },
+    {
+      "artifact_path": "reports/data_driven_research_framework_GLD_SLV.md",
+      "category": "REPORT",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../reports/data_driven_research_framework_GLD_SLV.md",
+      "type": "MD"
+    },
+    {
+      "artifact_path": "Precious_Metals_Monitor_Manual_CSV_Public_Data_Pilot_Pack.md",
       "category": "PACK",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../Precious_Metals_Monitor_Final_Product_UI_Lock_Pack.md",
+      "external_effect": "NONE_UNLESS_EXPLICIT_PUBLIC_PILOT_FETCH",
+      "local_href": "../Precious_Metals_Monitor_Manual_CSV_Public_Data_Pilot_Pack.md",
       "type": "MD"
     }
   ],
-  "generated_at_utc": "2026-06-01T11:22:19+00:00",
-  "phase": "Phase 1161-1320",
-  "status": "FINAL_PRODUCT_UI_LOCK_READY"
+  "generated_at_utc": "2026-06-01T12:10:17+00:00",
+  "phase": "Phase 1321-1520",
+  "status": "MANUAL_CSV_PUBLIC_DATA_PILOT_READY"
 }

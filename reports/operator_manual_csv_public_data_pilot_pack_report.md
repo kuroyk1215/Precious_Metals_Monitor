@@ -1,0 +1,21 @@
+# Phase 1321-1520 Manual CSV Public Data Pilot Pack
+
+- status: MANUAL_CSV_PUBLIC_DATA_PILOT_READY
+- manual CSV loader ready
+- local market data store ready
+- GLD / SLV only
+- public data source registry ready
+- public data pilot dry-run ready
+- public data auto fetch disabled
+- public data fetch requires explicit allow
+- no real-time market data
+- no IBKR connection
+- no IBKR market data request
+- no account/position read
+- no contract qualification
+- no trading
+- no Telegram real send
+- no directional trading signal
+- no target, stop, or take-profit levels
+- JP / CN remain frozen
+- generated_at_utc: 2026-06-01T12:10:17+00:00

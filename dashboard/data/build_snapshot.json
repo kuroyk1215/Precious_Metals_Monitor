@@ -1,9 +1,7 @@
 {
-  "generated_at_utc": "2026-06-01T11:22:19+00:00",
-  "phase": "Phase 1161-1320",
-  "production_ready": "NO",
-  "status": "FINAL_PRODUCT_UI_LOCK_READY",
-  "trading_enabled": "NO",
+  "generated_at_utc": "2026-06-01T12:10:17+00:00",
+  "phase": "Phase 1321-1520",
+  "status": "MANUAL_CSV_PUBLIC_DATA_PILOT_READY",
   "ui_final_locked": "YES",
   "ui_generation": "V12_FINAL_PRODUCT_UI_LOCK"
 }

@@ -1,0 +1,15 @@
+{
+  "data_input_priority": [
+    "Manual CSV",
+    "Public Pilot"
+  ],
+  "generated_at_utc": "2026-06-01T12:10:17+00:00",
+  "phase": "Phase 1321-1520",
+  "report_mode": "FRAMEWORK_ONLY_UNTIL_VERIFIED_DATA",
+  "signal_generation_enabled": "NO",
+  "status": "DATA_DRIVEN_RESEARCH_FRAMEWORK_READY",
+  "supported_symbols": [
+    "GLD",
+    "SLV"
+  ]
+}

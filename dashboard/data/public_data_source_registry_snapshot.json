@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "default_status": "CANDIDATE_NOT_CONNECTED",
+      "freshness_status": "UNKNOWN_UNTIL_FETCH",
+      "source_name": "Stooq",
+      "source_type": "public_historical",
+      "supports_us_etf": "LIKELY",
+      "terms_review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "api_key_required": "YES",
+      "default_status": "CANDIDATE_NOT_CONNECTED",
+      "free_tier_available": "YES",
+      "freshness_status": "UNKNOWN_UNTIL_FETCH",
+      "premium_intraday_limitation": "YES",
+      "source_name": "Alpha Vantage",
+      "source_type": "public_api",
+      "terms_review_status": "REVIEW_REQUIRED"
+    },
+    {
+      "default_status": "NOT_RECOMMENDED_FOR_AUTOMATION",
+      "enabled": "NO",
+      "source_name": "Yahoo Finance",
+      "source_type": "unofficial_public_web",
+      "terms_risk": "HIGH"
+    }
+  ],
+  "generated_at_utc": "2026-06-01T12:10:17+00:00",
+  "status": "PUBLIC_DATA_SOURCE_REGISTRY_READY"
+}
