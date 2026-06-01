@@ -1,20 +1,15 @@
 {
-  "generated_at_utc": "2026-06-01T08:54:47+00:00",
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
   "timeline": [
     {
-      "phase": "Phase 721-760",
-      "status": "READY",
-      "theme": "Interactive Local Research Platform UI Shell"
-    },
-    {
-      "phase": "Phase 761-800",
-      "status": "READY",
-      "theme": "Local Backend API Shell"
-    },
-    {
       "phase": "Phase 801-1000",
-      "status": "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY",
-      "theme": "UI-Driven Local Research Platform MVP Landing"
+      "status": "READY",
+      "theme": "UI-driven local research platform MVP"
+    },
+    {
+      "phase": "Phase 1001-1120",
+      "status": "PRODUCTIZED_UI_PUBLIC_DATA_INTAKE_READY",
+      "theme": "Productized UI and public data intake preparation"
     }
   ]
 }

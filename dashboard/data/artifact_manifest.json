@@ -43,136 +43,66 @@
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/local_backend_api_shell_snapshot.json",
+      "artifact_path": "dashboard/data/productized_ui_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/local_backend_api_shell_snapshot.json",
+      "local_href": "data/productized_ui_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/api_endpoint_registry_snapshot.json",
+      "artifact_path": "dashboard/data/user_facing_content_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/api_endpoint_registry_snapshot.json",
+      "local_href": "data/user_facing_content_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/api_readonly_guard_snapshot.json",
+      "artifact_path": "dashboard/data/developer_details_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/api_readonly_guard_snapshot.json",
+      "local_href": "data/developer_details_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/api_runtime_contract_snapshot.json",
+      "artifact_path": "dashboard/data/public_data_intake_preparation_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/api_runtime_contract_snapshot.json",
+      "local_href": "data/public_data_intake_preparation_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/local_ui_server_runbook_snapshot.json",
+      "artifact_path": "dashboard/data/public_market_data_source_candidates_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/local_ui_server_runbook_snapshot.json",
+      "local_href": "data/public_market_data_source_candidates_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/operator_next_actions_snapshot.json",
+      "artifact_path": "dashboard/data/public_data_field_contract_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/operator_next_actions_snapshot.json",
+      "local_href": "data/public_data_field_contract_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/next_roadmap_snapshot.json",
+      "artifact_path": "dashboard/data/public_data_safety_guard_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/next_roadmap_snapshot.json",
+      "local_href": "data/public_data_safety_guard_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/market_data_source_decision_snapshot.json",
+      "artifact_path": "dashboard/data/productized_dashboard_sections_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/market_data_source_decision_snapshot.json",
+      "local_href": "data/productized_dashboard_sections_snapshot.json",
       "type": "JSON"
     },
     {
-      "artifact_path": "dashboard/data/market_scope_status_snapshot.json",
+      "artifact_path": "dashboard/data/productized_next_actions_snapshot.json",
       "category": "JSON",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/market_scope_status_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/local_workflow_automation_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/local_workflow_automation_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/operator_daily_packet_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/operator_daily_packet_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/us_gld_slv_data_source_dry_run_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/us_gld_slv_data_source_dry_run_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/research_report_builder_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/research_report_builder_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/research_report_framework_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/research_report_framework_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/telegram_preview_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/telegram_preview_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/watchlist_policy_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/watchlist_policy_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/ui_mvp_endpoint_registry_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/ui_mvp_endpoint_registry_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/ui_mvp_workflow_contract_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/ui_mvp_workflow_contract_snapshot.json",
-      "type": "JSON"
-    },
-    {
-      "artifact_path": "dashboard/data/local_research_platform_mvp_status_snapshot.json",
-      "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "data/local_research_platform_mvp_status_snapshot.json",
+      "local_href": "data/productized_next_actions_snapshot.json",
       "type": "JSON"
     },
     {
@@ -183,49 +113,42 @@
       "type": "JSON"
     },
     {
-      "artifact_path": "operator_ui_driven_local_research_platform_mvp_pack.csv",
+      "artifact_path": "operator_productized_ui_public_data_intake_pack.csv",
       "category": "CSV",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../operator_ui_driven_local_research_platform_mvp_pack.csv",
+      "local_href": "../operator_productized_ui_public_data_intake_pack.csv",
       "type": "CSV"
     },
     {
-      "artifact_path": "reports/operator_ui_driven_local_research_platform_mvp_pack_report.md",
+      "artifact_path": "reports/operator_productized_ui_public_data_intake_pack_report.md",
       "category": "REPORT",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../reports/operator_ui_driven_local_research_platform_mvp_pack_report.md",
+      "local_href": "../reports/operator_productized_ui_public_data_intake_pack_report.md",
       "type": "MD"
     },
     {
-      "artifact_path": "reports/local_research_report_framework_GLD_SLV.md",
+      "artifact_path": "reports/public_data_intake_preparation_report.md",
       "category": "REPORT",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../reports/local_research_report_framework_GLD_SLV.md",
+      "local_href": "../reports/public_data_intake_preparation_report.md",
       "type": "MD"
     },
     {
-      "artifact_path": "reports/operator_daily_packet_preview.md",
+      "artifact_path": "reports/productized_ui_user_guide.md",
       "category": "REPORT",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../reports/operator_daily_packet_preview.md",
+      "local_href": "../reports/productized_ui_user_guide.md",
       "type": "MD"
     },
     {
-      "artifact_path": "reports/telegram_preview_local_only.md",
-      "category": "REPORT",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../reports/telegram_preview_local_only.md",
-      "type": "MD"
-    },
-    {
-      "artifact_path": "Precious_Metals_Monitor_UI_Driven_Local_Research_Platform_MVP_Landing_Pack.md",
+      "artifact_path": "Precious_Metals_Monitor_Productized_UI_Public_Data_Intake_Preparation_Pack.md",
       "category": "PACK",
       "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-      "local_href": "../Precious_Metals_Monitor_UI_Driven_Local_Research_Platform_MVP_Landing_Pack.md",
+      "local_href": "../Precious_Metals_Monitor_Productized_UI_Public_Data_Intake_Preparation_Pack.md",
       "type": "MD"
     }
   ],
-  "generated_at_utc": "2026-06-01T08:54:47+00:00",
-  "phase": "Phase 801-1000",
-  "status": "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY"
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "phase": "Phase 1001-1120",
+  "status": "PRODUCTIZED_UI_PUBLIC_DATA_INTAKE_READY"
 }

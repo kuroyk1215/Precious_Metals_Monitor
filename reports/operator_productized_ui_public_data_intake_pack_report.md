@@ -1,0 +1,26 @@
+# Phase 1001-1120 Productized UI Public Data Intake Pack
+
+- status: PRODUCTIZED_UI_PUBLIC_DATA_INTAKE_READY
+- productized Chinese research workbench UI
+- developer details collapsed by default
+- public data intake preparation ready
+- public_data_connection_implemented: NO
+- external_market_data_request_enabled: NO
+- real_price_ingestion_enabled: NO
+- source_connection_implemented: NO
+- live_market_data_enabled: NO
+- no IBKR connection
+- no market data request
+- no historical data request
+- no account read
+- no holding read
+- no contract qualification
+- no trading
+- no Telegram real send
+- no directional signal
+- no target, stop, or take-profit levels
+- no live price fields
+- market data remains BLOCKED_BY_SUBSCRIPTION / IBKR_ERROR_10089
+- GLD / SLV only
+- JP / CN remain frozen
+- generated_at_utc: 2026-06-01T10:30:33+00:00

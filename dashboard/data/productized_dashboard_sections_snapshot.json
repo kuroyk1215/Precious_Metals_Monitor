@@ -1,0 +1,27 @@
+{
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "phase": "Phase 1001-1120",
+  "safety_rules": [
+    "no source -> no price",
+    "no price -> no signal",
+    "no approved terms -> no automated ingestion",
+    "no verified freshness -> framework only"
+  ],
+  "sections": [
+    "今日状态",
+    "GLD / SLV 研究框架",
+    "数据源状态",
+    "本地报告",
+    "风险边界",
+    "下一步操作",
+    "公共行情导入准备"
+  ],
+  "source_candidates": [
+    "PUBLIC_DELAYED_SOURCE_CANDIDATE",
+    "MANUAL_CSV_SOURCE",
+    "PAID_MARKET_DATA_API_CANDIDATE",
+    "IBKR_SUBSCRIPTION_OPTION",
+    "HYBRID_ROUTER_DESIGN"
+  ],
+  "status": "PRODUCTIZED_DASHBOARD_SECTIONS_READY"
+}

@@ -1,0 +1,20 @@
+{
+  "collapsed_by_default": "YES",
+  "fallback_commands": [
+    "python3 main.py --productized-ui-public-data-intake-pack",
+    "python3 main.py --public-data-intake-prep",
+    "python3 main.py --local-ui-server"
+  ],
+  "generated_at_utc": "2026-06-01T10:30:33+00:00",
+  "phase": "Phase 1001-1120",
+  "status": "DEVELOPER_DETAILS_COLLAPSED_BY_DEFAULT",
+  "technical_status": {
+    "allowed_http_methods": "GET_ONLY",
+    "ibkr_error_code": "10089",
+    "legacy_mvp_status": "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY",
+    "live_market_data_enabled": "NO",
+    "market_data_status": "BLOCKED_BY_SUBSCRIPTION",
+    "source_connection_implemented": "NO",
+    "terminal_fallback": "CLI fallback"
+  }
+}
