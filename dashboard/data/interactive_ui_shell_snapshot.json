@@ -1,6 +1,8 @@
 {
+  "api_calls_from_static_ui": "NO",
+  "backend_api_status": "LOCAL_READONLY_API_SHELL_READY",
   "external_js": "NO",
-  "generated_at_utc": "2026-06-01T04:36:47+00:00",
+  "generated_at_utc": "2026-06-01T05:32:59+00:00",
   "interaction_features": [
     "TABS",
     "LOCAL_SEARCH",
@@ -9,8 +11,8 @@
     "COPY_COMMAND",
     "DISABLED_ACTION_HINTS"
   ],
-  "local_backend_api": "NO",
-  "phase": "Phase 721-760",
+  "local_backend_api": "YES_READONLY_SHELL",
+  "phase": "Phase 761-800",
   "remote_assets": "NO",
   "status": "INTERACTIVE_UI_SHELL_READY",
   "tabs": [

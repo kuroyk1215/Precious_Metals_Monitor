@@ -1,11 +1,12 @@
 {
-  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-  "generated_at_utc": "2026-06-01T04:36:47+00:00",
-  "latest_main_commit": "a2d1dcb",
-  "latest_merged_pr": 226,
-  "phase": "Phase 721-760",
+  "backend_api_status": "LOCAL_READONLY_API_SHELL_READY",
+  "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+  "generated_at_utc": "2026-06-01T05:32:59+00:00",
+  "latest_main_commit": "0d0c7ab",
+  "latest_merged_pr": 227,
+  "phase": "Phase 761-800",
   "production_ready": "NO",
-  "status": "INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL_READY",
+  "status": "LOCAL_BACKEND_API_SHELL_READY",
   "trading_enabled": "NO",
   "ui_generation": "V8_INTERACTIVE_LOCAL_RESEARCH_PLATFORM_SHELL"
 }

@@ -3,7 +3,7 @@
     {
       "artifact_path": "dashboard/index.html",
       "category": "HTML",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "HTML_LOCAL",
       "local_href": "index.html",
       "type": "HTML"
@@ -11,7 +11,7 @@
     {
       "artifact_path": "dashboard/assets/style.css",
       "category": "CSS",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "CSS_LOCAL",
       "local_href": "assets/style.css",
       "type": "CSS"
@@ -19,7 +19,7 @@
     {
       "artifact_path": "dashboard/data/status_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/status_snapshot.json",
       "type": "JSON"
@@ -27,7 +27,7 @@
     {
       "artifact_path": "dashboard/data/ui_qa_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/ui_qa_snapshot.json",
       "type": "JSON"
@@ -35,7 +35,7 @@
     {
       "artifact_path": "dashboard/data/static_visual_freeze_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/static_visual_freeze_snapshot.json",
       "type": "JSON"
@@ -43,7 +43,7 @@
     {
       "artifact_path": "dashboard/data/visual_regression_guard_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/visual_regression_guard_snapshot.json",
       "type": "JSON"
@@ -51,7 +51,7 @@
     {
       "artifact_path": "dashboard/data/high_tech_visual_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/high_tech_visual_snapshot.json",
       "type": "JSON"
@@ -59,7 +59,7 @@
     {
       "artifact_path": "dashboard/data/trading_shell_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/trading_shell_snapshot.json",
       "type": "JSON"
@@ -67,7 +67,7 @@
     {
       "artifact_path": "dashboard/data/static_chart_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/static_chart_snapshot.json",
       "type": "JSON"
@@ -75,7 +75,7 @@
     {
       "artifact_path": "dashboard/data/chinese_ui_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/chinese_ui_snapshot.json",
       "type": "JSON"
@@ -83,7 +83,7 @@
     {
       "artifact_path": "dashboard/data/template_reference_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/template_reference_snapshot.json",
       "type": "JSON"
@@ -91,7 +91,7 @@
     {
       "artifact_path": "dashboard/data/visual_density_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/visual_density_snapshot.json",
       "type": "JSON"
@@ -99,7 +99,7 @@
     {
       "artifact_path": "dashboard/data/card_system_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/card_system_snapshot.json",
       "type": "JSON"
@@ -107,7 +107,7 @@
     {
       "artifact_path": "dashboard/data/icon_system_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/icon_system_snapshot.json",
       "type": "JSON"
@@ -115,7 +115,7 @@
     {
       "artifact_path": "dashboard/data/timeline_polish_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/timeline_polish_snapshot.json",
       "type": "JSON"
@@ -123,7 +123,7 @@
     {
       "artifact_path": "dashboard/data/watchlist_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/watchlist_snapshot.json",
       "type": "JSON"
@@ -131,7 +131,7 @@
     {
       "artifact_path": "dashboard/data/signal_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/signal_snapshot.json",
       "type": "JSON"
@@ -139,7 +139,7 @@
     {
       "artifact_path": "dashboard/data/risk_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/risk_snapshot.json",
       "type": "JSON"
@@ -147,7 +147,7 @@
     {
       "artifact_path": "dashboard/data/layout_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/layout_snapshot.json",
       "type": "JSON"
@@ -155,7 +155,7 @@
     {
       "artifact_path": "dashboard/data/navigation_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/navigation_snapshot.json",
       "type": "JSON"
@@ -163,7 +163,7 @@
     {
       "artifact_path": "dashboard/data/build_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/build_snapshot.json",
       "type": "JSON"
@@ -171,7 +171,7 @@
     {
       "artifact_path": "dashboard/data/operator_timeline.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/operator_timeline.json",
       "type": "JSON"
@@ -179,7 +179,7 @@
     {
       "artifact_path": "dashboard/data/artifact_manifest.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/artifact_manifest.json",
       "type": "JSON"
@@ -187,7 +187,7 @@
     {
       "artifact_path": "operator_dashboard_ui_static_visual_freeze_pack.csv",
       "category": "CSV",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "CSV_LOCAL",
       "local_href": "../operator_dashboard_ui_static_visual_freeze_pack.csv",
       "type": "CSV"
@@ -195,7 +195,7 @@
     {
       "artifact_path": "reports/operator_dashboard_ui_static_visual_freeze_pack_report.md",
       "category": "REPORT",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "REPORT_LOCAL",
       "local_href": "../reports/operator_dashboard_ui_static_visual_freeze_pack_report.md",
       "type": "MD"
@@ -203,7 +203,7 @@
     {
       "artifact_path": "Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md",
       "category": "PACK",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "PACK_LOCAL",
       "local_href": "../Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md",
       "type": "MD"
@@ -211,7 +211,7 @@
     {
       "artifact_path": "dashboard/data/post_ui_freeze_handoff_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/post_ui_freeze_handoff_snapshot.json",
       "type": "JSON"
@@ -219,7 +219,7 @@
     {
       "artifact_path": "dashboard/data/next_roadmap_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/next_roadmap_snapshot.json",
       "type": "JSON"
@@ -227,7 +227,7 @@
     {
       "artifact_path": "dashboard/data/market_data_source_decision_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/market_data_source_decision_snapshot.json",
       "type": "JSON"
@@ -235,7 +235,7 @@
     {
       "artifact_path": "dashboard/data/market_scope_status_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/market_scope_status_snapshot.json",
       "type": "JSON"
@@ -243,7 +243,7 @@
     {
       "artifact_path": "dashboard/data/operator_next_actions_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/operator_next_actions_snapshot.json",
       "type": "JSON"
@@ -251,7 +251,7 @@
     {
       "artifact_path": "operator_post_ui_freeze_handoff_data_roadmap_pack.csv",
       "category": "CSV",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "CSV_LOCAL",
       "local_href": "../operator_post_ui_freeze_handoff_data_roadmap_pack.csv",
       "type": "CSV"
@@ -259,7 +259,7 @@
     {
       "artifact_path": "reports/operator_post_ui_freeze_handoff_data_roadmap_pack_report.md",
       "category": "REPORT",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "REPORT_LOCAL",
       "local_href": "../reports/operator_post_ui_freeze_handoff_data_roadmap_pack_report.md",
       "type": "MD"
@@ -267,7 +267,7 @@
     {
       "artifact_path": "Precious_Metals_Monitor_Post_UI_Freeze_Handoff_Data_Roadmap_Pack.md",
       "category": "PACK",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "PACK_LOCAL",
       "local_href": "../Precious_Metals_Monitor_Post_UI_Freeze_Handoff_Data_Roadmap_Pack.md",
       "type": "MD"
@@ -275,7 +275,7 @@
     {
       "artifact_path": "dashboard/data/interactive_ui_shell_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/interactive_ui_shell_snapshot.json",
       "type": "JSON"
@@ -283,7 +283,7 @@
     {
       "artifact_path": "dashboard/data/ui_interaction_contract_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/ui_interaction_contract_snapshot.json",
       "type": "JSON"
@@ -291,7 +291,7 @@
     {
       "artifact_path": "dashboard/data/ui_disabled_actions_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/ui_disabled_actions_snapshot.json",
       "type": "JSON"
@@ -299,7 +299,7 @@
     {
       "artifact_path": "dashboard/data/ui_filter_tabs_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/ui_filter_tabs_snapshot.json",
       "type": "JSON"
@@ -307,7 +307,7 @@
     {
       "artifact_path": "dashboard/data/local_platform_shell_status_snapshot.json",
       "category": "JSON",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "JSON_LOCAL",
       "local_href": "data/local_platform_shell_status_snapshot.json",
       "type": "JSON"
@@ -315,7 +315,7 @@
     {
       "artifact_path": "operator_interactive_local_research_platform_ui_shell_pack.csv",
       "category": "CSV",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "CSV_LOCAL",
       "local_href": "../operator_interactive_local_research_platform_ui_shell_pack.csv",
       "type": "CSV"
@@ -323,7 +323,7 @@
     {
       "artifact_path": "reports/operator_interactive_local_research_platform_ui_shell_pack_report.md",
       "category": "REPORT",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "REPORT_LOCAL",
       "local_href": "../reports/operator_interactive_local_research_platform_ui_shell_pack_report.md",
       "type": "MD"
@@ -331,14 +331,78 @@
     {
       "artifact_path": "Precious_Metals_Monitor_Interactive_Local_Research_Platform_UI_Shell_Pack.md",
       "category": "PACK",
-      "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
       "icon_token": "PACK_LOCAL",
       "local_href": "../Precious_Metals_Monitor_Interactive_Local_Research_Platform_UI_Shell_Pack.md",
       "type": "MD"
+    },
+    {
+      "artifact_path": "dashboard/data/local_backend_api_shell_snapshot.json",
+      "category": "JSON",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/local_backend_api_shell_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/api_endpoint_registry_snapshot.json",
+      "category": "JSON",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/api_endpoint_registry_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/api_readonly_guard_snapshot.json",
+      "category": "JSON",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/api_readonly_guard_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/api_runtime_contract_snapshot.json",
+      "category": "JSON",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/api_runtime_contract_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "dashboard/data/local_ui_server_runbook_snapshot.json",
+      "category": "JSON",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "JSON_LOCAL",
+      "local_href": "data/local_ui_server_runbook_snapshot.json",
+      "type": "JSON"
+    },
+    {
+      "artifact_path": "operator_local_backend_api_shell_pack.csv",
+      "category": "CSV",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "CSV_LOCAL",
+      "local_href": "../operator_local_backend_api_shell_pack.csv",
+      "type": "CSV"
+    },
+    {
+      "artifact_path": "reports/operator_local_backend_api_shell_pack_report.md",
+      "category": "REPORT",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "REPORT_LOCAL",
+      "local_href": "../reports/operator_local_backend_api_shell_pack_report.md",
+      "type": "MD"
+    },
+    {
+      "artifact_path": "Precious_Metals_Monitor_Local_Backend_API_Shell_Pack.md",
+      "category": "PACK",
+      "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+      "icon_token": "PACK_LOCAL",
+      "local_href": "../Precious_Metals_Monitor_Local_Backend_API_Shell_Pack.md",
+      "type": "MD"
     }
   ],
-  "external_effect": "NONE_LOCAL_ARTIFACT_GENERATION_ONLY",
-  "generated_at_utc": "2026-06-01T04:36:47+00:00",
-  "phase": "Phase 721-760",
-  "status": "INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL_READY"
+  "external_effect": "LOCALHOST_READONLY_SERVER_OPTIONAL",
+  "generated_at_utc": "2026-06-01T05:32:59+00:00",
+  "phase": "Phase 761-800",
+  "status": "LOCAL_BACKEND_API_SHELL_READY"
 }
