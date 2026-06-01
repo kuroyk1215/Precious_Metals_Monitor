@@ -1,9 +1,1 @@
-target_id,target_type,market,data_role,value,currency,source,source_status,source_timestamp,notes
-XAUUSD,upstream_factor,GLOBAL,gold_spot_usd,unavailable,USD,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-XAGUSD,upstream_factor,GLOBAL,silver_spot_usd,unavailable,USD,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-USDJPY,upstream_factor,FX,fx_rate,unavailable,JPY,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-USDCNY,upstream_factor,FX,fx_rate,unavailable,CNY,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-SGE_AU99_99,upstream_factor,CN,shanghai_gold_benchmark,unavailable,CNY,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-1540.T,etf_actual_price,JP,jp_gold_etf_actual_price,unavailable,JPY,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-1542.T,etf_actual_price,JP,jp_silver_etf_actual_price,unavailable,JPY,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
-518880.SH,etf_actual_price,CN,cn_gold_etf_actual_price,unavailable,CNY,manual_csv_template,manual_csv_template,unavailable,template only; fill value before use
+symbol,market,timestamp_utc,price,currency,source_name,source_type,data_delay_status

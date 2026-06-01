@@ -1,0 +1,19 @@
+{
+  "generated_at_utc": "2026-06-01T12:10:17+00:00",
+  "invalid_row_count": 0,
+  "phase": "Phase 1321-1520",
+  "preview_status": "MANUAL_CSV_IMPORT_PREVIEW_READY",
+  "required_fields": [
+    "symbol",
+    "market",
+    "timestamp_utc",
+    "price",
+    "currency",
+    "source_name",
+    "source_type",
+    "data_delay_status"
+  ],
+  "row_count": 2,
+  "status": "MARKET_DATA_VALIDATION_READY",
+  "valid_row_count": 2
+}

@@ -604,6 +604,35 @@ def parse_args() -> argparse.Namespace:
         help="Build Phase 1161-1320 final product UI lock pack without external actions.",
     )
     parser.add_argument(
+        "--manual-csv-public-data-pilot-pack",
+        action="store_true",
+        help="Build Phase 1321-1520 manual CSV and public data pilot pack without external actions.",
+    )
+    parser.add_argument(
+        "--manual-csv-import-preview",
+        action="store_true",
+        help="Preview the sample GLD / SLV manual CSV without writing the local store.",
+    )
+    parser.add_argument(
+        "--manual-csv-load",
+        help="Load an explicit GLD / SLV manual CSV into the local market data store after validation.",
+    )
+    parser.add_argument(
+        "--public-data-pilot-dry-run",
+        action="store_true",
+        help="Build public data pilot request plan without network access.",
+    )
+    parser.add_argument(
+        "--public-data-pilot-fetch",
+        action="store_true",
+        help="Explicitly gated public data pilot fetch. Disabled unless --allow-public-network is passed.",
+    )
+    parser.add_argument(
+        "--allow-public-network",
+        action="store_true",
+        help="Explicitly allow public network for the gated public data pilot fetch command only.",
+    )
+    parser.add_argument(
         "--public-data-intake-prep",
         action="store_true",
         help="Build public data intake preparation artifacts without network, live price ingestion, or trading output.",
@@ -850,6 +879,32 @@ def main() -> int:
         from src.operator_final_product_ui_lock_pack import main as final_product_ui_lock_pack_main
 
         return final_product_ui_lock_pack_main([])
+
+    if args.manual_csv_public_data_pilot_pack:
+        from src.operator_manual_csv_public_data_pilot_pack import main as manual_csv_public_data_pilot_pack_main
+
+        return manual_csv_public_data_pilot_pack_main([])
+
+    if args.manual_csv_import_preview:
+        from src.operator_manual_csv_public_data_pilot_pack import manual_csv_import_preview_main
+
+        return manual_csv_import_preview_main([])
+
+    if args.manual_csv_load:
+        from src.operator_manual_csv_public_data_pilot_pack import manual_csv_load_main
+
+        return manual_csv_load_main(["--input", args.manual_csv_load])
+
+    if args.public_data_pilot_dry_run:
+        from src.operator_manual_csv_public_data_pilot_pack import public_data_pilot_dry_run_main
+
+        return public_data_pilot_dry_run_main([])
+
+    if args.public_data_pilot_fetch:
+        from src.operator_manual_csv_public_data_pilot_pack import public_data_pilot_fetch_main
+
+        argv = ["--allow-public-network"] if args.allow_public_network else []
+        return public_data_pilot_fetch_main(argv)
 
     if args.public_data_intake_prep:
         from src.public_data_intake_preparation import main as public_data_intake_prep_main

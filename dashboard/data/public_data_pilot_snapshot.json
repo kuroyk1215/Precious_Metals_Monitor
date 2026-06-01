@@ -1,0 +1,67 @@
+{
+  "default_network_behavior": "DISABLED",
+  "field_contract": [
+    "symbol",
+    "market",
+    "timestamp_utc",
+    "price",
+    "currency",
+    "source_name",
+    "source_type",
+    "data_delay_status",
+    "freshness_status",
+    "terms_review_status"
+  ],
+  "generated_at_utc": "2026-06-01T12:10:17+00:00",
+  "public_data_auto_fetch_enabled": "NO",
+  "public_data_fetch_requires_explicit_allow": "YES",
+  "registry": {
+    "candidates": [
+      {
+        "default_status": "CANDIDATE_NOT_CONNECTED",
+        "freshness_status": "UNKNOWN_UNTIL_FETCH",
+        "source_name": "Stooq",
+        "source_type": "public_historical",
+        "supports_us_etf": "LIKELY",
+        "terms_review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "api_key_required": "YES",
+        "default_status": "CANDIDATE_NOT_CONNECTED",
+        "free_tier_available": "YES",
+        "freshness_status": "UNKNOWN_UNTIL_FETCH",
+        "premium_intraday_limitation": "YES",
+        "source_name": "Alpha Vantage",
+        "source_type": "public_api",
+        "terms_review_status": "REVIEW_REQUIRED"
+      },
+      {
+        "default_status": "NOT_RECOMMENDED_FOR_AUTOMATION",
+        "enabled": "NO",
+        "source_name": "Yahoo Finance",
+        "source_type": "unofficial_public_web",
+        "terms_risk": "HIGH"
+      }
+    ],
+    "generated_at_utc": "2026-06-01T12:10:17+00:00",
+    "status": "PUBLIC_DATA_SOURCE_REGISTRY_READY"
+  },
+  "request_plan": [
+    "operator explicitly reviews terms",
+    "operator passes --allow-public-network",
+    "pilot reads GLD / SLV only",
+    "pilot labels source and freshness",
+    "pilot failure leaves store unchanged"
+  ],
+  "risk_boundary": [
+    "default no network",
+    "no fabricated data",
+    "no trading advice",
+    "no automatic UI trigger"
+  ],
+  "status": "PUBLIC_DATA_PILOT_DRY_RUN_READY",
+  "supported_symbols": [
+    "GLD",
+    "SLV"
+  ]
+}

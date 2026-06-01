@@ -1,0 +1,53 @@
+{
+  "input_path": "data/manual_market_data_sample_GLD_SLV.csv",
+  "invalid_row_count": 0,
+  "missing_fields": [],
+  "required_fields": [
+    "symbol",
+    "market",
+    "timestamp_utc",
+    "price",
+    "currency",
+    "source_name",
+    "source_type",
+    "data_delay_status"
+  ],
+  "row_count": 2,
+  "rows": [
+    {
+      "errors": [],
+      "normalized": {
+        "currency": "USD",
+        "data_delay_status": "manual_input",
+        "market": "US",
+        "price": 220.1,
+        "source_name": "manual_operator_sample",
+        "source_type": "manual",
+        "symbol": "GLD",
+        "timestamp_utc": "2026-06-01T00:00:00Z"
+      },
+      "symbol": "GLD",
+      "validation_status": "VALID_DATA",
+      "warnings": []
+    },
+    {
+      "errors": [],
+      "normalized": {
+        "currency": "USD",
+        "data_delay_status": "manual_input",
+        "market": "US",
+        "price": 28.4,
+        "source_name": "manual_operator_sample",
+        "source_type": "manual",
+        "symbol": "SLV",
+        "timestamp_utc": "2026-06-01T00:00:00Z"
+      },
+      "symbol": "SLV",
+      "validation_status": "VALID_DATA",
+      "warnings": []
+    }
+  ],
+  "status": "MANUAL_CSV_IMPORT_PREVIEW_READY",
+  "trade_signal_generated": "NO",
+  "valid_row_count": 2
+}
