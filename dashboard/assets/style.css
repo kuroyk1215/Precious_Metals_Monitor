@@ -96,3 +96,5 @@ input, select { background: rgba(23, 33, 45, 0.92); border: 1px solid var(--line
   .content { padding: 14px 12px 92px; }
   .toolbar, .watch-grid, .risk-list, .file-card, .phase-rail { grid-template-columns: 1fr; }
 }
+
+/* Phase 761-800 local backend API shell additions */

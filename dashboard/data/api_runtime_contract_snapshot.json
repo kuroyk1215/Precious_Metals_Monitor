@@ -1,0 +1,14 @@
+{
+  "backend_file_read": "LOCAL_ARTIFACTS_ONLY",
+  "backend_file_write": "NO",
+  "backend_to_account": "NO",
+  "backend_to_external": "NO",
+  "backend_to_ibkr": "NO",
+  "backend_to_market_data": "NO",
+  "backend_to_trading": "NO",
+  "browser_to_backend": "LOCALHOST_GET_ONLY",
+  "generated_at_utc": "2026-06-01T05:32:59+00:00",
+  "phase": "Phase 761-800",
+  "runtime_scope": "LOCALHOST_ONLY",
+  "status": "API_RUNTIME_CONTRACT_READY"
+}

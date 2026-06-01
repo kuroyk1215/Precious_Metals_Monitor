@@ -1,0 +1,11 @@
+{
+  "default_url": "http://127.0.0.1:8765",
+  "generated_at_utc": "2026-06-01T05:32:59+00:00",
+  "phase": "Phase 761-800",
+  "primary_user_interaction": "WEB_UI",
+  "safety_mode": "READONLY_LOCAL_API_ONLY",
+  "start_command": "python3 main.py --local-ui-server",
+  "startup_role": "TERMINAL_START_ONLY",
+  "status": "LOCAL_UI_SERVER_RUNBOOK_READY",
+  "stop_method": "CTRL_C"
+}

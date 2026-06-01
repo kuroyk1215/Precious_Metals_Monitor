@@ -1,0 +1,30 @@
+{
+  "allowed_endpoints": [
+    "GET /",
+    "GET /dashboard/index.html",
+    "GET /assets/style.css",
+    "GET /api/health",
+    "GET /api/status",
+    "GET /api/artifacts",
+    "GET /api/roadmap",
+    "GET /api/market-scope",
+    "GET /api/data-source",
+    "GET /api/operator-actions"
+  ],
+  "forbidden_endpoints": [
+    "POST /api/*",
+    "PUT /api/*",
+    "DELETE /api/*",
+    "/api/ibkr/connect",
+    "/api/market-data/request",
+    "/api/historical/request",
+    "/api/account/read",
+    "/api/positions/read",
+    "/api/order/submit",
+    "/api/order/cancel",
+    "/api/telegram/send"
+  ],
+  "generated_at_utc": "2026-06-01T05:32:59+00:00",
+  "phase": "Phase 761-800",
+  "status": "API_ENDPOINT_REGISTRY_READY"
+}
