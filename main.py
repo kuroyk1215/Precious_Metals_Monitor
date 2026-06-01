@@ -594,6 +594,11 @@ def parse_args() -> argparse.Namespace:
         help="Build Phase 1001-1120 productized Chinese research workbench and public data intake preparation pack without external actions.",
     )
     parser.add_argument(
+        "--productized-ui-user-surface-cleanup-pack",
+        action="store_true",
+        help="Build Phase 1121-1160 productized UI user surface cleanup pack without external actions.",
+    )
+    parser.add_argument(
         "--public-data-intake-prep",
         action="store_true",
         help="Build public data intake preparation artifacts without network, live price ingestion, or trading output.",
@@ -828,6 +833,13 @@ def main() -> int:
         )
 
         return productized_ui_public_data_intake_pack_main([])
+
+    if args.productized_ui_user_surface_cleanup_pack:
+        from src.operator_productized_ui_user_surface_cleanup_pack import (
+            main as productized_ui_user_surface_cleanup_pack_main,
+        )
+
+        return productized_ui_user_surface_cleanup_pack_main([])
 
     if args.public_data_intake_prep:
         from src.public_data_intake_preparation import main as public_data_intake_prep_main

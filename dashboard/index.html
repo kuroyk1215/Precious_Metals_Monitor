@@ -10,79 +10,61 @@
     <div class="app-shell">
       <aside class="sidebar" aria-label="左侧导航">
         <div class="brand"><span class="brand-mark">AI</span><span class="brand-title">AI 投研工作台</span><span class="brand-subtitle">本地只读研究平台</span></div>
-        <nav class="sidebar-nav" aria-label="功能分区">
-          <a class="nav-item active" href="#today"><span class="nav-icon">今</span><span>今日状态</span></a>
-          <a class="nav-item" href="#framework"><span class="nav-icon">研</span><span>研究框架</span></a>
-          <a class="nav-item" href="#sources"><span class="nav-icon">源</span><span>数据源状态</span></a>
-          <a class="nav-item" href="#reports"><span class="nav-icon">报</span><span>本地报告</span></a>
-          <a class="nav-item" href="#risk"><span class="nav-icon">界</span><span>风险边界</span></a>
-          <a class="nav-item" href="#next"><span class="nav-icon">下</span><span>下一步操作</span></a>
+        <nav class="sidebar-nav" aria-label="投研分区">
+          <a class="nav-item active" href="#overview"><span class="nav-icon">总</span><span>总览</span></a>
+          <a class="nav-item" href="#watch"><span class="nav-icon">标</span><span>标的观察</span></a>
+          <a class="nav-item" href="#data-source"><span class="nav-icon">数</span><span>数据源</span></a>
+          <a class="nav-item" href="#reports"><span class="nav-icon">本</span><span>本地报告</span></a>
+          <a class="nav-item" href="#risk"><span class="nav-icon">风</span><span>风险边界</span></a>
+          <a class="nav-item" href="#settings"><span class="nav-icon">设</span><span>设置</span></a>
         </nav>
       </aside>
       <div class="content">
-        <header class="hero" id="today">
+        <header class="hero" id="overview">
           <div>
-            <p class="eyebrow">今日状态</p>
+            <p class="eyebrow">总览</p>
             <h1>AI 投研工作台</h1>
-            <p class="subtitle">本地只读研究平台 · GLD / SLV · 无实时行情 · 无交易权限</p>
+            <p class="subtitle">本地投研工作台已就绪 · GLD / SLV · 当前未启用实时行情</p>
           </div>
           <div class="hero-status">
-            <strong>本地投研平台已就绪</strong>
-            <span>下一步：准备公共行情导入</span>
+            <strong>本地投研工作台已就绪</strong>
+            <span>数据源状态：准备中</span>
           </div>
         </header>
 
         <main class="workbench">
-          <section class="section-grid">
+          <section class="summary-grid" aria-label="工作台状态">
             <article class="panel">
-              <span class="eyebrow">当前可用</span>
-              <h2>研究框架 / 本地报告 / 数据源状态 / 风险边界</h2>
-              <p class="muted">适合先用 GLD / SLV 的本地材料验证投研流程。</p>
+              <span class="eyebrow">当前支持</span>
+              <h2>当前支持 GLD / SLV 研究框架</h2>
+              <p class="muted">页面聚焦标的观察、数据源状态、本地报告与风险边界。</p>
             </article>
             <article class="panel">
-              <span class="eyebrow">当前不可用</span>
-              <h2>实时行情 / 交易建议 / 账户读取 / Telegram 实发</h2>
-              <p class="muted">这些能力保持关闭，页面只展示本地静态结果和准备说明。</p>
+              <span class="eyebrow">行情状态</span>
+              <h2>当前未启用实时行情</h2>
+              <p class="muted">未确认数据源前，工作台不显示价格，不生成分析信号。</p>
             </article>
             <article class="panel">
-              <span class="eyebrow">公共行情导入准备</span>
-              <h2>候选源、字段 contract、安全边界已生成</h2>
-              <p class="muted">本阶段只准备 intake，不访问外部网络，不写入真实价格。</p>
+              <span class="eyebrow">权限边界</span>
+              <h2>当前不会读取账户、持仓或发送交易指令</h2>
+              <p class="muted">账户、持仓、交易、Telegram 实发均保持关闭。</p>
             </article>
           </section>
 
-          <section class="panel" id="framework">
-            <div class="panel-header"><div><span class="eyebrow">GLD / SLV 研究框架</span><h2>多周期研究骨架</h2></div><a class="primary-action" href="../reports/local_research_report_framework_GLD_SLV.md">查看本地报告</a></div>
+          <section class="panel" id="watch">
+            <div class="panel-header"><div><span class="eyebrow">标的观察</span><h2>GLD / SLV 研究框架</h2></div><a class="primary-action" href="../reports/local_research_report_framework_GLD_SLV.md">查看本地报告</a></div>
             <div class="framework-grid">
               <span>日内观察</span><span>短期结构</span><span>中期配置</span><span>长期跟踪</span>
             </div>
           </section>
 
-          <section class="panel" id="sources">
-            <div class="panel-header"><div><span class="eyebrow">数据源状态</span><h2>用户决策面板</h2></div><a class="secondary-action" href="../reports/public_data_intake_preparation_report.md">查看数据源准备说明</a></div>
-            <div class="decision-grid">
-              <article class="decision-card"><span class="token neutral">PUBLIC_DELAYED_SOURCE_CANDIDATE</span><h3>公共延迟源</h3><p>可选，低成本；条款和稳定性待确认。</p></article>
-              <article class="decision-card"><span class="token neutral">MANUAL_CSV_SOURCE</span><h3>手动 CSV</h3><p>当前最安全 fallback；适合先验证流程。</p></article>
-              <article class="decision-card"><span class="token neutral">PAID_MARKET_DATA_API_CANDIDATE</span><h3>付费 API</h3><p>暂不优先；后续评估。</p></article>
-              <article class="decision-card"><span class="token neutral">IBKR_SUBSCRIPTION_OPTION</span><h3>IBKR Network B / ARCA</h3><p>可选，开通后支持更稳定行情；当前未订阅未连接。</p></article>
-              <article class="decision-card"><span class="token neutral">HYBRID_ROUTER_DESIGN</span><h3>Hybrid Router</h3><p>未来多市场扩展方案。</p></article>
-            </div>
-            <div class="field-contract">
-              <h3>公共行情导入字段 contract</h3>
-              <div class="field-grid">
-              <span class="field-pill">symbol</span>
-              <span class="field-pill">market</span>
-              <span class="field-pill">source_name</span>
-              <span class="field-pill">source_type</span>
-              <span class="field-pill">timestamp_utc</span>
-              <span class="field-pill">price_status</span>
-              <span class="field-pill">last_price_status</span>
-              <span class="field-pill">currency</span>
-              <span class="field-pill">data_delay_status</span>
-              <span class="field-pill">terms_review_status</span>
-              <span class="field-pill">reliability_status</span>
-              <span class="field-pill">ingestion_status</span>
-              </div>
+          <section class="panel" id="data-source">
+            <span class="eyebrow">数据源</span>
+            <h2>数据源状态</h2>
+            <div class="source-status-grid">
+              <article><strong>公共行情源</strong><span>待确认</span></article>
+              <article><strong>手动 CSV</strong><span>可作为后续 fallback</span></article>
+              <article><strong>IBKR 行情权限</strong><span>未开通</span></article>
             </div>
           </section>
 
@@ -93,7 +75,6 @@
               <a href="../reports/operator_daily_packet_preview.md">今日状态预览</a>
               <a href="../reports/local_research_report_framework_GLD_SLV.md">GLD / SLV 研究框架</a>
               <a href="../reports/telegram_preview_local_only.md">Telegram 预览</a>
-              <a href="../reports/public_data_intake_preparation_report.md">数据源导入准备报告</a>
               <a href="../reports/productized_ui_user_guide.md">风险边界说明</a>
             </div>
           </section>
@@ -105,70 +86,56 @@
               <button class="disabled-action" type="button" disabled>获取实时行情</button>
               <button class="disabled-action" type="button" disabled>读取账户</button>
               <button class="disabled-action" type="button" disabled>读取持仓</button>
-              <button class="disabled-action" type="button" disabled>生成交易信号</button>
+              <button class="disabled-action" type="button" disabled>生成分析信号</button>
               <button class="disabled-action" type="button" disabled>发送 Telegram</button>
-              <button class="disabled-action" type="button" disabled>解冻 JP / CN</button>
+              <button class="disabled-action" type="button" disabled>发送交易指令</button>
             </div>
-          </section>
-
-          <section class="panel" id="next">
-            <div class="panel-header"><div><span class="eyebrow">下一步操作</span><h2>准备公共行情导入</h2></div><button class="primary-action" type="button" data-copy="python3 main.py --public-data-intake-prep">复制终端兜底命令</button></div>
-            <ol class="next-list">
-              <li>确认公共延迟源条款和稳定性。</li>
-              <li>优先保留手动 CSV fallback。</li>
-              <li>通过字段 contract 校验导入内容。</li>
-              <li>保持无来源则无价格、无价格则无信号。</li>
-            </ol>
-          </section>
-
-          <section class="panel">
-            <span class="eyebrow">安全规则</span>
             <ul class="safety-rules">
-              <li>no source -> no price</li>
-              <li>no price -> no signal</li>
-              <li>no approved terms -> no automated ingestion</li>
-              <li>no verified freshness -> framework only</li>
+              <li>未确认数据源前，不显示价格</li>
+              <li>无有效价格时，不生成分析信号</li>
+              <li>未确认条款前，不启用自动导入</li>
+              <li>数据新鲜度未验证前，只生成研究框架</li>
             </ul>
           </section>
 
-          <details class="developer-details">
-            <summary>展开开发者详情 / 高级信息 / 终端兜底</summary>
-            <div class="developer-grid">
+          <section class="panel settings-panel" id="settings">
+            <span class="eyebrow">设置</span>
+            <h2>工作台设置</h2>
+            <p class="muted">默认使用普通投研视图。高级信息仅用于本地排查和人工核对。</p>
+            <details class="developer-details">
+              <summary>高级信息</summary>
+              <div class="developer-grid">
               <code>UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY</code>
+              <code>PRODUCTIZED_UI_PUBLIC_DATA_INTAKE_READY</code>
               <code>BLOCKED_BY_SUBSCRIPTION</code>
               <code>IBKR_ERROR_10089</code>
               <code>GET_ONLY</code>
               <code>CLI fallback</code>
+              <code>python3 main.py --productized-ui-user-surface-cleanup-pack</code>
+              <code>python3 main.py --local-ui-server</code>
               <code>source_connection_implemented=NO</code>
               <code>live_market_data_enabled=NO</code>
-              <code>V10_PRODUCTIZED_RESEARCH_WORKBENCH</code>
-            </div>
-            <button class="secondary-action" type="button" data-copy="python3 main.py --productized-ui-public-data-intake-pack">复制终端兜底命令</button>
-            <div class="file-stream">
+              </div>
+              <button class="secondary-action" type="button" data-copy="python3 main.py --productized-ui-user-surface-cleanup-pack">复制终端兜底命令</button>
+              <div class="file-stream">
               <article class="file-card"><span class="token neutral">HTML</span><span class="mono">dashboard/index.html</span><a class="local-link" href="index.html">本地路径</a></article>
               <article class="file-card"><span class="token neutral">CSS</span><span class="mono">dashboard/assets/style.css</span><a class="local-link" href="assets/style.css">本地路径</a></article>
               <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/status_snapshot.json</span><a class="local-link" href="data/status_snapshot.json">本地路径</a></article>
               <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/artifact_manifest.json</span><a class="local-link" href="data/artifact_manifest.json">本地路径</a></article>
               <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/build_snapshot.json</span><a class="local-link" href="data/build_snapshot.json">本地路径</a></article>
               <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/operator_timeline.json</span><a class="local-link" href="data/operator_timeline.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/productized_ui_snapshot.json</span><a class="local-link" href="data/productized_ui_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/user_facing_content_snapshot.json</span><a class="local-link" href="data/user_facing_content_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/developer_details_snapshot.json</span><a class="local-link" href="data/developer_details_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/public_data_intake_preparation_snapshot.json</span><a class="local-link" href="data/public_data_intake_preparation_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/public_market_data_source_candidates_snapshot.json</span><a class="local-link" href="data/public_market_data_source_candidates_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/public_data_field_contract_snapshot.json</span><a class="local-link" href="data/public_data_field_contract_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/public_data_safety_guard_snapshot.json</span><a class="local-link" href="data/public_data_safety_guard_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/productized_dashboard_sections_snapshot.json</span><a class="local-link" href="data/productized_dashboard_sections_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/productized_next_actions_snapshot.json</span><a class="local-link" href="data/productized_next_actions_snapshot.json">本地路径</a></article>
+              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/user_surface_cleanup_snapshot.json</span><a class="local-link" href="data/user_surface_cleanup_snapshot.json">本地路径</a></article>
+              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/primary_navigation_snapshot.json</span><a class="local-link" href="data/primary_navigation_snapshot.json">本地路径</a></article>
+              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/developer_mode_visibility_snapshot.json</span><a class="local-link" href="data/developer_mode_visibility_snapshot.json">本地路径</a></article>
+              <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/user_facing_safety_copy_snapshot.json</span><a class="local-link" href="data/user_facing_safety_copy_snapshot.json">本地路径</a></article>
               <article class="file-card"><span class="token neutral">JSON</span><span class="mono">dashboard/data/final_landing_audit_snapshot.json</span><a class="local-link" href="data/final_landing_audit_snapshot.json">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">CSV</span><span class="mono">operator_productized_ui_public_data_intake_pack.csv</span><a class="local-link" href="../operator_productized_ui_public_data_intake_pack.csv">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">REPORT</span><span class="mono">reports/operator_productized_ui_public_data_intake_pack_report.md</span><a class="local-link" href="../reports/operator_productized_ui_public_data_intake_pack_report.md">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">REPORT</span><span class="mono">reports/public_data_intake_preparation_report.md</span><a class="local-link" href="../reports/public_data_intake_preparation_report.md">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">REPORT</span><span class="mono">reports/productized_ui_user_guide.md</span><a class="local-link" href="../reports/productized_ui_user_guide.md">本地路径</a></article>
-              <article class="file-card"><span class="token neutral">PACK</span><span class="mono">Precious_Metals_Monitor_Productized_UI_Public_Data_Intake_Preparation_Pack.md</span><a class="local-link" href="../Precious_Metals_Monitor_Productized_UI_Public_Data_Intake_Preparation_Pack.md">本地路径</a></article>
-            </div>
-            <p class="muted mono">generated_at_utc=2026-06-01T10:30:33+00:00</p>
-          </details>
+              <article class="file-card"><span class="token neutral">CSV</span><span class="mono">operator_productized_ui_user_surface_cleanup_pack.csv</span><a class="local-link" href="../operator_productized_ui_user_surface_cleanup_pack.csv">本地路径</a></article>
+              <article class="file-card"><span class="token neutral">REPORT</span><span class="mono">reports/operator_productized_ui_user_surface_cleanup_pack_report.md</span><a class="local-link" href="../reports/operator_productized_ui_user_surface_cleanup_pack_report.md">本地路径</a></article>
+              <article class="file-card"><span class="token neutral">PACK</span><span class="mono">Precious_Metals_Monitor_Productized_UI_User_Surface_Cleanup_Pack.md</span><a class="local-link" href="../Precious_Metals_Monitor_Productized_UI_User_Surface_Cleanup_Pack.md">本地路径</a></article>
+              </div>
+              <p class="muted mono">generated_at_utc=2026-06-01T10:51:48+00:00</p>
+            </details>
+          </section>
         </main>
       </div>
     </div>

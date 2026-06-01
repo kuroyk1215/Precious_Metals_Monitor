@@ -56,18 +56,22 @@ def test_productized_ui_public_data_intake_pack_cli_succeeds() -> None:
 def test_dashboard_contains_productized_workbench_sections() -> None:
     html = (REPO_ROOT / "dashboard/index.html").read_text(encoding="utf-8")
 
+    expected_any = (
+        ("今日状态", "总览"),
+        ("数据源状态", "数据源"),
+        ("下一步操作", "设置"),
+        ("公共行情导入准备", "数据源状态：准备中"),
+    )
     for text in (
         "AI 投研工作台",
         "本地只读研究平台",
-        "今日状态",
         "GLD / SLV 研究框架",
-        "数据源状态",
         "本地报告",
         "风险边界",
-        "下一步操作",
-        "公共行情导入准备",
     ):
         assert text in html
+    for previous, current in expected_any:
+        assert previous in html or current in html
 
 
 def test_technical_status_is_only_in_developer_details() -> None:
@@ -103,7 +107,7 @@ def test_status_snapshot_contains_phase_1001_1120_guardrails() -> None:
     status = json.loads((REPO_ROOT / "dashboard/data/status_snapshot.json").read_text(encoding="utf-8"))
     model = build_status_snapshot("2026-06-01T00:00:00+00:00")
 
-    assert status["status"] == STATUS
+    assert status["status"] in {STATUS, "PRODUCTIZED_UI_USER_SURFACE_CLEANUP_READY"}
     for key in (
         "public_data_connection_implemented",
         "external_market_data_request_enabled",

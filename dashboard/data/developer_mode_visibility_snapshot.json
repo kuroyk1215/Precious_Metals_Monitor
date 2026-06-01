@@ -1,0 +1,20 @@
+{
+  "allowed_container": "设置页底部高级信息折叠区",
+  "default_visibility": "COLLAPSED",
+  "generated_at_utc": "2026-06-01T10:51:48+00:00",
+  "phase": "Phase 1121-1160",
+  "status": "DEVELOPER_MODE_COLLAPSED_AND_DEEMPHASIZED",
+  "surface_priority": "LOW",
+  "technical_items": [
+    "UI_DRIVEN_LOCAL_RESEARCH_PLATFORM_MVP_READY",
+    "PRODUCTIZED_UI_PUBLIC_DATA_INTAKE_READY",
+    "BLOCKED_BY_SUBSCRIPTION",
+    "IBKR_ERROR_10089",
+    "GET_ONLY",
+    "CLI fallback",
+    "python3 main.py --productized-ui-user-surface-cleanup-pack",
+    "python3 main.py --local-ui-server",
+    "source_connection_implemented=NO",
+    "live_market_data_enabled=NO"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "code_like_rule_copy_visible": "NO",
+  "copy": [
+    "未确认数据源前，不显示价格",
+    "无有效价格时，不生成分析信号",
+    "未确认条款前，不启用自动导入",
+    "数据新鲜度未验证前，只生成研究框架"
+  ],
+  "generated_at_utc": "2026-06-01T10:51:48+00:00",
+  "phase": "Phase 1121-1160",
+  "status": "USER_FACING_SAFETY_COPY_READY"
+}
