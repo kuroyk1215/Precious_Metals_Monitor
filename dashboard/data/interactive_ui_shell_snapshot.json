@@ -1,0 +1,26 @@
+{
+  "external_js": "NO",
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
+  "interaction_features": [
+    "TABS",
+    "LOCAL_SEARCH",
+    "LOCAL_FILTERS",
+    "COLLAPSIBLE_CARDS",
+    "COPY_COMMAND",
+    "DISABLED_ACTION_HINTS"
+  ],
+  "local_backend_api": "NO",
+  "phase": "Phase 721-760",
+  "remote_assets": "NO",
+  "status": "INTERACTIVE_UI_SHELL_READY",
+  "tabs": [
+    "总览",
+    "市场观察",
+    "数据源",
+    "风险边界",
+    "本地文件",
+    "路线图",
+    "系统状态"
+  ],
+  "ui_generation": "V8_INTERACTIVE_LOCAL_RESEARCH_PLATFORM_SHELL"
+}

@@ -1,5 +1,7 @@
 {
-  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "current_track_completed": "INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL",
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
+  "next_recommended_track": "LOCAL_BACKEND_API_SHELL",
   "not_recommended_now": [
     "MORE_UI_REDESIGN",
     "REALTIME_MONITORING_BEFORE_DATA_SOURCE_DECISION",
@@ -7,7 +9,7 @@
     "AUTO_TRADING",
     "ACCOUNT_POSITION_READER"
   ],
-  "phase": "Phase 705-720",
+  "phase": "Phase 721-760",
   "priority_tracks": [
     "MARKET_DATA_SOURCE_DECISION",
     "US_GLD_SLV_FIRST",
@@ -15,12 +17,10 @@
     "JP_CN_REMAIN_FROZEN_UNTIL_SOURCE_DECISION"
   ],
   "recommended_sequence": [
-    "Phase 721-728 Market Data Source Decision Execution Pack",
-    "Phase 729-736 US GLD / SLV Data Source Adapter Plan",
-    "Phase 737-744 Watchlist Expansion Policy Pack",
-    "Phase 745-752 Telegram Manual Packet Enhancement Pack",
-    "Phase 753-760 JP Market Data Source Decision Pack",
-    "Phase 761-768 CN Market Data Source Decision Pack"
+    "Phase 729-736 Local Backend API Shell",
+    "Phase 737-744 US GLD / SLV Data Source Adapter Plan",
+    "Phase 745-752 Watchlist Expansion Policy Pack",
+    "Phase 753-760 Telegram Manual Packet Enhancement Pack"
   ],
   "roadmap_mode": "POST_UI_FREEZE_DEVELOPMENT_SEQUENCE",
   "status": "NEXT_ROADMAP_READY"

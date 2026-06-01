@@ -13,10 +13,10 @@
     "NO_TRADING_PERMISSION_REQUIRED"
   ],
   "delayed_available": "YES",
-  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
   "ibkr_subscription_decision_required": "YES",
   "live_market_data_enabled": "NO",
-  "phase": "Phase 705-720",
+  "phase": "Phase 721-760",
   "realtime_market_data_verified": "NO",
   "recommended_initial_path": "DECIDE_US_GLD_SLV_SOURCE_FIRST",
   "source_connection_implemented": "NO",
@@ -27,5 +27,6 @@
     "PAID_MARKET_DATA_API",
     "HYBRID_SOURCE_ROUTER"
   ],
-  "status": "MARKET_DATA_SOURCE_DECISION_FRAMEWORK_READY"
+  "status": "MARKET_DATA_SOURCE_DECISION_FRAMEWORK_READY",
+  "ui_selection_panel_status": "DISPLAY_ONLY_NOT_CONNECTED"
 }

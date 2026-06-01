@@ -3,193 +3,203 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI 投研交易驾驶舱 · 贵金属观察系统</title>
+    <title>AI 投研交易驾驶舱 · 本地交互式投研平台</title>
     <link rel="stylesheet" href="assets/style.css">
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar" aria-label="左侧导航">
-        <div class="brand"><span class="brand-mark">AI</span><span class="brand-title">AI 投研交易驾驶舱</span><span class="brand-subtitle">贵金属观察系统</span></div>
-        <nav class="sidebar-nav">
-          <a class="nav-item active" href="#overview"><span class="nav-icon">总</span><span>总览</span></a>
-          <a class="nav-item" href="#watchlist"><span class="nav-icon">观</span><span>市场观察</span></a>
-          <a class="nav-item" href="#chart-panel"><span class="nav-icon">图</span><span>图表面板</span></a>
-          <a class="nav-item" href="#signals"><span class="nav-icon">信</span><span>信号状态</span></a>
-          <a class="nav-item" href="#risk-boundary"><span class="nav-icon">风</span><span>风险边界</span></a>
-          <a class="nav-item" href="#artifacts"><span class="nav-icon">文</span><span>本地文件</span></a>
-          <a class="nav-item" href="#timeline"><span class="nav-icon">线</span><span>项目进度</span></a>
-          <a class="nav-item" href="#system-status"><span class="nav-icon">系</span><span>系统状态</span></a>
+        <div class="brand"><span class="brand-mark">AI</span><span class="brand-title">AI 投研交易驾驶舱</span><span class="brand-subtitle">本地交互式投研平台</span></div>
+        <nav class="sidebar-nav" aria-label="功能分区">
+          <button class="nav-item active" type="button" data-tab-target="overview"><span class="nav-icon">总</span><span>总览</span></button>
+          <button class="nav-item" type="button" data-tab-target="watchlist"><span class="nav-icon">观</span><span>市场观察</span></button>
+          <button class="nav-item" type="button" data-tab-target="data-source"><span class="nav-icon">源</span><span>数据源</span></button>
+          <button class="nav-item" type="button" data-tab-target="risk"><span class="nav-icon">风</span><span>风险边界</span></button>
+          <button class="nav-item" type="button" data-tab-target="artifacts"><span class="nav-icon">文</span><span>本地文件</span></button>
+          <button class="nav-item" type="button" data-tab-target="roadmap"><span class="nav-icon">路</span><span>路线图</span></button>
+          <button class="nav-item" type="button" data-tab-target="system"><span class="nav-icon">系</span><span>系统状态</span></button>
         </nav>
-        <div class="sidebar-note">本地静态只读 · 不连接 IBKR · 不请求行情</div>
+        <div class="sidebar-note">未连接 IBKR · 未请求行情 · 本地 inline JS</div>
       </aside>
       <div class="content">
         <header class="command-bar">
           <div>
-            <h1>AI 投研交易驾驶舱 · 贵金属观察系统</h1>
-            <p class="subtitle">本地静态只读 · 行情订阅阻断 · 无账户读取 · 无交易权限</p>
+            <h1>AI 投研交易驾驶舱 · 本地交互式投研平台</h1>
+            <p class="subtitle">UI 驱动的本地 AI 投研平台壳 · 无本地后端 API · 无外部依赖 · 无行情连接</p>
             <div class="badge-row">
-              <span class="badge safe">美股观察</span>
               <span class="badge safe">GLD / SLV</span>
-              <span class="badge safe">只读模式</span>
-              <span class="badge blocked">行情阻断</span>
-              <span class="badge warn">非生产环境</span>
-              <span class="badge safe">本地静态</span>
-              <span class="badge secondary mono">US_ONLY</span>
-              <span class="badge secondary mono">BLOCKED_BY_SUBSCRIPTION</span>
-              <span class="badge secondary mono">IBKR_ERROR_10089</span>
-              <span class="badge secondary mono">V7_HIGH_TECH_TRADING_VISUAL</span>
+              <span class="badge blocked">BLOCKED_BY_SUBSCRIPTION</span>
+              <span class="badge blocked">IBKR_ERROR_10089</span>
+              <span class="badge safe">LOCAL_INLINE_JS_ONLY</span>
+              <span class="badge secondary mono">V8_INTERACTIVE_LOCAL_RESEARCH_PLATFORM_SHELL</span>
             </div>
           </div>
-          <section class="build-chip"><span class="label">generated_at_utc</span><strong class="big-copy mono">2026-05-31T11:56:27+00:00</strong></section>
+          <section class="build-chip"><span class="label">generated_at_utc</span><strong class="big-copy mono">2026-06-01T04:36:47+00:00</strong></section>
         </header>
 
-        <section class="hero-grid" id="overview">
-          <article class="panel" id="system-status">
-            <div class="panel-header"><div><span class="eyebrow">系统状态</span><h2>系统状态</h2></div><span class="token safe">READY</span></div>
-            <strong class="big-copy">本地只读投研驾驶舱已就绪</strong>
-            <span class="small-copy mono">DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY</span>
-          </article>
-          <article class="panel" id="chart-panel">
-            <div class="panel-header"><div><span class="eyebrow">静态图表占位</span><h2>图表面板</h2></div><span class="token warn">CSS ONLY</span></div>
-            <div class="chart-shell" aria-label="静态占位 · 无实时行情"><span class="chart-watermark">静态占位 · 无实时行情</span><div class="bar-row"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
-          </article>
-          <article class="panel">
-            <div class="panel-header"><div><span class="eyebrow">风险边界摘要</span><h2>安全边界</h2></div><span class="token disabled">LOCKED</span></div>
-            <strong class="big-copy">所有外部动作已禁用</strong>
-            <div class="metric-list">
-              <div class="metric">IBKR 连接：禁用</div>
-              <div class="metric">行情请求：禁用</div>
-              <div class="metric">账户读取：禁用</div>
-              <div class="metric">交易：禁用</div>
-            </div>
-          </article>
+        <section class="toolbar" aria-label="本地搜索和筛选">
+          <label class="search-box"><span>搜索</span><input id="localSearch" type="search" placeholder="搜索 artifact、状态、GLD / SLV、数据源选项"></label>
+          <label class="filter-box"><span>筛选</span><select id="localFilter"><option value="all">全部</option><option value="risk-only">仅风险项</option><option value="json">仅 JSON</option><option value="report">仅 REPORT</option><option value="us-only">仅 US</option><option value="frozen-market">仅冻结市场</option><option value="next-actions">仅下一步动作</option></select></label>
         </section>
 
-        <main class="main-grid">
-          <section class="card" id="market-data">
-            <div class="card-header"><h2>行情权限状态</h2><span class="token blocked">IBKR 10089</span></div>
-            <div class="version-table">
-              <div class="version-row"><span>当前状态</span><strong>订阅权限阻断</strong></div>
-              <div class="version-row"><span>IBKR 错误码</span><strong class="mono">10089</strong></div>
-              <div class="version-row"><span>是否请求行情</span><strong>否</strong></div>
-              <div class="version-row"><span>实时行情验证</span><strong>否</strong></div>
-              <div class="version-row"><span>延迟行情可用</span><strong>是</strong></div>
+        <main class="tab-panels">
+          <section class="tab-panel active" id="overview" data-panel data-search="总览 INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL_READY V8 GLD SLV Market Data Source Decision" data-kind="overview next-actions us-only">
+            <div class="hero-grid">
+              <article class="panel"><div class="panel-header"><div><span class="eyebrow">平台模式</span><h2>本地交互式投研平台</h2></div><span class="token safe">READY</span></div><strong class="big-copy">UI_DRIVEN_LOCAL_RESEARCH_WORKBENCH</strong><p class="muted">未来主要在 UI 中操作，终端仅保留启动与兜底角色。</p></article>
+              <article class="panel"><div class="panel-header"><div><span class="eyebrow">下一步建议</span><h2>Operator action panel</h2></div><span class="token warn">NEXT</span></div><strong class="big-copy">Market Data Source Decision</strong><p class="muted">Phase 729-736 入口：Local Backend API Shell。当前只展示本地命令提示，不执行外部动作。</p><button class="copy-btn" type="button" data-copy="python3 main.py --interactive-local-research-platform-ui-shell-pack">复制命令</button></article>
+              <article class="panel"><div class="panel-header"><div><span class="eyebrow">安全状态</span><h2>外部动作禁用</h2></div><span class="token disabled">LOCKED</span></div><strong class="big-copy">未连接 IBKR</strong><p class="muted">未请求行情 · 未请求历史数据 · 未读取账户/持仓 · 未交易 · 未 Telegram 实发</p></article>
             </div>
-            <p class="muted">当前页面仅显示本地静态研究状态，不会发起行情请求或连接 IBKR。</p>
           </section>
 
-          <section class="card" id="watchlist">
-            <div class="card-header"><h2>市场观察</h2><span class="token safe">GLD / SLV</span></div>
+          <section class="tab-panel" id="watchlist" data-panel data-search="市场观察 GLD SLV JP CN 冻结 US" data-kind="us-only frozen-market">
+            <div class="card-header"><h2>市场观察</h2><button class="disabled-action" type="button" disabled title="规划中，本阶段不新增标的">添加标的 · 规划中</button></div>
             <div class="watch-grid">
-              <article class="watch-card">
-                <div><strong class="mono">GLD</strong><span class="token blocked">订阅阻断</span></div>
-                <dl>
-                  <div><dt>类型</dt><dd>ETF</dd></div>
-                  <div><dt>市场</dt><dd class="mono">US</dd></div>
-                  <div><dt>实时行情</dt><dd class="mono">NO</dd></div>
-                  <div><dt>延迟可用</dt><dd class="mono">YES</dd></div>
-                  <div><dt>用途</dt><dd>研究观察框架</dd></div>
-                </dl>
-              </article>
-              <article class="watch-card">
-                <div><strong class="mono">SLV</strong><span class="token blocked">订阅阻断</span></div>
-                <dl>
-                  <div><dt>类型</dt><dd>ETF</dd></div>
-                  <div><dt>市场</dt><dd class="mono">US</dd></div>
-                  <div><dt>实时行情</dt><dd class="mono">NO</dd></div>
-                  <div><dt>延迟可用</dt><dd class="mono">YES</dd></div>
-                  <div><dt>用途</dt><dd>研究观察框架</dd></div>
-                </dl>
-              </article>
+              <article class="watch-card"><strong class="mono">GLD</strong><span class="token blocked">订阅阻断</span><dl><div><dt>市场</dt><dd>US</dd></div><div><dt>实时行情</dt><dd>NO</dd></div><div><dt>用途</dt><dd>本地研究观察</dd></div></dl></article>
+              <article class="watch-card"><strong class="mono">SLV</strong><span class="token blocked">订阅阻断</span><dl><div><dt>市场</dt><dd>US</dd></div><div><dt>实时行情</dt><dd>NO</dd></div><div><dt>用途</dt><dd>本地研究观察</dd></div></dl></article>
+              <article class="watch-card frozen"><strong class="mono">JP</strong><span class="token disabled">FROZEN_PENDING_MARKET_DATA_SUBSCRIPTION</span><p class="muted">冻结，等待市场数据订阅。</p></article>
+              <article class="watch-card frozen"><strong class="mono">CN</strong><span class="token disabled">FROZEN_PENDING_DATA_SOURCE_DECISION</span><p class="muted">冻结，等待数据源决策。</p></article>
             </div>
           </section>
 
-          <section class="card">
-            <div class="card-header"><h2>信号状态</h2><span class="token disabled">未启用</span></div>
-            <div class="version-table">
-              <div class="version-row"><span>信号模块</span><strong>未启用</strong></div>
-              <div class="version-row"><span>策略建议</span><strong>未启用</strong></div>
-              <div class="version-row"><span>原因</span><strong>行情订阅权限阻断</strong></div>
-              <div class="version-row"><span>当前状态</span><strong>仅保留研究框架，不输出方向判断</strong></div>
+          <section class="tab-panel" id="data-source" data-panel data-search="数据源 IBKR Network B ARCA 免费延迟公开源 手动 CSV 付费 API Hybrid Router GLD SLV" data-kind="next-actions us-only">
+            <div class="card-header"><h2>数据源选择面板</h2><span class="token disabled">未接入</span></div>
+            <div class="source-grid">
+              <article class="collapsible source-card"><button class="collapse-toggle" type="button">IBKR Network B / ARCA <span>折叠</span></button><div class="collapse-body"><p>成本：订阅费用 · 可靠性：高 · 条款风险：低 · 更新频率：实时权限后可用 · 覆盖范围：US ETF · 适合 GLD / SLV：YES · 当前状态：未接入</p></div></article>
+              <article class="collapsible source-card"><button class="collapse-toggle" type="button">免费延迟公开源 <span>折叠</span></button><div class="collapse-body"><p>成本：低 · 可靠性：中 · 条款风险：中 · 更新频率：延迟 · 覆盖范围：视来源 · 适合 GLD / SLV：待验证 · 当前状态：未接入</p></div></article>
+              <article class="collapsible source-card"><button class="collapse-toggle" type="button">手动 CSV <span>折叠</span></button><div class="collapse-body"><p>成本：低 · 可靠性：取决于输入 · 条款风险：低 · 更新频率：手动 · 覆盖范围：GLD / SLV 优先 · 适合 GLD / SLV：YES · 当前状态：未接入</p></div></article>
+              <article class="collapsible source-card"><button class="collapse-toggle" type="button">付费 API <span>折叠</span></button><div class="collapse-body"><p>成本：中到高 · 可靠性：中到高 · 条款风险：按合同 · 更新频率：按套餐 · 覆盖范围：可扩展 · 适合 GLD / SLV：YES · 当前状态：未接入</p></div></article>
+              <article class="collapsible source-card"><button class="collapse-toggle" type="button">Hybrid Router <span>折叠</span></button><div class="collapse-body"><p>成本：组合 · 可靠性：路由增强 · 条款风险：需治理 · 更新频率：按来源 · 覆盖范围：可扩展 · 适合 GLD / SLV：YES · 当前状态：未接入</p></div></article>
             </div>
           </section>
 
-          <section class="card full" id="risk-boundary">
-            <div class="card-header"><h2>风险边界</h2><span class="token disabled">ALL DISABLED</span></div>
-            <div class="risk-list">
-              <div class="risk-item"><span class="lamp"></span><span class="mono">IBKR_CONNECT</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">MARKET_DATA_REQUEST</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">HISTORICAL_DATA_REQUEST</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">ACCOUNT_READ</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">POSITION_READ</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">CONTRACT_QUALIFICATION</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">ORDER_SUBMIT</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">ORDER_CANCEL</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">REBALANCE</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">TELEGRAM_REAL_SEND</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-              <div class="risk-item"><span class="lamp"></span><span class="mono">EXTERNAL_URL_LOAD</span><span class="token disabled">DISABLED</span><span class="mono">NO</span></div>
-            </div>
+          <section class="tab-panel" id="risk" data-panel data-search="风险边界 disabled IBKR 请求行情 历史数据 账户 持仓 下单 Telegram" data-kind="risk-only">
+            <article class="collapsible card"><button class="collapse-toggle" type="button">风险权限矩阵 <span>折叠</span></button><div class="collapse-body risk-list">
+              <button class="disabled-action" type="button" disabled title="本阶段禁止连接 IBKR">连接 IBKR</button>
+              <button class="disabled-action" type="button" disabled title="本阶段禁止请求行情">请求行情</button>
+              <button class="disabled-action" type="button" disabled title="本阶段禁止请求历史数据">请求历史数据</button>
+              <button class="disabled-action" type="button" disabled title="本阶段禁止读取账户">读取账户</button>
+              <button class="disabled-action" type="button" disabled title="本阶段禁止读取持仓">读取持仓</button>
+              <button class="disabled-action" type="button" disabled title="本阶段禁止下单">下单</button>
+              <button class="disabled-action" type="button" disabled title="本阶段禁止 Telegram 实发">Telegram 实发</button>
+            </div></article>
           </section>
 
-          <section class="card full" id="artifacts">
-            <div class="card-header"><h2>本地文件流</h2><span class="token safe">LOCAL ARTIFACTS</span></div>
-            <div class="file-stream">
-              <article class="file-card"><span class="token mono">HTML_LOCAL</span><span class="mono">dashboard/index.html</span><span>HTML</span><a class="local-link mono" href="index.html">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">CSS_LOCAL</span><span class="mono">dashboard/assets/style.css</span><span>CSS</span><a class="local-link mono" href="assets/style.css">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/status_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/status_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/high_tech_visual_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/high_tech_visual_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/trading_shell_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/trading_shell_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/static_chart_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/static_chart_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/chinese_ui_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/chinese_ui_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/template_reference_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/template_reference_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/visual_density_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/visual_density_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/card_system_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/card_system_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/icon_system_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/icon_system_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/timeline_polish_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/timeline_polish_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/artifact_manifest.json</span><span>JSON</span><a class="local-link mono" href="data/artifact_manifest.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/build_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/build_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/operator_timeline.json</span><span>JSON</span><a class="local-link mono" href="data/operator_timeline.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/watchlist_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/watchlist_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/signal_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/signal_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/risk_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/risk_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/layout_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/layout_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/navigation_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/navigation_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">CSV_LOCAL</span><span class="mono">operator_dashboard_high_tech_trading_visual_rebuild_pack.csv</span><span>CSV</span><a class="local-link mono" href="../operator_dashboard_high_tech_trading_visual_rebuild_pack.csv">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">REPORT_LOCAL</span><span class="mono">reports/operator_dashboard_high_tech_trading_visual_rebuild_pack_report.md</span><span>REPORT</span><a class="local-link mono" href="../reports/operator_dashboard_high_tech_trading_visual_rebuild_pack_report.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-              <article class="file-card"><span class="token mono">PACK_LOCAL</span><span class="mono">Precious_Metals_Monitor_Dashboard_High_Tech_Trading_Visual_Rebuild_Pack.md</span><span>PACK</span><a class="local-link mono" href="../Precious_Metals_Monitor_Dashboard_High_Tech_Trading_Visual_Rebuild_Pack.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
-            </div>
+          <section class="tab-panel" id="artifacts" data-panel data-search="本地文件 artifact JSON REPORT CSV PACK" data-kind="json report">
+            <article class="collapsible card"><button class="collapse-toggle" type="button">artifact 文件流 <span>折叠</span></button><div class="collapse-body file-stream">
+              <article class="file-card" data-search="dashboard/index.html HTML NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="html"><span class="token mono">HTML_LOCAL</span><span class="mono">dashboard/index.html</span><span>HTML</span><a class="local-link mono" href="index.html">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/assets/style.css CSS NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="css"><span class="token mono">CSS_LOCAL</span><span class="mono">dashboard/assets/style.css</span><span>CSS</span><a class="local-link mono" href="assets/style.css">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/status_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/status_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/status_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/ui_qa_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/ui_qa_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/ui_qa_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/static_visual_freeze_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/static_visual_freeze_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/static_visual_freeze_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/visual_regression_guard_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/visual_regression_guard_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/visual_regression_guard_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/high_tech_visual_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/high_tech_visual_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/high_tech_visual_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/trading_shell_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/trading_shell_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/trading_shell_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/static_chart_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/static_chart_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/static_chart_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/chinese_ui_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/chinese_ui_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/chinese_ui_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/template_reference_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/template_reference_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/template_reference_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/visual_density_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/visual_density_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/visual_density_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/card_system_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/card_system_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/card_system_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/icon_system_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/icon_system_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/icon_system_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/timeline_polish_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/timeline_polish_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/timeline_polish_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/watchlist_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/watchlist_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/watchlist_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/signal_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/signal_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/signal_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/risk_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/risk_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/risk_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/layout_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/layout_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/layout_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/navigation_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/navigation_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/navigation_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/build_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/build_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/build_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/operator_timeline.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/operator_timeline.json</span><span>JSON</span><a class="local-link mono" href="data/operator_timeline.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/artifact_manifest.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/artifact_manifest.json</span><span>JSON</span><a class="local-link mono" href="data/artifact_manifest.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="operator_dashboard_ui_static_visual_freeze_pack.csv CSV NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="csv"><span class="token mono">CSV_LOCAL</span><span class="mono">operator_dashboard_ui_static_visual_freeze_pack.csv</span><span>CSV</span><a class="local-link mono" href="../operator_dashboard_ui_static_visual_freeze_pack.csv">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="reports/operator_dashboard_ui_static_visual_freeze_pack_report.md REPORT NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="report"><span class="token mono">REPORT_LOCAL</span><span class="mono">reports/operator_dashboard_ui_static_visual_freeze_pack_report.md</span><span>REPORT</span><a class="local-link mono" href="../reports/operator_dashboard_ui_static_visual_freeze_pack_report.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md PACK NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="pack"><span class="token mono">PACK_LOCAL</span><span class="mono">Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md</span><span>PACK</span><a class="local-link mono" href="../Precious_Metals_Monitor_Dashboard_UI_Static_Visual_Freeze_Pack.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/post_ui_freeze_handoff_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/post_ui_freeze_handoff_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/post_ui_freeze_handoff_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/next_roadmap_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/next_roadmap_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/next_roadmap_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/market_data_source_decision_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/market_data_source_decision_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/market_data_source_decision_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/market_scope_status_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/market_scope_status_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/market_scope_status_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/operator_next_actions_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/operator_next_actions_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/operator_next_actions_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="operator_post_ui_freeze_handoff_data_roadmap_pack.csv CSV NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="csv"><span class="token mono">CSV_LOCAL</span><span class="mono">operator_post_ui_freeze_handoff_data_roadmap_pack.csv</span><span>CSV</span><a class="local-link mono" href="../operator_post_ui_freeze_handoff_data_roadmap_pack.csv">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="reports/operator_post_ui_freeze_handoff_data_roadmap_pack_report.md REPORT NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="report"><span class="token mono">REPORT_LOCAL</span><span class="mono">reports/operator_post_ui_freeze_handoff_data_roadmap_pack_report.md</span><span>REPORT</span><a class="local-link mono" href="../reports/operator_post_ui_freeze_handoff_data_roadmap_pack_report.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="Precious_Metals_Monitor_Post_UI_Freeze_Handoff_Data_Roadmap_Pack.md PACK NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="pack"><span class="token mono">PACK_LOCAL</span><span class="mono">Precious_Metals_Monitor_Post_UI_Freeze_Handoff_Data_Roadmap_Pack.md</span><span>PACK</span><a class="local-link mono" href="../Precious_Metals_Monitor_Post_UI_Freeze_Handoff_Data_Roadmap_Pack.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/interactive_ui_shell_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/interactive_ui_shell_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/interactive_ui_shell_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/ui_interaction_contract_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/ui_interaction_contract_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/ui_interaction_contract_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/ui_disabled_actions_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/ui_disabled_actions_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/ui_disabled_actions_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/ui_filter_tabs_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/ui_filter_tabs_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/ui_filter_tabs_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="dashboard/data/local_platform_shell_status_snapshot.json JSON NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="json"><span class="token mono">JSON_LOCAL</span><span class="mono">dashboard/data/local_platform_shell_status_snapshot.json</span><span>JSON</span><a class="local-link mono" href="data/local_platform_shell_status_snapshot.json">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="operator_interactive_local_research_platform_ui_shell_pack.csv CSV NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="csv"><span class="token mono">CSV_LOCAL</span><span class="mono">operator_interactive_local_research_platform_ui_shell_pack.csv</span><span>CSV</span><a class="local-link mono" href="../operator_interactive_local_research_platform_ui_shell_pack.csv">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="reports/operator_interactive_local_research_platform_ui_shell_pack_report.md REPORT NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="report"><span class="token mono">REPORT_LOCAL</span><span class="mono">reports/operator_interactive_local_research_platform_ui_shell_pack_report.md</span><span>REPORT</span><a class="local-link mono" href="../reports/operator_interactive_local_research_platform_ui_shell_pack_report.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+              <article class="file-card" data-search="Precious_Metals_Monitor_Interactive_Local_Research_Platform_UI_Shell_Pack.md PACK NONE_LOCAL_ARTIFACT_GENERATION_ONLY" data-kind="pack"><span class="token mono">PACK_LOCAL</span><span class="mono">Precious_Metals_Monitor_Interactive_Local_Research_Platform_UI_Shell_Pack.md</span><span>PACK</span><a class="local-link mono" href="../Precious_Metals_Monitor_Interactive_Local_Research_Platform_UI_Shell_Pack.md">本地链接</a><span class="mono muted">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</span></article>
+            </div></article>
           </section>
 
-          <section class="card full" id="timeline">
-            <div class="card-header"><h2>项目进度轨道</h2><span class="token safe">Phase 681-696</span></div>
-            <div class="phase-rail">
-              <article class="phase-card"><strong class="mono">Phase 633-640</strong><p>控制台 UI 增强</p><span class="token safe mono">DASHBOARD_UI_ENHANCEMENT_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-              <article class="phase-card"><strong class="mono">Phase 641-648</strong><p>控制台 v2 数据面板</p><span class="token safe mono">DASHBOARD_UI_V2_DATA_PANEL_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-              <article class="phase-card"><strong class="mono">Phase 649-656</strong><p>控制台 v3 布局优化</p><span class="token safe mono">DASHBOARD_UI_V3_LAYOUT_POLISH_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-              <article class="phase-card"><strong class="mono">Phase 657-664</strong><p>视觉密度与卡片系统</p><span class="token safe mono">DASHBOARD_VISUAL_DENSITY_CARD_SYSTEM_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-              <article class="phase-card"><strong class="mono">Phase 665-672</strong><p>图标 / 时间线 / 文件视图优化</p><span class="token safe mono">DASHBOARD_ICON_TIMELINE_ARTIFACT_POLISH_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-              <article class="phase-card"><strong class="mono">Phase 673-680</strong><p>中文模板柔化优化</p><span class="token safe mono">DASHBOARD_CHINESE_TEMPLATE_SOFT_POLISH_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-              <article class="phase-card"><strong class="mono">Phase 681-696</strong><p>高科技交易驾驶舱视觉重构</p><span class="token safe mono">DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY</span><p class="muted mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</p></article>
-            </div>
+          <section class="tab-panel" id="roadmap" data-panel data-search="路线图 operator roadmap Phase 729 736 Local Backend API Shell 下一步动作" data-kind="next-actions">
+            <article class="collapsible card"><button class="collapse-toggle" type="button">operator roadmap <span>折叠</span></button><div class="collapse-body phase-rail">
+              <article class="phase-card"><strong>Phase 721-760</strong><p>Interactive Local Research Platform UI Shell</p><span class="token safe">READY</span></article>
+              <article class="phase-card"><strong>Phase 729-736</strong><p>Local Backend API Shell</p><span class="token warn">NEXT</span></article>
+              <article class="phase-card"><strong>Market Data Source Decision</strong><p>选择 GLD / SLV 数据源，不连接当前页面。</p><span class="token blocked">BLOCKED</span></article>
+            </div></article>
           </section>
 
-          <section class="card full">
-            <div class="card-header"><h2>版本与安全</h2><span class="token safe">LOCAL STATIC</span></div>
-            <div class="version-table">
-              <div class="version-row"><span>当前阶段</span><strong class="mono">Phase 681-696</strong></div>
-              <div class="version-row"><span>当前状态</span><strong class="mono">DASHBOARD_HIGH_TECH_TRADING_VISUAL_READY</strong></div>
-              <div class="version-row"><span>UI 代际</span><strong class="mono">V7_HIGH_TECH_TRADING_VISUAL</strong></div>
-              <div class="version-row"><span>最新 main commit</span><strong class="mono">82afe1b</strong></div>
-              <div class="version-row"><span>最新合并 PR</span><strong class="mono">223</strong></div>
-              <div class="version-row"><span>是否生产环境</span><strong class="mono">NO</strong></div>
-              <div class="version-row"><span>是否允许交易</span><strong class="mono">NO</strong></div>
-              <div class="version-row"><span>外部影响</span><strong class="mono">NONE_LOCAL_ARTIFACT_GENERATION_ONLY</strong></div>
-              <div class="version-row"><span>生成时间</span><strong class="mono">2026-05-31T11:56:27+00:00</strong></div>
-            </div>
+          <section class="tab-panel" id="system" data-panel data-search="系统状态 javascript_required LOCAL_INLINE_ONLY external_js NO remote_assets NO backend API NO" data-kind="risk-only next-actions">
+            <article class="collapsible card"><button class="collapse-toggle" type="button">market scope status <span>折叠</span></button><div class="collapse-body version-table">
+              <div class="version-row"><span>status</span><strong class="mono">INTERACTIVE_LOCAL_RESEARCH_PLATFORM_UI_SHELL_READY</strong></div>
+              <div class="version-row"><span>javascript_required</span><strong class="mono">LOCAL_INLINE_ONLY</strong></div>
+              <div class="version-row"><span>external_js</span><strong class="mono">NO</strong></div>
+              <div class="version-row"><span>remote_assets</span><strong class="mono">NO</strong></div>
+              <div class="version-row"><span>local_backend_api</span><strong class="mono">NO</strong></div>
+              <div class="version-row"><span>source_connection_implemented</span><strong class="mono">NO</strong></div>
+              <div class="version-row"><span>live_market_data_enabled</span><strong class="mono">NO</strong></div>
+            </div></article>
           </section>
         </main>
       </div>
     </div>
     <footer class="footer-safety-bar">未连接 IBKR · 未请求行情 · 未请求历史数据 · 未读取账户/持仓 · 未交易 · 未 Telegram 实发</footer>
+    <script>
+      (function () {
+        var tabs = document.querySelectorAll("[data-tab-target]");
+        var panels = document.querySelectorAll("[data-panel]");
+        var search = document.getElementById("localSearch");
+        var filter = document.getElementById("localFilter");
+        function showPanel(id) {
+          tabs.forEach(function (tab) { tab.classList.toggle("active", tab.getAttribute("data-tab-target") === id); });
+          panels.forEach(function (panel) { panel.classList.toggle("active", panel.id === id); });
+        }
+        function applyLocalFilter() {
+          var query = (search.value || "").toLowerCase();
+          var mode = filter.value;
+          panels.forEach(function (panel) {
+            var text = (panel.getAttribute("data-search") || panel.textContent).toLowerCase();
+            var kind = panel.getAttribute("data-kind") || "";
+            var matchText = !query || text.indexOf(query) >= 0;
+            var matchKind = mode === "all" || kind.indexOf(mode) >= 0 || text.indexOf(mode) >= 0;
+            panel.classList.toggle("filtered-out", !(matchText && matchKind));
+          });
+        }
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () { showPanel(tab.getAttribute("data-tab-target")); });
+        });
+        document.querySelectorAll(".collapse-toggle").forEach(function (button) {
+          button.addEventListener("click", function () {
+            var card = button.closest(".collapsible");
+            card.classList.toggle("collapsed");
+            button.querySelector("span").textContent = card.classList.contains("collapsed") ? "展开" : "折叠";
+          });
+        });
+        document.querySelectorAll("[data-copy]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            var text = button.getAttribute("data-copy");
+            var area = document.createElement("textarea");
+            area.value = text;
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand("copy");
+            document.body.removeChild(area);
+            button.textContent = "已复制";
+          });
+        });
+        search.addEventListener("input", applyLocalFilter);
+        filter.addEventListener("change", applyLocalFilter);
+      })();
+    </script>
   </body>
 </html>

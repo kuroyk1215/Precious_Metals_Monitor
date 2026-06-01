@@ -16,11 +16,12 @@
   "frozen_ui_generation": "V7_HIGH_TECH_TRADING_VISUAL_FROZEN",
   "frozen_ui_status": "DASHBOARD_UI_STATIC_VISUAL_FREEZE_READY",
   "generated_artifact_warning": "RUNNING_GENERATORS_REFRESHES_GENERATED_AT_UTC",
-  "generated_at_utc": "2026-05-31T12:53:07+00:00",
+  "generated_at_utc": "2026-06-01T04:36:47+00:00",
   "handoff_purpose": "LOCK_UI_BASELINE_AND_ROUTE_NEXT_DEVELOPMENT",
-  "latest_main_commit": "3909b6c",
-  "latest_merged_pr": 225,
-  "phase": "Phase 705-720",
+  "interactive_ui_status": "INTERACTIVE_UI_SHELL_READY",
+  "latest_main_commit": "a2d1dcb",
+  "latest_merged_pr": 226,
+  "phase": "Phase 721-760",
   "restore_after_viewing_required": "YES_IF_DASHBOARD_ARTIFACTS_MODIFIED",
-  "status": "POST_UI_FREEZE_OPERATOR_HANDOFF_READY"
+  "status": "POST_UI_FREEZE_HANDOFF_CONSUMED_BY_INTERACTIVE_UI_SHELL"
 }
