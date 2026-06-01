@@ -1,0 +1,16 @@
+{
+  "generated_at_utc": "2026-06-01T10:51:48+00:00",
+  "navigation": [
+    "总览",
+    "标的观察",
+    "数据源",
+    "本地报告",
+    "风险边界",
+    "设置"
+  ],
+  "phase": "Phase 1121-1160",
+  "removed": [
+    "下一步操作"
+  ],
+  "status": "PRIMARY_NAVIGATION_USER_FACING_READY"
+}

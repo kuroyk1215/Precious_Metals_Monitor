@@ -1,0 +1,16 @@
+{
+  "generated_at_utc": "2026-06-01T10:51:48+00:00",
+  "hidden_by_default": [
+    "developer details",
+    "advanced information",
+    "terminal fallback",
+    "CLI commands",
+    "engineering status codes"
+  ],
+  "home_surface": "USER_FACING_RESEARCH_WORKBENCH_ONLY",
+  "phase": "Phase 1121-1160",
+  "removed_primary_menu_items": [
+    "下一步操作"
+  ],
+  "status": "USER_SURFACE_CLEANUP_READY"
+}
