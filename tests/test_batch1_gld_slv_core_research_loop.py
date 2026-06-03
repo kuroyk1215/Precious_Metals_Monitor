@@ -26,6 +26,10 @@ def _write_quotes(path: Path, body: str) -> None:
     )
 
 
+def _rating_rank(rating: str) -> int:
+    return {"NO_TRADE": 0, "WATCH": 1, "C": 2, "B": 3, "A": 4}[rating]
+
+
 def test_no_price_blocks_action_and_waits_for_valid_quote(tmp_path: Path):
     quote_csv = tmp_path / "quotes.csv"
     _write_quotes(
@@ -44,6 +48,7 @@ def test_no_price_blocks_action_and_waits_for_valid_quote(tmp_path: Path):
     gld = next(row for row in rows if row["symbol"] == "GLD")
     assert gld["data_delay_flag"] == "no_price"
     assert gld["confidence"] == "low"
+    assert gld["action_rating"] == "NO_TRADE"
     assert gld["action_allowed"] == "false"
     assert gld["result"] == "不交易，等待有效报价"
     assert "等待有效报价" in gld["signal"]
@@ -68,7 +73,10 @@ def test_delayed_quote_allows_only_low_confidence_observation(tmp_path: Path):
     assert {row["data_delay_flag"] for row in rows} == {"delayed"}
     assert {row["confidence"] for row in rows} == {"low"}
     assert {row["action_allowed"] for row in rows} == {"true"}
+    assert {row["action_rating"] for row in rows}.issubset({"WATCH", "C"})
+    assert "A" not in {row["action_rating"] for row in rows}
     assert all("低置信" in row["signal"] for row in rows)
+    assert all("delayed 数据只支持观察" in row["position_unit_note"] for row in rows)
 
 
 def test_frozen_quote_is_reference_only(tmp_path: Path):
@@ -88,6 +96,7 @@ def test_frozen_quote_is_reference_only(tmp_path: Path):
 
     assert {row["data_delay_flag"] for row in rows} == {"frozen"}
     assert {row["action_allowed"] for row in rows} == {"false"}
+    assert {row["action_rating"] for row in rows}.issubset({"WATCH", "NO_TRADE"})
     assert all(row["result"] == "仅参考" for row in rows)
 
 
@@ -109,6 +118,8 @@ def test_source_conflict_downgrades_and_names_conflict_sources(tmp_path: Path):
 
     gld = next(row for row in rows if row["symbol"] == "GLD")
     assert gld["data_delay_flag"] == "source_conflict"
+    assert gld["confidence"] == "low"
+    assert _rating_rank(gld["action_rating"]) <= _rating_rank("WATCH")
     assert gld["action_allowed"] == "false"
     assert "source_a" in gld["notes"]
     assert "source_b" in gld["notes"]
@@ -133,9 +144,14 @@ def test_report_contains_required_sections_and_cash_account_warnings(tmp_path: P
 
     assert {row["data_delay_flag"] for row in rows} == {"real_time"}
     assert {row["confidence"] for row in rows} == {"high"}
+    assert {row["action_rating"] for row in rows}.issubset({"A", "B", "C"})
     assert {row["action_allowed"] for row in rows} == {"true"}
     text = report.read_text(encoding="utf-8")
     for section in (
+        "今日执行摘要",
+        "GLD 策略表",
+        "SLV 策略表",
+        "数据质量说明",
         "一致预期",
         "实时数据",
         "既有认知",
@@ -145,10 +161,15 @@ def test_report_contains_required_sections_and_cash_account_warnings(tmp_path: P
         "今日买点",
         "今日卖点",
         "止损/失效位",
-        "IBKR 现金账户约束",
+        "IBKR现金账户约束",
         "settled cash",
         "GFV / freeriding",
-        "ET / JST 时间窗口",
+        "US_30mEcho 时间窗口",
+        "10:00 ET",
+        "14:30 ET",
+        "15:10 ET",
+        "15:50 ET",
+        "JST",
         "风险与退出触发",
         "一致性对账单",
     ):
@@ -188,6 +209,27 @@ def test_wrapper_generates_required_default_outputs(tmp_path: Path):
     assert result.returncode == 0, result.stdout
     assert (tmp_path / "reports/latest_gld_slv_research.md").exists()
     assert (tmp_path / "logs/research_log_US.csv").exists()
+
+
+def test_csv_header_contains_batch2_strategy_risk_fields(tmp_path: Path):
+    quote_csv = tmp_path / "quotes.csv"
+    _write_quotes(
+        quote_csv,
+        "2026-06-03T00:00:00+00:00,GLD,ETF,US,USD,ibkr,AVAILABLE,REAL_TIME,true,true,1,289.10,,,,2026-06-02T20:00:00-04:00,FRESH,NORMALIZED,PASS,ok,review\n"
+        "2026-06-03T00:00:00+00:00,SLV,ETF,US,USD,ibkr,AVAILABLE,REAL_TIME,true,true,1,27.25,,,,2026-06-02T20:00:00-04:00,FRESH,NORMALIZED,PASS,ok,review\n",
+    )
+
+    generate_batch1_research_loop(
+        quote_csv=quote_csv,
+        output_report=tmp_path / "latest.md",
+        output_csv=tmp_path / "research.csv",
+        generated_at=datetime(2026, 6, 3, tzinfo=timezone.utc),
+    )
+
+    rows = _read_rows(tmp_path / "research.csv")
+    assert set(rows[0]) == set(CSV_FIELDS)
+    for field in ("action_rating", "invalidation_level", "risk_pct"):
+        assert field in rows[0]
 
 
 def test_no_automatic_trading_api_names_in_batch1_files():
