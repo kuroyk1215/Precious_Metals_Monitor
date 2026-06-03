@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 outputs/
+runtime/
 
 # Phase 42: generated runtime artifacts and local environment
 .venv/

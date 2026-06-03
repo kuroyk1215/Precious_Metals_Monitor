@@ -6,7 +6,7 @@ cd "$REPO_ROOT"
 
 PYTHON_BIN="${PYTHON:-python3}"
 QUOTE_CSV="operator_real_quote_normalization.csv"
-OUTPUT_REPORT="reports/latest_gld_slv_research.md"
+OUTPUT_REPORT="runtime/reports/latest_gld_slv_research.md"
 OUTPUT_CSV="logs/research_log_US.csv"
 
 while [[ $# -gt 0 ]]; do

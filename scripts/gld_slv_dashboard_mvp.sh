@@ -6,8 +6,8 @@ cd "$REPO_ROOT"
 
 PYTHON_BIN="${PYTHON:-python3}"
 CSV_PATH="logs/research_log_US.csv"
-REPORT_PATH="reports/latest_gld_slv_research.md"
-OUTPUT_HTML="dashboard/index.html"
+REPORT_PATH="runtime/reports/latest_gld_slv_research.md"
+OUTPUT_HTML="runtime/dashboard/index.html"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
