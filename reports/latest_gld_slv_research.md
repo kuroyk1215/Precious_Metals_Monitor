@@ -8,6 +8,11 @@
 - 不读取账户持仓、账户资金或任何账户敏感字段
 - 输出仅用于研究、日志、数据质量闸门和测试
 
+## 今日执行摘要
+
+- GLD: action_rating=NO_TRADE; data_delay_flag=no_price; confidence=low; action_allowed=false; result=不交易，等待有效报价
+- SLV: action_rating=NO_TRADE; data_delay_flag=no_price; confidence=low; action_allowed=false; result=不交易，等待有效报价
+
 ## 一致预期
 
 - 黄金与白银 ETF 的核心驱动仍是美元实际利率、美元指数、通胀预期、避险需求与 ETF 资金流。
@@ -16,17 +21,62 @@
 
 ## 实时数据
 
-- generated_jst: 2026-06-03T20:41:37+09:00
-- generated_et: 2026-06-03T07:41:37-04:00
+- generated_jst: 2026-06-03T21:14:46+09:00
+- generated_et: 2026-06-03T08:14:46-04:00
 - supported_data_delay_flag: real_time, delayed, frozen, no_price, source_conflict
 - supported_confidence: high, medium, low
-- GLD: price=N/A; source=phase444_446_operator_chain; data_delay_flag=no_price; confidence=low; action_allowed=false; signal=不交易，等待有效报价
-- SLV: price=N/A; source=phase444_446_operator_chain; data_delay_flag=no_price; confidence=low; action_allowed=false; signal=不交易，等待有效报价
+- GLD: price=N/A; source=phase444_446_operator_chain; data_delay_flag=no_price; confidence=low; action_rating=NO_TRADE; action_allowed=false; signal=不交易，等待有效报价
+- SLV: price=N/A; source=phase444_446_operator_chain; data_delay_flag=no_price; confidence=low; action_rating=NO_TRADE; action_allowed=false; signal=不交易，等待有效报价
 
 ## 既有认知
 
 - 研究框架保留为人工执行前的观察清单，不形成自动化执行指令。
 - GLD/SLV 只在有效报价、低冲突、人工复核通过后进入下一步计划。
+
+## GLD 策略表
+
+| field | value |
+|---|---|
+| signal | 不交易，等待有效报价 |
+| action_rating | NO_TRADE |
+| entry_zone | 等待有效报价 |
+| exit_zone | 等待有效报价 |
+| stop_loss | 等待有效报价 |
+| invalidation_level | 等待有效报价 |
+| time_trigger | 1-5个交易日复核；2-8周更新中期框架；3-12个月重估长期假设 |
+| event_trigger | 美元实际利率、DXY、实际收益率、ETF资金流、地缘风险、金银比异常 |
+| risk_pct | 0 |
+| position_unit_note | 不建立研究单位；等待数据质量恢复 |
+| cash_account_note | 现金账户不行动化；不使用未结算资金 |
+| overnight_allowed | false |
+| review_required | true |
+
+## SLV 策略表
+
+| field | value |
+|---|---|
+| signal | 不交易，等待有效报价 |
+| action_rating | NO_TRADE |
+| entry_zone | 等待有效报价 |
+| exit_zone | 等待有效报价 |
+| stop_loss | 等待有效报价 |
+| invalidation_level | 等待有效报价 |
+| time_trigger | 1-5个交易日复核；2-8周更新中期框架；3-12个月重估长期假设 |
+| event_trigger | 美元实际利率、DXY、实际收益率、ETF资金流、地缘风险、金银比异常 |
+| risk_pct | 0 |
+| position_unit_note | 不建立研究单位；等待数据质量恢复 |
+| cash_account_note | 现金账户不行动化；不使用未结算资金 |
+| overnight_allowed | false |
+| review_required | true |
+
+## 数据质量说明
+
+- real_time + high confidence: 允许 A/B/C 研究评级，但仍只输出研究计划，不自动交易。
+- delayed: action_rating 最高 WATCH 或 C；delayed 数据不支持强交易动作。
+- frozen: action_rating 必须是 WATCH 或 NO_TRADE，仅参考。
+- no_price: action_rating=NO_TRADE，action_allowed=false，result=不交易，等待有效报价。
+- source_conflict: confidence 降级，action_rating 最高 WATCH，并列出冲突来源。
+- source_conflict: none
 
 ## 短期策略：1-5 个交易日
 
@@ -44,10 +94,19 @@
 - GLD 关注降息路径、央行购金、美元信用与避险周期。
 - SLV 关注工业周期、库存、太阳能/电子需求与黄金白银相对估值。
 
+## US_30mEcho 时间窗口
+
+- generated_et: 2026-06-03T08:14:46-04:00
+- generated_jst: 2026-06-03T21:14:46+09:00
+- 10:00 ET / 23:00 JST: 建仓观察窗口
+- 14:30 ET / 03:30 JST: 第一退出检查
+- 15:10 ET / 04:10 JST: 第二退出检查
+- 15:50 ET / 04:50 JST: 尾盘退出检查
+
 ## 今日买点
 
-- GLD: 等待有效报价；不交易，等待有效报价
-- SLV: 等待有效报价；不交易，等待有效报价
+- GLD: 等待有效报价；rating=NO_TRADE；不交易，等待有效报价
+- SLV: 等待有效报价；rating=NO_TRADE；不交易，等待有效报价
 
 ## 今日卖点
 
@@ -59,7 +118,7 @@
 - GLD: 等待有效报价；若 data_delay_flag=no_price 且 action_allowed=false，按降级规则执行
 - SLV: 等待有效报价；若 data_delay_flag=no_price 且 action_allowed=false，按降级规则执行
 
-## IBKR 现金账户约束
+## IBKR现金账户约束
 
 - 现金账户只按 settled cash 做人工复核；不得假设可用未结算资金。
 - GFV / freeriding 风险：避免用未结算卖出资金再次买入并在结算前卖出。
@@ -78,5 +137,5 @@
 
 ## 一致性对账单
 
-- GLD: data_delay_flag=no_price; confidence=low; action_allowed=false; result=不交易，等待有效报价; notes=real_marketdata_connection_or_request_not_confirmed
-- SLV: data_delay_flag=no_price; confidence=low; action_allowed=false; result=不交易，等待有效报价; notes=real_marketdata_connection_or_request_not_confirmed
+- GLD: data_delay_flag=no_price; confidence=low; action_rating=NO_TRADE; action_allowed=false; risk_pct=0; result=不交易，等待有效报价; notes=real_marketdata_connection_or_request_not_confirmed
+- SLV: data_delay_flag=no_price; confidence=low; action_rating=NO_TRADE; action_allowed=false; risk_pct=0; result=不交易，等待有效报价; notes=real_marketdata_connection_or_request_not_confirmed
