@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AI 投研工作台</title>
+    <title>GLD/SLV Research Dashboard</title>
     <link rel="stylesheet" href="assets/style.css">
   </head>
   <body>
@@ -11,7 +11,7 @@
       <aside class="sidebar" aria-label="左侧导航">
         <div class="brand">
           <span class="brand-mark">AI</span>
-          <span class="brand-title">AI 投研工作台</span>
+          <span class="brand-title">GLD/SLV Research Dashboard</span>
           <span class="brand-subtitle">本地只读研究平台</span>
         </div>
         <nav class="sidebar-nav" aria-label="投研导航">
@@ -22,101 +22,154 @@
           <a class="nav-item" href="#risk"><span class="nav-index">05</span><span>风险边界</span></a>
           <a class="nav-item" href="#settings"><span class="nav-index">06</span><span>设置</span></a>
         </nav>
-        <div class="sidebar-foot">只读模式</div>
+        <div class="sidebar-foot">Research Only</div>
       </aside>
 
       <div class="content">
         <header class="hero" id="overview">
           <div class="hero-copy">
-            <span class="eyebrow">总览</span>
-            <h1>AI 投研工作台</h1>
-            <p>本地只读研究平台 · GLD / SLV · 无实时行情 · 无交易权限</p>
+            <span class="eyebrow">AI 投研工作台</span>
+            <h1>GLD/SLV Research Dashboard</h1>
+            <p class="subtitle">本地投研工作台已就绪 · GLD / SLV · Research Only · 自动交易 Disabled</p>
+            <p>当前支持 GLD / SLV 研究框架；当前不会读取账户、持仓或发送交易指令。</p>
           </div>
           <div class="hero-panel">
             <span>平台状态</span>
-            <strong>本地工作台已就绪</strong>
+            <strong>本地投研工作台已就绪</strong>
+            <small>single ≤2%，daily ≤6%</small>
           </div>
         </header>
 
         <main class="dashboard-grid">
-          <section class="status-strip" aria-label="首屏状态">
-            <article><span>当前标的</span><strong>GLD / SLV</strong></article>
-            <article><span>数据源</span><strong>准备中</strong></article>
-            <article><span>报告</span><strong>研究框架可查看</strong></article>
-            <article><span>风险边界</span><strong>只读安全模式</strong></article>
+          <section class="status-strip" aria-label="顶部状态栏">
+            <article><span>当前时间 JST</span><strong>2026-06-03 21:35:18 JST</strong></article>
+            <article><span>当前时间 ET</span><strong>2026-06-03 08:35:18 ET</strong></article>
+            <article><span>模式</span><strong>Research Only</strong></article>
+            <article><span>自动交易</span><strong>Disabled</strong></article>
+            <article><span>风险原则</span><strong>single ≤2%，daily ≤6%</strong></article>
           </section>
 
           <section class="panel" id="watch">
             <div class="section-header">
               <div><span class="eyebrow">标的观察</span><h2>GLD / SLV</h2></div>
-              <span class="pill">暂无实时行情：数据源确认后显示</span>
+              <span class="pill">数据源状态：准备中</span>
             </div>
             <div class="symbol-grid">
-              <article class="symbol-card">
-                <div><h3>GLD</h3><span>SPDR Gold Shares</span></div>
-                <dl>
-                  <div><dt>市场</dt><dd>US ETF</dd></div>
-                  <div><dt>数据状态</dt><dd>待导入</dd></div>
-                  <div><dt>数据来源</dt><dd>None</dd></div>
-                  <div><dt>最近更新时间</dt><dd>暂无</dd></div>
-                  <div><dt>报告状态</dt><dd>研究框架可用</dd></div>
-                  <div><dt>风险状态</dt><dd>只读</dd></div>
-                </dl>
+              <article class="symbol-card risk-no_price">
+                <div class="card-title"><h3>GLD</h3><span>US ETF research plan</span><strong>no_price: not tradable</strong></div>
+                <dl><div><dt>price</dt><dd>N/A - no_price</dd></div>
+<div><dt>source</dt><dd>phase444_446_operator_chain</dd></div>
+<div><dt>price_time</dt><dd>2026-06-03</dd></div>
+<div><dt>data_delay_flag</dt><dd>no_price</dd></div>
+<div><dt>confidence</dt><dd>low</dd></div>
+<div><dt>action_rating</dt><dd>NO_TRADE</dd></div>
+<div><dt>action_allowed</dt><dd>false</dd></div>
+<div><dt>result</dt><dd>不交易，等待有效报价</dd></div>
+<div><dt>notes</dt><dd>real_marketdata_connection_or_request_not_confirmed</dd></div></dl>
+                <h4>策略字段</h4>
+                <dl><div><dt>signal</dt><dd>不交易，等待有效报价</dd></div>
+<div><dt>entry_zone</dt><dd>等待有效报价</dd></div>
+<div><dt>exit_zone</dt><dd>等待有效报价</dd></div>
+<div><dt>stop_loss</dt><dd>等待有效报价</dd></div>
+<div><dt>invalidation_level</dt><dd>等待有效报价</dd></div>
+<div><dt>time_trigger</dt><dd>1-5个交易日复核；2-8周更新中期框架；3-12个月重估长期假设</dd></div>
+<div><dt>event_trigger</dt><dd>美元实际利率、DXY、实际收益率、ETF资金流、地缘风险、金银比异常</dd></div>
+<div><dt>risk_pct</dt><dd>0</dd></div>
+<div><dt>overnight_allowed</dt><dd>false</dd></div>
+<div><dt>review_required</dt><dd>true</dd></div></dl>
               </article>
-              <article class="symbol-card">
-                <div><h3>SLV</h3><span>iShares Silver Trust</span></div>
-                <dl>
-                  <div><dt>市场</dt><dd>US ETF</dd></div>
-                  <div><dt>数据状态</dt><dd>待导入</dd></div>
-                  <div><dt>数据来源</dt><dd>None</dd></div>
-                  <div><dt>最近更新时间</dt><dd>暂无</dd></div>
-                  <div><dt>报告状态</dt><dd>研究框架可用</dd></div>
-                  <div><dt>风险状态</dt><dd>只读</dd></div>
-                </dl>
+
+              <article class="symbol-card risk-no_price">
+                <div class="card-title"><h3>SLV</h3><span>US ETF research plan</span><strong>no_price: not tradable</strong></div>
+                <dl><div><dt>price</dt><dd>N/A - no_price</dd></div>
+<div><dt>source</dt><dd>phase444_446_operator_chain</dd></div>
+<div><dt>price_time</dt><dd>2026-06-03</dd></div>
+<div><dt>data_delay_flag</dt><dd>no_price</dd></div>
+<div><dt>confidence</dt><dd>low</dd></div>
+<div><dt>action_rating</dt><dd>NO_TRADE</dd></div>
+<div><dt>action_allowed</dt><dd>false</dd></div>
+<div><dt>result</dt><dd>不交易，等待有效报价</dd></div>
+<div><dt>notes</dt><dd>real_marketdata_connection_or_request_not_confirmed</dd></div></dl>
+                <h4>策略字段</h4>
+                <dl><div><dt>signal</dt><dd>不交易，等待有效报价</dd></div>
+<div><dt>entry_zone</dt><dd>等待有效报价</dd></div>
+<div><dt>exit_zone</dt><dd>等待有效报价</dd></div>
+<div><dt>stop_loss</dt><dd>等待有效报价</dd></div>
+<div><dt>invalidation_level</dt><dd>等待有效报价</dd></div>
+<div><dt>time_trigger</dt><dd>1-5个交易日复核；2-8周更新中期框架；3-12个月重估长期假设</dd></div>
+<div><dt>event_trigger</dt><dd>美元实际利率、DXY、实际收益率、ETF资金流、地缘风险、金银比异常</dd></div>
+<div><dt>risk_pct</dt><dd>0</dd></div>
+<div><dt>overnight_allowed</dt><dd>false</dd></div>
+<div><dt>review_required</dt><dd>true</dd></div></dl>
               </article>
             </div>
           </section>
 
           <section class="panel" id="data-source">
             <div class="section-header">
-              <div><span class="eyebrow">数据源</span><h2>行情源状态</h2></div>
-              <span class="pill muted-pill">暂不启动真实连接</span>
+              <div><span class="eyebrow">数据源</span><h2>数据质量说明</h2></div>
+              <span class="pill muted-pill">读取 logs/research_log_US.csv；当前未启用实时行情</span>
             </div>
-            <div class="source-grid">
-              <article><span>IBKR 行情权限</span><strong>未开通</strong></article>
-              <article><span>公共延迟源</span><strong>待评估</strong></article>
-              <article><span>手动 CSV</span><strong>第一优先输入</strong></article>
-              <article><span>付费 API</span><strong>暂不优先</strong></article>
-              <article><span>混合路由</span><strong>未来扩展</strong></article>
+            <div class="risk-light-grid">
+              <article>real_time</article>
+              <article>delayed</article>
+              <article>frozen</article>
+              <article>no_price</article>
+              <article>source_conflict</article>
             </div>
+            <p class="muted">no_price 必须显示为不可交易状态；delayed / frozen / source_conflict 只用于降级研究复核，不支持强动作。</p>
+          </section>
+
+          <section class="panel">
+            <div class="section-header">
+              <div><span class="eyebrow">US_30mEcho</span><h2>US_30mEcho 时间窗口</h2></div>
+              <span class="pill muted-pill">ET / JST</span>
+            </div>
+            <ul class="time-window-list"><li><strong>10:00 ET</strong><span>23:00 JST</span><em>建仓观察</em></li>
+<li><strong>14:30 ET</strong><span>03:30 JST</span><em>第一退出检查</em></li>
+<li><strong>15:10 ET</strong><span>04:10 JST</span><em>第二退出检查</em></li>
+<li><strong>15:50 ET</strong><span>04:50 JST</span><em>尾盘退出检查</em></li></ul>
           </section>
 
           <section class="panel" id="reports">
             <div class="section-header">
-              <div><span class="eyebrow">本地报告</span><h2>报告中心</h2></div>
-              <span class="pill">暂无真实报告：当前仅提供研究框架</span>
+              <div><span class="eyebrow">本地报告</span><h2>一致性对账单</h2></div>
+              <span class="pill">GLD / SLV 研究框架</span>
             </div>
+            <ul class="risk-copy">
+              <li>数据质量说明：所有评级绑定 data_delay_flag 与 confidence。</li>
+              <li>风险与退出触发：no_price、frozen、source_conflict 触发退出行动化计划。</li>
+              <li>一致性对账单摘要</li>
+              <li>GLD: data_delay_flag=no_price; action_rating=NO_TRADE; action_allowed=false; result=不交易，等待有效报价</li>
+<li>SLV: data_delay_flag=no_price; action_rating=NO_TRADE; action_allowed=false; result=不交易，等待有效报价</li>
+            </ul>
             <div class="report-grid">
-              <a href="../reports/operator_daily_packet_preview.md"><span>今日状态预览</span><small>本地只读</small></a>
+              <a href="../logs/research_log_US.csv"><span>research_log_US.csv</span><small>优先数据源</small></a>
+              <a href="../reports/latest_gld_slv_research.md"><span>latest_gld_slv_research.md</span><small>报告摘要 fallback</small></a>
               <a href="../reports/local_research_report_framework_GLD_SLV.md"><span>GLD / SLV 研究框架</span><small>本地只读</small></a>
-              <a href="../reports/public_data_intake_preparation_report.md"><span>数据源准备说明</span><small>本地只读</small></a>
-              <a href="../reports/telegram_preview_local_only.md"><span>Telegram 预览</span><small>本地只读</small></a>
-              <a href="../reports/final_product_ui_user_guide.md"><span>风险边界说明</span><small>本地只读</small></a>
             </div>
           </section>
 
           <section class="panel" id="risk">
             <div class="section-header">
-              <div><span class="eyebrow">风险边界</span><h2>只读安全模式</h2></div>
+              <div><span class="eyebrow">风险边界</span><h2>IBKR cash account only</h2></div>
               <span class="pill danger-pill">外部动作关闭</span>
             </div>
             <ul class="risk-copy">
+              <li>IBKR cash account only</li>
+              <li>settled cash only</li>
+              <li>avoid GFV / freeriding</li>
+              <li>research only, no automatic trading</li>
               <li>当前不会获取实时行情</li>
               <li>当前不会读取账户</li>
               <li>当前不会读取持仓</li>
               <li>当前不会生成交易指令</li>
               <li>当前不会发送 Telegram</li>
               <li>当前不会解冻 JP / CN</li>
+              <li>未确认数据源前，不显示价格</li>
+              <li>无有效价格时，不生成分析信号</li>
+              <li>未确认条款前，不启用自动导入</li>
+              <li>数据新鲜度未验证前，只生成研究框架</li>
             </ul>
           </section>
 
@@ -126,8 +179,8 @@
               <span class="pill muted-pill">普通视图默认启用</span>
             </div>
             <p class="muted">高级模式仅用于本地排查。默认折叠，不占用投研操作区。</p>
-            <details class="advanced-mode">
-              <summary>高级模式</summary>
+            <details class="developer-details">
+              <summary>高级信息</summary>
               <div class="advanced-grid">
                 <code>开发者状态</code>
                 <code>终端兜底命令</code>
@@ -145,48 +198,12 @@
                 <code>source_connection_implemented=NO</code>
                 <code>live_market_data_enabled=NO</code>
               </div>
-              <button class="secondary-action" type="button" data-copy="python3 main.py --final-product-ui-lock-pack">复制终端兜底命令</button>
-              <div class="debug-list">
-                <article class="debug-row"><span>HTML</span><strong>dashboard/index.html</strong><a href="index.html">查看</a></article>
-                <article class="debug-row"><span>CSS</span><strong>dashboard/assets/style.css</strong><a href="assets/style.css">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/status_snapshot.json</strong><a href="data/status_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/artifact_manifest.json</strong><a href="data/artifact_manifest.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/build_snapshot.json</strong><a href="data/build_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/operator_timeline.json</strong><a href="data/operator_timeline.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_product_ui_lock_snapshot.json</strong><a href="data/final_product_ui_lock_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_navigation_snapshot.json</strong><a href="data/final_navigation_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_dashboard_layout_snapshot.json</strong><a href="data/final_dashboard_layout_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_visual_system_snapshot.json</strong><a href="data/final_visual_system_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_user_workflow_snapshot.json</strong><a href="data/final_user_workflow_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_ui_regression_guard_snapshot.json</strong><a href="data/final_ui_regression_guard_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>JSON</span><strong>dashboard/data/final_landing_audit_snapshot.json</strong><a href="data/final_landing_audit_snapshot.json">查看</a></article>
-                <article class="debug-row"><span>CSV</span><strong>operator_final_product_ui_lock_pack.csv</strong><a href="../operator_final_product_ui_lock_pack.csv">查看</a></article>
-                <article class="debug-row"><span>REPORT</span><strong>reports/operator_final_product_ui_lock_pack_report.md</strong><a href="../reports/operator_final_product_ui_lock_pack_report.md">查看</a></article>
-                <article class="debug-row"><span>REPORT</span><strong>reports/final_product_ui_user_guide.md</strong><a href="../reports/final_product_ui_user_guide.md">查看</a></article>
-                <article class="debug-row"><span>PACK</span><strong>Precious_Metals_Monitor_Final_Product_UI_Lock_Pack.md</strong><a href="../Precious_Metals_Monitor_Final_Product_UI_Lock_Pack.md">查看</a></article>
-              </div>
-              <p class="muted mono">generated_at_utc=2026-06-01T12:10:17+00:00</p>
+              <p class="muted mono">generated_at_utc=2026-06-03T12:35:18+00:00</p>
             </details>
           </section>
         </main>
       </div>
     </div>
-    <footer class="readonly-footer">只读模式 · 本地工作台 · 不连接行情源 · 不执行交易</footer>
-    <script>
-      (function () {
-        document.querySelectorAll("[data-copy]").forEach(function (button) {
-          button.addEventListener("click", function () {
-            var text = button.getAttribute("data-copy");
-            var area = document.createElement("textarea");
-            area.value = text;
-            document.body.appendChild(area);
-            area.select();
-            document.execCommand("copy");
-            document.body.removeChild(area);
-            button.textContent = "已复制";
-          });
-        });
-      })();
-    </script>
+    <footer class="readonly-footer">Research Only · 本地工作台 · 不连接行情源 · 不执行交易</footer>
   </body>
 </html>

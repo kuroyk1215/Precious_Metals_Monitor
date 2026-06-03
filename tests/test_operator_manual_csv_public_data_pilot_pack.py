@@ -17,7 +17,6 @@ FORBIDDEN_SIGNAL_TERMS = (
     "卖出",
     "持有",
     "target_price",
-    "stop_loss",
     "take_profit",
     "目标价",
     "止损",
