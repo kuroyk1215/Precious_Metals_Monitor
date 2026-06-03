@@ -164,7 +164,7 @@ def test_cli_entrypoints_succeed() -> None:
         assert result.returncode == 0, result.stderr
 
 
-def test_config_and_market_data_error_file_are_not_tracked() -> None:
+def test_config_and_market_data_error_file_are_not_dirty_or_untracked() -> None:
     result = subprocess.run(
         ["git", "status", "--short"],
         cwd=REPO_ROOT,
@@ -173,5 +173,5 @@ def test_config_and_market_data_error_file_are_not_tracked() -> None:
         check=True,
     )
 
-    tracked_lines = [line for line in result.stdout.splitlines() if "config.yaml" in line or "ibkr_market_data_api_errors.csv" in line]
-    assert tracked_lines == [" M config.yaml", "?? ibkr_market_data_api_errors.csv"]
+    dirty_lines = [line for line in result.stdout.splitlines() if "config.yaml" in line or "ibkr_market_data_api_errors.csv" in line]
+    assert dirty_lines == []
