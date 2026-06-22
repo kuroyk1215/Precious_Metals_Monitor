@@ -1,9 +1,69 @@
-# Precious Metals Monitor
+Precious Metals Monitor
+Precious Metals Monitor is a read-only research and monitoring toolkit for precious metals ETFs, miners, and related market indicators.
 
-本项目用于贵金属相关ETF/矿股的**交易观察、理论价格估算、风险提示与筛选**。
+The project focuses on transparent data intake, theoretical pricing, deviation checks, local research reports, and manual research workflows. It is designed for research and observation only.
 
-> 严格限制：**不实现自动下单、不实现自动卖出、不实现自动撤单、不调用交易接口**。
+Safety Boundaries
 
+This project does not:
+
+* place orders
+* cancel orders
+* rebalance portfolios
+* execute trades
+* provide automated buy/sell/hold instructions
+* send real Telegram messages without explicit manual approval
+* access brokerage account or position data unless explicitly gated by operator approval
+
+All trading decisions remain manual and outside the scope of this repository.
+
+Core Features
+
+* Precious metals ETF and miner watchlist
+* JP / CN / US market symbol universe
+* Manual CSV market data intake
+* Historical data validation
+* Theoretical pricing framework
+* Deviation check framework
+* Local research report generation
+* Local read-only dashboard / UI artifacts
+* IBKR read-only connection and market data safety gates
+* Telegram-ready dry-run message preparation without automatic sending
+
+Supported Assets
+
+The current watchlist includes:
+
+* China: 518880.SH
+* Japan: 1540.T, 1542.T
+* US ETFs: GLD, IAU, SLV, GDX, GDXJ
+* US miners: NEM, GOLD, AEM
+* Macro proxies: SPY, QQQ, TLT, UUP
+
+Quick Start
+
+Create a local Python environment:
+
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+Run the mock workflow:
+
+python3 main.py --config config.yaml --watchlist watchlist.yaml --mock
+
+Expected outputs:
+
+* precious_metals_signal_log.csv
+* reports/latest_report.md
+
+Disclaimer
+
+This project is for research and observation only. It is not financial advice, investment advice, or a trading system. All trading decisions and executions are performed manually by the user outside this repository.
+
+Development Notes
+
+The sections below record the current staged implementation and validation commands.
 ## 第一阶段本地验证
 ```bash
 python3 -m venv .venv
